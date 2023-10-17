@@ -9,7 +9,8 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "categories")
+@Table(name = "main_categories")
+@SecondaryTable(name = "sub_categories", pkJoinColumns = @PrimaryKeyJoinColumn(name = "category_id"))
 @AllArgsConstructor
 @NoArgsConstructor
 public class Category {
@@ -19,8 +20,14 @@ public class Category {
     private Long id;
 
     @Column(name = "category_name")
-    private String name;
+    private String mainName;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
     private List<Products> products;
+}
+
+@Embeddable
+class CategoryEmbeddable {
+    @Column(name = "category_name", table = "sub_categories")
+    private String subName;
 }

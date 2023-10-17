@@ -5,22 +5,27 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 @Data
 @Entity
-@Table(name = "product_information")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Information {
+public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "information_id")
     private Long id;
-    @Column(name = "information_title")
-    private String title;
-    @Column(name = "information_content")
-    private String content;
+    private Double price;
+    private Double discount;
+    private int quantity;
+    private Date createdAt;
+    private Date updatedAt;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id")
+    @ManyToOne
+    @JoinColumn(name = "order_id")
+    private Order order;
+
+    @ManyToOne
+    @JoinColumn(name = "order_item_id")
     private Products products;
 }

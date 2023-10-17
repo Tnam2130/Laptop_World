@@ -1,6 +1,5 @@
 package com.main.laptop_world.Entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,19 +9,18 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "brands")
+@Table(name = "roles")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Brand {
+public class Role {
     @Id
+    @Column(name = "role_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-//    @Column(name = "brand_id")
-    private Long id;
+    private Integer id;
 
-    @Column(name = "brand_name")
+    @Column(nullable=false, unique=true)
     private String name;
 
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "brand")
-    private List<Products> products;
+    @ManyToMany(mappedBy="roles")
+    private List<User> users;
 }

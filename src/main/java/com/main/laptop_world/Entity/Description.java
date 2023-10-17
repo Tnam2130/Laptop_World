@@ -16,8 +16,11 @@ public class Description {
     @Column(name = "description_id")
     private Long id;
     @Column(name = "description_title")
+    @Lob
     private String title;
+
     @Column(name = "description_content")
+    @Lob
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)

@@ -17,9 +17,9 @@ public class Products {
     @Column(name = "product_id")
     private Long id;
 
-
     @Column(name = "product_name")
     private String name;
+
     @Column(name = "product_price")
     private Double price;
     @Column(name = "product_old_price")
@@ -27,6 +27,7 @@ public class Products {
 
     @Column(name = "short_description")
     private String shortDesc;
+    private Double discount;
     private Boolean status;
 
     // MappedBy trỏ tới tên biến products nằm trong ProductVersion
@@ -41,23 +42,22 @@ public class Products {
     private List<Description> description;
 
     @OneToMany(mappedBy = "products", fetch = FetchType.LAZY)
-    private List<Information> information;
+    private List<Specifications> specifications;
 
     @OneToMany(mappedBy = "products", fetch = FetchType.LAZY)
     private List<ProductImages> images;
+
+    @OneToMany(mappedBy = "products", fetch = FetchType.LAZY)
+    private List<CartItem> cartItems;
+
+    @OneToMany(mappedBy = "products", fetch = FetchType.LAZY)
+    private List<OrderItem> orderItems;
 
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Category category;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "brand_id", referencedColumnName = "id")
-    private Brand brand;
-
     @ManyToOne
     @JoinColumn(name = "stock_id", referencedColumnName = "id")
     private Stock stock;
-
-    @OneToOne(mappedBy = "products")
-    private Voucher voucher;
 }
