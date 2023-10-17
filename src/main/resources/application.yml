@@ -1,0 +1,8 @@
+spring:
+  thymeleaf:
+      cache: false
+  web:
+    locale: vi_VN
+    locale-resolver: fixed
+
+---
