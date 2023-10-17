@@ -1,0 +1,62 @@
+.form-wrapper {
+    padding: 40px 20px;
+    width: 60%;
+    min-width: 300px;
+    min-height: 60%;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+
+.form-control {
+    height: 100%;
+    font-size: 1rem;
+    line-height: 1.2rem;
+}
+.form-text{
+    font-size: 0.4rem;
+}
+.form-label {
+    font-size: 0.8rem;
+}
+
+.form-logo {
+    height: 90px;
+}
+
+.form-line {
+    width: 100%;
+    border-top: 1px solid rgb(223, 223, 223);
+}
+
+.options-signin {
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    display: block;
+    padding: 0 4px;
+}
+
+.form-social-icon {
+    width: 30px;
+    height: 30px;
+}
+
+.bg-fb {
+    background-color: #0037c1;
+}
+
+.form-social-btn {
+    cursor: pointer;
+}
+
+@media (max-width: 992px) {
+    .form-wrapper {
+        width: 90%;
+    }
+}
+
+@media (min-width: 992px) {
+    .form-wrapper {
+        transform: translateX(18%);
+    }
+}

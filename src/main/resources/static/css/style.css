@@ -1,0 +1,65 @@
+/* .sanPhamTrungBay{
+    padding: 0 100px;
+} */
+.button_add{
+
+    box-shadow: inset 0 0 0 0 #c24c16;
+    text-decoration: none;
+    color: white;
+    transition: color .7s ease-in-out, box-shadow .3s ease-in-out;
+}
+
+.button_add:hover{
+    box-shadow: inset 200px 0 0 0 red;
+    color: white;
+
+}
+
+.product-hover :hover{
+    background-color: rgb(155, 208, 216);
+    border-radius: 100px;
+}
+
+
+.superNav {
+    font-size: 13px;
+}
+
+.form-control {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+@media screen and (max-width:540px) {
+    .centerOnMobile {
+        text-align: center
+    }
+}
+
+/* .. */
+
+.listGroup{
+
+}
+
+.category{
+    padding-top: 4px;
+    display: block;
+    text-decoration: none;
+    color: rgb(107, 97, 97);
+    margin-top: 8px;
+}
+.category:hover{
+    color: red;
+}
+
+/* .. */
+.icon-footer:hover{
+    color: red !important;
+}
+.text-reset{
+    text-decoration: none;
+}
+.text-reset:hover{
+    color: rgb(17, 216, 50) !important;
+}
