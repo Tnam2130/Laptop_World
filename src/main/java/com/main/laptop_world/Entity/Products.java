@@ -19,7 +19,7 @@ public class Products {
 
     @Column(name = "product_name")
     private String name;
-
+    private String brand;
     @Column(name = "product_price")
     private Double price;
     @Column(name = "product_old_price")
