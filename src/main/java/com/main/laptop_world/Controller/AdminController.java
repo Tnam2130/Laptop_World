@@ -7,35 +7,35 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Controller
-public class adminController {
+@RequestMapping("/admin")
+public class AdminController {
 
 
-    @RequestMapping({"/" ,"/home" ,"/index"})
+    @RequestMapping({"/home" ,"/index"})
     public String index(Model model){
-
         return "admin/index";
     }
-    @GetMapping("/admin/nhan-hieu")
+    @GetMapping("/brands")
     public String quanLyNhanHieuPage() {
         return "admin/quanLyNhanHieu";
     }
-    @GetMapping("/admin/san-pham")
+    @GetMapping("/products")
     public String quanLySanPhamPage() {
         return "admin/quanLySanPham";
     }
-    @GetMapping("/admin/tai-khoan")
+    @GetMapping("/accounts")
     public String quanLyTaiKhoanPage() {
         return "admin/quanLyTaiKhoan";
     }
-    @GetMapping("/admin/thong-ke")
+    @GetMapping("/dashboard")
     public String thongKePage() {
         return "admin/thongKe";
     }
-    @GetMapping("/admin/profile")
+    @GetMapping("/profile")
     public String proFilePage() {
         return "admin/profile";
     }
-    @GetMapping("/admin/danh-muc")
+    @GetMapping("/categories")
     public String quanLyDanhMucPage() {
         return "admin/quanLyDanhMuc";
     }

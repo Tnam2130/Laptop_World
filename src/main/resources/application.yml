@@ -9,7 +9,7 @@ spring:
 spring:
 ### My SQL
   datasource:
-    url: jdbc:mysql://localhost:3306/online_store?allowPublicKeyRetrieval=true&useSSL=false
+    url: jdbc:mysql://localhost:3306/laptop_world?allowPublicKeyRetrieval=true&useSSL=false
     username: root
     password: 1234
     tomcat:
@@ -17,7 +17,6 @@ spring:
         useUnicode=true
         characterEncoding=utf-8
 
-<<<<<<< Updated upstream
   jpa:
     properties:
       hibernate:
@@ -26,7 +25,6 @@ spring:
       ddl-auto: update
     show-sql: true
 
-=======
 #  jpa:
 #    properties:
 #      hibernate:
@@ -34,7 +32,6 @@ spring:
 #    show-sql: true
 #    hibernate:
 #      ddl-auto: update
->>>>>>> Stashed changes
 
 ### MS SQL
 #  datasource:
