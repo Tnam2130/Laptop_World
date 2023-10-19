@@ -13,6 +13,7 @@ public class AdminController {
 
     @RequestMapping({"/home" ,"/index"})
     public String index(Model model){
+        model.addAttribute("title", "Laptop World trang quản trị");
         return "admin/index";
     }
     @GetMapping("/brands")
