@@ -1,14 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<head th:replace="fragments/head :: head">
 </head>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <body>
 	<div class="card-wrapper">
         <div class="cards">
@@ -16,10 +9,10 @@
             <div class="product-imgs" style="margin-top: 350px;">
                 <div class="img-display">
                     <div class="img-showcase">
-                        <img src="images/laptop1.jpeg" alt="shoe image">
-                        <img src="images/laptop2.jpeg" alt="shoe image">
-                        <img src="images/laptop3.jpeg" alt="shoe image">
-                        <img src="images/laptop4.jpeg" alt="shoe image">
+                        <img src="/images/laptop1.jpeg" alt="shoe image">
+                        <img src="/images/laptop2.jpeg" alt="shoe image">
+                        <img src="/images/laptop3.jpeg" alt="shoe image">
+                        <img src="/images/laptop4.jpeg" alt="shoe image">
                     </div>
                 </div>
                 <div class="img-select">
@@ -253,26 +246,9 @@
                     <button type="button" class="btn">Compare</button>
                 </div>
 
-                <div class="social-links">
-                    <p>Share At: </p>
-                    <a href="#">
-                        <i class="fab fa-facebook-f"></i>
-                    </a>
-                    <a href="#">
-                        <i class="fab fa-twitter"></i>
-                    </a>
-                    <a href="#">
-                        <i class="fab fa-instagram"></i>
-                    </a>
-                    <a href="#">
-                        <i class="fab fa-whatsapp"></i>
-                    </a>
-                    <a href="#">
-                        <i class="fab fa-pinterest"></i>
-                    </a>
-                </div>
             </div>
         </div>
     </div>
+    <footer th:replace="fragments/footer :: footer"></footer>
 </body>
 </html>

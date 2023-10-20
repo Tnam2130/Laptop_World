@@ -1,43 +1,18 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<head th:replace="fragments/head :: head">
 </head>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
 <body>
-	<header>
-        <!-- Jumbotron -->
-        
-        <!-- Jumbotron -->
-
-        <!-- Heading -->
-        <div class="bg-primary">
-            <div class="container py-4">
-                <!-- Breadcrumb -->
-                <nav class="d-flex">
-                    <h6 class="mb-0">
-                        <a href="" class="text-white-50">Home</a>
-                        <span class="text-white-50 mx-2"> > </span>
-                        <a href="" class="text-white"><u>Shopping cart</u></a>
-                    </h6>
-                </nav>
-                <!-- Breadcrumb -->
-            </div>
-        </div>
-        <!-- Heading -->
-    </header>
-
+	<header th:replace="fragments/header :: header"></header>
     <!-- cart + summary -->
-    <section class="bg-light my-5">
+    <section class="bg-light my-5" style="margin-top: 9rem !important;">
         <div class="container">
             <div class="row">
                 <!-- cart -->
                 <div class="col-lg-9">
                     <div class="card border shadow-0">
                         <div class="m-4">
-                            <h4 class="card-title mb-4">Your shopping cart</h4>
+                            <h4 class="card-title mb-4">Giỏ hàng của tôi</h4>
                             <div class="row gy-3 mb-4">
                                 <div class="col-lg-5">
                                     <div class="me-lg-5">
