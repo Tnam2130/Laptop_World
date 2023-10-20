@@ -27,6 +27,8 @@ public class WebSecurityConfig {
             "/home",
             "/login/**",
             "/register/**",
+            "/cart/**",
+            "/collections/**",
             "/c/**"
     };
     @Bean
