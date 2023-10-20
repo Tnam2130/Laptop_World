@@ -1,13 +1,15 @@
-package com.main.asm.service;
+package com.main.laptop_world.Services;
 
-import com.main.asm.entity.UserDto;
-import com.main.asm.entity.Users;
+import com.main.laptop_world.Entity.DTO.UserDTO;
+import com.main.laptop_world.Entity.User;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public interface UserService {
-    void saveUser(UserDto userDto);
-    Users findByEmail(String email);
-    List<UserDto> findAllUsers();
+    void saveUser(UserDTO userDto);
+    User findByUsername(String username);
+    List<UserDTO> findAllUsers();
 }
 

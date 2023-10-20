@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
     <meta charset="UTF-8">
 </head>
@@ -22,7 +23,7 @@
                         <span class="border-warning input-group-text bg-warning text-white"><i
                                 class="fa-solid fa-magnifying-glass"></i></span>
                     <input type="text" class="form-control border-warning" style="color:#7a7a7a">
-                    <button class="btn btn-warning text-white">Search</button>
+                    <button class="btn btn-warning text-white">Tìm kếm</button>
                 </div>
             </div>
             <div class=" collapse navbar-collapse" id="navbarNavDropdown">
@@ -31,28 +32,50 @@
                             <span class="border-warning input-group-text bg-warning text-white"><i
                                     class="fa-solid fa-magnifying-glass"></i></span>
                         <input type="text" class="form-control border-warning" style="color:#7a7a7a">
-                        <button class="btn btn-warning text-white">Search</button>
+                        <button class="btn btn-warning text-white">Tìm kiếm</button>
                     </div>
                 </div>
                 <ul class="navbar-nav ms-auto ">
                     <li class="nav-item">
-                        <a class="nav-link mx-2 text-uppercase" href="#">Product</a>
+                        <a class="nav-link mx-2 text-uppercase" href="#">Sản phẩm</a>
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link mx-2 text-uppercase" href="#">About</a>
+                        <a class="nav-link mx-2 text-uppercase" href="#">Thông tin về chúng tôi</a>
                     </li>
                 </ul>
-                <ul class="navbar-nav ms-auto ">
-                    <li class="nav-item">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item d-flex justify-content-center align-items-center">
                         <a class="nav-link mx-2 text-uppercase" href="#"><i class="fa-solid fa-cart-shopping me-1"></i>
-                            Cart</a>
+                            Giỏ hàng</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link mx-2 text-uppercase" th:href="@{/layout/dangnhap}"><i
-                                class="fa-solid fa-circle-user me-1"></i>
-                            Account</a>
-                    </li>
+                    <ul class="navbar-nav ms-3">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" href="#" role="button" data-bs-toggle="dropdown"
+                               aria-expanded="false">
+                                <p sec:authorize="!isAuthenticated()" class="m-0"><i
+                                        class="fa-solid fa-circle-user me-1"></i>
+                                    Tài khoản
+                                </p>
+                                <p sec:authorize="isAuthenticated()" class="m-0"><i
+                                        class="fa-solid fa-circle-user me-1"></i>
+                                    Xin chào, <span th:text="${#authentication.principal.username}"></span></p>
+
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li sec:authorize="!isAuthenticated()"><a class="dropdown-item"
+                                                                          th:href="@{/login}">Đăng nhập</a></li>
+                                <li sec:authorize="!isAuthenticated()"><a class="dropdown-item"
+                                                                          th:href="@{/register}">Đăng ký</a>
+                                </li>
+
+                                <li sec:authorize="isAuthenticated()"><a class="dropdown-item"
+                                                                         th:href="@{/profile}">Trang cá nhân</a></li>
+                                <li sec:authorize="isAuthenticated()"><a class="dropdown-item"
+                                                                         th:href="@{/logout}">Đăng xuất</a></li>
+                            </ul>
+                        </li>
+                    </ul>
                 </ul>
             </div>
         </div>

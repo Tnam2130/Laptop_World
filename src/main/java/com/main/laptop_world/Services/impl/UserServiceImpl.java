@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class UsererviceImpl implements UserService {
+public class UserServiceImpl implements UserService {
     @Autowired
     private UserRepository userRepository;
 
@@ -53,7 +53,6 @@ public class UsererviceImpl implements UserService {
         userRepository.save(user);
     }
 
-
     @Override
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
@@ -65,5 +64,5 @@ public class UsererviceImpl implements UserService {
         return User.stream().map(this::convertEntityToDto)
                 .collect(Collectors.toList());
     }
-    
+
 }

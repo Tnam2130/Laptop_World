@@ -1,6 +1,6 @@
 spring:
   thymeleaf:
-      cache: false
+    cache: false
   web:
     locale: vi_VN
     locale-resolver: fixed
