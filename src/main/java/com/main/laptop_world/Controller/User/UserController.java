@@ -1,4 +1,4 @@
-package com.main.laptop_world.Controller;
+package com.main.laptop_world.Controller.User;
 
 import com.main.laptop_world.Entity.DTO.UserDTO;
 import com.main.laptop_world.Entity.User;
