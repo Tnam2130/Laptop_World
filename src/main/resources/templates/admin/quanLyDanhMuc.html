@@ -11,8 +11,8 @@
 <div th:replace="admin/layout/header"></div>
 <!--content -->
 <div th:replace="admin/layout/home"></div>
-<div style="margin-left: 12%">
-  <div class=" animated bounce">
+<section>
+  <div >
     <h3 class="page-header">Quản lý Danh Mục</h3>
     <div >
       <form th:action="@{/admin/category/add} " method="post" >
@@ -41,14 +41,14 @@
     <ul class="pagination">
     </ul>
   </div>
-</div>
+</section>
 
 
 
 
 
 <div th:replace="admin/layout/footer"></div>
-<script th:src="@{/admin/js/danhMucAjax.js}"></script>
+<!--<script th:src="@{/admin/js/danhMucAjax.js}"></script>-->
 
 </body>
 </html>

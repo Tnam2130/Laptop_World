@@ -12,7 +12,7 @@
 <!--content -->
 <div th:replace="admin/layout/home"></div>
 
-<div style="margin-left: 12%">
+<section >
   <h3 class="page-header">Quản lý Hình ảnh</h3>
 
   <form th:action="@{/admin/images/add}" enctype="multipart/form-data" method="post" >
@@ -99,6 +99,6 @@
 
 <div th:replace="admin/layout/footer"></div>
 <script th:src="@{/admin/js/nhanHieuAjax.js}"></script>
-
+</section>
 </body>
 </html>
