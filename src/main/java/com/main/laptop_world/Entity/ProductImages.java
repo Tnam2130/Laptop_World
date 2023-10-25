@@ -25,5 +25,5 @@ public class ProductImages {
     @Column(name = "image_name")
     private String name;
     @Column(name = "image_url")
-    private String url;
+    private byte[] url;
 }
