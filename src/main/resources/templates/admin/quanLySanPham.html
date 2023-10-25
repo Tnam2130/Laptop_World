@@ -19,7 +19,7 @@
 
 <div style="margin-left: 12%">
   <h3 class="page-header">Quản lý Sản Phẩm</h3>
-  <form th:action="@{/admin/products/add}" th:object="${product}" method="post" >
+  <form th:action="@{/admin/products/add}" th:object="${product}" enctype="multipart/form-data" method="post" >
     <input type="hidden" name="id" >
     <input type="text" id="name" name="name" placeholder="Name" th:field="*{name}">
     <input type="text" id="brand" name="brand" placeholder="Brand" th:field="*{brand}">
@@ -28,7 +28,8 @@
     <input type="text" id="shortDesc" name="shortDesc" placeholder="ShortDesc" th:field="*{shortDesc}">
     <input type="text" id="discount" name="discount" placeholder="DisCount" th:field="*{discount}">
     <input type="text" id="status" name="status" placeholder="Status" th:field="*{status}">
-    <select class="form-control" id="category" th:field="*{category}" onchange="this.form.submit()">
+    <input type="file" id="url" name="url" th:object="${productImages}">
+    <select class="form-control" id="category" th:field="*{category}">
       <option value="">Category</option>
       <option th:each="category : ${categories}" th:value="${category.getId()}" th:text="${category.getMainName()}"></option>
     </select>

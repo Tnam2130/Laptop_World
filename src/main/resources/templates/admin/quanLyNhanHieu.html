@@ -13,22 +13,41 @@
 <div th:replace="admin/layout/home"></div>
 
 <div style="margin-left: 12%">
-  <h3 class="page-header">Quản lý Nhãn hiệu</h3>
+  <h3 class="page-header">Quản lý Hình ảnh</h3>
 
-  <button class="btn btn-success btnThemNhanHieu">Thêm mới Nhãn hiệu</button>
+  <form th:action="@{/admin/images/add}" enctype="multipart/form-data" method="post" >
+    <input type="hidden" name="id" >
+    <input type="text" id="name" name="name" placeholder="Name" >
+    <input type="file" id="url" name="url"  th:object="${productImages}">
 
-  <hr/>
+    <select class="form-control" id="productlist" >
+      <option value="">Products</option>
+      <option th:each="productlist : ${productList}" th:value="${productlist.getId()}" th:text="${productlist.getName()}"></option>
+    </select>
+
+    <input class="btn btn-primary m-2" type="submit" value="Save">
+  </form>
 
   <table class="table table-hover nhanHieuTable">
     <thead>
     <tr>
-      <th>Mã</th>
-      <th>Tên Hãng</th>
+      <th>ID</th>
+      <th>Image Name</th>
+      <th>Url</th>
+
+
+
       <th></th>
     </tr>
-
     </thead>
-    <tbody>
+    <tbody th:each="user: ${productImages}">
+    <td>[[${user.id}]]</td>
+    <td>[[${user.name}]]</td>
+    <td>[[${user.url}]]</td>
+
+
+
+    <td><a th:href="@{'/admin/images/delete/' + ${user.id}}">Delete</a></td>
     </tbody>
 
   </table>
