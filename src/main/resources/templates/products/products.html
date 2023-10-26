@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+<body>
+<div th:replace="fragments/header :: header"></div>
+<div class="container" style="margin-top: 9.5rem;">
+    <div class="container">
+        <div class="row">
+            <div class="col-9 ">
+                <div class="bg-white">
+                    <div class="filter px-2 d-flex justify-content-between align-items-center">
+                        <div class="filter_bar d-flex flex-wrap w-100">
+                            <div class="filter_bar-item">
+                                <ul class="navbar-nav me-auto mb-2 mb-lg-0 px-3">
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Thương hiệu
+                                        </a>
+                                        <ul class="dropdown-menu">
+
+                                            <li><a class="dropdown-item" href="#">Laptop Acer </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">Laptop Asus </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">Laptop Dell </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">Laptop Gigabyte </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">Laptop HP </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">Laptop Lenovo </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">Laptop MSI </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">Laptop Samsung (4)</a> </li>
+
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="filter_bar-item">
+                                <ul class="navbar-nav me-auto mb-2 mb-lg-0 px-3">
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Giá
+                                        </a>
+                                        <ul class="dropdown-menu">
+
+                                            <li><a class="dropdown-item" href="#">5 triệu - 10 triệu </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">10 triệu - 20 triệu </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">20 triệu - 30 triệu </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">30 triệu - 40 triệu </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">40 triệu - 50 triệu </a> </li>
+
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="filter_bar-item">
+                                <ul class="navbar-nav me-auto mb-2 mb-lg-0 px-3">
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            CPU
+                                        </a>
+                                        <ul class="dropdown-menu">
+
+                                            <li><a class="dropdown-item" href="#">Intel® Core™ i3  </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">Intel® Core™ i5  </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">Intel® Core™ i7  </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">Intel® Core™ i9  </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">AMD Ryzen™ 7 </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">AMD Ryzen™ 9 </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">AMD Ryzen™ 5 </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">Intel® Celeron </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">Intel® Pentium </a> </li>
+
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+
+                            <div class="filter_bar-item">
+
+                                <ul class="navbar-nav me-auto mb-2 mb-lg-0 px-3">
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Card VGA
+                                        </a>
+                                        <ul class="dropdown-menu">
+
+                                            <li><a class="dropdown-item" href="#">NVIDIA® GeForce RTX™ 2070 </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">NVIDIA® GeForce GTX™ 1660Ti </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">NVIDIA® GeForce GTX™ 1650Ti </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">NVIDIA® GeForce RTX™ 3060 </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">NVIDIA® GeForce GTX™ 1650 </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">NVIDIA® GeForce RTX™ 2060 </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">NVIDIA® GeForce RTX™ 3080 Ti </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">NVIDIA® GeForce RTX™ 3070 </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">NVIDIA® GeForce RTX™ 3050 </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">NVIDIA® GeForce RTX™ 3070Ti </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">NVIDIA® GeForce RTX™ 3080 </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">NVIDIA® GeForce RTX™ 3050Ti </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">NVIDIA® GeForce GTX 1050Ti </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">NVIDIA® GeForce RTX™ 4070 </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">NVIDIA® GeForce RTX™ 4080 </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">NVIDIA® GeForce RTX™ 2050 </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">NVIDIA® GeForce RTX™ 4060 </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">NVIDIA® GeForce RTX™ 4050 </a> </li>
+
+                                        </ul>
+
+                                    </li>
+                                </ul>
+
+                            </div>
+
+
+
+                            <div class="filter_bar-item">
+
+                                <ul class="navbar-nav me-auto mb-2 mb-lg-0 px-3">
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Ram
+                                        </a>
+                                        <ul class="dropdown-menu">
+
+                                            <li><a class="dropdown-item" href="#">8GB </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">16GB </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">4GB </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">12GB </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">32GB </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">64GB </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">40GB </a> </li>
+
+                                        </ul>
+                                    </li>
+                                </ul>
+
+                            </div>
+
+
+
+                            <div class="filter_bar-item">
+
+                                <ul class="navbar-nav me-auto mb-2 mb-lg-0 px-3">
+                                    <li class="nav-item dropdown">
+                                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Ổ cứng
+                                        </a>
+                                        <ul class="dropdown-menu">
+
+                                            <li><a class="dropdown-item" href="#">SSD 256GB </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">SSD 512GB </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">SSD 1TB </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">SSD 128GB </a> </li>
+
+                                            <li><a class="dropdown-item" href="#">SSD 2TB </a> </li>
+
+                                        </ul>
+                                    </li>
+                                </ul>
+
+                            </div>
+
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="product-sort d-flex justify-content-between">
+                    <div class="">
+                        <span>Sắp xếp theo</span>
+                        <select onchange="location.href=this.value" style="border-radius: 4px;">
+
+                            <option value="#">Mới nhất</option>
+
+                            <option value="#">Giá: thấp -&gt; cao</option>
+
+                            <option value="#">Giá: cao -&gt; thấp</option>
+
+                            <option value="#">Xem nhiều nhất</option>
+
+                            <option value="#">Nhiều nhận xét</option>
+
+                            <option value="#">Đánh giá cao nhất</option>
+
+                            <option value="#">Tên A-&gt;Z</option>
+
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+    <div class="container">
+        <div class="sanPhamTrungBay">
+            <div class="row row-cols-3 g-5">
+                <div class="col-4 product_hover">
+                    <div class="card border border-light ">
+                        <img src="/images/products/hinh1.jpg" class="card-img-top " alt="...">
+                        <div class="card-body">
+                            <h6 class="cardtitle fw-bolder text-center fs-4">Laptop Acer Nitro 4</h6>
+                            <div class="cardthongtin pt-2">
+                                <div class="row ">
+                                    <div class="col-5 text-end">
+                                        <small class="text-secondary text-opacity-75 ">CPU </small><br>
+                                        <small class="text-secondary text-opacity-75 ">RAM</small><br>
+                                        <small class="text-secondary text-opacity-75 ">Ổ cứng </small><br>
+                                        <small class="text-secondary text-opacity-75 ">Card </small><br>
+                                        <small class="text-secondary text-opacity-75 ">M.Hình </small>
+
+                                    </div>
+
+                                    <div class="col-7 text-star">
+                                        <small class=" text-secondary text-opacity-75">i5-12500KH</small><br>
+                                        <small class=" text-secondary text-opacity-75">16GB DDR4</small><br>
+                                        <small class=" text-secondary text-opacity-75"> SSD 512GB</small><br>
+                                        <small class=" text-secondary text-opacity-75"> Nvidia RTX 8050Ti</small><br>
+                                        <small class=" text-secondary text-opacity-75"> 15.6' FUll HD 144Hz</small>
+
+                                    </div>
+                                </div>
+                                <div class="ps-5 text-center pt-4">
+                                    <p class="cardtext d-inline ">
+                                        <small class="text-body-secondary  text-decoration-line-through">22.990.000đ</small>
+                                    </p>
+                                    <p class="d-inline">
+                                        <small class="ms-2 bg-danger text-white p-1 rounded-pill">-19%</small>
+                                    </p>
+                                </div>
+                                <p class=" text-center pt-2">
+                                    <small class=" fs-5 text-primary fw-bolder">18.690.000 đ</small>
+                                </p>
+                                <div class="text-center" >
+                                    <button type="button"
+                                            class="button_add  btn btn-warning  text-light fw-bolder rounded-pill"
+                                            style="">Thêm vào giỏ hàng
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4 product_hover">
+                    <div class="card border border-light">
+                        <img src="/images/products/hinh1.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h6 class="cardtitle fw-bolder text-center fs-4">Laptop Acer Nitro 5</h6>
+                            <div class="cardthongtin pt-2">
+                                <div class="row ">
+                                    <div class="col-5 text-end">
+                                        <small class="text-secondary text-opacity-75 ">CPU </small><br>
+                                        <small class="text-secondary text-opacity-75 ">RAM</small><br>
+                                        <small class="text-secondary text-opacity-75 ">Ổ cứng </small><br>
+                                        <small class="text-secondary text-opacity-75 ">Card </small><br>
+                                        <small class="text-secondary text-opacity-75 ">M.Hình </small>
+
+                                    </div>
+
+                                    <div class="col-7 text-star">
+                                        <small class=" text-secondary text-opacity-75">i5-12500KH</small><br>
+                                        <small class=" text-secondary text-opacity-75">16GB DDR4</small><br>
+                                        <small class=" text-secondary text-opacity-75"> SSD 512GB</small><br>
+                                        <small class=" text-secondary text-opacity-75"> Nvidia RTX 8050Ti</small><br>
+                                        <small class=" text-secondary text-opacity-75"> 15.6' FUll HD 144Hz</small>
+
+                                    </div>
+                                </div>
+                                <div class="ps-5 text-center pt-4">
+                                    <p class="cardtext d-inline ">
+                                        <small class="text-body-secondary  text-decoration-line-through">22.990.000đ</small>
+                                    </p>
+                                    <p class="d-inline">
+                                        <small class="ms-2 bg-danger text-white p-1 rounded-pill">-19%</small>
+                                    </p>
+                                </div>
+                                <p class=" text-center pt-2">
+                                    <small class=" fs-5 text-primary fw-bolder">18.690.000 đ</small>
+                                </p>
+                                <div class="text-center" >
+                                    <button type="button"
+                                            class="button_add  btn btn-warning  text-light fw-bolder rounded-pill"
+                                            style="">Thêm vào giỏ hàng
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4 product_hover">
+                    <div class="card border border-light">
+                        <img src="/images/products/hinh1.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h6 class="cardtitle fw-bolder text-center fs-4">Laptop Acer Nitro 5</h6>
+                            <div class="cardthongtin pt-2">
+                                <div class="row ">
+                                    <div class="col-5 text-end">
+                                        <small class="text-secondary text-opacity-75 ">CPU </small><br>
+                                        <small class="text-secondary text-opacity-75 ">RAM</small><br>
+                                        <small class="text-secondary text-opacity-75 ">Ổ cứng </small><br>
+                                        <small class="text-secondary text-opacity-75 ">Card </small><br>
+                                        <small class="text-secondary text-opacity-75 ">M.Hình </small>
+
+                                    </div>
+
+                                    <div class="col-7 text-star">
+                                        <small class=" text-secondary text-opacity-75">i5-12500KH</small><br>
+                                        <small class=" text-secondary text-opacity-75">16GB DDR4</small><br>
+                                        <small class=" text-secondary text-opacity-75"> SSD 512GB</small><br>
+                                        <small class=" text-secondary text-opacity-75"> Nvidia RTX 8050Ti</small><br>
+                                        <small class=" text-secondary text-opacity-75"> 15.6' FUll HD 144Hz</small>
+
+                                    </div>
+                                </div>
+                                <div class="ps-5 text-center pt-4">
+                                    <p class="cardtext d-inline ">
+                                        <small class="text-body-secondary  text-decoration-line-through">22.990.000đ</small>
+                                    </p>
+                                    <p class="d-inline">
+                                        <small class="ms-2 bg-danger text-white p-1 rounded-pill">-19%</small>
+                                    </p>
+                                </div>
+                                <p class=" text-center pt-2">
+                                    <small class=" fs-5 text-primary fw-bolder">18.690.000 đ</small>
+                                </p>
+                                <div class="text-center" >
+                                    <button type="button"
+                                            class="button_add  btn btn-warning  text-light fw-bolder rounded-pill"
+                                            style="">Thêm vào giỏ hàng
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-4 product_hover">
+                    <div class="card border border-light">
+                        <img src="/images/products/hinh1.jpg" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h6 class="cardtitle fw-bolder text-center fs-4">Laptop Acer Nitro 5</h6>
+                            <div class="cardthongtin pt-2">
+                                <div class="row ">
+                                    <div class="col-5 text-end">
+                                        <small class="text-secondary text-opacity-75 ">CPU </small><br>
+                                        <small class="text-secondary text-opacity-75 ">RAM</small><br>
+                                        <small class="text-secondary text-opacity-75 ">Ổ cứng </small><br>
+                                        <small class="text-secondary text-opacity-75 ">Card </small><br>
+                                        <small class="text-secondary text-opacity-75 ">M.Hình </small>
+
+                                    </div>
+
+                                    <div class="col-7 text-star">
+                                        <small class=" text-secondary text-opacity-75">i5-12500KH</small><br>
+                                        <small class=" text-secondary text-opacity-75">16GB DDR4</small><br>
+                                        <small class=" text-secondary text-opacity-75"> SSD 512GB</small><br>
+                                        <small class=" text-secondary text-opacity-75"> Nvidia RTX 8050Ti</small><br>
+                                        <small class=" text-secondary text-opacity-75"> 15.6' FUll HD 144Hz</small>
+
+                                    </div>
+                                </div>
+                                <div class="ps-5 text-center pt-4">
+                                    <p class="cardtext d-inline ">
+                                        <small class="text-body-secondary  text-decoration-line-through">22.990.000đ</small>
+                                    </p>
+                                    <p class="d-inline">
+                                        <small class="ms-2 bg-danger text-white p-1 rounded-pill">-19%</small>
+                                    </p>
+                                </div>
+                                <p class=" text-center pt-2">
+                                    <small class=" fs-5 text-primary fw-bolder">18.690.000 đ</small>
+                                </p>
+                                <div class="text-center" >
+                                    <button type="button"
+                                            class="button_add  btn btn-warning  text-light fw-bolder rounded-pill"
+                                            style="">Thêm vào giỏ hàng
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination justify-content-center">
+
+
+
+                <li class="page-item disabled"><a class="page-link" href="#">1</a></li>
+
+
+
+
+
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+
+
+
+
+
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+
+
+
+
+
+                <li class="page-item"><a class="page-link" href="#">4</a></li>
+
+
+
+
+
+                <li class="page-item"><a class="page-link" href="#">5</a></li>
+
+
+
+
+
+                <li class="page-item"><a class="page-link" href="#">6</a></li>
+
+
+
+
+
+                <li class="page-item"><a class="page-link" href="#">7</a></li>
+
+
+
+
+
+                <li class="page-item"><a class="page-link" href="#">Next</a></li>
+
+
+
+            </ul>
+        </nav>
+    </div>
+</div>
+
+
+
+
+
+</body>
+</html>
