@@ -3,65 +3,84 @@ package com.main.laptop_world.Controller.Admin;
 import com.main.laptop_world.Entity.Category;
 import com.main.laptop_world.Entity.ProductImages;
 import com.main.laptop_world.Entity.Products;
-import com.main.laptop_world.Repository.CategoryRepository;
-import com.main.laptop_world.Repository.ProductRepository;
-import com.main.laptop_world.Repository.productImagesRepository;
+import com.main.laptop_world.Services.CategoryService;
+import com.main.laptop_world.Services.ProductImgService;
 import com.main.laptop_world.Services.ProductService;
+import com.main.laptop_world.util.FileUploadUtil;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Date;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class CRUDProductController {
-    ProductRepository productRepository;
+    public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "./static/images/products";
     ProductService productService;
-    CategoryRepository categoryRepository;
+    CategoryService categoryService;
+    ProductImgService imgService;
 
-    productImagesRepository productImagesRepository;
-    public CRUDProductController(ProductRepository productRepository,
-                                 ProductService productService,
-                                 CategoryRepository categoryRepository) {
-        this.productRepository = productRepository;
+    public CRUDProductController(
+            ProductService productService,
+            CategoryService categoryService, ProductImgService imgService) {
         this.productService = productService;
-        this.categoryRepository = categoryRepository;
-
+        this.categoryService = categoryService;
+        this.imgService = imgService;
     }
 
     @RequestMapping("/admin/products")
     public String getProductForm(Model model) {
-        List<Products> productList = productRepository.findAll();
-        List<Category> categories = categoryRepository.findAll();
+        List<Products> productList = productService.findAllProduct();
+        List<Category> categories = categoryService.findAllCategory();
         model.addAttribute("categories", categories);
         model.addAttribute("productList", productList);
-        model.addAttribute("product",new Products());
-        return "admin/quanLySanPham";
+        model.addAttribute("product", new Products());
+        return "admin/QuanLySanPham";
     }
 
     @PostMapping("/admin/products/add")
-    public String save(@ModelAttribute("product") Products products, Model model,@RequestParam MultipartFile url) throws IOException {
+    public String save(@ModelAttribute("product") Products products,
+                       @RequestParam("files") MultipartFile[] files) throws IOException {
+        if (files != null && files.length > 0) {
+            try {
+                List<ProductImages> imagesList = new ArrayList<>();
+                for (MultipartFile file : files) {
+                    System.out.println(file.getOriginalFilename());
+                    ;
+                    String fileName = file.getOriginalFilename();
+                    String fileContent = new String(file.getBytes(), StandardCharsets.UTF_8);
+                    ProductImages images = new ProductImages(fileName, fileContent, products);
+                    imagesList.add(images);
+                    FileUploadUtil.saveFile(UPLOAD_DIRECTORY, fileName, file);
+                }
+                System.out.println(products);
+                productService.saveProduct(products);
+                products.setImages(imagesList);
+                imgService.saveImageFilesList(imagesList);
 
-        ProductImages productImages = new ProductImages();
-        model.addAttribute("productImages",productImages);
-        productImages.setUrl(url.getBytes());
-        products.getImages().add(productImages);
-        productRepository.save(products);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
         return "redirect:/admin/products";
     }
 
+    @RequestMapping(value = "/admin/products/update/{id}")
+    public String updateProduct(@PathVariable Long id) {
+        Products product = productService.getProductById(id);
+        productService.saveProduct(product);
+        return "redirect:/admin/products";
+    }
 
-
-    @GetMapping(value = "/admin/products/delete/{id}")
-    public String delete(@PathVariable Long id) {
-        productRepository.deleteById(id);
+    @RequestMapping(value = "/admin/products/delete/{id}")
+    public String deleteProduct(@PathVariable Long id) {
+        Products product = productService.getProductById(id);
+        productService.deleteProduct(product);
         return "redirect:/admin/products";
     }
 }

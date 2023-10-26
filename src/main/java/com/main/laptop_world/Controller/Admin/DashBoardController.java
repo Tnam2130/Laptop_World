@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class DashBoardController {
     @GetMapping("/dashboard")
     public String thongKePage() {
-        return "admin/thongKe";
+        return "admin/ThongKe";
     }
 }

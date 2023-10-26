@@ -15,12 +15,12 @@ public class Description {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "description_id")
     private Long id;
-    @Column(name = "description_title")
     @Lob
+    @Column(name = "description_title", columnDefinition = "LONGTEXT")
     private String title;
 
-    @Column(name = "description_content")
     @Lob
+    @Column(name = "description_content", columnDefinition = "LONGTEXT")
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)

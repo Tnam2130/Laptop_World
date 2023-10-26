@@ -45,7 +45,7 @@ public class UserController {
             return "/users/register";
         }
         if(user.getPassword().length() < 6){
-            result.rejectValue("password", "error.user", "Mật khẩu phải có từ 8 ký tự trở lên !!!");
+            result.rejectValue("password", "error.user", "Mật khẩu phải có từ 6 ký tự trở lên !!!");
             return "/users/register";
         }
         if (!user.getPassword().equals(user.getConfirmPassword())) {

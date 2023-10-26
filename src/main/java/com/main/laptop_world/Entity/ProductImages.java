@@ -24,6 +24,15 @@ public class ProductImages {
 
     @Column(name = "image_name")
     private String name;
-    @Column(name = "image_url")
-    private byte[] url;
+    @Lob
+    @Column(name = "url", columnDefinition = "LONGTEXT")
+    private String url;
+
+
+    public ProductImages(String name, String url, Products products){
+        super();
+        this.name=name;
+        this.url=url;
+        this.products=products;
+    }
 }

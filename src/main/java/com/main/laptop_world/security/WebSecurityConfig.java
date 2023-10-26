@@ -17,6 +17,7 @@ public class WebSecurityConfig {
     private static final String[] PUBLIC_RESOURCES={
             "/resources/**",
             "/static/**",
+            "/static/images/products/**",
             "/bootstrapv5/**",
             "/css/**",
             "/images/**",

@@ -1,6 +1,5 @@
 package com.main.laptop_world.Controller.Admin;
 
-import com.main.laptop_world.Entity.DTO.UserDTO;
 import com.main.laptop_world.Entity.User;
 import com.main.laptop_world.Repository.UserRepository;
 import com.main.laptop_world.Services.UserService;
@@ -24,7 +23,7 @@ public class AccountController {
     public String quanLyTaiKhoanPage(Model model) {
         List<User> user = userRepository.findAll();
         model.addAttribute("user", user);
-        return "/admin/quanLyTaiKhoan";
+        return "QuanLyTaiKhoan";
     }
 
 
@@ -38,7 +37,7 @@ public class AccountController {
         User user = userRepository.findById(id).orElseThrow();
         model.addAttribute("user", user);
 
-        return "/admin/quanLyTaiKhoan";
+        return "QuanLyTaiKhoan";
     }
 
     @PostMapping(value = "/admin/accounts/edit/{id}")
@@ -51,7 +50,7 @@ public class AccountController {
     public String add(Model model) {
         User userDTO = new User();
         model.addAttribute("user", userDTO);
-        return "/admin/quanLyTaiKhoan";
+        return "QuanLyTaiKhoan";
     }
 
     @PostMapping(value ="/admin/accounts/add")

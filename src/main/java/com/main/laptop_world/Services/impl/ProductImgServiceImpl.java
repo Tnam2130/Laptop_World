@@ -1,4 +1,43 @@
 package com.main.laptop_world.Services.impl;
 
-public class ProductImgServiceImpl {
+import com.main.laptop_world.Entity.ProductImages;
+import com.main.laptop_world.Repository.ProductImagesRepository;
+import com.main.laptop_world.Services.ProductImgService;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class ProductImgServiceImpl implements ProductImgService {
+    private final ProductImagesRepository repository;
+    public ProductImgServiceImpl (ProductImagesRepository repository){
+        this.repository=repository;
+    }
+    @Override
+    public List<ProductImages> getAllImages() {
+        return repository.findAll();
+    }
+
+    @Override
+    public void saveImageFilesList(List<ProductImages> imagesList) {
+        repository.saveAll(imagesList);
+    }
+
+    @Override
+    public ProductImages getImageById(Long id) {
+        Optional<ProductImages> optional=repository.findById(id);
+        ProductImages images = null;
+        if(optional.isPresent()){
+            images=optional.get();
+        }else {
+            throw new RuntimeException(" Image not found for id :: " + id);
+        }
+        return images;
+    }
+
+    @Override
+    public void deleteImage(ProductImages productImages) {
+        this.repository.delete(productImages);
+    }
 }
