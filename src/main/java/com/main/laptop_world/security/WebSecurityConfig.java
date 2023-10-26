@@ -31,6 +31,9 @@ public class WebSecurityConfig {
             "/collections/**",
             "/c/**"
     };
+    private static final String[] USER_RESOURCES={
+            "/user/**"
+    };
     private static final String[] ADMIN_RESOURCES = {
             "/admin/**"
     };
@@ -45,6 +48,7 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests(c ->
                 c
                         .requestMatchers(ADMIN_RESOURCES).hasAuthority("ADMIN")
+                        .requestMatchers(USER_RESOURCES).hasAuthority("USER")
                         .requestMatchers(PUBLIC_RESOURCES).permitAll()
                         .anyRequest().authenticated());
         http.formLogin(c -> c.loginPage("/login")

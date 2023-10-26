@@ -10,7 +10,7 @@
         <div class="col-md-6 mt-4">
             <h3 class="text-center mb-2">Trang cá nhân</h3>
             <form th:object="${user}" th:action="@{/user/profile}" method="post" >
-<!--                <input type="hidden" th:field="*{id}" />-->
+                <input type="hidden" th:field="*{id}" />
                 <div class="form-floating mb-3">
                     <input th:field="*{userDetailEmbeddable.firstName}" type="text" class="form-control"
                            id="firstname" placeholder="Họ"  required>

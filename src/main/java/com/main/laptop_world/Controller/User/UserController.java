@@ -74,6 +74,7 @@ public class UserController {
             System.out.println("User not found!");
             return "error";
         }
+        existingUser.setUserDetailEmbeddable(user.getUserDetailEmbeddable());
         userService.updateUser(existingUser);
         return "redirect:/user/profile";
     }
