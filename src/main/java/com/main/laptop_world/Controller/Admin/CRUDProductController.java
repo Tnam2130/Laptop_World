@@ -19,7 +19,7 @@ import java.util.List;
 
 @Controller
 public class CRUDProductController {
-    public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/src/main/resources/static/images/products";
+    public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/src/main/resources/static/uploads/products";
     ProductService productService;
     CategoryService categoryService;
     ProductImgService imgService;
@@ -58,15 +58,12 @@ public class CRUDProductController {
             try {
                 List<ProductImages> imagesList = new ArrayList<>();
                 for (MultipartFile file : files) {
-                    System.out.println(file.getOriginalFilename());
-                    ;
                     String fileName = file.getOriginalFilename();
                     String fileContent = new String(file.getBytes(), StandardCharsets.UTF_8);
                     ProductImages images = new ProductImages(fileName, fileContent, products);
                     imagesList.add(images);
                     FileUploadUtil.saveFile(UPLOAD_DIRECTORY, fileName, file);
                 }
-                System.out.println(products);
                 productService.saveProduct(products);
                 products.setImages(imagesList);
                 imgService.saveImageFilesList(imagesList);

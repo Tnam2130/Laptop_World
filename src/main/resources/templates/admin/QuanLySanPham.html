@@ -54,18 +54,17 @@
     <th></th>
   </tr>
   </thead>
-  <tbody th:each="user: ${productList}">
-  <td>[[${user.id}]]</td>
-  <td>[[${user.name}]]</td>
-  <td>[[${user.brand}]]</td>
-  <td>[[${user.price}]]</td>
-  <td>[[${user.oldPrice}]]</td>
-  <td>[[${user.shortDesc}]]</td>
-  <td>[[${user.discount}]]</td>
-  <td>[[${user.status}]]</td>
+  <tbody th:each=" product: ${productList}">
+  <td class="text-center" th:text="*{product.id}"></td>
+  <td class="text-center" th:text="*{product.name}"></td>
+  <td class="text-center" th:text="*{product.brand}"></td>
+  <td class="text-center" th:text="${#numbers.formatDecimal(product.getPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></td>
+  <td class="text-center" th:text="${#numbers.formatDecimal(product.getOldPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></td>
+  <td class="text-center" th:text="*{product.shortDesc}"></td>
+  <td class="text-center" th:text="${product.discount}+' %'"></td>
+  <td class="text-center" th:text="*{product.status}"></td>
 
-
-  <td><a th:href="@{'/admin/products/delete/' + ${user.id}}">Delete</a></td>
+  <td><a th:href="@{'/admin/products/delete/' + *{product.id}}">Delete</a></td>
   </tbody>
 
 </table>

@@ -1,6 +1,7 @@
 package com.main.laptop_world.Services.impl;
 
 import com.main.laptop_world.Entity.Products;
+import com.main.laptop_world.Entity.Specifications;
 import com.main.laptop_world.Repository.ProductRepository;
 import com.main.laptop_world.Repository.specification.ProductSpecification;
 import com.main.laptop_world.Services.ProductService;
@@ -22,6 +23,11 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public List<Products> findAllProduct() {
         return repository.findAll();
+    }
+
+    @Override
+    public List<Products> findAllProduct(Specification<Products> spec) {
+        return repository.findAll(spec);
     }
 
     @Override
@@ -61,5 +67,24 @@ public class ProductServiceImpl implements ProductService {
             }
         }
         return repository.findAll(spec);
+    }
+
+    @Override
+    public List<Products> findByKeyword(String keyword) {
+        if(keyword != null){
+            return repository.findAll(keyword);
+        }
+        return repository.findAll();
+    }
+
+    @Override
+    public List<Products> searchProducts(String searchTerm, String category) {
+        if (searchTerm != null && !searchTerm.isEmpty() && category != null && !category.isEmpty()) {
+            return repository.findBySearchTermAndCategory(searchTerm, category);
+        } else if (searchTerm != null && !searchTerm.isEmpty()) {
+            return repository.findBySearchTerm(searchTerm);
+        } else {
+            return repository.findAll();
+        }
     }
 }

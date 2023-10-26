@@ -4,9 +4,7 @@ import com.main.laptop_world.Entity.Category;
 import com.main.laptop_world.Entity.ProductImages;
 import com.main.laptop_world.Entity.Products;
 import com.main.laptop_world.Repository.specification.ProductSpecification;
-import com.main.laptop_world.Services.CateService;
-import com.main.laptop_world.Services.ProImgService;
-import com.main.laptop_world.Services.ProService;
+import com.main.laptop_world.Services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.repository.query.Param;
@@ -21,21 +19,26 @@ import java.util.List;
 @Controller
 public class ProductController {
 
-    ProImgService proImgService;
-    @Autowired
-    ProService productService;
-    @Autowired
-    CateService categoryService;
+    ProductService productService;
+    CategoryService categoryService;
+    ProductImgService imgService;
+    public ProductController(  ProductService productService,
+                               CategoryService categoryService,
+                               ProductImgService imgService){
+        this.productService=productService;
+        this.categoryService=categoryService;
+        this.imgService=imgService;
+    }
 
 
 
 
     @GetMapping("/collections")
     public String getCollectionForm(Model model){
-        List<Category> categories = categoryService.getAllCategories();
+        List<Category> categories = categoryService.findAllCategory();
         model.addAttribute("title", "Tất cả sản phẩm");
         model.addAttribute("categories", categories);
-        model.addAttribute("productList", productService.findAll());
+        model.addAttribute("productList", productService.findAllProduct());
         return "products/products";
     }
 //    @RequestMapping("/product/productId={productId}")
@@ -54,24 +57,22 @@ public class ProductController {
         if (categoryId != null) {
             spec = spec.and(ProductSpecification.hasCategory(categoryId));
         }
-        List<Products> relatedProduct=productService.findAll(spec);
+        List<Products> relatedProduct=productService.findAllProduct(spec);
         model.addAttribute("relatedProduct", relatedProduct);
 //
-        String productName=productService.getNameProductByProductId(productId);
-        model.addAttribute("title",productName);
+        Products product= productService.getProductById(productId);
+        model.addAttribute("title",product.getName());
 
-        Products products = productService.findById(productId);
-        String categoryName = productService.getCategoryNameByProductId(productId);
+        Products products = productService.getProductById(productId);
 //        List<ProductImages> productImages = proImgService.findByProductId(productId);
 //        model.addAttribute("productImages", productImages);
-        model.addAttribute("categoryName", categoryName);
         model.addAttribute("product", products);
         return "/products/product-detail";
     }
     @RequestMapping("/search")
     public String searchProducts(Model model, @Param("keyword") String keyword) {
 
-        List<Products> productList = productService.listAll(keyword);
+        List<Products> productList = productService.findByKeyword(keyword);
         model.addAttribute("productList", productList);
         return "/products/products";
     }

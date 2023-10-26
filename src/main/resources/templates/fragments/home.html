@@ -14,7 +14,7 @@
                 <div class="col product_hover" th:each="product : ${productList}">
                     <a th:href="@{'/products/productId='+ *{product.getId()}+'&categoryId='+*{product.category.getId()} }" class="card border border-light " style="cursor: pointer">
                         <div th:each="image, limit : *{product.getImages()}" th:if="${limit.index} &lt; 1">
-                            <img th:src="@{'/images/products/'+ *{image.getName()}}"
+                            <img th:src="@{'/uploads/products/'+ *{image.getName()}}"
                                  th:alt="*{image.getName()}" th:class="${limit.index % 1 == 0 ? '' :'img-fluid'}"
                                  style="aspect-ratio: 1 / 1;">
                         </div>
@@ -46,7 +46,7 @@
                                                th:text="${#numbers.formatDecimal(product.getOldPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></small>
                                     </p>
                                     <p class="d-inline">
-                                        <small class="ms-2 bg-danger text-white p-1 rounded-pill">-19%</small>
+                                        <small class="ms-2 bg-danger text-white p-1 rounded-pill" th:text="${#numbers.formatDecimal(product.getDiscount(), 0, 'COMMA', 0, 'DEFAULT')}+' %'"></small>
                                     </p>
                                 </div>
                                 <p class=" text-center pt-2">
