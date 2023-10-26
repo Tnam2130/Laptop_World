@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="ISO-8859-1">
+  <title>Quản lý nhãn hiệu </title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+<div th:replace="admin/layout/header"></div>
+<!--content -->
+<div th:replace="admin/layout/home"></div>
+
+<section >
+  <h3 class="page-header">Quản lý Version</h3>
+
+  <form th:action="@{/admin/productsVersion/add}" th:object="${versions}" method="post" >
+    <input type="hidden" name="id" >
+    <input type="text" id="name" name="name" placeholder="Name" th:field="*{name}">
+
+
+    <select class="form-control" id="productlist" th:field="*{products}">
+      <option value="">Products</option>
+      <option th:each="productlist : ${productList}" th:value="${productlist.getId()}" th:text="${productlist.getName()}"></option>
+    </select>
+
+    <input class="btn btn-primary m-2" type="submit" value="Save">
+  </form>
+
+  <table class="table table-hover nhanHieuTable">
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>Version</th>
+<!--      <th>Product</th>-->
+      <th></th>
+    </tr>
+    </thead>
+    <tbody th:each="version : ${version}">
+    <td th:text="${version.getId()}"></td>
+    <td th:text="${version.getName()}"></td>
+<!--    <td th:text="${version.getProducts().getName()}"></td>-->
+
+
+    <td><a th:href="@{'/admin/productsVersion/delete/' + ${version.getId()}}">Delete</a></td>
+    </tbody>
+
+  </table>
+
+  <ul class="pagination">
+  </ul>
+  </div>
+
+  </div>
+
+
+  <div th:replace="admin/layout/footer"></div>
+  <script th:src="@{/admin/js/nhanHieuAjax.js}"></script>
+</section>
+</body>
+</html>
