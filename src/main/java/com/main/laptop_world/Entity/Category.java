@@ -24,9 +24,15 @@ public class Category {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
     private List<Products> products;
+
+    @Embedded
+    private CategoryEmbeddable categoryEmbeddable;
 }
 
 @Embeddable
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 class CategoryEmbeddable {
     @Column(name = "category_name", table = "sub_categories")
     private String subName;

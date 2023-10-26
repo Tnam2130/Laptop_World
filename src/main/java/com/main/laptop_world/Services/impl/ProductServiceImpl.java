@@ -47,7 +47,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Products> filterProduct(Long categoryId, String priceSort) {
+    public List<Products> productFilter(Long categoryId, String priceSort) {
         Specification<Products> spec = Specification.where(null);
         if (categoryId != null) {
             spec = spec.and(ProductSpecification.hasCategory(categoryId));

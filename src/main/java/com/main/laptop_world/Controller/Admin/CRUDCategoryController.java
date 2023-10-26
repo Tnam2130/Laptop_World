@@ -13,29 +13,29 @@ import java.util.List;
 @Controller
 
 public class CRUDCategoryController {
-    CategoryRepository categoryRepository;
     CategoryService categoryService;
 
-    public CRUDCategoryController(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
+    public CRUDCategoryController(CategoryService categoryService) {
+        this.categoryService=categoryService;
     }
 
     @GetMapping("/admin/category")
     public String quanLyDanhMucPage(Model model) {
-        List<Category> categories = categoryRepository.findAll();
+        List<Category> categories = categoryService.findAllCategory();
+        model.addAttribute("category", new Category());
         model.addAttribute("categories", categories);
         return "admin/QuanLyDanhMuc";
     }
 
     @PostMapping("/admin/category/add")
     public String addCate(@ModelAttribute Category category) {
-        categoryRepository.save(category);
+        categoryService.saveCategory(category);
         return "redirect:/admin/category";
     }
 
     @GetMapping(value = "/admin/category/delete/{id}")
     public String delete(@PathVariable Long id) {
-        categoryRepository.deleteById(id);
+        categoryService.deleteCategory(id);
         return "redirect:/admin/category";
     }
 }

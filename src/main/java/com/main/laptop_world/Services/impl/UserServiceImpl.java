@@ -54,8 +54,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void updateUser(User user) {
+        if(user!=null){
+            System.out.println("Update thanh cong!!!"+user.getId());
+            userRepository.save(user);
+        }else{
+            System.out.println("User not found"+user);
+        }
+
+    }
+
+    @Override
     public User findByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public User findById(Long id) {
+        return userRepository.findById(id).orElse(null);
     }
 
     @Override

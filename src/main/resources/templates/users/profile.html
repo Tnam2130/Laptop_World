@@ -9,34 +9,35 @@
         <div class="col-md-3"></div>
         <div class="col-md-6 mt-4">
             <h3 class="text-center mb-2">Trang cá nhân</h3>
-            <form>
+            <form th:object="${user}" th:action="@{/user/profile}" method="post" >
+<!--                <input type="hidden" th:field="*{id}" />-->
                 <div class="form-floating mb-3">
-                    <input name="text" type="text" class="form-control"
-                           id="firstname" placeholder="Họ" required>
+                    <input th:field="*{userDetailEmbeddable.firstName}" type="text" class="form-control"
+                           id="firstname" placeholder="Họ"  required>
                     <label for="firstname" class="form-label fs-6">Họ</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input name="text" type="text" class="form-control"
+                    <input th:field="*{userDetailEmbeddable.lastName}" type="text" class="form-control"
                            id="lastname" placeholder="Tên" required>
                     <label for="lastname" class="form-label fs-6">Tên</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input name="fullname" type="text" class="form-control"
+                    <input th:field="*{userDetailEmbeddable.fullName}" type="text" class="form-control"
                            id="fullname" placeholder="Họ và Tên" required>
                     <label for="fullname" class="form-label fs-6">Họ và Tên</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input name="email" type="email" class="form-control"
+                    <input th:field="*{userDetailEmbeddable.email}" type="email" class="form-control"
                            id="email" placeholder="Email" required>
                     <label for="email" class="form-label fs-6">Email</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input name="address" type="text" class="form-control"
+                    <input th:field="*{userDetailEmbeddable.address}" type="text" class="form-control"
                            id="address" placeholder="Địa chỉ" required>
                     <label for="address" class="form-label fs-6">Địa chỉ</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input name="phonenumber" type="text" class="form-control"
+                    <input th:field="*{userDetailEmbeddable.phoneNumber}" type="text" class="form-control"
                            id="phonenumber" placeholder="Số điện thoại" required>
                     <label for="phonenumber" class="form-label fs-6">Số điện thoại</label>
                 </div>
@@ -44,12 +45,7 @@
             </form>
         </div>
         <div class="col-md-3"></div>
-
-
     </div>
-
-
-</div>
 </div>
 </body>
 </html>

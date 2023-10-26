@@ -28,7 +28,7 @@ public class CategoryServiceImpl implements CategoryService {
         if(optional.isPresent()){
             category=optional.get();
         }else {
-            throw new RuntimeException(" Product not found for id :: " + id);
+            throw new RuntimeException(" Category not found for id :: " + id);
         }
         return category;
     }
@@ -40,5 +40,10 @@ public class CategoryServiceImpl implements CategoryService {
         }else{
             System.out.println("category is null!!!");
         }
+    }
+
+    @Override
+    public void deleteCategory(Long id) {
+        this.categoryRepository.deleteById(id);
     }
 }

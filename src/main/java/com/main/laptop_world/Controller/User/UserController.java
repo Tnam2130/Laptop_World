@@ -8,12 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.security.Principal;
 
 @Controller
 public class UserController {
@@ -56,9 +53,28 @@ public class UserController {
         userService.saveUser(user);
         return "redirect:/login";
     }
-    @GetMapping("/user/profile")
-    public String getFormProfile(Model model){
+    @GetMapping ("/user/profile")
+    public String handleUpdateUser(Model model, Principal principal){
+        String username=principal.getName();
+        User existingUser=userService.findByUsername(username);
+        if(existingUser == null){
+            System.out.println("User not found!");
+            return "error";
+        }
+
+        model.addAttribute("user", existingUser);
         model.addAttribute("title","Trang cá nhân");
         return "users/profile";
+    }
+    @PostMapping("/user/profile")
+    public String updateUserDetail(Principal principal, @ModelAttribute("user") User user){
+        String username=principal.getName();
+        User existingUser=userService.findByUsername(username);
+        if(existingUser == null){
+            System.out.println("User not found!");
+            return "error";
+        }
+        userService.updateUser(existingUser);
+        return "redirect:/user/profile";
     }
 }

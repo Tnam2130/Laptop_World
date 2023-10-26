@@ -15,10 +15,10 @@
   <div >
     <h3 class="page-header">Quản lý Danh Mục</h3>
     <div >
-      <form th:action="@{/admin/category/add} " method="post" >
+      <form th:action="@{/admin/category/add}" th:object="${category}" method="post" >
         <input type="hidden" name="id" >
-        <input type="text" id="mainName" name="mainName" placeholder="Category Name">
-
+        <input type="text" id="mainName" name="mainName" placeholder="Category Name" th:field="*{mainName}">
+        <input type="text" id="subName" name="subName" placeholder="sub Category" th:field="*{categoryEmbeddable.subName}">
         <input class="btn btn-primary m-2" type="submit" value="Save">
       </form>
     </div>
@@ -27,15 +27,15 @@
         <thead>
         <tr>
           <th>Mã</th>
-          <th>Tên Hãng</th>
-<!--          <th>Sản phẩm</th>-->
+          <th>Kiểu máy</th>
+<!--          <th>Tên Hãng</th>-->
         </tr>
         </thead>
         <tbody th:each="category: ${categories}">
-        <td class="text-center" th:text="${category.getId()}"></td>
-        <td class="text-center" th:text="${category.getMainName()}"></td>
-<!--        <td th:text="${category.getProducts()}"></td>-->
-        <td><a th:href="@{'/admin/category/delete/' + ${category.getId()}}">Delete</a></td>
+        <td class="text-center" th:text="*{category.id}"/>
+        <td class="text-center" th:text="*{category.mainName}"/>
+<!--        <td class="text-center" th:text="*{category.categoryEmbeddable.subName}"/>-->
+        <td><a th:href="@{'/admin/category/delete/' + *{category.getId()}}">Delete</a></td>
         </tbody>
       </table>
     </div>

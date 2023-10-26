@@ -6,6 +6,11 @@ spring:
     locale-resolver: fixed
 
 ---
+server:
+  error:
+    whitelabel:
+      enabled: false
+---
 spring:
 ### My SQL
   datasource:

@@ -36,9 +36,14 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Transaction> transactions;
 
+    @Embedded
+    private UserDetailEmbeddable userDetailEmbeddable;
 }
 
 @Embeddable
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 class UserDetailEmbeddable {
     @Column(name = "first_name", table = "user_detail")
     private String firstName;

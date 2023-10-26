@@ -5,11 +5,14 @@ import com.main.laptop_world.Entity.User;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public interface UserService {
-    public void saveUser(UserDTO userDto);
+    void saveUser(UserDTO userDto);
+    void updateUser(User user);
     User findByUsername(String username);
+    User findById(Long id);
     List<UserDTO> findAllUsers();
 }
 
