@@ -11,24 +11,16 @@
         </div>
         <div class="sanPhamTrungBay">
             <div class="row row-cols-3 g-5">
-                <div class="col product_hover">
-                    <div class="card border border-light ">
-                        <img src="/images/products/hinh1.jpg" class="card-img-top " alt="...">
+                <div class="col product_hover" th:each="product : ${productList}">
+                    <a class="card border border-light " style="cursor: pointer">
+                        <div th:each="image, limit : *{product.getImages()}" th:if="${limit.index} &lt; 1">
+                            <img th:src="@{'/images/products/'+ *{image.getName()}}"
+                                 th:alt="*{image.getName()}" th:class="${limit.index % 1 == 0 ? '' :'img-fluid'}"
+                                 style="aspect-ratio: 1 / 1;">
+                        </div>
                         <div class="card-body">
-                            <h6 class="cardtitle fw-bolder text-center fs-4">Laptop Acer Nitro 4</h6>
+                            <h6 class="card-title fw-bolder text-center fs-4" th:text="*{product.getName()}"></h6>
                             <div class="cardthongtin pt-2">
-                                <!--                                <p class="cardtext text-center ">-->
-                                <!--                                    <small class="text-secondary text-opacity-75 me-2">CPU </small><small-->
-                                <!--                                        class="ms-4 text-secondary text-opacity-75">i5-12500KH</small><br>-->
-                                <!--                                    <small class="text-secondary text-opacity-75 me-2">RAM</small><small-->
-                                <!--                                        class="ms-4 text-secondary text-opacity-75">16GB DDR4</small><br>-->
-                                <!--                                    <small class="text-secondary text-opacity-75 me-2">Ổ cứng </small><small-->
-                                <!--                                        class="ms-2 text-secondary text-opacity-75"> SSD 512GB</small><br>-->
-                                <!--                                    <small class="text-secondary text-opacity-75 ms-4 ps-3">Card </small><small-->
-                                <!--                                        class="ms-4 text-secondary text-opacity-75"> Nvidia RTX 8050Ti</small><br>-->
-                                <!--                                    <small class="text-secondary text-opacity-75 ms-5">M.Hình </small><small-->
-                                <!--                                        class="ms-1 text-secondary text-opacity-75"> 15.6' FUll HD 144Hz</small>-->
-                                <!--                                </p>-->
                                 <div class="row ">
                                     <div class="col-5 text-end">
                                         <small class="text-secondary text-opacity-75 ">CPU </small><br>
@@ -49,15 +41,16 @@
                                     </div>
                                 </div>
                                 <div class="ps-5 text-center pt-4">
-                                    <p class="cardtext d-inline ">
-                                        <small class="text-body-secondary  text-decoration-line-through">22.990.000đ</small>
+                                    <p class="card-text d-inline ">
+                                        <small class="text-body-secondary  text-decoration-line-through"
+                                               th:text="${#numbers.formatDecimal(product.getOldPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></small>
                                     </p>
                                     <p class="d-inline">
                                         <small class="ms-2 bg-danger text-white p-1 rounded-pill">-19%</small>
                                     </p>
                                 </div>
                                 <p class=" text-center pt-2">
-                                    <small class=" fs-5 text-primary fw-bolder">18.690.000 đ</small>
+                                    <small class=" fs-5 text-danger fw-bolder" th:text="${#numbers.formatDecimal(product.getPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></small>
                                 </p>
                                 <div class="text-center" >
                                     <button type="button"
@@ -68,186 +61,8 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 </div>
-                <div class="col product_hover">
-                    <div class="card border border-light">
-                        <img src="/images/products/hinh1.jpg" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h6 class="cardtitle fw-bolder text-center fs-4">Laptop Acer Nitro 5</h6>
-                            <div class="cardthongtin pt-2">
-                                <!--                                <p class="cardtext text-center ">-->
-                                <!--                                    <small class="text-secondary text-opacity-75 me-2">CPU </small><small-->
-                                <!--                                        class="ms-4 text-secondary text-opacity-75">i5-12500KH</small><br>-->
-                                <!--                                    <small class="text-secondary text-opacity-75 me-2">RAM</small><small-->
-                                <!--                                        class="ms-4 text-secondary text-opacity-75">16GB DDR4</small><br>-->
-                                <!--                                    <small class="text-secondary text-opacity-75 me-2">Ổ cứng </small><small-->
-                                <!--                                        class="ms-2 text-secondary text-opacity-75"> SSD 512GB</small><br>-->
-                                <!--                                    <small class="text-secondary text-opacity-75 ms-4 ps-3">Card </small><small-->
-                                <!--                                        class="ms-4 text-secondary text-opacity-75"> Nvidia RTX 8050Ti</small><br>-->
-                                <!--                                    <small class="text-secondary text-opacity-75 ms-5">M.Hình </small><small-->
-                                <!--                                        class="ms-1 text-secondary text-opacity-75"> 15.6' FUll HD 144Hz</small>-->
-                                <!--                                </p>-->
-                                <div class="row ">
-                                    <div class="col-5 text-end">
-                                        <small class="text-secondary text-opacity-75 ">CPU </small><br>
-                                        <small class="text-secondary text-opacity-75 ">RAM</small><br>
-                                        <small class="text-secondary text-opacity-75 ">Ổ cứng </small><br>
-                                        <small class="text-secondary text-opacity-75 ">Card </small><br>
-                                        <small class="text-secondary text-opacity-75 ">M.Hình </small>
-
-                                    </div>
-
-                                    <div class="col-7 text-star">
-                                        <small class=" text-secondary text-opacity-75">i5-12500KH</small><br>
-                                        <small class=" text-secondary text-opacity-75">16GB DDR4</small><br>
-                                        <small class=" text-secondary text-opacity-75"> SSD 512GB</small><br>
-                                        <small class=" text-secondary text-opacity-75"> Nvidia RTX 8050Ti</small><br>
-                                        <small class=" text-secondary text-opacity-75"> 15.6' FUll HD 144Hz</small>
-
-                                    </div>
-                                </div>
-                                <div class="ps-5 text-center pt-4">
-                                    <p class="cardtext d-inline ">
-                                        <small class="text-body-secondary  text-decoration-line-through">22.990.000đ</small>
-                                    </p>
-                                    <p class="d-inline">
-                                        <small class="ms-2 bg-danger text-white p-1 rounded-pill">-19%</small>
-                                    </p>
-                                </div>
-                                <p class=" text-center pt-2">
-                                    <small class=" fs-5 text-primary fw-bolder">18.690.000 đ</small>
-                                </p>
-                                <div class="text-center" >
-                                    <button type="button"
-                                            class="button_add  btn btn-warning  text-light fw-bolder rounded-pill"
-                                            style="">Thêm vào giỏ hàng
-                                    </button>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col product_hover">
-                    <div class="card border border-light">
-                        <img src="/images/products/hinh1.jpg" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h6 class="cardtitle fw-bolder text-center fs-4">Laptop Acer Nitro 5</h6>
-                            <div class="cardthongtin pt-2">
-                                <!--                                <p class="cardtext text-center ">-->
-                                <!--                                    <small class="text-secondary text-opacity-75 me-2">CPU </small><small-->
-                                <!--                                        class="ms-4 text-secondary text-opacity-75">i5-12500KH</small><br>-->
-                                <!--                                    <small class="text-secondary text-opacity-75 me-2">RAM</small><small-->
-                                <!--                                        class="ms-4 text-secondary text-opacity-75">16GB DDR4</small><br>-->
-                                <!--                                    <small class="text-secondary text-opacity-75 me-2">Ổ cứng </small><small-->
-                                <!--                                        class="ms-2 text-secondary text-opacity-75"> SSD 512GB</small><br>-->
-                                <!--                                    <small class="text-secondary text-opacity-75 ms-4 ps-3">Card </small><small-->
-                                <!--                                        class="ms-4 text-secondary text-opacity-75"> Nvidia RTX 8050Ti</small><br>-->
-                                <!--                                    <small class="text-secondary text-opacity-75 ms-5">M.Hình </small><small-->
-                                <!--                                        class="ms-1 text-secondary text-opacity-75"> 15.6' FUll HD 144Hz</small>-->
-                                <!--                                </p>-->
-                                <div class="row ">
-                                    <div class="col-5 text-end">
-                                        <small class="text-secondary text-opacity-75 ">CPU </small><br>
-                                        <small class="text-secondary text-opacity-75 ">RAM</small><br>
-                                        <small class="text-secondary text-opacity-75 ">Ổ cứng </small><br>
-                                        <small class="text-secondary text-opacity-75 ">Card </small><br>
-                                        <small class="text-secondary text-opacity-75 ">M.Hình </small>
-
-                                    </div>
-
-                                    <div class="col-7 text-star">
-                                        <small class=" text-secondary text-opacity-75">i5-12500KH</small><br>
-                                        <small class=" text-secondary text-opacity-75">16GB DDR4</small><br>
-                                        <small class=" text-secondary text-opacity-75"> SSD 512GB</small><br>
-                                        <small class=" text-secondary text-opacity-75"> Nvidia RTX 8050Ti</small><br>
-                                        <small class=" text-secondary text-opacity-75"> 15.6' FUll HD 144Hz</small>
-
-                                    </div>
-                                </div>
-                                <div class="ps-5 text-center pt-4">
-                                    <p class="cardtext d-inline ">
-                                        <small class="text-body-secondary  text-decoration-line-through">22.990.000đ</small>
-                                    </p>
-                                    <p class="d-inline">
-                                        <small class="ms-2 bg-danger text-white p-1 rounded-pill">-19%</small>
-                                    </p>
-                                </div>
-                                <p class=" text-center pt-2">
-                                    <small class=" fs-5 text-primary fw-bolder">18.690.000 đ</small>
-                                </p>
-                                <div class="text-center" >
-                                    <button type="button"
-                                            class="button_add  btn btn-warning  text-light fw-bolder rounded-pill"
-                                            style="">Thêm vào giỏ hàng
-                                    </button>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col product_hover">
-                    <div class="card border border-light">
-                        <img src="/images/products/hinh1.jpg" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h6 class="cardtitle fw-bolder text-center fs-4">Laptop Acer Nitro 5</h6>
-                            <div class="cardthongtin pt-2">
-                                <!--                                <p class="cardtext text-center ">-->
-                                <!--                                    <small class="text-secondary text-opacity-75 me-2">CPU </small><small-->
-                                <!--                                        class="ms-4 text-secondary text-opacity-75">i5-12500KH</small><br>-->
-                                <!--                                    <small class="text-secondary text-opacity-75 me-2">RAM</small><small-->
-                                <!--                                        class="ms-4 text-secondary text-opacity-75">16GB DDR4</small><br>-->
-                                <!--                                    <small class="text-secondary text-opacity-75 me-2">Ổ cứng </small><small-->
-                                <!--                                        class="ms-2 text-secondary text-opacity-75"> SSD 512GB</small><br>-->
-                                <!--                                    <small class="text-secondary text-opacity-75 ms-4 ps-3">Card </small><small-->
-                                <!--                                        class="ms-4 text-secondary text-opacity-75"> Nvidia RTX 8050Ti</small><br>-->
-                                <!--                                    <small class="text-secondary text-opacity-75 ms-5">M.Hình </small><small-->
-                                <!--                                        class="ms-1 text-secondary text-opacity-75"> 15.6' FUll HD 144Hz</small>-->
-                                <!--                                </p>-->
-                                <div class="row ">
-                                    <div class="col-5 text-end">
-                                        <small class="text-secondary text-opacity-75 ">CPU </small><br>
-                                        <small class="text-secondary text-opacity-75 ">RAM</small><br>
-                                        <small class="text-secondary text-opacity-75 ">Ổ cứng </small><br>
-                                        <small class="text-secondary text-opacity-75 ">Card </small><br>
-                                        <small class="text-secondary text-opacity-75 ">M.Hình </small>
-
-                                    </div>
-
-                                    <div class="col-7 text-star">
-                                        <small class=" text-secondary text-opacity-75">i5-12500KH</small><br>
-                                        <small class=" text-secondary text-opacity-75">16GB DDR4</small><br>
-                                        <small class=" text-secondary text-opacity-75"> SSD 512GB</small><br>
-                                        <small class=" text-secondary text-opacity-75"> Nvidia RTX 8050Ti</small><br>
-                                        <small class=" text-secondary text-opacity-75"> 15.6' FUll HD 144Hz</small>
-
-                                    </div>
-                                </div>
-                                <div class="ps-5 text-center pt-4">
-                                    <p class="cardtext d-inline ">
-                                        <small class="text-body-secondary  text-decoration-line-through">22.990.000đ</small>
-                                    </p>
-                                    <p class="d-inline">
-                                        <small class="ms-2 bg-danger text-white p-1 rounded-pill">-19%</small>
-                                    </p>
-                                </div>
-                                <p class=" text-center pt-2">
-                                    <small class=" fs-5 text-primary fw-bolder">18.690.000 đ</small>
-                                </p>
-                                <div class="text-center" >
-                                    <button type="button"
-                                            class="button_add  btn btn-warning  text-light fw-bolder rounded-pill"
-                                            style="">Thêm vào giỏ hàng
-                                    </button>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
             </div>
         </div>
     </div>

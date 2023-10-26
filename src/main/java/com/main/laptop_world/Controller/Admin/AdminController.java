@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/admin")
 public class AdminController {
 
-    @RequestMapping({"/home" ,"/index"})
+    @RequestMapping({"/","/home" ,"/index"})
     public String index(Model model){
         model.addAttribute("title", "Laptop World trang quản trị");
         return "admin/index";

@@ -19,7 +19,7 @@ import java.util.List;
 
 @Controller
 public class CRUDProductController {
-    public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "./static/images/products";
+    public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/src/main/resources/static/images/products";
     ProductService productService;
     CategoryService categoryService;
     ProductImgService imgService;
@@ -39,6 +39,8 @@ public class CRUDProductController {
         model.addAttribute("categories", categories);
         model.addAttribute("productList", productList);
         model.addAttribute("product", new Products());
+        boolean selected=true;
+        model.addAttribute("selectedValue", selected);
         return "admin/QuanLySanPham";
     }
 
@@ -83,4 +85,5 @@ public class CRUDProductController {
         productService.deleteProduct(product);
         return "redirect:/admin/products";
     }
+
 }

@@ -14,7 +14,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class WebSecurityConfig {
-    private static final String[] PUBLIC_RESOURCES={
+    private static final String[] PUBLIC_RESOURCES = {
             "/resources/**",
             "/static/**",
             "/static/images/products/**",
@@ -22,7 +22,6 @@ public class WebSecurityConfig {
             "/css/**",
             "/images/**",
             "/js/**",
-            "/admin/**",
             "/",
             "/index",
             "/home",
@@ -32,6 +31,10 @@ public class WebSecurityConfig {
             "/collections/**",
             "/c/**"
     };
+    private static final String[] ADMIN_RESOURCES = {
+            "/admin/**"
+    };
+
     @Bean
     public static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -41,7 +44,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(c ->
                 c
-                        .requestMatchers("/users").hasAuthority("ADMIN")
+                        .requestMatchers(ADMIN_RESOURCES).hasAuthority("ADMIN")
                         .requestMatchers(PUBLIC_RESOURCES).permitAll()
                         .anyRequest().authenticated());
         http.formLogin(c -> c.loginPage("/login")

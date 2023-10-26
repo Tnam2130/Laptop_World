@@ -28,13 +28,14 @@
         <tr>
           <th>Mã</th>
           <th>Tên Hãng</th>
-          <th></th>
+<!--          <th>Sản phẩm</th>-->
         </tr>
         </thead>
-        <tbody th:each="category: ${category}">
-        <td>[[${category.id}]]</td>
-        <td>[[${category.mainName}]]</td>
-        <td><a th:href="@{'/admin/category/delete/' + ${category.id}}">Delete</a></td>
+        <tbody th:each="category: ${categories}">
+        <td class="text-center" th:text="${category.getId()}"></td>
+        <td class="text-center" th:text="${category.getMainName()}"></td>
+<!--        <td th:text="${category.getProducts()}"></td>-->
+        <td><a th:href="@{'/admin/category/delete/' + ${category.getId()}}">Delete</a></td>
         </tbody>
       </table>
     </div>

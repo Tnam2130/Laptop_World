@@ -56,4 +56,9 @@ public class UserController {
         userService.saveUser(user);
         return "redirect:/login";
     }
+    @GetMapping("/user/profile")
+    public String getFormProfile(Model model){
+        model.addAttribute("title","Trang cá nhân");
+        return "users/profile";
+    }
 }

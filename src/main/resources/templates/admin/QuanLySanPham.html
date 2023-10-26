@@ -30,7 +30,7 @@
     <input type="text" id="status" name="status" placeholder="Status" th:field="*{status}">
     <input type="file" id="files" multiple="multiple" name="files"  accept="image/png, image/jpeg">
     <select class="form-control" id="category" th:field="*{category}">
-      <option value="">Category</option>
+      <option value="" th:if="${selectedValue}" th:disabled="disabled">Danh mục</option>
       <option th:each="category : ${categories}" th:value="${category.getId()}" th:text="${category.getMainName()}"></option>
     </select>
 

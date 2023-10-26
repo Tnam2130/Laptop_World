@@ -15,45 +15,22 @@ import java.util.List;
 public class CRUDCategoryController {
     CategoryRepository categoryRepository;
     CategoryService categoryService;
-    public CRUDCategoryController(CategoryRepository categoryRepository){
-        this.categoryRepository=categoryRepository;}
+
+    public CRUDCategoryController(CategoryRepository categoryRepository) {
+        this.categoryRepository = categoryRepository;
+    }
+
     @GetMapping("/admin/category")
     public String quanLyDanhMucPage(Model model) {
-            List<Category> category = categoryRepository.findAll();
-            model.addAttribute("category", category);
+        List<Category> categories = categoryRepository.findAll();
+        model.addAttribute("categories", categories);
         return "admin/QuanLyDanhMuc";
     }
-//    @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
-//    public String delete(@PathVariable Long id) {
-//        categoryRepository.deleteById(id);
-//        return "redirect:/admin/quanLyTaiKhoan";
-//    }
-//    @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
-//    public String edit(@PathVariable Long id, Model model) {
-//        Category category = categoryRepository.findById(id).orElseThrow();
-//        model.addAttribute("category", category);
-//
-//        return "/admin/quanLyTaiKhoan";
-//    }
-//
-//    @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
-//    public String update(@PathVariable Long id, @ModelAttribute Category category) {
-//        categoryRepository.save(category);
-//        return "redirect:/admin/quanLyTaiKhoan";
-//    }
-//
-@GetMapping(value ="/admin/category/add")
-public String addCate(Model model) {
-    Category category = new Category();
-    model.addAttribute("category", category);
-    return "QuanLyDanhMuc";
-}
 
-    @PostMapping(value ="/admin/category/add")
-    public String saveCate(@ModelAttribute Category category) {
+    @PostMapping("/admin/category/add")
+    public String addCate(@ModelAttribute Category category) {
         categoryRepository.save(category);
         return "redirect:/admin/category";
-
     }
 
     @GetMapping(value = "/admin/category/delete/{id}")

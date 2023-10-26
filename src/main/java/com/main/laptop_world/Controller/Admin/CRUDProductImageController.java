@@ -25,7 +25,6 @@ public class CRUDProductImageController {
         List<ProductImages> productImages = imgService.getAllImages();
         List<Products> productList = productService.findAllProduct();
         model.addAttribute("productImages", productImages);
-        model.addAttribute("productImage",new ProductImages());
         model.addAttribute("productList", productList);
 
         return "admin/QuanLyHinhAnh";

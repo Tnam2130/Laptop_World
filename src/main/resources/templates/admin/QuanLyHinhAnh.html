@@ -40,7 +40,7 @@
     <tbody th:each="image: ${productImages}">
     <td th:text="${image.getId()}"></td>
     <td th:text="${image.getName()}"></td>
-    <td th:text="${image.getProducts()}"></td>
+    <td th:text="${image.getProducts().getName()}"></td>
 
 
     <td><a th:href="@{'/admin/images/delete/' + ${image.getId()}}">Delete</a></td>
