@@ -67,85 +67,94 @@
     color: rgb(17, 216, 50) !important;
 }
 
-.productGallery_thumb {
-    margin-top: 15px;
-    background-color: transparent;
-    list-style-type: none;
-    padding-right: 15px;
-    white-space: nowrap; /* Đặt trắng không cho phép cắt dòng */
-    overflow-x: auto;
+.card-title {
+    line-height: 1.5rem;
+    height: 3.15rem;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
 }
-
-.productList-thumb {
-    display: inline-block;
-    /* Hiển thị như các phần tử inline-block để chúng nằm cạnh nhau */
-    white-space: nowrap; /* Ngăn cắt dòng trong ul */
-}
-
-.track-item {
-    display: inline-block;
-    margin-right: 10px;
-    cursor: pointer;
-}
-
-.thumb-image {
-    max-width: 85px;
-    border: 1px solid black;
-    border-radius: 3px;
-}
-
-.productGallery_slider {
-    width: calc(100% - 85px);
-    position: relative;
-    background-color: transparent;
-    height: 100%;
-}
-
-.product-image {
-    width: 100px;
-    height: 100px;
-    object-fit: cover;
-}
-
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    padding-top: 50px;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.9);
-}
-
-.modal-content {
-    display: block;
-    margin: 0 auto;
-    max-width: 90%;
-    max-height: 90%;
-}
-
-.close {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    color: white;
-    font-size: 25px;
-    cursor: pointer;
-}
-
-/* CSS cho hộp xem ảnh khi mở */
-.modal-content {
-    animation: zoom 0.6s;
-}
-
-@keyframes zoom {
-    from {
-        transform: scale(0)
+    .productGallery_thumb {
+        margin-top: 15px;
+        background-color: transparent;
+        list-style-type: none;
+        padding-right: 15px;
+        white-space: nowrap; /* Đặt trắng không cho phép cắt dòng */
+        overflow-x: auto;
     }
-    to {
-        transform: scale(1)
+
+    .productList-thumb {
+        display: inline-block;
+        /* Hiển thị như các phần tử inline-block để chúng nằm cạnh nhau */
+        white-space: nowrap; /* Ngăn cắt dòng trong ul */
     }
-}
+
+    .track-item {
+        display: inline-block;
+        margin-right: 10px;
+        cursor: pointer;
+    }
+
+    .thumb-image {
+        max-width: 85px;
+        border: 1px solid black;
+        border-radius: 3px;
+    }
+
+    .productGallery_slider {
+        width: calc(100% - 85px);
+        position: relative;
+        background-color: transparent;
+        height: 100%;
+    }
+
+    .product-image {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+    }
+
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        padding-top: 50px;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.9);
+    }
+
+    .modal-content {
+        display: block;
+        margin: 0 auto;
+        max-width: 90%;
+        max-height: 90%;
+    }
+
+    .close {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        color: white;
+        font-size: 25px;
+        cursor: pointer;
+    }
+
+    /* CSS cho hộp xem ảnh khi mở */
+
+    .modal-content {
+        animation: zoom 0.6s;
+    }
+
+    @keyframes zoom {
+        from {
+            transform: scale(0)
+        }
+        to {
+            transform: scale(1)
+        }
+    }

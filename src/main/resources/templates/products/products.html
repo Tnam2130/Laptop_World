@@ -179,8 +179,8 @@
 
     </div>
     <div class="container mt-3 mb-4">
-        <div class="row row-cols-5 g-5" id="productList">
-            <div class="col" th:each="product : ${productList}">
+        <div class="row row-cols-4 g-4" id="productList" >
+            <div class="col product_hover" th:each="product : ${productList}" style="line-height: 1.5rem;">
                 <a th:href="@{'/products/productId='+ *{product.getId()}+'&categoryId='+*{product.category.getId()} }" class="card border border-light " style="cursor: pointer">
                     <div th:each="image, limit : *{product.getImages()}" th:if="${limit.index} &lt; 1">
                         <img th:src="@{'/uploads/products/'+ *{image.getName()}}"
