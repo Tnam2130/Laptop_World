@@ -10,57 +10,16 @@
                 <div class="bg-white">
                     <div class="filter px-2 d-flex justify-content-between align-items-center">
                         <div class="filter_bar d-flex flex-wrap w-100">
-                            <div class="filter_bar-item">
-                                <ul class="navbar-nav me-auto mb-2 mb-lg-0 px-3">
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Thương hiệu
-                                        </a>
-                                        <ul class="dropdown-menu">
-
-                                            <li><a class="dropdown-item" href="#">Laptop Acer </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">Laptop Asus </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">Laptop Dell </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">Laptop Gigabyte </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">Laptop HP </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">Laptop Lenovo </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">Laptop MSI </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">Laptop Samsung (4)</a> </li>
-
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <div class="filter_bar-item">
-                                <ul class="navbar-nav me-auto mb-2 mb-lg-0 px-3">
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Giá
-                                        </a>
-                                        <ul class="dropdown-menu">
-
-                                            <li><a class="dropdown-item" href="#">5 triệu - 10 triệu </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">10 triệu - 20 triệu </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">20 triệu - 30 triệu </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">30 triệu - 40 triệu </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">40 triệu - 50 triệu </a> </li>
-
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
+                            <form class="col-3 " th:action="@{/collections/filers}" method="get">
+                                <div>
+                                    <select name="categoryId" class="form-select" onchange="this.form.submit()">
+                                        <option value="">Tất cả</option>
+                                        <option th:each="category: ${categories}" th:value="${category.getId()}"
+                                                th:text="${category.getMainName()}" th:selected="${category.getId() == categoryId}"
+                                        ></option>
+                                    </select>
+                                </div>
+                            </form>
 
                             <div class="filter_bar-item">
                                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 px-3">
@@ -145,8 +104,6 @@
 
                             </div>
 
-
-
                             <div class="filter_bar-item">
 
                                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 px-3">
@@ -176,8 +133,6 @@
 
                             </div>
 
-
-
                             <div class="filter_bar-item">
 
                                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 px-3">
@@ -203,35 +158,21 @@
 
                             </div>
 
-
-
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="col-3">
-                <div class="product-sort d-flex justify-content-between">
-                    <div class="">
+            <form class="col-3" th:action="@{/collections/filers}" method="get">
+                <div class="d-flex justify-content-between">
                         <span>Sắp xếp theo</span>
-                        <select onchange="location.href=this.value" style="border-radius: 4px;">
-
-                            <option value="#">Mới nhất</option>
-
-                            <option value="#">Giá: thấp -&gt; cao</option>
-
-                            <option value="#">Giá: cao -&gt; thấp</option>
-
-                            <option value="#">Xem nhiều nhất</option>
-
-                            <option value="#">Nhiều nhận xét</option>
-
-                            <option value="#">Đánh giá cao nhất</option>
-
-                            <option value="#">Tên A-&gt;Z</option>
+                        <select onchange="this.form.submit()" class="form-select" name="priceSort" style="border-radius: 4px;">
+                            <option value="">Giá</option>
+                            <option value="asc" th:selected="${sort == 'asc'}">Giá: thấp -&gt; cao</option>
+                            <option value="desc" th:selected="${sort == 'desc'}">Giá: cao -&gt; thấp</option>
 
                         </select>
                     </div>
-                </div>
+                </form>
             </div>
         </div>
 
@@ -239,11 +180,11 @@
     </div>
     <div class="container mt-3 mb-4">
         <div class="row row-cols-5 g-5" id="productList">
-            <div class="col product_hover" th:each="product : ${productList}">
+            <div class="col" th:each="product : ${productList}">
                 <a th:href="@{'/products/productId='+ *{product.getId()}+'&categoryId='+*{product.category.getId()} }" class="card border border-light " style="cursor: pointer">
                     <div th:each="image, limit : *{product.getImages()}" th:if="${limit.index} &lt; 1">
                         <img th:src="@{'/uploads/products/'+ *{image.getName()}}"
-                             th:alt="*{image.getName()}" th:class="${limit.index % 1 == 0 ? '' :'img-fluid'}"
+                             th:alt="*{image.getName()}" th:class="${limit.index % 2 == 0 ? '' :'img-fluid'}"
                              style="aspect-ratio: 1 / 1;">
                     </div>
                     <div class="card-body">

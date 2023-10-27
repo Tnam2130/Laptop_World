@@ -24,13 +24,13 @@ public final class ProductSpecification {
         return spec;
     }
 */
-    public static Specification<Products> hasCategory(Long categoryId) {
+    public static Specification<Products> hasCategory(Long id) {
         return (root, query, cb) -> {
-            if (categoryId == null) {
+            if (id == null) {
                 return null;
             }
             Join<Products, Category> categoryJoin = root.join(Products_.CATEGORY);
-            return cb.equal(categoryJoin.get(Category_.ID), categoryId);
+            return cb.equal(categoryJoin.get(Category_.ID), id);
         };
     }
 

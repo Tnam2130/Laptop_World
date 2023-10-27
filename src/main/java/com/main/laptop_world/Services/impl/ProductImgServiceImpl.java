@@ -37,6 +37,16 @@ public class ProductImgServiceImpl implements ProductImgService {
     }
 
     @Override
+    public List<ProductImages> countImageByProductId(Long id) {
+        return repository.findImageUrlByProductId(id);
+    }
+
+    @Override
+    public List<ProductImages> findByProductId(Long id) {
+        return repository.findByProductsId(id);
+    }
+
+    @Override
     public void deleteImage(ProductImages productImages) {
         this.repository.delete(productImages);
     }

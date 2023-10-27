@@ -12,7 +12,7 @@
         <div class="sanPhamTrungBay">
             <div class="row row-cols-3 g-5">
                 <div class="col product_hover" th:each="product : ${productList}">
-                    <a th:href="@{'/products/productId='+ *{product.getId()}+'&categoryId='+*{product.category.getId()} }" class="card border border-light " style="cursor: pointer">
+                    <a th:href="@{'/collections/product='+ *{product.getId()}+'&category='+*{product.category.getId()} }" class="card border border-light " style="cursor: pointer">
                         <div th:each="image, limit : *{product.getImages()}" th:if="${limit.index} &lt; 1">
                             <img th:src="@{'/uploads/products/'+ *{image.getName()}}"
                                  th:alt="*{image.getName()}" th:class="${limit.index % 1 == 0 ? '' :'img-fluid'}"

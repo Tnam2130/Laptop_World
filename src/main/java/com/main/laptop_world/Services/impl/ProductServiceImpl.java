@@ -53,10 +53,11 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Products> productFilter(Long categoryId, String priceSort) {
+    public List<Products> productFilter(Long id, String priceSort) {
+        System.out.println(id+" "+priceSort);
         Specification<Products> spec = Specification.where(null);
-        if (categoryId != null) {
-            spec = spec.and(ProductSpecification.hasCategory(categoryId));
+        if (id != null) {
+            spec = spec.and(ProductSpecification.hasCategory(id));
         }
 
         if (priceSort != null) {

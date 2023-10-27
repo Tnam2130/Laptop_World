@@ -10,9 +10,8 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -41,17 +40,30 @@ public class ProductController {
         model.addAttribute("productList", productService.findAllProduct());
         return "products/products";
     }
-//    @RequestMapping("/product/productId={productId}")
-//    public String getProductDetail(@PathVariable("productId") Long productId,
-//                                   @PathVariable("categoryId") Long categoryId,
-//                                   Model model){
-//        model.addAttribute("title", "Trang Sản phẩm");
-//        return "products/product-detail";
-//    }
-    @GetMapping("/products/productId={productId}&categoryId={categoryId}")
+    @RequestMapping(value = "/collections/filers",method = {RequestMethod.GET, RequestMethod.POST})
+        public String handleFilterProduct(@RequestParam(name = "categoryId", required = false) Long categoryId,
+                                          @RequestParam(name = "priceSort", required = false) String priceSort,
+                                          Model model, RedirectAttributes redirectAttributes){
+        System.out.println(priceSort);
+        if (categoryId != null && priceSort != null) {
+            redirectAttributes.addAttribute("categoryId", categoryId);
+            redirectAttributes.addAttribute("priceSort", priceSort);
+            return "redirect:/collection/filters";
+        }
+        List<Products> productsList = productService.productFilter(categoryId, priceSort);
+        List<Category> categories = categoryService.findAllCategory();
+        model.addAttribute("title","Tất cả sản phẩm");
+        model.addAttribute("categoryId", categoryId);
+        model.addAttribute("sort", priceSort);
+        model.addAttribute("categories", categories);
+        model.addAttribute("productList", productsList);
+        return "products/products";
+    }
+
+    @GetMapping("/collections/product={productId}&category={categoryId}")
     public String getProductDetail(@PathVariable("productId") Long productId,
                                    @PathVariable("categoryId") Long categoryId,
-                                   Model model) {
+                                   Model model)  {
 //        Get categoryId
         Specification<Products> spec = Specification.where(null);
         if (categoryId != null) {
@@ -65,7 +77,8 @@ public class ProductController {
 
         Products products = productService.getProductById(productId);
 //        List<ProductImages> productImages = proImgService.findByProductId(productId);
-//        model.addAttribute("productImages", productImages);
+        List<ProductImages> productImageList=imgService.findByProductId(productId);
+        model.addAttribute("productImages", productImageList);
         model.addAttribute("product", products);
         return "/products/product-detail";
     }

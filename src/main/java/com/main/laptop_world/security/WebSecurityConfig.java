@@ -22,6 +22,7 @@ public class WebSecurityConfig {
             "/css/**",
             "/images/**",
             "/js/**",
+            "/uploads/**",
             "/",
             "/index",
             "/home",

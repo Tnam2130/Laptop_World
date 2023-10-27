@@ -14,7 +14,7 @@ public interface ProductService {
     public Products getProductById(Long id);
     void saveProduct(Products product);
     void deleteProduct(Products products);
-    List<Products> productFilter(Long categoryId, String priceSort);
+    List<Products> productFilter(Long id, String priceSort);
     List<Products> findByKeyword(String keyword);
     List<Products> searchProducts(String searchTerm, String category);
 
