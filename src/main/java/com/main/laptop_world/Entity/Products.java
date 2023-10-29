@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Data
@@ -21,9 +22,9 @@ public class Products {
     private String name;
     private String brand;
     @Column(name = "product_price")
-    private Double price;
+    private BigDecimal price;
     @Column(name = "product_old_price")
-    private Double oldPrice;
+    private BigDecimal oldPrice;
 
     @Column(name = "short_description")
     private String shortDesc;
@@ -48,7 +49,7 @@ public class Products {
     private List<ProductImages> images;
 
     @OneToMany(mappedBy = "products", fetch = FetchType.LAZY)
-    private List<CartItem> cartItems;
+    private List<Cart> carts;
 
     @OneToMany(mappedBy = "products", fetch = FetchType.LAZY)
     private List<OrderItem> orderItems;

@@ -1,27 +1,21 @@
-// JavaScript để hiển thị hộp xem ảnh khi click vào thẻ a
-const imageLinks = document.querySelectorAll('.image-link');
-const modal = document.getElementById('image-modal');
-const modalImage = document.getElementById('modal-image');
-const closeModal = document.querySelector('.close');
-const productElement = document.querySelector('.productGallery_thumb');
-const product = productElement.getAttribute('data-image-name');
+document.addEventListener('DOMContentLoaded', function () {
+    const quantityControls = document.getElementsByClassName('quantity-control');
 
-imageLinks.forEach((link) => {
-    link.addEventListener('click', (e) => {
-        e.preventDefault(); // Ngăn trình duyệt điều hướng đến URL
-        const imageIndex = link.getAttribute('data-image-index');
-        const imageSource = `/uploads/products/${product.getImages()[imageIndex].getName()}`;
-        modalImage.src = imageSource;
-        modal.style.display = 'block';
+    Array.from(quantityControls).forEach(function (control) {
+        control.addEventListener('click', function () {
+            const quantityInput = control.parentNode.querySelector('input[type="text"]');
+            const action = control.getAttribute('data-action');
+
+            let quantity = parseInt(quantityInput.value);
+            if (action === 'increase') {
+                quantity += 1;
+            } else if (action === 'decrease') {
+                if (quantity > 1) {
+                    quantity -= 1;
+                }
+            }
+
+            quantityInput.value = quantity;
+        });
     });
-});
-
-closeModal.addEventListener('click', () => {
-    modal.style.display = 'none';
-});
-
-window.addEventListener('click', (e) => {
-    if (e.target == modal) {
-        modal.style.display = 'none';
-    }
 });

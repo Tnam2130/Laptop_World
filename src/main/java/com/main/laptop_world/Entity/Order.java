@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -18,8 +19,8 @@ public class Order {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String status;
-    private Double discount;
-    private Double total;
+    private BigDecimal discount;
+    private BigDecimal total;
     private Date createdAt;
     private Date updatedAt;
 

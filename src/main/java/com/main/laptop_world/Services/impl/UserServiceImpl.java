@@ -7,6 +7,7 @@ import com.main.laptop_world.Repository.RoleRepository;
 import com.main.laptop_world.Repository.UserRepository;
 import com.main.laptop_world.Services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    private UserDTO convertEntityToDto(User user){
+    private UserDTO convertEntityToDto(User user) {
         UserDTO UserDTO = new UserDTO();
         UserDTO.setUsername(user.getUsername());
         System.out.println(user.getUsername());
@@ -36,6 +37,7 @@ public class UserServiceImpl implements UserService {
         role.setName("USER");
         return roleRepository.save(role);
     }
+
     @Override
     public void saveUser(UserDTO UserDTO) {
         User user = new User();
@@ -46,7 +48,7 @@ public class UserServiceImpl implements UserService {
         user.setPassword(passwordEncoder.encode(UserDTO.getPassword()));
         user.setUsername(UserDTO.getUsername());
         Role role = roleRepository.findByName("USER");
-        if(role == null){
+        if (role == null) {
             role = checkRoleExist();
         }
         user.setRoles(List.of(role));
@@ -54,12 +56,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void save(User user) {
+        userRepository.save(user);
+    }
+
+    @Override
     public void updateUser(User user) {
-        if(user!=null){
-            System.out.println("Update thanh cong!!!"+user.getId());
+        if (user != null) {
+            System.out.println("Update thanh cong!!!" + user.getId());
             userRepository.save(user);
-        }else{
-            System.out.println("User not found"+user);
+        } else {
+            System.out.println("User not found" + user);
         }
 
     }
@@ -79,6 +86,11 @@ public class UserServiceImpl implements UserService {
         List<User> User = userRepository.findAll();
         return User.stream().map(this::convertEntityToDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<User> findAllUser() {
+        return userRepository.findAll();
     }
 
 }

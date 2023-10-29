@@ -34,15 +34,7 @@
     position: relative;
     color: #12263a;
     margin: 1rem 0;
-}
-.product-title::after{
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    height: 4px;
-    width: 80px;
-    background: #12263a;
+    line-height: 5rem;
 }
 .product-link{
     text-decoration: none;
@@ -62,24 +54,18 @@
 .product-rating{
     color: #ffc107;
 }
-.product-rating span{
-    font-weight: 600;
-    color: #252525;
-}
-.product-price{
-    margin: 1rem 0;
-    font-size: 1rem;
+.product-price p{
+    font-size: 1.2rem;
     font-weight: 700;
 }
-.product-price span{
-    font-weight: 400;
-}
 .last-price span{
-    color: #f64749;
+    font-weight: normal;
+    font-size: 1rem;
     text-decoration: line-through;
 }
 .new-price span{
-    color: #256eff;
+    font-size: 1.3rem;
+    color: #f64749;
 }
 .product-detail h2{
     text-transform: capitalize;
@@ -98,7 +84,6 @@
 .product-detail ul li{
     margin: 0;
     list-style: none;
-    background: url(shoes_images/checked.png) left center no-repeat;
     background-size: 18px;
     padding-left: 1.7rem;
     margin: 0.4rem 0;
@@ -119,7 +104,7 @@
     padding: 0.45rem 0.8rem;
     outline: 0;
     margin-right: 0.2rem;
-    margin-bottom: 1rem;
+    /*margin-bottom: 1rem;*/
 }
 .purchase-info input{
     width: 60px;
@@ -137,30 +122,6 @@
 .purchase-info .btn:hover{
     opacity: 0.9;
 }
-.social-links{
-    display: flex;
-    align-items: center;
-}
-.social-links a{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 32px;
-    height: 32px;
-    color: #000;
-    border: 1px solid #000;
-    margin: 0 0.2rem;
-    border-radius: 50%;
-    text-decoration: none;
-    font-size: 0.8rem;
-    transition: all 0.5s ease;
-}
-.social-links a:hover{
-    background: #000;
-    border-color: transparent;
-    color: #fff;
-}
-
 @media screen and (min-width: 992px){
     .cards{
         display: grid;

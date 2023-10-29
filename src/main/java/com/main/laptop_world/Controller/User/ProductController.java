@@ -70,16 +70,12 @@ public class ProductController {
             spec = spec.and(ProductSpecification.hasCategory(categoryId));
         }
         List<Products> relatedProduct=productService.findAllProduct(spec);
-        model.addAttribute("relatedProduct", relatedProduct);
-//
         Products product= productService.getProductById(productId);
-        model.addAttribute("title",product.getName());
-
-        Products products = productService.getProductById(productId);
-//        List<ProductImages> productImages = proImgService.findByProductId(productId);
         List<ProductImages> productImageList=imgService.findByProductId(productId);
+        model.addAttribute("relatedProduct", relatedProduct);
+        model.addAttribute("title",product.getName());
         model.addAttribute("productImages", productImageList);
-        model.addAttribute("product", products);
+        model.addAttribute("products", product);
         return "/products/product-detail";
     }
     @RequestMapping("/search")

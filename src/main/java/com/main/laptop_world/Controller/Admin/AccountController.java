@@ -1,5 +1,6 @@
 package com.main.laptop_world.Controller.Admin;
 
+import com.main.laptop_world.Entity.DTO.UserDTO;
 import com.main.laptop_world.Entity.User;
 import com.main.laptop_world.Repository.UserRepository;
 import com.main.laptop_world.Services.UserService;
@@ -15,49 +16,43 @@ import java.util.List;
 @Controller
 //@RequestMapping("/admin")
 public class AccountController {
-    @Autowired
-    UserRepository userRepository;
     UserService userService;
-
+    public AccountController(UserService userService){
+        this.userService=userService;
+    }
     @GetMapping("/admin/accounts")
     public String quanLyTaiKhoanPage(Model model) {
-        List<User> user = userRepository.findAll();
+        List<User> user = userService.findAllUser();
         model.addAttribute("user", user);
-        return "QuanLyTaiKhoan";
+        return "admin/QuanLyTaiKhoan";
     }
 
 
     @GetMapping(value = "/admin/accounts/delete/{id}")
     public String delete(@PathVariable Long id) {
-        userRepository.deleteById(id);
+        userService.findById(id);
         return "redirect:/admin/accounts";
     }
     @GetMapping(value = "/admin/accounts/edit/{id}")
     public String edit(@PathVariable Long id, Model model) {
-        User user = userRepository.findById(id).orElseThrow();
+        User user = userService.findById(id);
         model.addAttribute("user", user);
 
-        return "QuanLyTaiKhoan";
+        return "admin/QuanLyTaiKhoan";
     }
 
     @PostMapping(value = "/admin/accounts/edit/{id}")
-    public String update(@PathVariable Long id, @ModelAttribute User user) {
-        userRepository.save(user);
+    public String update(@PathVariable Long id) {
+        User user  =userService.findById(id);
+        userService.save(user);
         return "redirect:/admin/accounts";
     }
 
     @GetMapping(value ="/admin/accounts/add")
     public String add(Model model) {
-        User userDTO = new User();
-        model.addAttribute("user", userDTO);
+        User user=new User();
+        model.addAttribute("user", user);
         return "QuanLyTaiKhoan";
     }
 
-    @PostMapping(value ="/admin/accounts/add")
-    public String save(@Valid @ModelAttribute("user") User user, BindingResult result, Model model) {
-        model.addAttribute("user", user);
-        userRepository.save(user);
-        return "redirect:/admin/accounts";
-
-    }
 }

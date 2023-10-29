@@ -8,8 +8,9 @@
         <div class="row">
             <div class="col-9 ">
                 <div class="bg-white">
-                    <div class="filter px-2 d-flex justify-content-between align-items-center">
-                        <div class="filter_bar d-flex flex-wrap w-100">
+                    <div class="filter px-2 d-flex justify-content-between">
+                        <div class="filter_bar d-flex flex-wrap w-100 text-center">
+                            <p class="fw-bolder" style="margin: 0.6rem 4px 0 0;">Danh mục</p>
                             <form class="col-3 " th:action="@{/collections/filers}" method="get">
                                 <div>
                                     <select name="categoryId" class="form-select" onchange="this.form.submit()">
@@ -20,143 +21,6 @@
                                     </select>
                                 </div>
                             </form>
-
-                            <div class="filter_bar-item">
-                                <ul class="navbar-nav me-auto mb-2 mb-lg-0 px-3">
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            CPU
-                                        </a>
-                                        <ul class="dropdown-menu">
-
-                                            <li><a class="dropdown-item" href="#">Intel® Core™ i3  </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">Intel® Core™ i5  </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">Intel® Core™ i7  </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">Intel® Core™ i9  </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">AMD Ryzen™ 7 </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">AMD Ryzen™ 9 </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">AMD Ryzen™ 5 </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">Intel® Celeron </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">Intel® Pentium </a> </li>
-
-                                        </ul>
-                                    </li>
-                                </ul>
-                            </div>
-
-                            <div class="filter_bar-item">
-
-                                <ul class="navbar-nav me-auto mb-2 mb-lg-0 px-3">
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Card VGA
-                                        </a>
-                                        <ul class="dropdown-menu">
-
-                                            <li><a class="dropdown-item" href="#">NVIDIA® GeForce RTX™ 2070 </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">NVIDIA® GeForce GTX™ 1660Ti </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">NVIDIA® GeForce GTX™ 1650Ti </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">NVIDIA® GeForce RTX™ 3060 </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">NVIDIA® GeForce GTX™ 1650 </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">NVIDIA® GeForce RTX™ 2060 </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">NVIDIA® GeForce RTX™ 3080 Ti </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">NVIDIA® GeForce RTX™ 3070 </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">NVIDIA® GeForce RTX™ 3050 </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">NVIDIA® GeForce RTX™ 3070Ti </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">NVIDIA® GeForce RTX™ 3080 </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">NVIDIA® GeForce RTX™ 3050Ti </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">NVIDIA® GeForce GTX 1050Ti </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">NVIDIA® GeForce RTX™ 4070 </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">NVIDIA® GeForce RTX™ 4080 </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">NVIDIA® GeForce RTX™ 2050 </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">NVIDIA® GeForce RTX™ 4060 </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">NVIDIA® GeForce RTX™ 4050 </a> </li>
-
-                                        </ul>
-
-                                    </li>
-                                </ul>
-
-                            </div>
-
-                            <div class="filter_bar-item">
-
-                                <ul class="navbar-nav me-auto mb-2 mb-lg-0 px-3">
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Ram
-                                        </a>
-                                        <ul class="dropdown-menu">
-
-                                            <li><a class="dropdown-item" href="#">8GB </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">16GB </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">4GB </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">12GB </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">32GB </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">64GB </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">40GB </a> </li>
-
-                                        </ul>
-                                    </li>
-                                </ul>
-
-                            </div>
-
-                            <div class="filter_bar-item">
-
-                                <ul class="navbar-nav me-auto mb-2 mb-lg-0 px-3">
-                                    <li class="nav-item dropdown">
-                                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            Ổ cứng
-                                        </a>
-                                        <ul class="dropdown-menu">
-
-                                            <li><a class="dropdown-item" href="#">SSD 256GB </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">SSD 512GB </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">SSD 1TB </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">SSD 128GB </a> </li>
-
-                                            <li><a class="dropdown-item" href="#">SSD 2TB </a> </li>
-
-                                        </ul>
-                                    </li>
-                                </ul>
-
-                            </div>
 
                         </div>
                     </div>
@@ -181,7 +45,7 @@
     <div class="container mt-3 mb-4">
         <div class="row row-cols-4 g-4" id="productList" >
             <div class="col product_hover" th:each="product : ${productList}" style="line-height: 1.5rem;">
-                <a th:href="@{'/products/productId='+ *{product.getId()}+'&categoryId='+*{product.category.getId()} }" class="card border border-light " style="cursor: pointer">
+                <a th:href="@{'/collections/product='+ *{product.getId()}+'&category='+*{product.category.getId()} }" class="card border border-light " style="cursor: pointer">
                     <div th:each="image, limit : *{product.getImages()}" th:if="${limit.index} &lt; 1">
                         <img th:src="@{'/uploads/products/'+ *{image.getName()}}"
                              th:alt="*{image.getName()}" th:class="${limit.index % 2 == 0 ? '' :'img-fluid'}"

@@ -28,12 +28,13 @@ public class WebSecurityConfig {
             "/home",
             "/login/**",
             "/register/**",
-            "/cart/**",
             "/collections/**",
             "/c/**"
     };
     private static final String[] USER_RESOURCES={
-            "/user/**"
+            "/user/**",
+            "/cart/**",
+            "/order/**"
     };
     private static final String[] ADMIN_RESOURCES = {
             "/admin/**"

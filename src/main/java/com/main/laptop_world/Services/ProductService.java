@@ -18,6 +18,5 @@ public interface ProductService {
     List<Products> findByKeyword(String keyword);
     List<Products> searchProducts(String searchTerm, String category);
 
-
 }
 
