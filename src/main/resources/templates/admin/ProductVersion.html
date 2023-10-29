@@ -14,11 +14,13 @@
 
 <section >
   <h3 class="page-header">Quản lý Version</h3>
-
   <form th:action="@{/admin/productsVersion/add}" th:object="${versions}" method="post" >
     <input type="hidden" name="id" >
-    <input type="text" id="name" name="name" placeholder="Name" th:field="*{name}">
+    <label for="name"></label>
 
+    <input type="text" id="name" name="name" placeholder="Name" th:field="*{name}">
+    <p th:errors="*{name}" class="text-danger fs-6 mb-3"
+       th:if="${#fields.hasErrors('name')}"></p>
 
     <select class="form-control" id="productlist" th:field="*{products}">
       <option value="">Products</option>

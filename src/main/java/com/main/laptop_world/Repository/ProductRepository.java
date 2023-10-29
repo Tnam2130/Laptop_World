@@ -1,6 +1,8 @@
 package com.main.laptop_world.Repository;
 
+import com.main.laptop_world.Entity.Category;
 import com.main.laptop_world.Entity.Products;
+import com.main.laptop_world.Entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -8,6 +10,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Products, Long>, JpaSpecificationExecutor<Products> {
@@ -18,4 +21,7 @@ public interface ProductRepository extends JpaRepository<Products, Long>, JpaSpe
 
     @Query("SELECT p FROM Products p WHERE p.name LIKE %?1%")
     public List<Products> findAll(String keyword);
+
+    @Query("SELECT c FROM Products c WHERE c.name = :name")
+    Optional<Category> findByName(String name);
 }

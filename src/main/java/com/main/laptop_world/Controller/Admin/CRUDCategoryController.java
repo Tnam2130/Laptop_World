@@ -6,6 +6,7 @@ import com.main.laptop_world.Repository.CategoryRepository;
 import com.main.laptop_world.Services.CategoryService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,9 +15,12 @@ import java.util.List;
 
 public class CRUDCategoryController {
     CategoryService categoryService;
+    CategoryRepository categoryRepository;
 
-    public CRUDCategoryController(CategoryService categoryService) {
-        this.categoryService=categoryService;
+    public CRUDCategoryController(CategoryService categoryService,
+                                  CategoryRepository categoryRepository) {
+        this.categoryService = categoryService;
+        this.categoryRepository = categoryRepository;
     }
 
     @GetMapping("/admin/category")
@@ -28,7 +32,23 @@ public class CRUDCategoryController {
     }
 
     @PostMapping("/admin/category/add")
-    public String addCate(@ModelAttribute Category category) {
+    public String addCate(@ModelAttribute Category category, String mainName, Model model, BindingResult result) {
+
+
+        if (category.getMainName() == null || category.getMainName().isEmpty()) {
+            List<Category> categories = categoryService.findAllCategory();
+            model.addAttribute("categories", categories);
+            result.rejectValue("mainName", "error.category",
+                    "Không được để trống category name!");
+            return "admin/QuanLyDanhMuc";
+        }
+        if (categoryRepository.findByName(mainName).isPresent()) {
+            List<Category> categories = categoryService.findAllCategory();
+            model.addAttribute("categories", categories);
+            result.rejectValue("mainName", "error.category",
+                    "Category name không được trùng!");
+            return "admin/QuanLyDanhMuc";
+        }
         categoryService.saveCategory(category);
         return "redirect:/admin/category";
     }

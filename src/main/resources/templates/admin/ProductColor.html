@@ -14,10 +14,12 @@
 
 <section >
   <h3 class="page-header">Quản lý Color</h3>
-
+  <label for="color"></label>
   <form th:action="@{/admin/productsColor/add}" th:object="${colors}" method="post" >
     <input type="hidden" name="id" >
     <input type="text" id="color" name="color" placeholder="color" th:field="*{color}">
+    <p th:errors="*{color}" class="text-danger fs-6 mb-3"
+       th:if="${#fields.hasErrors('color')}"></p>
 
     <select class="form-control" id="version" th:field="*{version}">
       <option value="">Version</option>

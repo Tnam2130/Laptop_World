@@ -2,13 +2,16 @@ package com.main.laptop_world.Controller.Admin;
 
 import com.main.laptop_world.Entity.*;
 import com.main.laptop_world.Repository.ProductColorRepository;
+import com.main.laptop_world.Repository.ProductRepository;
 import com.main.laptop_world.Repository.ProductVersionRepository;
 import com.main.laptop_world.Services.CategoryService;
 import com.main.laptop_world.Services.ProductImgService;
 import com.main.laptop_world.Services.ProductService;
 import com.main.laptop_world.util.FileUploadUtil;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -23,6 +26,7 @@ public class CRUDProductController {
     ProductService productService;
     CategoryService categoryService;
     ProductImgService imgService;
+    ProductRepository productRepository;
     ProductVersionRepository productVersionRepository;
     ProductColorRepository productColorRepository;
 
@@ -30,8 +34,10 @@ public class CRUDProductController {
             ProductService productService,
             CategoryService categoryService,
             ProductImgService imgService,
+            ProductRepository productRepository,
             ProductVersionRepository productVersionRepository,
             ProductColorRepository productColorRepository) {
+        this.productRepository = productRepository;
         this.productService = productService;
         this.categoryService = categoryService;
         this.imgService = imgService;
@@ -52,20 +58,36 @@ public class CRUDProductController {
     }
 
     @PostMapping("/admin/products/add")
-    public String save(@ModelAttribute("product") Products products,
+    public String save(@Valid @ModelAttribute("product") Products product, String name, Model model, BindingResult result,
                        @RequestParam("files") MultipartFile[] files) throws IOException {
+        if (product.getName() == null || product.getName().isEmpty()) {
+
+
+            model.addAttribute("product", product);
+            result.rejectValue("name", "error.product",
+                    "Không được để trống product name!");
+            return "admin/QuanLySanPham";
+
+        }
+//        if (productRepository.findByName(name).isPresent()) {
+//            List<Products> productList = productService.findAllProduct();
+//            model.addAttribute("productList", productList);
+//            result.rejectValue("name", "error.product",
+//                    "product name không được trùng!");
+//            return "admin/QuanLySanPham";
+//        }
         if (files != null && files.length > 0) {
             try {
                 List<ProductImages> imagesList = new ArrayList<>();
                 for (MultipartFile file : files) {
                     String fileName = file.getOriginalFilename();
                     String fileContent = new String(file.getBytes(), StandardCharsets.UTF_8);
-                    ProductImages images = new ProductImages(fileName, fileContent, products);
+                    ProductImages images = new ProductImages(fileName, fileContent, product);
                     imagesList.add(images);
                     FileUploadUtil.saveFile(UPLOAD_DIRECTORY, fileName, file);
                 }
-                productService.saveProduct(products);
-                products.setImages(imagesList);
+                productService.saveProduct(product);
+                product.setImages(imagesList);
                 imgService.saveImageFilesList(imagesList);
 
             } catch (Exception e) {
@@ -73,6 +95,7 @@ public class CRUDProductController {
             }
 
         }
+
         return "redirect:/admin/products";
     }
 
@@ -102,7 +125,22 @@ public class CRUDProductController {
     }
 
     @PostMapping("/admin/productsVersion/add")
-    public String addVersion(@ModelAttribute("versions") ProductVersion productVersion) {
+    public String addVersion(@ModelAttribute("versions") ProductVersion productVersion,
+                             String name, Model model, BindingResult result) {
+        if (productVersion.getName() == null || productVersion.getName().isEmpty()) {
+            List<ProductVersion> version = productVersionRepository.findAll();
+            model.addAttribute("version", version);
+            result.rejectValue("name", "error.version",
+                    "Không được để trống Version name!");
+            return "admin/ProductVersion";
+        }
+        if (productVersionRepository.findByName(name).isPresent()) {
+            List<ProductVersion> version = productVersionRepository.findAll();
+            model.addAttribute("version", version);
+            result.rejectValue("name", "error.version",
+                    "Version name không được trùng!");
+            return "admin/ProductVersion";
+        }
         productVersionRepository.save(productVersion);
         return "redirect:/admin/productsVersion";
     }
@@ -128,7 +166,22 @@ public class CRUDProductController {
     }
 
     @PostMapping("/admin/productsColor/add")
-    public String addColor(@ModelAttribute("colors") ProductColor productColor) {
+    public String addColor(@ModelAttribute("colors") ProductColor productColor,
+                           String color, Model model, BindingResult result) {
+        if (productColor.getColor() == null || productColor.getColor().isEmpty()) {
+            List<ProductColor> colors = productColorRepository.findAll();
+            model.addAttribute("color", colors);
+            result.rejectValue("color", "error.color",
+                    "Không được để trống Color name!");
+            return "admin/ProductColor";
+        }
+//        if (productColorRepository.findByName(color).isPresent()) {
+//            List<ProductColor> colors = productColorRepository.findAll();
+//            model.addAttribute("color", colors);
+//            result.rejectValue("color", "error.color",
+//                    "Color name không được trùng!");
+//            return "admin/ProductColor";
+//        }
         productColorRepository.save(productColor);
         return "redirect:/admin/productsColor";
     }

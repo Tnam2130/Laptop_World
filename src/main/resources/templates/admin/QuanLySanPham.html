@@ -21,7 +21,10 @@
   <h3 class="page-header">Quản lý Sản Phẩm</h3>
   <form th:action="@{/admin/products/add}" th:object="${product}" enctype="multipart/form-data" method="post" >
     <input type="hidden" name="id" >
+    <label for="name"></label>
     <input type="text" id="name" name="name" placeholder="Name" th:field="*{name}">
+    <p th:errors="*{name}" class="text-danger fs-6 mb-3"
+       th:if="${#fields.hasErrors('name')}"></p>
     <input type="text" id="brand" name="brand" placeholder="Brand" th:field="*{brand}">
     <input type="text" id="price" name="price" placeholder="Price" th:field="*{price}">
     <input type="text" id="oldPrice" name="oldPrice" placeholder="Old Price" th:field="*{oldPrice}">
@@ -35,6 +38,8 @@
     </select>
 
     <input class="btn btn-primary m-2" type="submit" value="Save">
+
+
   </form>
 
 <table class="table table-hover sanPhamTable "
