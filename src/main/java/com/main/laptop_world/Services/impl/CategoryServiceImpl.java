@@ -1,7 +1,6 @@
 package com.main.laptop_world.Services.impl;
 
 import com.main.laptop_world.Entity.Category;
-import com.main.laptop_world.Entity.Products;
 import com.main.laptop_world.Repository.CategoryRepository;
 import com.main.laptop_world.Services.CategoryService;
 import org.springframework.stereotype.Service;
@@ -20,6 +19,12 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> findAllCategory() {
         return categoryRepository.findAll();
     }
+    @Override
+    public Category findBymainName(String mainName) {
+        return categoryRepository.findBymainName(mainName);
+    }
+
+
 
     @Override
     public Category getCategoryById(Long id) {
