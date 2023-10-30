@@ -19,6 +19,9 @@ public class UserDTO {
     @NotEmpty(message = "Password not null!")
     private String password;
 
+    @NotEmpty(message = "Email not null!")
+    private String email;
+
     @NotEmpty(message = "Confirm password not null!")
     private String confirmPassword;
 }

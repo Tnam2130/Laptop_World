@@ -2,6 +2,7 @@ package com.main.laptop_world.Controller.User;
 
 import com.main.laptop_world.Entity.DTO.UserDTO;
 import com.main.laptop_world.Entity.User;
+import com.main.laptop_world.Services.EmailService;
 import com.main.laptop_world.Services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +16,12 @@ import java.security.Principal;
 @Controller
 public class UserController {
 
-    @Autowired
     private UserService userService;
+    private EmailService emailService;
+    public UserController(UserService userService, EmailService emailService){
+        this.userService=userService;
+        this.emailService=emailService;
+    }
 
     @GetMapping("/login")
     public String getLoginForm(Model model) {
@@ -80,4 +85,56 @@ public class UserController {
         userService.updateUser(existingUser);
         return "redirect:/user/profile";
     }
+
+    @GetMapping("/send-code")
+    public String sendCode() {
+        return "/users/sendCode";
+    }
+
+    @PostMapping("/do-sendCode")
+    public String doSendCode(@ModelAttribute("username") String username) {
+        User existUsername = userService.findByUsername(username);
+
+        if (existUsername != null) {
+            emailService.sendCode(username);
+            return "redirect:/check-code?username=" + username;
+        } else {
+            return "redirect:/send-code?error";
+        }
+    }
+
+    @GetMapping("/check-code")
+    public String checkCode(Model model, @RequestParam(name = "username", defaultValue = "") String username) {
+        model.addAttribute("username", username);
+        return "users/checkCode";
+    }
+
+    @PostMapping("/do-checkCode")
+    public String doCheckCode(@ModelAttribute("username") String username, @ModelAttribute("code") String code) {
+        User users = emailService.getUserByCode(code);
+        if (users != null) {
+            return "redirect:/resetPassword?username=" + username;
+        } else {
+            return "redirect:/check-code?error";
+        }
+    }
+
+    @GetMapping("/resetPassword")
+    public String resetPassword(Model model, @RequestParam(name = "username") String username) {
+        model.addAttribute("username", username);
+        return "users/resetPassword";
+    }
+
+    @PostMapping("/do-resetPassword")
+    public String doResetPassword(@ModelAttribute("username") String username, @ModelAttribute("password1") String newPassword, @ModelAttribute("password2") String repeatPassword) {
+        if (repeatPassword.equals(newPassword)) {
+            userService.resetPassword(username, repeatPassword);
+            System.out.println("ok");
+            return "redirect:/login";
+        } else {
+            System.out.println("no ok");
+            return "redirect:/resetPassword?username=" + username + "?error";
+        }
+    }
+
 }

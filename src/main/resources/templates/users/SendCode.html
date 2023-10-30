@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+</head>
+<body>
+<div class="wrapper w-100" th:style="'margin: 0'">
+    <div th:style="'height: 100vh; background-image:url(' + @{/images/bg-form.jpg} + '); background-repeat: no-repeat; background-size: cover; background-position: center;'">
+        <div class="row w-100 h-100 g-0">
+            <div class="col-sm-12 col-md-6 d-none d-md-block"></div>
+            <div class="col-sm-12 col-md-6 d-flex align-items-center justify-content-center">
+                <!--                form-->
+                <!--                <div th:if="${param.logout}">You have been logged out.</div>-->
+                <form th:action="@{/do-sendCode}" role="form" class="bg-white rounded-2 form-wrapper" method="post">
+                    <a th:href="@{/}" class="px-5 d-flex align-items-center justify-content-center">
+                        <img th:src="@{/images/logo.png}"
+                             class="form-logo" alt="">
+                    </a>
+                    <div th:if="${param.error != null}">
+                        <div class="alert alert-danger mb-3">
+                            <span>Email Không Tồn Tại</span>
+                        </div>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input name="username" class="form-control" id="username" type="email" placeholder="Email" required>
+                        <label for="username" class="form-label fs-6">Email</label>
+                    </div>
+                    <button type="submit" class="w-100 btn bg-black my-2 fs-6"><span class="text-white">Gửi</span></button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -12,6 +12,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -91,6 +92,32 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findAllUser() {
         return userRepository.findAll();
+    }
+
+    @Override
+    public User findByEmail(String email) {
+        return userRepository.findByUserDetailEmbeddable_Email(email);
+    }
+
+    @Override
+    public User resetPassword(String email, String newPassword) {
+        return Optional.ofNullable(findByEmail(email))
+                .map(users -> {
+                    users.setPassword(passwordEncoder.encode(newPassword));
+                    return userRepository.save(users);
+                }).orElse(null);
+    }
+
+    @Override
+    public void processOAuthPostLogin(String username) {
+//        User existUser = userRepository.findByUsername(username);
+//        if (existUser == null){
+//            User newUser=new User();
+//            newUser.setUsername(username);
+//            newUser.setUserDetailEmbeddable(new UserDetailEmbeddable(null, null, null, username));
+//            newUser.setAuthProvider(AuthenticationProvider.GOOGLE);
+//            userRepository.save(newUser);
+
     }
 
 }

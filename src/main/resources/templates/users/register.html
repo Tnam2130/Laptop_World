@@ -29,7 +29,14 @@
                         <p th:errors="*{username}" class="text-danger fs-6 mb-3"
                            th:if="${#fields.hasErrors('username')}"></p>
                     </div>
-
+                    <div class="form-floating mb-3">
+                        <input name="username" class="form-control" id="email" type="text" placeholder="username"
+                               th:field="*{email}" required>
+                        <!--                        <input name="username" class="form-control" id="username" type="text" placeholder="username" required>-->
+                        <label for="email" class="form-label fs-6">Email</label>
+                        <p th:errors="*{email}" class="text-danger fs-6 mb-3"
+                           th:if="${#fields.hasErrors('username')}"></p>
+                    </div>
                     <div class="form-floating mb-3">
                         <input name="pass" type="password" class="form-control"
                                id="password" placeholder="Mật khẩu" th:field="*{password}" required>

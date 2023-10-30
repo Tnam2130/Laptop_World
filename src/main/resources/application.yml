@@ -33,7 +33,7 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
-
+---
 #  jpa:
 #    properties:
 #      hibernate:
@@ -55,3 +55,18 @@ spring:
 #    show-sql: true
 #    hibernate:
 #      ddl-auto: update
+
+##Mail
+spring:
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: vip101183@gmail.com
+    password: yyjxdoucxszoyxbn
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+        protocol: smtp

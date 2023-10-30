@@ -17,5 +17,8 @@ public interface UserService {
     User findById(Long id);
     List<UserDTO> findAllUsers();
     List<User> findAllUser();
+    User findByEmail(String email);
+    User resetPassword(String username,String newPassword);
+    void processOAuthPostLogin(String username);
 }
 
