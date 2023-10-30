@@ -18,7 +18,7 @@
   <form th:action="@{/admin/productsVersion/add}" th:object="${versions}" method="post" >
     <div class="row">
     <input type="hidden" name="id" >
-      <div class="col-md-10" style="margin-bottom: 20px">
+      <div class="col-md-12" style="margin-bottom: 20px">
         <div class="input-container">
           <input class="form-control" type="text" id="name" name="name" required="" th:field="*{name}">
           <label for="name" class="label">Product Name</label>
@@ -28,7 +28,7 @@
            th:if="${#fields.hasErrors('name')}"></p>
       </div>
 
-      <div class="col-md-10" style="margin-bottom: 20px;">
+      <div class="col-md-12" style="margin-bottom: 20px;">
     <select class="form-control" id="productlist" th:field="*{products}">
       <option value="">Products</option>
       <option th:each="productlist : ${productList}" th:value="${productlist.getId()}" th:text="${productlist.getName()}"></option>

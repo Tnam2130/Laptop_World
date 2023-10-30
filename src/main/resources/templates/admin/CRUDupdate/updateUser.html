@@ -19,13 +19,13 @@
       <form th:action="@{/admin/accounts/update}" th:object="${users}" method="post">
         <div class="row">
           <input type="hidden" name="id"  th:field="*{id}">
-          <div style="margin-bottom: 20px" class="col-md-6">
+          <div style="margin-bottom: 20px" class="col-md-12">
             <input class="form-control" type="text" disabled id="id" name="id"  th:field="*{id}">
           </div>
-          <div style="margin-bottom: 20px" class="col-md-6">
+          <div style="margin-bottom: 20px" class="col-md-12">
             <input class="form-control" type="text" id="username" name="username" placeholder="Category Name" th:field="*{username}">
           </div>
-          <div style="margin-bottom: 20px" class="col-md-6">
+          <div style="margin-bottom: 20px" class="col-md-12">
             <input class="form-control" type="text" id="password" name="password" placeholder="Category Name" th:field="*{password}">
           </div>
 <!--          <div style="margin-bottom: 20px" class="col-md-6">-->
