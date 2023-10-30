@@ -1,6 +1,4 @@
-
 <!DOCTYPE html>
-<html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="ISO-8859-1">
@@ -13,26 +11,21 @@
 <div th:replace="admin/layout/home"></div>
 <section>
     <div >
-        <div class="text-center m-3">
-            <h1>[[${pageTitle}]]</h1>
-        </div>        <div >
+        <h3 class="page-header">Quản lý Danh Mục</h3>
+        <div >
             <label for="mainName"></label>
-            <form th:action="@{'/admin/category/update/id='+${category.getId()}}" th:object="${category}" method="post">
+            <form th:action="@{/admin/category/add}" th:object="${category}" method="post" >
                 <input type="hidden" name="id" >
                 <input type="text" id="mainName" name="mainName" placeholder="Category Name" th:field="*{mainName}">
                 <p th:errors="*{mainName}" class="text-danger fs-6 mb-3"
                    th:if="${#fields.hasErrors('mainName')}"></p>
-<!--                <input type="text" id="subName" name="subName" placeholder="sub Category" th:field="*{categoryEmbeddable.subName}">-->
+                <input type="text" id="subName" name="subName" placeholder="sub Category" th:field="*{categoryEmbeddable.subName}">
 
-                <div class=" text-center">
-                    <button type="submit" class="btn btn-primary m-2">Update</button>
-<!--                    <button type="submit" class="btn btn-primary m-2">Save</button>-->
-
-                    <button type="button" class="btn btn-secondary m-2" onclick="cancelForm()">Cancel</button>
-                </div>
+                <input class="btn btn-primary m-2" type="submit" value="Save">
             </form>
         </div>
-
+        <div>
+        </div>
         <ul class="pagination">
         </ul>
     </div>
@@ -44,10 +37,6 @@
 
 <div th:replace="admin/layout/footer"></div>
 <!--<script th:src="@{/admin/js/danhMucAjax.js}"></script>-->
-<script type="text/javascript">
-    function cancelForm(){
-        window.location = "[[@{/admin/category}]]";
-    }
-</script>
+
 </body>
 </html>

@@ -2,7 +2,6 @@ package com.main.laptop_world.Controller.Admin;
 
 import com.main.laptop_world.Entity.Category;
 
-import com.main.laptop_world.Entity.Products;
 import com.main.laptop_world.Repository.CategoryRepository;
 import com.main.laptop_world.Services.CategoryService;
 import org.springframework.stereotype.Controller;
@@ -35,20 +34,19 @@ public class CRUDCategoryController {
 
     @GetMapping("/admin/category/add")
     public String addCategory(@ModelAttribute Category category, Model model) {
-
         model.addAttribute("pageTitle", "New Category");
         model.addAttribute("category", new Category());
-        return "admin/saveCategory";
+        return "admin/CRUDCategory/saveCategory";
     }
 
-    @PostMapping("/admin/category/save")
+    @PostMapping("/admin/category/add")
     public String saveUser(Category category, RedirectAttributes ra, String mainName, Model model, BindingResult result) {
         if (category.getMainName() == null || category.getMainName().isEmpty()) {
             List<Category> categories = categoryService.findAllCategory();
             model.addAttribute("categories", categories);
             result.rejectValue("mainName", "error.category",
                     "Không được để trống category name!");
-            return "admin/saveCategory";
+            return "admin/CRUDCategory/saveCategory";
         }
         if (categoryRepository.findByName(mainName).isPresent()) {
             List<Category> categories = categoryService.findAllCategory();
@@ -65,13 +63,12 @@ public class CRUDCategoryController {
     public String getUpdateCategory(@PathVariable("id") Long id, Model model, @ModelAttribute Category category) {
         Category categories = categoryService.getCategoryById(id);
         model.addAttribute("categories",categories);
-        return "admin/saveCategory";
+        return "admin/CRUDCategory/updateCategory";
     }
-    @PostMapping("/admin/category/update/id={id}")
-    public String updateCategory(@PathVariable("id") Long id, @ModelAttribute Category category) {
-        Category categories = categoryService.getCategoryById(id);
-        System.out.println(categories);
-        categoryService.updateCategory(categories);
+    @PostMapping("/admin/category/update")
+    public String updateCategory(Category category) {
+        System.out.println(category);
+        categoryService.updateCategory(category);
         return "admin/saveCategory";
     }
     @GetMapping(value = "/admin/category/delete/{id}")
