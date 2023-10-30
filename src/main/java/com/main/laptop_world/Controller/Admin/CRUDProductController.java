@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -96,10 +97,15 @@ public class CRUDProductController {
         return "redirect:/admin/products";
     }
 
-    @RequestMapping(value = "/admin/products/update/{id}")
-    public String updateProduct(@PathVariable Long id) {
+    @GetMapping("/admin/products/update/id={id}")
+    public String getUpdateProduct(@PathVariable("id") Long id, Model model, RedirectAttributes ra, @ModelAttribute Products products) {
         Products product = productService.getProductById(id);
-        productService.saveProduct(product);
+        model.addAttribute("product",product);
+        return "admin/CRUDupdate/updateProduct";
+    }
+    @PostMapping("/admin/products/update")
+    public String updateProduct(Products products) {
+        productService.updateProduct(products);
         return "redirect:/admin/products";
     }
 
@@ -147,7 +153,7 @@ public class CRUDProductController {
         ProductVersion productVersion = productVersionService.getProductById(id);
         model.addAttribute("version", productVersion);
         productVersionRepository.save(productVersion);
-        return "redirect:/admin/products";
+        return "admin/updateVersion";
     }
 
     @GetMapping(value = "/admin/productsVersion/delete/{id}")

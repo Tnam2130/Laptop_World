@@ -14,9 +14,19 @@
 <section>
   <div >
     <h3 class="page-header">Quản lý Danh Mục</h3>
-    <div class="m-4"><a class="h3 " style="text-decoration: none; " th:href="@{/admin/category/add}">New Category</a></div>
-    <div th:if="${message}" class="alert alert-success text-center">
-      [[${message}]]
+    <div >
+      <label for="mainName"></label>
+      <form th:action="@{/admin/category/add}" th:object="${category}" >
+        <input type="hidden" name="id" >
+        <input type="text" id="mainName" name="mainName" placeholder="Category Name" th:field="*{mainName}">
+        <p th:errors="*{mainName}" class="text-danger fs-6 mb-3"
+           th:if="${#fields.hasErrors('mainName')}"></p>
+        <input type="text" id="subName" name="subName" placeholder="sub Category" th:field="*{categoryEmbeddable.subName}">
+        <div class=" text-center">
+          <button type="submit" class="btn btn-primary m-2">Save</button>
+        </div>
+
+      </form>
     </div>
     <div>
       <table class="table table-hover nhanHieuTable">

@@ -70,6 +70,7 @@
   <td class="text-center" th:text="*{product.shortDesc}"></td>
   <td class="text-center" th:text="${product.discount}+' %'"></td>
   <td class="text-center" th:text="*{product.status ? 'Hoạt động' : 'Hủy'}"></td>
+  <td><a th:href="@{'/admin/products/update/id=' + *{product.id}}">update</a>
 
   <td><a th:href="@{'/admin/products/delete/' + *{product.id}}">Delete</a></td>
   </tbody>

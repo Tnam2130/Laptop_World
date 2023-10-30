@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="ISO-8859-1">
+  <title>Quản lý danh mục </title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+<div th:replace="admin/layout/header"></div>
+<!--content -->
+<div th:replace="admin/layout/home"></div>
+<section>
+  <div >
+    <h1>UPDATE SẢN PHẨM</h1>
+
+    <div >
+    <form th:action="@{/admin/products/update}" th:object="${product}" enctype="multipart/form-data" method="post" >
+      <input type="hidden" name="id"  th:field="*{id}">
+      <label for="name"></label>
+      <input type="text" id="name" name="name" placeholder="Name" th:field="*{name}">
+      <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger fs-6 mb-3">Không được để trống tên sản phẩm!</p>
+      <input type="text" id="brand" name="brand" placeholder="Brand" th:field="*{brand}">
+      <input type="text" id="price" name="price" placeholder="Price" th:field="*{price}" oninput="validateNumberInput(this)">
+      <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
+      <input type="text" id="oldPrice" name="oldPrice" placeholder="Old Price" th:field="*{oldPrice}" oninput="validateNumberInput(this)">
+      <p th:if="${#fields.hasErrors('oldPrice')}" th:errors="*{oldPrice}" class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
+      <input type="text" id="shortDesc" name="shortDesc" placeholder="ShortDesc" th:field="*{shortDesc}">
+      <input type="text" id="discount" name="discount" placeholder="DisCount" th:field="*{discount}" oninput="validateNumberInput(this)">
+      <p th:if="${#fields.hasErrors('discount')}" th:errors="*{discount}" class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
+      <select class="form-control my-1" name="status" th:field="*{status}" style="max-width: 180px">
+        <option th:value="1">Hoạt động</option>
+        <option th:value="0">Hủy</option>
+      </select>
+
+
+      <div class=" text-center">
+        <button type="submit" class="btn btn-primary m-2">Update</button>
+        <!--                    <button type="submit" class="btn btn-primary m-2">Save</button>-->
+
+        <button type="button" class="btn btn-secondary m-2" onclick="cancelForm()">Cancel</button>
+      </div>
+    </form>
+  </div>
+
+    <ul class="pagination">
+    </ul>
+  </div>
+</section>
+
+
+
+
+
+<div th:replace="admin/layout/footer"></div>
+<!--<script th:src="@{/admin/js/danhMucAjax.js}"></script>-->
+<script type="text/javascript">
+  function cancelForm(){
+    window.location = "[[@{/admin/products}]]";
+  }
+</script>
+</body>
+</html>
