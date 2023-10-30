@@ -29,31 +29,36 @@ public class CartController {
     public String showFormCart(Model model, Principal principal) {
         User user = userService.findByUsername(principal.getName());
         List<Cart> cartItems = cartService.getCartItems(user.getId());
-        if (!cartItems.isEmpty()) {
-            int quantities = cartItems.stream().mapToInt(Cart::getQuantity).sum();
-            BigDecimal totalPrice = cartService.calculateTotalPrice(cartItems);
-            BigDecimal total = cartService.calculateDiscount(cartItems);
-            BigDecimal discount = totalPrice.subtract(total);
-            double percentage = 0;
-            if (quantities >= 2) {
-                percentage = 5;
+        if(user.getUserDetailEmbeddable() == null){
+            return "redirect:/user/profile";
+        }else{
+            if (!cartItems.isEmpty()) {
+                int quantities = cartItems.stream().mapToInt(Cart::getQuantity).sum();
+                BigDecimal totalPrice = cartService.calculateTotalPrice(cartItems);
+                BigDecimal total = cartService.calculateDiscount(cartItems);
+                BigDecimal discount = totalPrice.subtract(total);
+                double percentage = 0;
+                if (quantities >= 2) {
+                    percentage = 5;
+                }
+                if (quantities >= 5) {
+                    percentage = 10;
+                }
+                if (quantities >= 10) {
+                    percentage = 20;
+                }
+                model.addAttribute("totalPrice", totalPrice);
+                model.addAttribute("user", user);
+                model.addAttribute("total", total);
+                model.addAttribute("discount", discount);
+                model.addAttribute("cartItems", cartItems);
+                model.addAttribute("title", "Giỏ hàng");
+                model.addAttribute("quantities", quantities);
+                model.addAttribute("percentage", percentage);
+            } else {
+                model.addAttribute("title", "Giỏ hàng");
+                return "cart/cart";
             }
-            if (quantities >= 5) {
-                percentage = 10;
-            }
-            if (quantities >= 10) {
-                percentage = 20;
-            }
-            model.addAttribute("totalPrice", totalPrice);
-            model.addAttribute("total", total);
-            model.addAttribute("discount", discount);
-            model.addAttribute("cartItems", cartItems);
-            model.addAttribute("title", "Giỏ hàng");
-            model.addAttribute("quantities", quantities);
-            model.addAttribute("percentage", percentage);
-        } else {
-            model.addAttribute("title", "Giỏ hàng");
-            return "cart/cart";
         }
         return "cart/cart";
     }

@@ -116,11 +116,11 @@
                             </div>
                             <div class="mt-3">
                                 <form th:action="@{/order/checkout}" method="post">
+                                    <input type="hidden" name="orderId" value="${orderId}">
                                     <button type="submit" class="btn btn-success w-100 shadow-0 mb-2"> Thanh toán </button>
+                                    <a th:href="@{/}" class="btn btn-light w-100 border mt-2"> Trang chủ </a>
                                 </form>
-                                <a th:href="@{/}" class="btn btn-light w-100 border mt-2"> Trang chủ </a>
                             </div>
-
                         </div>
                     </div>
                 </div>

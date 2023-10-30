@@ -14,88 +14,53 @@
                     </div>
                     <div class="card-body p-4">
                         <div class="d-flex justify-content-between align-items-center mb-4">
-                            <p class="lead fw-normal mb-0" style="color: #a8729a;">Receipt</p>
-                            <p class="small text-muted mb-0">Receipt Voucher : 1KAU9-84UIL</p>
+                            <p class="lead fw-normal mb-0" style="color: #a8729a;">Đơn hàng</p>
+                            <p class="small text-muted mb-0 fw-semibold" th:text="'HD' + ${#dates.format(order.createdAt, 'ddMMyyHHmm')}"></p>
                         </div>
-                        <div class="card shadow-0 border mb-4">
+                        <div class="card shadow-0 border mb-4" th:each="orderItem : ${orderItemList}">
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-md-2">
-                                        <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/13.webp"
-                                             class="img-fluid" alt="Phone">
+                                        <div th:each="image, limit : *{orderItem.getProducts().getImages()}"
+                                             th:if="${limit.index} &lt; 1">
+                                            <img th:src="@{'/uploads/products/'+ *{image.getName()}}"
+                                                 th:alt="*{image.getName()}"
+                                                 th:class="${limit.index % 2 == 0 ? '' :'img-fluid'}"
+                                                 style="aspect-ratio: 1 / 1; width: 96px; height: 96px;">
+                                        </div>
                                     </div>
                                     <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                        <p class="text-muted mb-0">Samsung Galaxy</p>
+                                        <p class="text-muted mb-0" th:text="*{orderItem.getProducts().getName()}"></p>
                                     </div>
                                     <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                        <p class="text-muted mb-0 small">White</p>
+                                        <p class="text-muted mb-0 small" th:text="*{orderItem.products.category.mainName}"></p>
                                     </div>
                                     <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                        <p class="text-muted mb-0 small">Capacity: 64GB</p>
+                                        <p class="text-muted mb-0 small" th:text="*{orderItem.products.shortDesc}"></p>
                                     </div>
                                     <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                        <p class="text-muted mb-0 small">Qty: 1</p>
+                                        <p class="text-muted mb-0 small">Số lượng: <span th:text="*{orderItem.quantity}"></span></p>
                                     </div>
                                     <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                        <p class="text-muted mb-0 small">$499</p>
+                                        <p class="text-muted mb-0 small"><span th:text="${#numbers.formatDecimal(orderItem.price, 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></span></p>
                                     </div>
                                 </div>
                                 <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;">
                                 <div class="row d-flex align-items-center">
                                     <div class="col-md-2">
-                                        <p class="text-muted mb-0 small">Track Order</p>
+                                        <p class="text-muted mb-0 small">Tiến trình đơn hàng</p>
                                     </div>
                                     <div class="col-md-10">
                                         <div class="progress" style="height: 6px; border-radius: 16px;">
                                             <div class="progress-bar" role="progressbar"
-                                                 style="width: 65%; border-radius: 16px; background-color: #a8729a;" aria-valuenow="65"
+                                                 style="width: 5%; border-radius: 16px; background-color: #a8729a;" aria-valuenow="5"
                                                  aria-valuemin="0" aria-valuemax="100"></div>
                                         </div>
                                         <div class="d-flex justify-content-around mb-1">
-                                            <p class="text-muted mt-1 mb-0 small ms-xl-5">Out for delivary</p>
-                                            <p class="text-muted mt-1 mb-0 small ms-xl-5">Delivered</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card shadow-0 border mb-4">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-md-2">
-                                        <img src="https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/1.webp"
-                                             class="img-fluid" alt="Phone">
-                                    </div>
-                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                        <p class="text-muted mb-0">iPad</p>
-                                    </div>
-                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                        <p class="text-muted mb-0 small">Pink rose</p>
-                                    </div>
-                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                        <p class="text-muted mb-0 small">Capacity: 32GB</p>
-                                    </div>
-                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                        <p class="text-muted mb-0 small">Qty: 1</p>
-                                    </div>
-                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                        <p class="text-muted mb-0 small">$399</p>
-                                    </div>
-                                </div>
-                                <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;">
-                                <div class="row d-flex align-items-center">
-                                    <div class="col-md-2">
-                                        <p class="text-muted mb-0 small">Track Order</p>
-                                    </div>
-                                    <div class="col-md-10">
-                                        <div class="progress" style="height: 6px; border-radius: 16px;">
-                                            <div class="progress-bar" role="progressbar"
-                                                 style="width: 20%; border-radius: 16px; background-color: #a8729a;" aria-valuenow="20"
-                                                 aria-valuemin="0" aria-valuemax="100"></div>
-                                        </div>
-                                        <div class="d-flex justify-content-around mb-1">
-                                            <p class="text-muted mt-1 mb-0 small ms-xl-5">Out for delivary</p>
-                                            <p class="text-muted mt-1 mb-0 small ms-xl-5">Delivered</p>
+                                            <p class="text-muted mt-1 mb-0 small ms-xl-5">Đang chờ xác nhận</p>
+                                            <p class="text-muted mt-1 mb-0 small ms-xl-5">Đã xuất kho</p>
+                                            <p class="text-muted mt-1 mb-0 small ms-xl-5">Đang giao</p>
+                                            <p class="text-muted mt-1 mb-0 small ms-xl-5">Đã giao</p>
                                         </div>
                                     </div>
                                 </div>
@@ -103,29 +68,28 @@
                         </div>
 
                         <div class="d-flex justify-content-between pt-2">
-                            <p class="fw-bold mb-0">Order Details</p>
-                            <p class="text-muted mb-0"><span class="fw-bold me-4">Total</span> $898.00</p>
+                            <p class="fw-bold mb-0">Hóa đơn chi tiết</p>
                         </div>
 
                         <div class="d-flex justify-content-between pt-2">
-                            <p class="text-muted mb-0">Invoice Number : 788152</p>
-                            <p class="text-muted mb-0"><span class="fw-bold me-4">Discount</span> $19.00</p>
+                            <p class="text-muted mb-0 order-user-detail--input"><span class="fw-bold me-1">Khách hàng: </span>Anh/Chị <span th:text="${order.user.userDetailEmbeddable.lastName}"></span></p>
+                            <p class="text-muted mb-0 order-user-detail--input"><span class="fw-bold me-1">Giảm giá: </span><span th:text="${#numbers.formatDecimal(order.discount, 0, 'COMMA', 0, 'DEFAULT')} + '&#x20AB;'"></span></p>
                         </div>
 
                         <div class="d-flex justify-content-between">
-                            <p class="text-muted mb-0">Invoice Date : 22 Dec,2019</p>
-                            <p class="text-muted mb-0"><span class="fw-bold me-4">GST 18%</span> 123</p>
+                            <p class="text-muted mb-0 order-user-detail--input"><span class="fw-bold me-1">Số điện thoại: </span><span th:text="${order.user.userDetailEmbeddable.phoneNumber}"></span></p>
+                            <p class="text-muted mb-0 order-user-detail--input">Ngày tạo : <span th:text="${#dates.format(order.createdAt, 'dd-MM-yyyy')}"></span></p>
                         </div>
-
-                        <div class="d-flex justify-content-between mb-5">
-                            <p class="text-muted mb-0">Recepits Voucher : 18KU-62IIK</p>
-                            <p class="text-muted mb-0"><span class="fw-bold me-4">Delivery Charges</span> Free</p>
+                        <div class="d-flex justify-content-between">
+                            <p class="text-muted mb-0 order-user-detail--input"><span class="fw-bold me-1">Địa chỉ: </span><span th:text="${order.user.userDetailEmbeddable.address}"></span></p>
+                        </div>
+                        <div class="d-flex justify-content-end pt-3">
+                            <p class="text-center mb-0" style="line-height: 1.5rem;"><span class="fs-5 fw-bold">Tổng tiền: <span class="fs-5 text-danger" th:text="${#numbers.formatDecimal(totalAmount , 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></span></span></p>
                         </div>
                     </div>
                     <div class="card-footer border-0 px-4 py-5"
                          style="background-color: #a8729a; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
-                        <h5 class="d-flex align-items-center justify-content-end text-white text-uppercase mb-0">Total
-                            paid: <span class="h2 mb-0 ms-2">$1040</span></h5>
+                        <h5 class="d-flex align-items-center justify-content-end text-white mb-0">Số tiền cần trả: <span class="h5 mb-0 ms-2" th:text="${#numbers.formatDecimal(order.total, 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></span></h5>
                     </div>
                 </div>
             </div>

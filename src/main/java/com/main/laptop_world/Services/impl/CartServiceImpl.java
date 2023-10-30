@@ -3,6 +3,7 @@ package com.main.laptop_world.Services.impl;
 import com.main.laptop_world.Entity.*;
 import com.main.laptop_world.Repository.CartRepository;
 import com.main.laptop_world.Services.*;
+import com.main.laptop_world.model.OrderModel;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -108,26 +109,25 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public void createOrderFormCart(Long userId) {
+    public Long createOrderFormCart(Long userId) {
         List<Cart> cartList = cartRepository.findByUserId(userId);
         BigDecimal totalAmount = calculateTotalPrice(cartList);
-        BigDecimal total = calculateDiscount(cartList);
-        BigDecimal discount = totalAmount.subtract(total);
+        BigDecimal discount = totalAmount.subtract(calculateDiscount(cartList));
 
         User currentUser = userService.findById(userId);
+
         Order order = new Order();
         order.setUser(currentUser);
         order.setDiscount(discount);
-        order.setTotal(totalAmount);
-        order.setStatus("Pending");//Chưa giải quyết
-        order.setCreatedAt(new Date());
+        order.setTotal(totalAmount.subtract(discount));
+        order.setStatus("Pending");
         order.setUpdatedAt(new Date());
 
-        orderService.saveOrder(order);
+        Order savedOrder = orderService.saveOrder(order);
 
         for (Cart item : cartList) {
             OrderItem orderItem = new OrderItem();
-            orderItem.setOrder(order); // Liên kết với đối tượng Order
+            orderItem.setOrder(savedOrder);
             orderItem.setProducts(item.getProducts());
             orderItem.setPrice(item.getProducts().getPrice());
             orderItem.setQuantity(item.getQuantity());
@@ -136,12 +136,14 @@ public class CartServiceImpl implements CartService {
             orderItem.setUpdatedAt(new Date());
             orderItemService.save(orderItem);
         }
+
         deletePaidCartItems(userId);
+
+        return savedOrder.getId();
     }
 
     private void updateTotalPrice(Cart cartItem) {
         BigDecimal totalPrice = cartItem.getProducts().getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity()));
         cartItem.setTotalPrice(totalPrice);
     }
-
 }

@@ -14,5 +14,5 @@ public interface CartService {
     BigDecimal calculateTotalPrice(List<Cart> cartItem);
     BigDecimal calculateDiscount(List<Cart> cartItems);
     int getCartItemCount(Long userId);
-    void createOrderFormCart(Long userId);
+    Long createOrderFormCart(Long userId);
 }

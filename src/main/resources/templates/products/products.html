@@ -6,103 +6,118 @@
 <div class="container" style="margin-top: 9.5rem;">
     <div class="container">
         <div class="row">
-            <div class="col-9 ">
+            <div class="col-9">
                 <div class="bg-white">
                     <div class="filter px-2 d-flex justify-content-between">
                         <div class="filter_bar d-flex flex-wrap w-100 text-center">
                             <p class="fw-bolder" style="margin: 0.6rem 4px 0 0;">Danh mục</p>
-                            <form class="col-3 " th:action="@{/collections/filers}" method="get">
+                            <form class="col-3 " th:action="@{/collections/filters}" method="get">
                                 <div>
                                     <select name="categoryId" class="form-select" onchange="this.form.submit()">
                                         <option value="">Tất cả</option>
                                         <option th:each="category: ${categories}" th:value="${category.getId()}"
-                                                th:text="${category.getMainName()}" th:selected="${category.getId() == categoryId}"
+                                                th:text="${category.getMainName()}"
+                                                th:selected="${category.getId() == filterCriteria.categoryId}"
                                         ></option>
                                     </select>
                                 </div>
                             </form>
-
                         </div>
                     </div>
                 </div>
             </div>
-            <form class="col-3" th:action="@{/collections/filers}" method="get">
+            <form class="col-3" th:action="@{/collections/filters}" method="get">
                 <div class="d-flex justify-content-between">
-                        <span>Sắp xếp theo</span>
-                        <select onchange="this.form.submit()" class="form-select" name="priceSort" style="border-radius: 4px;">
-                            <option value="">Giá</option>
-                            <option value="asc" th:selected="${sort == 'asc'}">Giá: thấp -&gt; cao</option>
-                            <option value="desc" th:selected="${sort == 'desc'}">Giá: cao -&gt; thấp</option>
-
-                        </select>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-
-    </div>
-    <div class="container mt-3 mb-4">
-        <div class="row row-cols-4 g-4" id="productList" >
-            <div class="col product_hover" th:each="product : ${productList}" style="line-height: 1.5rem;">
-                <a th:href="@{'/collections/product='+ *{product.getId()}+'&category='+*{product.category.getId()} }" class="card border border-light " style="cursor: pointer">
-                    <div th:each="image, limit : *{product.getImages()}" th:if="${limit.index} &lt; 1">
-                        <img th:src="@{'/uploads/products/'+ *{image.getName()}}"
-                             th:alt="*{image.getName()}" th:class="${limit.index % 2 == 0 ? '' :'img-fluid'}"
-                             style="aspect-ratio: 1 / 1;">
-                    </div>
-                    <div class="card-body">
-                        <h6 class="card-title fw-bolder text-center fs-4" th:text="*{product.getName()}"></h6>
-                        <div class="cardthongtin pt-2">
-                            <div class="row ">
-                                <div class="col-5 text-end">
-                                    <small class="text-secondary text-opacity-75 ">CPU </small><br>
-                                    <small class="text-secondary text-opacity-75 ">RAM</small><br>
-                                    <small class="text-secondary text-opacity-75 ">Ổ cứng </small><br>
-                                    <small class="text-secondary text-opacity-75 ">Card </small><br>
-                                    <small class="text-secondary text-opacity-75 ">M.Hình </small>
-
-                                </div>
-
-                                <div class="col-7 text-star">
-                                    <small class=" text-secondary text-opacity-75">i5-12500KH</small><br>
-                                    <small class=" text-secondary text-opacity-75">16GB DDR4</small><br>
-                                    <small class=" text-secondary text-opacity-75"> SSD 512GB</small><br>
-                                    <small class=" text-secondary text-opacity-75"> Nvidia RTX 8050Ti</small><br>
-                                    <small class=" text-secondary text-opacity-75"> 15.6' FUll HD 144Hz</small>
-
-                                </div>
-                            </div>
-                            <div class="ps-5 text-center pt-4">
-                                <p class="card-text d-inline ">
-                                    <small class="text-body-secondary  text-decoration-line-through"
-                                           th:text="${#numbers.formatDecimal(product.getOldPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></small>
-                                </p>
-                                <p class="d-inline">
-                                    <small class="ms-2 bg-danger text-white p-1 rounded-pill">-19%</small>
-                                </p>
-                            </div>
-                            <p class=" text-center pt-2">
-                                <small class=" fs-5 text-danger fw-bolder" th:text="${#numbers.formatDecimal(product.getPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></small>
-                            </p>
-                            <div class="text-center" >
-                                <button type="button"
-                                        class="button_add  btn btn-warning  text-light fw-bolder rounded-pill"
-                                        style="">Thêm vào giỏ hàng
-                                </button>
-
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            </div>
+                    <span>Sắp xếp theo</span>
+                    <select onchange="this.form.submit()" class="form-select" name="priceSort"
+                            style="border-radius: 4px;">
+                        <option value="">Giá</option>
+                        <option value="asc" th:selected="${sort == 'asc'}">Giá: thấp -&gt; cao</option>
+                        <option value="desc" th:selected="${sort == 'desc'}">Giá: cao -&gt; thấp</option>
+                    </select>
+                </div>
+            </form>
         </div>
     </div>
 </div>
+<div class="container mt-3 mb-4">
+    <div class="row row-cols-3 g-3" id="productList">
+        <div class="col product_hover" th:each="product : ${productPage.content}" style="line-height: 1.5rem;">
+            <a th:href="@{'/collections/product=' + ${product.getId()} + '&category=' + ${product.category.getId()}}" class="card border border-light" style="cursor: pointer">
+                <!-- Hiển thị hình ảnh sản phẩm -->
+                <div th:each="image, limit : ${product.getImages()}" th:if="${limit.index} &lt; 1">
+                    <img th:src="@{'/uploads/products/' + ${image.getName()}}" th:alt="${image.getName()}" th:class="${limit.index % 2 == 0 ? '' : 'img-fluid'}" style="aspect-ratio: 1 / 1;">
+                </div>
+                <div class="card-body">
+                    <h6 class="card-title fw-bolder text-center fs-4" th:text="${product.getName()}"></h6>
+                    <!-- Hiển thị thông tin sản phẩm -->
+                    <div class="cardthongtin pt-2">
+                        <div class="row">
+                            <div class="col-5 text-end">
+                                <small class="text-secondary text-opacity-75">CPU</small><br>
+                                <small class="text-secondary text-opacity-75">RAM</small><br>
+                                <small class="text-secondary text-opacity-75">Ổ cứng</small><br>
+                                <small class="text-secondary text-opacity-75">Card</small><br>
+                                <small class="text-secondary text-opacity-75">M.Hình</small>
+                            </div>
 
-
-
-
-
+                            <div class="col-7 text-star">
+                                <small class="text-secondary text-opacity-75">i5-12500KH</small><br>
+                                <small class="text-secondary text-opacity-75">16GB DDR4</small><br>
+                                <small class="text-secondary text-opacity-75">SSD 512GB</small><br>
+                                <small class="text-secondary text-opacity-75">Nvidia RTX 8050Ti</small><br>
+                                <small class="text-secondary text-opacity-75">15.6' FUll HD 144Hz</small>
+                            </div>
+                        </div>
+                        <div class="ps-5 text-center pt-4">
+                            <!-- Hiển thị giá sản phẩm -->
+                            <p class="card-text d-inline ">
+                                <small class="text-body-secondary text-decoration-line-through" th:text="${#numbers.formatDecimal(product.getOldPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></small>
+                            </p>
+                            <p class="d-inline">
+                                <small class="ms-2 bg-danger text-white p-1 rounded-pill">-19%</small>
+                            </p>
+                        </div>
+                        <!-- Hiển thị giá sản phẩm -->
+                        <p class="text-center pt-2">
+                            <small class="fs-5 text-danger fw-bolder" th:text="${#numbers.formatDecimal(product.getPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></small>
+                        </p>
+                        <!-- Button Thêm vào giỏ hàng -->
+                        <div class="text-center">
+                            <button type="button" class="button_add btn btn-warning text-light fw-bolder rounded-pill" style="">Thêm vào giỏ hàng</button>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+    <!-- phân trang -->
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-center">
+            <li class="page-item" th:classappend="${productPage.first} ? 'disabled' : ''">
+                <a class="page-link" th:if="${filterCriteria.categoryId != null and !productPage.first}"
+                   th:href="@{/collections(page=${productPage.number - 1},
+                                     categoryId=${filterCriteria.categoryId},
+                                     priceSort=${filterCriteria.priceSort})}">Previous</a>
+            </li>
+            <li class="page-item" th:each="pageNumber : ${#numbers.sequence(0, productPage.totalPages - 1)}"
+                th:classappend="${pageNumber == productPage.number} ? 'active' : ''">
+                <a class="page-link" th:href="@{/collections(page=${pageNumber},
+                                       categoryId=${filterCriteria.categoryId},
+                                       priceSort=${filterCriteria.priceSort})}"
+                   th:text="${pageNumber + 1}"></a>
+            </li>
+            <li class="page-item" th:classappend="${productPage.last} ? 'disabled' : ''">
+                <a class="page-link" th:if="${filterCriteria.categoryId != null and !productPage.last}"
+                   th:href="@{/collections(page=${productPage.number + 1},
+                                     categoryId=${filterCriteria.categoryId},
+                                     priceSort=${filterCriteria.priceSort})}">Next</a>
+            </li>
+        </ul>
+    </nav>
+</div>
+<!-- Footer -->
+<footer th:replace="fragments/footer :: footer"></footer>
+<!-- Footer -->
 </body>
 </html>

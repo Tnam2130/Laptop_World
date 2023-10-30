@@ -21,7 +21,7 @@ public class Order {
     private String status;
     private BigDecimal discount;
     private BigDecimal total;
-    private Date createdAt;
+    private Date createdAt =new Date();
     private Date updatedAt;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)

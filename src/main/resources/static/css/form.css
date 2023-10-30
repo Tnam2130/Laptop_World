@@ -60,3 +60,19 @@
         transform: translateX(18%);
     }
 }
+.phone-container {
+    display: flex; /* Sử dụng flexbox để sắp xếp phần tử theo hàng ngang */
+    align-items: center; /* Căn giữa theo chiều dọc */
+}
+
+.readonly-input {
+    max-width: 3.5rem; /* Điều chỉnh kích thước của input readonly theo mong muốn */
+    border: none;
+}
+
+.phone-input {
+    flex: 1; /* Phần trường nhập số điện thoại chiếm phần lớn */
+}
+.order-user-detail--input{
+    line-height: 1.2rem;
+}

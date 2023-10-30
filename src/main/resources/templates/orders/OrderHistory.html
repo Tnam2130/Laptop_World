@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+</head>
+<body>
+<header th:replace="fragments/header :: header"></header>
+<div class="container" style="margin-top: 10rem;">
+    <div th:if="${#lists.isEmpty(orderList)}">
+        <h4 class="card-title mb-4">Lịch sử mua hàng</h4>
+        <p class="text-danger my-3">Bạn chưa mua sản phẩm nào.</p>
+        <a class="btn btn-primary" th:href="@{/collections}">Tiếp tục mua sắm</a>
+    </div>
+    <div th:unless="${#lists.isEmpty(orderList)}">
+        <table class="table table-hover align-middle mb-0 bg-white">
+            <thead class="bg-light">
+            <tr>
+                <th class="fw-bold">Mã đơn hàng</th>
+                <th class="fw-bold">Trạng thái</th>
+                <th class="fw-bold">Ngày đặt hàng</th>
+                <th class="fw-bold">Tổng tiền</th>
+            </tr>
+            </thead>
+            <tbody th:each="order : ${orderList}">
+            <tr>
+                <td>
+                    <div class="d-flex align-items-center">
+                        <div class="ms-3">
+                            <p class="fw-bold mb-1"><span
+                                    th:text="'HD' + ${#dates.format(order.createdAt, 'ddMMyyHHmm')}"></span></p>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <p class="fw-normal mb-1 text-success"><span th:text="*{order.status}"></span></p>
+                </td>
+                <td>
+                <span class="rounded-pill d-inline"><span
+                        th:text="${#dates.format(order.createdAt, 'dd-MM-yyyy')}"></span></span>
+                </td>
+                <td><span class="mb-0 ms-2"
+                          th:text="${#numbers.formatDecimal(order.total, 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></span>
+                </td>
+                <td>
+                    <a th:href="@{'/order/order='+*{order.id}}" class="btn btn-link btn-sm btn-rounded">
+                        Xem
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

@@ -61,7 +61,9 @@ public class UserController {
             System.out.println("User not found!");
             return "error";
         }
-
+        if(existingUser.getUserDetailEmbeddable() == null){
+            model.addAttribute("errorMessage", "Bạn cần phải nhập đầy đủ thông tin!!!");
+        }
         model.addAttribute("user", existingUser);
         model.addAttribute("title","Trang cá nhân");
         return "users/profile";

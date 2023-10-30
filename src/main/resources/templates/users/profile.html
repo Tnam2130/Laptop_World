@@ -8,12 +8,15 @@
     <div class="row ">
         <div class="col-md-3"></div>
         <div class="col-md-6 mt-4">
+            <th:block th:if="${errorMessage != null}">
+                <div class="alert alert-danger" th:text="${errorMessage}"></div>
+            </th:block>
             <h3 class="text-center mb-2">Trang cá nhân</h3>
-            <form th:object="${user}" th:action="@{/user/profile}" method="post" >
-                <input type="hidden" th:field="*{id}" />
+            <form th:object="${user}" th:action="@{/user/profile}" method="post">
+                <input type="hidden" th:field="*{id}"/>
                 <div class="form-floating mb-3">
                     <input th:field="*{userDetailEmbeddable.firstName}" type="text" class="form-control"
-                           id="firstname" placeholder="Họ"  required>
+                           id="firstname" placeholder="Họ" required>
                     <label for="firstname" class="form-label fs-6">Họ</label>
                 </div>
                 <div class="form-floating mb-3">
@@ -36,16 +39,33 @@
                            id="address" placeholder="Địa chỉ" required>
                     <label for="address" class="form-label fs-6">Địa chỉ</label>
                 </div>
-                <div class="form-floating mb-3">
-                    <input th:field="*{userDetailEmbeddable.phoneNumber}" type="text" class="form-control"
-                           id="phonenumber" placeholder="Số điện thoại" required>
-                    <label for="phonenumber" class="form-label fs-6">Số điện thoại</label>
+                <div class="phone-container">
+                    <input type="text" value="+84" readonly="readonly" class="form-control readonly-input"/>
+                    <div class="form-floating mb-3 w-100">
+                        <input th:field="*{userDetailEmbeddable.phoneNumber}" type="text" class="form-control phone-input"
+                               id="phonenumber" placeholder="Số điện thoại" onblur="validateNumberInput(this)" required>
+                        <label for="phonenumber" class="form-label fs-6">Số điện thoại</label>
+<!--                        <p th:if="${#fields.hasErrors('userDetailEmbeddable.phoneNumber')}" th:errors="*{userDetailEmbeddable.phoneNumber}" class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số !!!</p>-->
+                    </div>
                 </div>
-                <button class="btn btn-primary w-25 mt-4" type="submit">Cập nhật</button>
+                <button class="btn btn-primary w-25 mt-4" type="submit" onclick="UpdateSuccessAlert()">Cập nhật</button>
             </form>
         </div>
         <div class="col-md-3"></div>
     </div>
 </div>
 </body>
+<script th:inline="javascript">
+    function validateNumberInput(input) {
+        const regex = /[0-9]{10}$/;
+        if (!regex.test(input.value)) {
+            alert("Vui lòng nhập số đúng kiểu số điện thoại (VietNam +84).");
+            input.value = ""; // Xóa nếu không hợp lệ
+        }
+    }
+    function UpdateSuccessAlert(){
+        alert("Cập nhật thành công!.")
+    }
+</script>
+
 </html>
