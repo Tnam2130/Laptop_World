@@ -6,8 +6,7 @@ import com.main.laptop_world.Entity.User;
 import com.main.laptop_world.Repository.RoleRepository;
 import com.main.laptop_world.Repository.UserRepository;
 import com.main.laptop_world.Services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
+import org.springframework.beans.factory.annotation.Autowired;;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
