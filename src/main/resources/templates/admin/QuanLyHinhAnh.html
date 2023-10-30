@@ -15,22 +15,9 @@
 <section >
   <h3 class="page-header">Quản lý Hình ảnh</h3>
 
-  <form th:action="@{/admin/images/add}" enctype="multipart/form-data" method="post" >
-    <input type="hidden" name="id" >
-    <input type="text" id="name" name="name" placeholder="Name" >
-    <input type="file" id="url" name="url"  th:object="${productImages}">
-
-    <select class="form-control" id="productlist" >
-      <option value="">Products</option>
-      <option th:each="productlist : ${productList}" th:value="${productlist.getId()}" th:text="${productlist.getName()}"></option>
-    </select>
-
-    <input class="btn btn-primary m-2" type="submit" value="Save">
-  </form>
-
   <table class="table table-hover nhanHieuTable">
     <thead>
-    <tr>
+    <tr class="active">
       <th>ID</th>
       <th>Image Name</th>
       <th>Product</th>
@@ -38,12 +25,13 @@
     </tr>
     </thead>
     <tbody th:each="image: ${productImages}">
-    <td th:text="${image.getId()}"></td>
-    <td th:text="${image.getName()}"></td>
-    <td th:text="${image.getProducts().getName()}"></td>
+    <tr class="info">
+      <td class="text-center" th:text="${image.getId()}"></td>
+      <td class="text-center" th:text="${image.getName()}"></td>
+      <td class="text-center" th:text="${image.getProducts().getName()}"></td>
+      <td><a th:href="@{'/admin/images/delete/' + ${image.getId()}}">Delete</a></td>
+    </tr>
 
-
-    <td><a th:href="@{'/admin/images/delete/' + ${image.getId()}}">Delete</a></td>
     </tbody>
 
   </table>
@@ -54,40 +42,7 @@
 <div class="row col-md-6">
   <form class="nhanHieuForm" id="form">
 
-    <div>
-      <div class="modal fade" id="nhanHieuModal" tabindex="-1"
-           role="dialog" aria-labelledby="exampleModalLabel"
-           aria-hidden="true" data-backdrop="static" data-keyboard="false">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Tạo mới/Cập nhật Nhãn hiệu</h5>
-              <button type="button" class="close" data-dismiss="modal"
-                      aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <div class="form-group">
-                <label >ID:</label> <input type="text"
-                                                   class="form-control" id="id" />
-              </div>
-              <div class="form-group">
-                <label >Tên hãng sản xuất:</label> <input type="text"
-                                                                    class="form-control" id="tenHangSanXuat" placeholder="Nhập vào tên hãng sản xuất" required />
-              </div>
-
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary"
-                        data-dismiss="modal">Hủy</button>
-                <input class="btn btn-primary" id="btnSubmit" type="button"
-                       value="Xác nhận"/>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+    
   </form>
 </div>
 </div>

@@ -99,4 +99,16 @@ public class ProductServiceImpl implements ProductService {
             return repository.findAll();
         }
     }
+
+    @Override
+    public void updateProduct(Products products) {
+        products.setName(products.getName());
+        products.setBrand(products.getBrand());
+        products.setPrice(products.getPrice());
+        products.setOldPrice(products.getOldPrice());
+        products.setShortDesc(products.getShortDesc());
+        products.setDiscount(products.getDiscount());
+        products.setStatus(products.getStatus());
+        repository.save(products);
+    }
 }

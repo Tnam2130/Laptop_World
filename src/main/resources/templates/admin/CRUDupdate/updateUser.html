@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="ISO-8859-1">
+  <title>Quản lý danh mục </title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+<div th:replace="admin/layout/header"></div>
+<!--content -->
+<div th:replace="admin/layout/home"></div>
+<section>
+  <div >
+    <h3 class="text-center page-header">UPDATE DANH MỤC</h3>
+    <div class="container">
+      <label for="username"></label>
+      <form th:action="@{/admin/accounts/update}" th:object="${users}" method="post">
+        <div class="row">
+          <input type="hidden" name="id"  th:field="*{id}">
+          <div style="margin-bottom: 20px" class="col-md-12">
+            <input class="form-control" type="text" disabled id="id" name="id"  th:field="*{id}">
+          </div>
+          <div style="margin-bottom: 20px" class="col-md-12">
+            <input class="form-control" type="text" id="username" name="username" placeholder="Category Name" th:field="*{username}">
+          </div>
+          <div style="margin-bottom: 20px" class="col-md-12">
+            <input class="form-control" type="text" id="password" name="password" placeholder="Category Name" th:field="*{password}">
+          </div>
+<!--          <div style="margin-bottom: 20px" class="col-md-6">-->
+<!--          <select class="form-control my-1" name="status" th:field="*{isActive()}" >-->
+<!--            <option th:value="1">True</option>-->
+<!--            <option th:value="0">False</option>-->
+<!--          </select>-->
+<!--          </div>-->
+        </div>
+
+        <div class=" text-center">
+          <button type="submit">
+            Update
+          </button>
+          <button onclick="cancelForm()" type="button">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <ul class="pagination">
+    </ul>
+  </div>
+</section>
+
+
+
+
+
+<div th:replace="admin/layout/footer"></div>
+<!--<script th:src="@{/admin/js/danhMucAjax.js}"></script>-->
+<script type="text/javascript">
+  function cancelForm(){
+    window.location = "[[@{/admin/accounts}]]";
+  }
+</script>
+</body>
+</html>

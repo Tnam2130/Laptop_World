@@ -1,6 +1,7 @@
 package com.main.laptop_world.Services.impl;
 
 import com.main.laptop_world.Entity.ProductImages;
+import com.main.laptop_world.Entity.Products;
 import com.main.laptop_world.Repository.ProductImagesRepository;
 import com.main.laptop_world.Services.ProductImgService;
 import org.springframework.stereotype.Service;
@@ -50,4 +51,6 @@ public class ProductImgServiceImpl implements ProductImgService {
     public void deleteImage(ProductImages productImages) {
         this.repository.delete(productImages);
     }
+
+
 }

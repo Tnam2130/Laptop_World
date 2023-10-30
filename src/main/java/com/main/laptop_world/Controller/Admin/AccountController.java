@@ -23,29 +23,28 @@ public class AccountController {
     }
     @GetMapping("/admin/accounts")
     public String quanLyTaiKhoanPage(Model model) {
-        List<User> user = userService.findAllUser();
-        model.addAttribute("user", user);
+        List<User> users = userService.findAllUser();
+        model.addAttribute("user", users);
         return "admin/QuanLyTaiKhoan";
     }
 
 
     @GetMapping(value = "/admin/accounts/delete/{id}")
     public String delete(@PathVariable Long id) {
-        userService.findById(id);
+        userService.deleteUser(id);
         return "redirect:/admin/accounts";
     }
-    @GetMapping(value = "/admin/accounts/edit/{id}")
-    public String edit(@PathVariable Long id, Model model) {
-        User user = userService.findById(id);
-        model.addAttribute("user", user);
-
-        return "admin/QuanLyTaiKhoan";
+    @GetMapping(value = "/admin/accounts/update/id={id}")
+    public String edit(@PathVariable Long id, Model model, @ModelAttribute User user) {
+        User users = userService.findById(id);
+        model.addAttribute("users", users);
+        return "admin/CRUDupdate/updateUser";
     }
 
-    @PostMapping(value = "/admin/accounts/edit/{id}")
-    public String update(@PathVariable Long id) {
-        User user  =userService.findById(id);
-        userService.save(user);
+    @PostMapping(value = "/admin/accounts/update")
+    public String update(User user) {
+        userService.updateUser(user);
+
         return "redirect:/admin/accounts";
     }
 
@@ -56,10 +55,10 @@ public class AccountController {
         return "admin/QuanLyTaiKhoan";
     }
 
-//    @PostMapping(value ="/admin/accounts/add")
-//    public String save(@Valid @ModelAttribute("user") User user,
-//                       BindingResult result, Model model) {
-//        userRepository.save(user);
-//        return "redirect:/admin/accounts";
-//    }
+    @PostMapping(value ="/admin/accounts/add")
+    public String save(@Valid @ModelAttribute("user") User user,
+                       BindingResult result, Model model) {
+        userService.save(user);
+        return "redirect:/admin/accounts";
+    }
 }

@@ -62,12 +62,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(User user) {
-        if (user != null) {
-            System.out.println("Update thanh cong!!!" + user.getId());
+
+            user.setUsername(user.getUsername());
+            user.setPassword(user.getPassword());
+//            user.setActive(user.isActive());
             userRepository.save(user);
-        } else {
-            System.out.println("User not found" + user);
-        }
 
     }
 
@@ -79,6 +78,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findById(Long id) {
         return userRepository.findById(id).orElse(null);
+    }
+
+    @Override
+    public void deleteUser(Long id) {
+        this.userRepository.deleteById(id);
     }
 
     @Override

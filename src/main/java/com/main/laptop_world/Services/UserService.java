@@ -15,6 +15,7 @@ public interface UserService {
     void updateUser(User user);
     User findByUsername(String username);
     User findById(Long id);
+    void deleteUser(Long id);
     List<UserDTO> findAllUsers();
     List<User> findAllUser();
     User findByEmail(String email);

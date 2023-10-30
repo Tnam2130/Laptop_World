@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -31,10 +32,9 @@ public class CRUDCategoryController {
         return "admin/QuanLyDanhMuc";
     }
 
-    @PostMapping("/admin/category/add")
-    public String addCate(@ModelAttribute Category category, String mainName, Model model, BindingResult result) {
-
-
+    @GetMapping("/admin/category/add")
+    public String addCategory(@ModelAttribute("category") Category category, Model model, BindingResult result, String mainName) {
+//        model.addAttribute("category", category);
         if (category.getMainName() == null || category.getMainName().isEmpty()) {
             List<Category> categories = categoryService.findAllCategory();
             model.addAttribute("categories", categories);
@@ -49,10 +49,22 @@ public class CRUDCategoryController {
                     "Category name không được trùng!");
             return "admin/QuanLyDanhMuc";
         }
-        categoryService.saveCategory(category);
+        categoryRepository.save(category);
         return "redirect:/admin/category";
     }
 
+
+    @GetMapping("/admin/category/update/id={id}")
+    public String getUpdateCategory(@PathVariable("id") Long id, Model model,RedirectAttributes ra, @ModelAttribute Category category) {
+        Category categories = categoryService.getCategoryById(id);
+        model.addAttribute("categories",categories);
+        return "admin/CRUDupdate/updateCategory";
+    }
+    @PostMapping("/admin/category/update")
+    public String updateCategory(Category category) {
+        categoryService.updateCategory(category);
+        return "redirect:/admin/category";
+    }
     @GetMapping(value = "/admin/category/delete/{id}")
     public String delete(@PathVariable Long id) {
         categoryService.deleteCategory(id);
