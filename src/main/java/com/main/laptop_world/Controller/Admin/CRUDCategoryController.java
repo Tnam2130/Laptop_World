@@ -2,12 +2,14 @@ package com.main.laptop_world.Controller.Admin;
 
 import com.main.laptop_world.Entity.Category;
 
+import com.main.laptop_world.Entity.Products;
 import com.main.laptop_world.Repository.CategoryRepository;
 import com.main.laptop_world.Services.CategoryService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -31,28 +33,47 @@ public class CRUDCategoryController {
         return "admin/QuanLyDanhMuc";
     }
 
-    @PostMapping("/admin/category/add")
-    public String addCate(@ModelAttribute Category category, String mainName, Model model, BindingResult result) {
+    @GetMapping("/admin/category/add")
+    public String addCategory(@ModelAttribute Category category, Model model) {
 
+        model.addAttribute("pageTitle", "New Category");
+        model.addAttribute("category", new Category());
+        return "admin/saveCategory";
+    }
 
+    @PostMapping("/admin/category/save")
+    public String saveUser(Category category, RedirectAttributes ra, String mainName, Model model, BindingResult result) {
         if (category.getMainName() == null || category.getMainName().isEmpty()) {
             List<Category> categories = categoryService.findAllCategory();
             model.addAttribute("categories", categories);
             result.rejectValue("mainName", "error.category",
                     "Không được để trống category name!");
-            return "admin/QuanLyDanhMuc";
+            return "admin/saveCategory";
         }
         if (categoryRepository.findByName(mainName).isPresent()) {
             List<Category> categories = categoryService.findAllCategory();
             model.addAttribute("categories", categories);
             result.rejectValue("mainName", "error.category",
                     "Category name không được trùng!");
-            return "admin/QuanLyDanhMuc";
-        }
-        categoryService.saveCategory(category);
+            return "admin/saveCategory";
+        } else
+            categoryService.updateCategory(category);
+        ra.addFlashAttribute("message", "Save successfully");
         return "redirect:/admin/category";
     }
-
+    @GetMapping("/admin/category/update/id={id}")
+    public String getUpdateCategory(@PathVariable("id") Long id, Model model, @ModelAttribute Category category) {
+        Category categories = categoryService.getCategoryById(id);
+        model.addAttribute("categories",categories);
+        return "admin/saveCategory";
+    }
+    @PostMapping("/admin/category/update/id={id}")
+    public String updateCategory(@PathVariable("id") Long id, @ModelAttribute Category category) {
+        Category categories = categoryService.getCategoryById(id);
+        System.out.println(categories);
+        categoryService.updateCategory(categories);
+        return "admin/saveCategory";
+    }
     @GetMapping(value = "/admin/category/delete/{id}")
     public String delete(@PathVariable Long id) {
         categoryService.deleteCategory(id);

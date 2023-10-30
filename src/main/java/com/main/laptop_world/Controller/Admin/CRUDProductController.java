@@ -7,6 +7,7 @@ import com.main.laptop_world.Repository.ProductVersionRepository;
 import com.main.laptop_world.Services.CategoryService;
 import com.main.laptop_world.Services.ProductImgService;
 import com.main.laptop_world.Services.ProductService;
+import com.main.laptop_world.Services.ProductVersionService;
 import com.main.laptop_world.util.FileUploadUtil;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -29,6 +30,7 @@ public class CRUDProductController {
     ProductRepository productRepository;
     ProductVersionRepository productVersionRepository;
     ProductColorRepository productColorRepository;
+    ProductVersionService productVersionService;
 
     public CRUDProductController(
             ProductService productService,
@@ -43,6 +45,7 @@ public class CRUDProductController {
         this.imgService = imgService;
         this.productVersionRepository = productVersionRepository;
         this.productColorRepository = productColorRepository;
+
     }
 
     @RequestMapping("/admin/products")
@@ -137,6 +140,14 @@ public class CRUDProductController {
         }
         productVersionRepository.save(productVersion);
         return "redirect:/admin/productsVersion";
+    }
+
+    @RequestMapping(value = "/admin/productsVersion/update/{id}")
+    public String updateVersion(@PathVariable Long id, Model model) {
+        ProductVersion productVersion = productVersionService.getProductById(id);
+        model.addAttribute("version", productVersion);
+        productVersionRepository.save(productVersion);
+        return "redirect:/admin/products";
     }
 
     @GetMapping(value = "/admin/productsVersion/delete/{id}")

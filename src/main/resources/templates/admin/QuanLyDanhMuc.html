@@ -14,17 +14,9 @@
 <section>
   <div >
     <h3 class="page-header">Quản lý Danh Mục</h3>
-    <div >
-      <label for="mainName"></label>
-      <form th:action="@{/admin/category/add}" th:object="${category}" method="post" >
-        <input type="hidden" name="id" >
-        <input type="text" id="mainName" name="mainName" placeholder="Category Name" th:field="*{mainName}">
-        <p th:errors="*{mainName}" class="text-danger fs-6 mb-3"
-           th:if="${#fields.hasErrors('mainName')}"></p>
-        <input type="text" id="subName" name="subName" placeholder="sub Category" th:field="*{categoryEmbeddable.subName}">
-
-        <input class="btn btn-primary m-2" type="submit" value="Save">
-      </form>
+    <div class="m-4"><a class="h3 " style="text-decoration: none; " th:href="@{/admin/category/add}">New Category</a></div>
+    <div th:if="${message}" class="alert alert-success text-center">
+      [[${message}]]
     </div>
     <div>
       <table class="table table-hover nhanHieuTable">
@@ -33,15 +25,15 @@
           <th>Mã</th>
           <th>Kiểu máy</th>
 <!--          <th>Tên Hãng</th>-->
+          <th></th>
         </tr>
         </thead>
         <tbody th:each="category: ${categories}">
         <td class="text-center" th:text="*{category.id}"/>
         <td class="text-center" th:text="*{category.mainName}"/>
 <!--        <td class="text-center" th:text="*{category.categoryEmbeddable.subName}"/>-->
-<!--                <a th:href="@{'/admin/category/edit/' + *{category.getId()}}">Edit</a>-->
-
-        <td><a th:href="@{'/admin/category/delete/' + *{category.getId()}}">Delete</a></td>
+        <td><a th:href="@{'/admin/category/update/id=' + *{category.id}}">update</a>
+          <a th:href="@{'/admin/category/delete/' + *{category.getId()}}">Delete</a></td>
         </tbody>
       </table>
     </div>

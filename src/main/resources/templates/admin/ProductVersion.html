@@ -44,6 +44,7 @@
     <td th:text="${version.getName()}"></td>
 <!--    <td th:text="${version.getProducts().getName()}"></td>-->
 
+    <td><a th:href="@{'/admin/productsVersion/update/' + ${version.getId()}}">Delete</a></td>
 
     <td><a th:href="@{'/admin/productsVersion/delete/' + ${version.getId()}}">Delete</a></td>
     </tbody>
