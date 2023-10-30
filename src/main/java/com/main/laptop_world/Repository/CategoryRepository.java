@@ -17,7 +17,5 @@ public interface CategoryRepository extends JpaRepository<Category, Long> {
 
 
 
-//    @Query("UPDATE Category SET mainName = :name, categoryEmbeddable = :subName WHERE id = :id")
-//    int updateCategory(@Param("mainName") String name, @Param("subName") String subName, @Param("id") Long id);
 
 }

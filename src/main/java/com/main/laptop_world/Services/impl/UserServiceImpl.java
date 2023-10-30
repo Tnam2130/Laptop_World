@@ -82,6 +82,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void deleteUser(Long id) {
+        this.userRepository.deleteById(id);
+    }
+
+    @Override
     public List<UserDTO> findAllUsers() {
         List<User> User = userRepository.findAll();
         return User.stream().map(this::convertEntityToDto)

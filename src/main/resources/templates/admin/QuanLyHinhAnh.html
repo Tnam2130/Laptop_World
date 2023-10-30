@@ -17,7 +17,7 @@
 
   <table class="table table-hover nhanHieuTable">
     <thead>
-    <tr>
+    <tr class="active">
       <th>ID</th>
       <th>Image Name</th>
       <th>Product</th>
@@ -25,12 +25,13 @@
     </tr>
     </thead>
     <tbody th:each="image: ${productImages}">
-    <td th:text="${image.getId()}"></td>
-    <td th:text="${image.getName()}"></td>
-    <td th:text="${image.getProducts().getName()}"></td>
+    <tr class="info">
+      <td th:text="${image.getId()}"></td>
+      <td th:text="${image.getName()}"></td>
+      <td th:text="${image.getProducts().getName()}"></td>
+      <td><a th:href="@{'/admin/images/delete/' + ${image.getId()}}">Delete</a></td>
+    </tr>
 
-
-    <td><a th:href="@{'/admin/images/delete/' + ${image.getId()}}">Delete</a></td>
     </tbody>
 
   </table>

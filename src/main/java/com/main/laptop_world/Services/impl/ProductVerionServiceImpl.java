@@ -20,4 +20,9 @@ public class ProductVerionServiceImpl implements ProductVersionService {
         }
         return productVersion;
     }
+
+    @Override
+    public void updateProduct(ProductVersion productVersion) {
+        productVersion.setName(productVersion.getName());
+    }
 }

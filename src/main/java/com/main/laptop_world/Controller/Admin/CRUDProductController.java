@@ -4,10 +4,7 @@ import com.main.laptop_world.Entity.*;
 import com.main.laptop_world.Repository.ProductColorRepository;
 import com.main.laptop_world.Repository.ProductRepository;
 import com.main.laptop_world.Repository.ProductVersionRepository;
-import com.main.laptop_world.Services.CategoryService;
-import com.main.laptop_world.Services.ProductImgService;
-import com.main.laptop_world.Services.ProductService;
-import com.main.laptop_world.Services.ProductVersionService;
+import com.main.laptop_world.Services.*;
 import com.main.laptop_world.util.FileUploadUtil;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -27,6 +24,7 @@ public class CRUDProductController {
     public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/src/main/resources/static/uploads/products";
     ProductService productService;
     CategoryService categoryService;
+    ProductColorService productColorService;
     ProductImgService imgService;
     ProductRepository productRepository;
     ProductVersionRepository productVersionRepository;
@@ -41,6 +39,7 @@ public class CRUDProductController {
             ProductVersionRepository productVersionRepository,
             ProductColorRepository productColorRepository) {
         this.productRepository = productRepository;
+
         this.productService = productService;
         this.categoryService = categoryService;
         this.imgService = imgService;
@@ -148,12 +147,16 @@ public class CRUDProductController {
         return "redirect:/admin/productsVersion";
     }
 
-    @RequestMapping(value = "/admin/productsVersion/update/{id}")
-    public String updateVersion(@PathVariable Long id, Model model) {
-        ProductVersion productVersion = productVersionService.getProductById(id);
-        model.addAttribute("version", productVersion);
-        productVersionRepository.save(productVersion);
-        return "admin/updateVersion";
+    @GetMapping("/admin/productsVersion/update/id={id}")
+    public String getUpdateProductVersion(@PathVariable("id") Long id, Model model, RedirectAttributes ra, @ModelAttribute ProductVersion productVersion) {
+        ProductVersion version = productVersionService.getProductById(id);
+        model.addAttribute("version",version);
+        return "admin/CRUDupdate/updateVersion";
+    }
+    @PostMapping("/admin/productsVersion/update")
+    public String updateProductVersion(ProductVersion products) {
+        productVersionService.updateProduct(products);
+        return "redirect:/admin/productsVersion";
     }
 
     @GetMapping(value = "/admin/productsVersion/delete/{id}")
@@ -197,6 +200,17 @@ public class CRUDProductController {
         return "redirect:/admin/productsColor";
     }
 
+    @GetMapping("/admin/productsColor/update/id={id}")
+    public String getUpdateColor(@PathVariable("id") Long id, Model model, RedirectAttributes ra, @ModelAttribute ProductColor colors) {
+        ProductColor productColor = productColorService.getColorById(id);
+        model.addAttribute("color",productColor);
+        return "admin/CRUDupdate/updateColor";
+    }
+    @PostMapping("/admin/productsColor/update")
+    public String updateColor(ProductColor productColor) {
+        productColorService.updateColor(productColor);
+        return "redirect:/admin/productsColor";
+    }
     @GetMapping(value = "/admin/productsColor/delete/{id}")
     public String deleteColor(@PathVariable Long id) {
 

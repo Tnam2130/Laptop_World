@@ -7,7 +7,6 @@ public interface ProductService {
     List<Products> findAllProduct();
     List<Products> findAllProduct(Specification<Products> spec);
     public Products getProductById(Long id);
-
     void saveProduct(Products product);
     void deleteProduct(Products products);
     List<Products> productFilter(Long id, String priceSort);

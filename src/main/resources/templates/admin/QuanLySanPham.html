@@ -19,35 +19,86 @@
 
 <section >
   <h3 class="page-header">Quản lý Sản Phẩm</h3>
+  <div class="container">
   <form th:action="@{/admin/products/add}" th:object="${product}" enctype="multipart/form-data" method="post" >
     <input type="hidden" name="id" >
-    <label for="name"></label>
-    <input type="text" id="name" name="name" placeholder="Name" th:field="*{name}">
-    <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger fs-6 mb-3">Không được để trống tên sản phẩm!</p>
-    <input type="text" id="brand" name="brand" placeholder="Brand" th:field="*{brand}">
-    <input type="text" id="price" name="price" placeholder="Price" th:field="*{price}" oninput="validateNumberInput(this)">
-    <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
-    <input type="text" id="oldPrice" name="oldPrice" placeholder="Old Price" th:field="*{oldPrice}" oninput="validateNumberInput(this)">
-    <p th:if="${#fields.hasErrors('oldPrice')}" th:errors="*{oldPrice}" class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
-    <input type="text" id="shortDesc" name="shortDesc" placeholder="ShortDesc" th:field="*{shortDesc}">
-    <input type="text" id="discount" name="discount" placeholder="DisCount" th:field="*{discount}" oninput="validateNumberInput(this)">
-    <p th:if="${#fields.hasErrors('discount')}" th:errors="*{discount}" class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
-    <select class="form-control my-1" name="status" th:field="*{status}" style="max-width: 180px">
-      <option th:value="1">Hoạt động</option>
-      <option th:value="0">Hủy</option>
-    </select>
-    <input type="file" id="files" multiple="multiple" name="files"  accept="image/png, image/jpeg">
-    <select class="form-control" id="category" th:field="*{category}" style="max-width: 180px">
-      <option value="" th:if="${selectedValue}" th:disabled="disabled">Danh mục</option>
-      <option th:each="category : ${categories}" th:value="${category.getId()}" th:text="${category.getMainName()}"></option>
-    </select>
-    <input class="btn btn-primary m-2" type="submit" value="Save">
-  </form>
+    <div class="row">
+      <div class="col-md-6" style="margin-bottom: 20px">
+        <div class="input-container">
+          <input class="form-control" type="text" id="name" name="name" required="" th:field="*{name}">
+          <label for="name" class="label">Product Name</label>
+          <div class="underline"></div>
+        </div>
+        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger fs-6 mb-3">Không được để trống tên sản phẩm!</p>
+      </div>
 
+    <div class="col-md-6" style="margin-bottom: 20px">
+      <div class="input-container">
+        <input class="form-control" type="text" id="brand" name="brand" required="" th:field="*{brand}">
+        <label for="brand" class="label">Brand</label>
+        <div class="underline"></div>
+      </div>
+    </div>
+    <div class="col-md-6" style="margin-bottom: 20px">
+      <div class="input-container">
+        <input class="form-control" type="text" id="price" name="price" required="" th:field="*{price}" oninput="validateNumberInput(this)">
+        <label for="price" class="label">Price</label>
+        <div class="underline"></div>
+      </div>
+      <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
+    </div>
+    <div class="col-md-6" style="margin-bottom: 20px">
+      <div class="input-container">
+        <input class="form-control" type="text" id="oldPrice" name="oldPrice" required="" th:field="*{oldPrice}" oninput="validateNumberInput(this)">
+        <label for="oldPrice" class="label">Old Price</label>
+        <div class="underline"></div>
+      </div>
+      <p th:if="${#fields.hasErrors('oldPrice')}" th:errors="*{oldPrice}" class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
+    </div>
+    <div class="col-md-6" style="margin-bottom: 20px">
+      <div class="input-container">
+        <input class="form-control" type="text" id="shortDesc" name="shortDesc" required="" th:field="*{shortDesc}">
+        <label for="shortDesc" class="label">ShortDesc</label>
+        <div class="underline"></div>
+      </div>
+    </div>
+
+    <div class="col-md-6" style="margin-bottom: 20px">
+      <div class="input-container">
+        <input class="form-control" type="text" id="discount" name="discount" required="" th:field="*{discount}" oninput="validateNumberInput(this)">
+        <label for="discount" class="label">DisCount</label>
+        <div class="underline"></div>
+      </div>
+      <p th:if="${#fields.hasErrors('discount')}" th:errors="*{discount}" class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
+    </div>
+    <div class="col-md-6" style="margin-bottom: 20px;">
+      <select class="form-control" name="status" th:field="*{status}">
+        <option th:value="1">Hoạt động</option>
+        <option th:value="0">Hủy</option>
+      </select>
+    </div>
+    <div class="col-md-6" style="margin-bottom: 20px">
+      <select class="form-control" id="category" th:field="*{category}" >
+        <option value="" th:if="${selectedValue}" th:disabled="disabled">Danh mục</option>
+        <option th:each="category : ${categories}" th:value="${category.getId()}" th:text="${category.getMainName()}"></option>
+      </select>
+    </div>
+      <div class="col-md-12" style="margin-bottom: 20px">
+        <input class="form-control" type="file" id="files" multiple="multiple" name="files"  accept="image/png, image/jpeg">
+      </div>
+    </div>
+    <div class=" text-center">
+      <button type="submit">
+        Save
+      </button>
+    </div>
+
+  </form>
+  </div>
 <table class="table table-hover sanPhamTable "
        style="text-align: center;">
   <thead>
-  <tr>
+  <tr class="active">
     <th>ID</th>
     <th>Product Name</th>
     <th>Brand</th>
@@ -56,23 +107,23 @@
     <th>Short Description</th>
     <th>Discount</th>
     <th>Status</th>
-
-
     <th></th>
   </tr>
   </thead>
   <tbody th:each=" product: ${productList}">
-  <td class="text-center" th:text="*{product.id}"></td>
-  <td class="text-center" th:text="*{product.name}"></td>
-  <td class="text-center" th:text="*{product.brand}"></td>
-  <td class="text-center" th:text="${#numbers.formatDecimal(product.getPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></td>
-  <td class="text-center" th:text="${#numbers.formatDecimal(product.getOldPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></td>
-  <td class="text-center" th:text="*{product.shortDesc}"></td>
-  <td class="text-center" th:text="${product.discount}+' %'"></td>
-  <td class="text-center" th:text="*{product.status ? 'Hoạt động' : 'Hủy'}"></td>
-  <td><a th:href="@{'/admin/products/update/id=' + *{product.id}}">update</a>
+  <tr class="info">
+    <td class="text-center" th:text="*{product.id}"></td>
+    <td class="text-center" th:text="*{product.name}"></td>
+    <td class="text-center" th:text="*{product.brand}"></td>
+    <td class="text-center" th:text="${#numbers.formatDecimal(product.getPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></td>
+    <td class="text-center" th:text="${#numbers.formatDecimal(product.getOldPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></td>
+    <td class="text-center" th:text="*{product.shortDesc}"></td>
+    <td class="text-center" th:text="${product.discount}+' %'"></td>
+    <td class="text-center" th:text="*{product.status ? 'Hoạt động' : 'Hủy'}"></td>
+    <td><a th:href="@{'/admin/products/update/id=' + *{product.id}}">update</a>
+      <a th:href="@{'/admin/products/delete/' + *{product.id}}">Delete</a></td>
+  </tr>
 
-  <td><a th:href="@{'/admin/products/delete/' + *{product.id}}">Delete</a></td>
   </tbody>
 
 </table>

@@ -31,7 +31,7 @@ public class AccountController {
 
     @GetMapping(value = "/admin/accounts/delete/{id}")
     public String delete(@PathVariable Long id) {
-        userService.findById(id);
+        userService.deleteUser(id);
         return "redirect:/admin/accounts";
     }
     @GetMapping(value = "/admin/accounts/edit/{id}")
@@ -56,10 +56,10 @@ public class AccountController {
         return "admin/QuanLyTaiKhoan";
     }
 
-//    @PostMapping(value ="/admin/accounts/add")
-//    public String save(@Valid @ModelAttribute("user") User user,
-//                       BindingResult result, Model model) {
-//        userRepository.save(user);
-//        return "redirect:/admin/accounts";
-//    }
+    @PostMapping(value ="/admin/accounts/add")
+    public String save(@Valid @ModelAttribute("user") User user,
+                       BindingResult result, Model model) {
+        userService.save(user);
+        return "redirect:/admin/accounts";
+    }
 }

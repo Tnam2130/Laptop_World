@@ -15,41 +15,58 @@
 <section >
   <h3 class="page-header">Quản lý Color</h3>
   <label for="color"></label>
-  <form th:action="@{/admin/productsColor/add}" th:object="${colors}" method="post" >
-    <input type="hidden" name="id" >
-    <input type="text" id="color" name="color" placeholder="color" th:field="*{color}">
-    <p th:errors="*{color}" class="text-danger fs-6 mb-3"
-       th:if="${#fields.hasErrors('color')}"></p>
+  <div class="container">
 
+
+  <form th:action="@{/admin/productsColor/add}" th:object="${colors}" method="post" >
+    <div class="row">
+      <input type="hidden" name="id" >
+      <div class="col-md-12" style="margin-bottom: 20px">
+        <div class="input-container">
+          <input class="form-control" type="text" id="color" name="color" required="" th:field="*{color}">
+          <label for="color" class="label">Color Name</label>
+          <div class="underline"></div>
+        </div>
+        <p th:errors="*{color}" class="text-danger fs-6 mb-3"
+           th:if="${#fields.hasErrors('color')}"></p>
+      </div>
+
+    <div class="col-md-6" style="margin-bottom: 20px;">
     <select class="form-control" id="version" th:field="*{version}">
       <option value="">Version</option>
       <option th:each="version : ${versions}" th:value="${version.getId()}" th:text="${version.getName()}"></option>
     </select>
+    </div>
+    <div class="col-md-6" style="margin-bottom: 20px;">
     <select class="form-control" id="productlist" th:field="*{products}">
       <option value="">Products</option>
       <option th:each="productlist : ${productList}" th:value="${productlist.getId()}" th:text="${productlist.getName()}"></option>
     </select>
-
-    <input class="btn btn-primary m-2" type="submit" value="Save">
+  </div>
+    </div>
+    <div class=" text-center">
+      <button type="submit">
+        Save
+      </button>
+    </div>
   </form>
-
+  </div>
   <table class="table table-hover nhanHieuTable">
     <thead>
-    <tr>
+    <tr class="active">
       <th>ID</th>
       <th>Color</th>
-<!--      <th>Product</th>-->
       <th></th>
     </tr>
     </thead>
     <tbody th:each="color : ${color}">
-    <td th:text="${color.getId()}"></td>
-    <td th:text="${color.getColor()}"></td>
-<!--        <td th:text="${version.getProducts().getName()}"></td>-->
-<!--    <td th:text="${version.getVersion.getName()}"></td>-->
+    <tr class="info">
+      <td th:text="${color.getId()}"></td>
+      <td th:text="${color.getColor()}"></td>>
+      <td><a th:href="@{'/admin/productsColor/update/id=' + ${color.getId()}}">Update</a>
+        <a th:href="@{'/admin/productsColor/delete/' + ${color.getId()}}">Delete</a></td>
+    </tr>
 
-
-    <td><a th:href="@{'/admin/productsColor/delete/' + ${color.getId()}}">Delete</a></td>
     </tbody>
 
   </table>
