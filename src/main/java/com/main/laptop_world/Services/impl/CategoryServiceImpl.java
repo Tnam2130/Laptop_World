@@ -24,6 +24,12 @@ public class CategoryServiceImpl implements CategoryService {
         return categoryRepository.findBymainName(mainName);
     }
 
+    @Override
+    public void updateCategory(Category category) {
+        category.setMainName(category.getMainName());
+//        category.setCategoryEmbeddable(category.getCategoryEmbeddable());
+        categoryRepository.save(category);
+    }
 
 
     @Override

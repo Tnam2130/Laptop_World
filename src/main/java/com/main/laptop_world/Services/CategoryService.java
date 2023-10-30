@@ -14,4 +14,5 @@ public interface CategoryService {
     void deleteCategory(Long id);
     Category findBymainName(String mainName);
 
+    void updateCategory(Category category);
 }
