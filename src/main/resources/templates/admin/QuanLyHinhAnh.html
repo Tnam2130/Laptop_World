@@ -26,9 +26,9 @@
     </thead>
     <tbody th:each="image: ${productImages}">
     <tr class="info">
-      <td th:text="${image.getId()}"></td>
-      <td th:text="${image.getName()}"></td>
-      <td th:text="${image.getProducts().getName()}"></td>
+      <td class="text-center" th:text="${image.getId()}"></td>
+      <td class="text-center" th:text="${image.getName()}"></td>
+      <td class="text-center" th:text="${image.getProducts().getName()}"></td>
       <td><a th:href="@{'/admin/images/delete/' + ${image.getId()}}">Delete</a></td>
     </tr>
 

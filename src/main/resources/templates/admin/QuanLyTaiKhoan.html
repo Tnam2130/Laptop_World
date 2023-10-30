@@ -17,7 +17,7 @@
 <div class="container">
 
 
-  <form th:action="@{/admin/accounts/add}" method="post" >
+  <form th:action="@{/admin/accounts/add}"  method="post" >
     <div class="row">
       <div class="col-md-10" style="margin-bottom: 20px">
         <div class="input-container">
@@ -62,14 +62,15 @@
     </tr>
 
     </thead>
-    <tbody th:each="user: ${user}">
+    <tbody th:each="users: ${user}">
     <tr class="info">
-      <td>[[${user.id}]]</td>
-      <td>[[${user.username}]]</td>
-      <td>[[${user.password}]]</td>
-      <td>[[${user.isActive}]]</td>
+      <td class="text-center" th:text="${users.id}"></td>
+      <td class="text-center" th:text="${users.username}"></td>
+      <td class="text-center" th:text="${users.password}"></td>
+      <td class="text-center" th:text="${users.isActive}"></td>
 
-      <td><a th:href="@{'/admin/accounts/delete/' + ${user.id}}">Delete</a></td>
+      <td><a th:href="@{'/admin/accounts/update/id=' + ${users.id}}">update</a>
+        <a th:href="@{'/admin/accounts/delete/' + ${users.id}}">Delete</a></td>
     </tr>
 
     </tbody>

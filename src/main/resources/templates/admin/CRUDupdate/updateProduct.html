@@ -45,7 +45,6 @@
           <p th:if="${#fields.hasErrors('discount')}" th:errors="*{discount}" class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
         </div>
         <div style="margin-bottom: 20px" class="col-md-6">
-
         <select class="form-control my-1" name="status" th:field="*{status}" >
           <option th:value="1">Hoạt động</option>
           <option th:value="0">Hủy</option>

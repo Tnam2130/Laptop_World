@@ -61,8 +61,8 @@
     </thead>
     <tbody th:each="color : ${color}">
     <tr class="info">
-      <td th:text="${color.getId()}"></td>
-      <td th:text="${color.getColor()}"></td>>
+      <td class="text-center" th:text="${color.getId()}"></td>
+      <td class="text-center" th:text="${color.getColor()}"></td>>
       <td><a th:href="@{'/admin/productsColor/update/id=' + ${color.getId()}}">Update</a>
         <a th:href="@{'/admin/productsColor/delete/' + ${color.getId()}}">Delete</a></td>
     </tr>

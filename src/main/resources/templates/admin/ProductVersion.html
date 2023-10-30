@@ -52,8 +52,8 @@
     </thead>
     <tbody th:each="version : ${version}">
     <tr class="info">
-      <td th:text="${version.getId()}"></td>
-      <td th:text="${version.getName()}"></td>
+      <td class="text-center" th:text="${version.getId()}"></td>
+      <td class="text-center" th:text="${version.getName()}"></td>
       <td><a th:href="@{'/admin/productsVersion/update/id=' + *{version.id}}">Update</a>
         <a th:href="@{'/admin/productsVersion/delete/' + ${version.getId()}}">Delete</a></td>
     </tr>
