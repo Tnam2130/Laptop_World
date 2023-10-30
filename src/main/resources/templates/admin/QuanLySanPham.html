@@ -23,23 +23,25 @@
     <input type="hidden" name="id" >
     <label for="name"></label>
     <input type="text" id="name" name="name" placeholder="Name" th:field="*{name}">
-    <p th:errors="*{name}" class="text-danger fs-6 mb-3"
-       th:if="${#fields.hasErrors('name')}"></p>
+    <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger fs-6 mb-3">Không được để trống tên sản phẩm!</p>
     <input type="text" id="brand" name="brand" placeholder="Brand" th:field="*{brand}">
-    <input type="text" id="price" name="price" placeholder="Price" th:field="*{price}">
-    <input type="text" id="oldPrice" name="oldPrice" placeholder="Old Price" th:field="*{oldPrice}">
+    <input type="text" id="price" name="price" placeholder="Price" th:field="*{price}" oninput="validateNumberInput(this)">
+    <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
+    <input type="text" id="oldPrice" name="oldPrice" placeholder="Old Price" th:field="*{oldPrice}" oninput="validateNumberInput(this)">
+    <p th:if="${#fields.hasErrors('oldPrice')}" th:errors="*{oldPrice}" class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
     <input type="text" id="shortDesc" name="shortDesc" placeholder="ShortDesc" th:field="*{shortDesc}">
-    <input type="text" id="discount" name="discount" placeholder="DisCount" th:field="*{discount}">
-    <input type="text" id="status" name="status" placeholder="Status" th:field="*{status}">
+    <input type="text" id="discount" name="discount" placeholder="DisCount" th:field="*{discount}" oninput="validateNumberInput(this)">
+    <p th:if="${#fields.hasErrors('discount')}" th:errors="*{discount}" class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
+    <select class="form-control my-1" name="status" th:field="*{status}" style="max-width: 180px">
+      <option th:value="1">Hoạt động</option>
+      <option th:value="0">Hủy</option>
+    </select>
     <input type="file" id="files" multiple="multiple" name="files"  accept="image/png, image/jpeg">
-    <select class="form-control" id="category" th:field="*{category}">
+    <select class="form-control" id="category" th:field="*{category}" style="max-width: 180px">
       <option value="" th:if="${selectedValue}" th:disabled="disabled">Danh mục</option>
       <option th:each="category : ${categories}" th:value="${category.getId()}" th:text="${category.getMainName()}"></option>
     </select>
-
     <input class="btn btn-primary m-2" type="submit" value="Save">
-
-
   </form>
 
 <table class="table table-hover sanPhamTable "
@@ -67,7 +69,7 @@
   <td class="text-center" th:text="${#numbers.formatDecimal(product.getOldPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></td>
   <td class="text-center" th:text="*{product.shortDesc}"></td>
   <td class="text-center" th:text="${product.discount}+' %'"></td>
-  <td class="text-center" th:text="*{product.status}"></td>
+  <td class="text-center" th:text="*{product.status ? 'Hoạt động' : 'Hủy'}"></td>
 
   <td><a th:href="@{'/admin/products/delete/' + *{product.id}}">Delete</a></td>
   </tbody>
@@ -86,5 +88,14 @@
         src="https://cdnjs.cloudflare.com/ajax/libs/jquery.serializeJSON/2.9.0/jquery.serializejson.js"></script>
 <script th:src="@{/admin/js/sanPhamAjax.js}"></script>
 
+<script th:inline="javascript">
+  function validateNumberInput(input) {
+    const regex = /^-?\d+(\.\d+)?$/;
+    if (!regex.test(input.value)) {
+      alert("Vui lòng nhập số nguyên hoặc số thực.");
+      input.value = ""; // Xóa nếu không hợp lệ
+    }
+  }
+</script>
 </body>
 </html>

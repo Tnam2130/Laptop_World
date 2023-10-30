@@ -56,11 +56,10 @@ public class AccountController {
         return "admin/QuanLyTaiKhoan";
     }
 
-    @PostMapping(value ="/admin/accounts/add")
-    public String save(@Valid @ModelAttribute("user") User user,
-                       BindingResult result, Model model) {
-        userRepository.save(user);
-        return "redirect:/admin/accounts";
-
-    }
+//    @PostMapping(value ="/admin/accounts/add")
+//    public String save(@Valid @ModelAttribute("user") User user,
+//                       BindingResult result, Model model) {
+//        userRepository.save(user);
+//        return "redirect:/admin/accounts";
+//    }
 }

@@ -58,16 +58,10 @@ public class CRUDProductController {
     }
 
     @PostMapping("/admin/products/add")
-    public String save(@Valid @ModelAttribute("product") Products product, String name, Model model, BindingResult result,
+    public String save(@Valid @ModelAttribute("product") Products product, BindingResult result,
                        @RequestParam("files") MultipartFile[] files) throws IOException {
-        if (product.getName() == null || product.getName().isEmpty()) {
-
-
-            model.addAttribute("product", product);
-            result.rejectValue("name", "error.product",
-                    "Không được để trống product name!");
+        if(result.hasErrors()){
             return "admin/QuanLySanPham";
-
         }
 //        if (productRepository.findByName(name).isPresent()) {
 //            List<Products> productList = productService.findAllProduct();
