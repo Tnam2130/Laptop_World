@@ -3,10 +3,9 @@ package com.main.laptop_world.Services.impl;
 import com.main.laptop_world.Entity.User;
 import com.main.laptop_world.Services.EmailService;
 import com.main.laptop_world.Services.UserService;
-import com.main.laptop_world.constant.EmailType;
+import com.main.laptop_world.Constant.EmailType;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;

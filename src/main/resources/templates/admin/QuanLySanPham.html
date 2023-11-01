@@ -73,8 +73,8 @@
     </div>
     <div class="col-md-6" style="margin-bottom: 20px;">
       <select class="form-control" name="status" th:field="*{status}">
-        <option th:value="1">Hoạt động</option>
-        <option th:value="0">Hủy</option>
+        <option th:value="1" class="text-success">Hoạt động</option>
+        <option th:value="0" class="text-danger">Hủy</option>
       </select>
     </div>
     <div class="col-md-6" style="margin-bottom: 20px">
@@ -119,7 +119,7 @@
     <td class="text-center" th:text="${#numbers.formatDecimal(product.getOldPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></td>
     <td class="text-center" th:text="*{product.shortDesc}"></td>
     <td class="text-center" th:text="${product.discount}+' %'"></td>
-    <td class="text-center" th:text="*{product.status ? 'Hoạt động' : 'Hủy'}"></td>
+    <td th:class="*{product.status} ? 'text-success fw-bold' : 'text-danger'"  th:text="*{product.status} ? 'Hoạt động' : 'Hủy'"></td>
     <td><a th:href="@{'/admin/products/update/id=' + *{product.id}}">update</a>
       <a th:href="@{'/admin/products/delete/' + *{product.id}}">Delete</a></td>
   </tr>

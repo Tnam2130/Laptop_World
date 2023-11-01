@@ -1,4 +1,4 @@
-package com.main.laptop_world.constant.config;
+package com.main.laptop_world.Constant.config;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 
@@ -8,5 +8,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @Documented
-@PreAuthorize("isAuthenticated()")
-public @interface AuthenticatedUser {}
+@PreAuthorize("hasRole('ADMIN')")
+public @interface AdminOnly {
+}

@@ -69,7 +69,7 @@ public class ProductServiceImpl implements ProductService {
             pageable = PageRequest.of(page, pageSize, Sort.by("price").descending());
         } else {
             // Nếu priceSort không được xác định, sử dụng giá trị mặc định (có thể là Sort.by("price") hoặc Sort.unsorted())
-            pageable = PageRequest.of(page, pageSize, Sort.by("price")); // hoặc Sort.unsorted() nếu bạn muốn không áp dụng sắp xếp
+            pageable = PageRequest.of(page, pageSize, Sort.unsorted()); // hoặc Sort.unsorted() nếu bạn muốn không áp dụng sắp xếp
         }
 
         Specification<Products> spec = Specification.where(null);

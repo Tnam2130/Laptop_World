@@ -1,4 +1,4 @@
-package com.main.laptop_world.constant.config;
+package com.main.laptop_world.Constant.config;
 
 import java.lang.annotation.*;
 

@@ -20,7 +20,6 @@ public class Products {
 
     @Column(name = "product_name")
     private String name;
-    private String brand;
     @Column(name = "product_price")
     private BigDecimal price;
     @Column(name = "product_old_price")
@@ -61,4 +60,8 @@ public class Products {
     @ManyToOne
     @JoinColumn(name = "stock_id", referencedColumnName = "id")
     private Stock stock;
+
+    @ManyToOne
+    @JoinColumn(name = "brand_id", referencedColumnName = "id")
+    private Brand brand;
 }

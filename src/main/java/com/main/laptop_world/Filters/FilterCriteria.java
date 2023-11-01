@@ -1,4 +1,4 @@
-package com.main.laptop_world.filters;
+package com.main.laptop_world.Filters;
 
 import lombok.Data;
 

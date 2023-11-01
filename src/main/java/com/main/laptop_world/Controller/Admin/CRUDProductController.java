@@ -66,13 +66,6 @@ public class CRUDProductController {
         if(result.hasErrors()){
             return "admin/QuanLySanPham";
         }
-//        if (productRepository.findByName(name).isPresent()) {
-//            List<Products> productList = productService.findAllProduct();
-//            model.addAttribute("productList", productList);
-//            result.rejectValue("name", "error.product",
-//                    "product name không được trùng!");
-//            return "admin/QuanLySanPham";
-//        }
         if (files != null && files.length > 0) {
             try {
                 List<ProductImages> imagesList = new ArrayList<>();
