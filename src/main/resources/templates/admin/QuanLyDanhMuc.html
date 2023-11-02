@@ -15,6 +15,9 @@
   <div >
     <h3 class="page-header">Quản lý Danh Mục</h3>
     <div class="container">
+      <div th:if="${message}" class="alert alert-success text-center">
+        [[${message}]]
+      </div>
       <label for="mainName"></label>
       <form th:action="@{/admin/category/add}" th:object="${category}" >
         <input type="hidden" name="id" >

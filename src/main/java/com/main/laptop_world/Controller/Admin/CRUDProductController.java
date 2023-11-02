@@ -7,6 +7,7 @@ import com.main.laptop_world.Repository.ProductVersionRepository;
 import com.main.laptop_world.Services.*;
 import com.main.laptop_world.util.FileUploadUtil;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,22 +25,24 @@ public class CRUDProductController {
     public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/src/main/resources/static/uploads/products";
     ProductService productService;
     CategoryService categoryService;
-    ProductColorService productColorService;
+    BrandService brandService;
     ProductImgService imgService;
     ProductRepository productRepository;
     ProductVersionRepository productVersionRepository;
     ProductColorRepository productColorRepository;
     ProductVersionService productVersionService;
+    ProductColorService productColorService;
 
     public CRUDProductController(
             ProductService productService,
+            BrandService brandService,
             CategoryService categoryService,
             ProductImgService imgService,
             ProductRepository productRepository,
             ProductVersionRepository productVersionRepository,
             ProductColorRepository productColorRepository) {
         this.productRepository = productRepository;
-
+        this.brandService = brandService;
         this.productService = productService;
         this.categoryService = categoryService;
         this.imgService = imgService;
@@ -52,6 +55,8 @@ public class CRUDProductController {
     public String getProductForm(Model model) {
         List<Products> productList = productService.findAllProduct();
         List<Category> categories = categoryService.findAllCategory();
+        List<Brand> brands = brandService.findAllBrand();
+        model.addAttribute("brands", brands);
         model.addAttribute("categories", categories);
         model.addAttribute("productList", productList);
         model.addAttribute("product", new Products());
@@ -61,7 +66,7 @@ public class CRUDProductController {
     }
 
     @PostMapping("/admin/products/add")
-    public String save(@Valid @ModelAttribute("product") Products product, BindingResult result,
+    public String save(@Valid @ModelAttribute("product") Products product, BindingResult result, RedirectAttributes ra,
                        @RequestParam("files") MultipartFile[] files) throws IOException {
         if(result.hasErrors()){
             return "admin/QuanLySanPham";
@@ -76,6 +81,7 @@ public class CRUDProductController {
                     imagesList.add(images);
                     FileUploadUtil.saveFile(UPLOAD_DIRECTORY, fileName, file);
                 }
+                ra.addFlashAttribute("message", "Save successfully");
                 productService.saveProduct(product);
                 product.setImages(imagesList);
                 imgService.saveImageFilesList(imagesList);
@@ -93,16 +99,18 @@ public class CRUDProductController {
     public String getUpdateProduct(@PathVariable("id") Long id, Model model, RedirectAttributes ra, @ModelAttribute Products products) {
         Products product = productService.getProductById(id);
         model.addAttribute("product",product);
-        return "admin/CRUDupdate/updateProduct";
+        return "admin/Update/updateProduct";
     }
     @PostMapping("/admin/products/update")
-    public String updateProduct(Products products) {
+    public String updateProduct(Products products, RedirectAttributes ra) {
+        ra.addFlashAttribute("message", "Update successfully");
         productService.updateProduct(products);
         return "redirect:/admin/products";
     }
 
     @RequestMapping(value = "/admin/products/delete/{id}")
-    public String deleteProduct(@PathVariable Long id) {
+    public String deleteProduct(@PathVariable Long id, RedirectAttributes ra) {
+        ra.addFlashAttribute("message", "Delete successfully");
         Products product = productService.getProductById(id);
         productService.deleteProduct(product);
         return "redirect:/admin/products";
@@ -121,7 +129,7 @@ public class CRUDProductController {
 
     @PostMapping("/admin/productsVersion/add")
     public String addVersion(@ModelAttribute("versions") ProductVersion productVersion,
-                             String name, Model model, BindingResult result) {
+                             String name, Model model, BindingResult result, RedirectAttributes ra) {
         if (productVersion.getName() == null || productVersion.getName().isEmpty()) {
             List<ProductVersion> version = productVersionRepository.findAll();
             model.addAttribute("version", version);
@@ -136,25 +144,29 @@ public class CRUDProductController {
                     "Version name không được trùng!");
             return "admin/ProductVersion";
         }
+        ra.addFlashAttribute("message", "Save successfully");
         productVersionRepository.save(productVersion);
         return "redirect:/admin/productsVersion";
     }
 
     @GetMapping("/admin/productsVersion/update/id={id}")
-    public String getUpdateProductVersion(@PathVariable("id") Long id, Model model, RedirectAttributes ra, @ModelAttribute ProductVersion productVersion) {
-        ProductVersion version = productVersionService.getProductById(id);
+    public String getUpdateProductVersion(@PathVariable("id") Long id, Model model,
+                                          @ModelAttribute ProductVersion productVersion) {
+        ProductVersion version = productVersionRepository.getById(id);
         model.addAttribute("version",version);
-        return "admin/CRUDupdate/updateVersion";
+
+        return "admin/Update/updateVersion";
     }
     @PostMapping("/admin/productsVersion/update")
-    public String updateProductVersion(ProductVersion products) {
-        productVersionService.updateProduct(products);
+    public String updateProductVersion(ProductVersion products, RedirectAttributes ra) {
+        ra.addFlashAttribute("message", "Update successfully");
+        productVersionRepository.save(products);
         return "redirect:/admin/productsVersion";
     }
 
     @GetMapping(value = "/admin/productsVersion/delete/{id}")
-    public String deleteVersion(@PathVariable Long id) {
-
+    public String deleteVersion(@PathVariable Long id, RedirectAttributes ra) {
+        ra.addFlashAttribute("message", "Delete successfully");
         productVersionRepository.deleteById(id);
         return "redirect:/admin/productsVersion";
     }
@@ -174,7 +186,7 @@ public class CRUDProductController {
 
     @PostMapping("/admin/productsColor/add")
     public String addColor(@ModelAttribute("colors") ProductColor productColor,
-                           String color, Model model, BindingResult result) {
+                           String color, Model model, BindingResult result, RedirectAttributes ra) {
         if (productColor.getColor() == null || productColor.getColor().isEmpty()) {
             List<ProductColor> colors = productColorRepository.findAll();
             model.addAttribute("color", colors);
@@ -189,24 +201,26 @@ public class CRUDProductController {
 //                    "Color name không được trùng!");
 //            return "admin/ProductColor";
 //        }
+        ra.addFlashAttribute("message", "Save successfully");
         productColorRepository.save(productColor);
         return "redirect:/admin/productsColor";
     }
 
     @GetMapping("/admin/productsColor/update/id={id}")
     public String getUpdateColor(@PathVariable("id") Long id, Model model, RedirectAttributes ra, @ModelAttribute ProductColor colors) {
-        ProductColor productColor = productColorService.getColorById(id);
+        ProductColor productColor = productColorRepository.getById(id);
         model.addAttribute("color",productColor);
-        return "admin/CRUDupdate/updateColor";
+        return "admin/Update/updateColor";
     }
     @PostMapping("/admin/productsColor/update")
-    public String updateColor(ProductColor productColor) {
-        productColorService.updateColor(productColor);
+    public String updateColor(ProductColor productColor, RedirectAttributes ra) {
+        ra.addFlashAttribute("message", "Update successfully");
+        productColorRepository.save(productColor);
         return "redirect:/admin/productsColor";
     }
     @GetMapping(value = "/admin/productsColor/delete/{id}")
-    public String deleteColor(@PathVariable Long id) {
-
+    public String deleteColor(@PathVariable Long id, RedirectAttributes ra) {
+        ra.addFlashAttribute("message", "Delete successfully");
         productColorRepository.deleteById(id);
         return "redirect:/admin/productsColor";
     }

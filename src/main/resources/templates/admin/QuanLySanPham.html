@@ -20,6 +20,9 @@
 <section >
   <h3 class="page-header">Quản lý Sản Phẩm</h3>
   <div class="container">
+    <div th:if="${message}" class="alert alert-success text-center">
+      [[${message}]]
+    </div>
   <form th:action="@{/admin/products/add}" th:object="${product}" enctype="multipart/form-data" method="post" >
     <input type="hidden" name="id" >
     <div class="row">
@@ -32,13 +35,13 @@
         <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger fs-6 mb-3">Không được để trống tên sản phẩm!</p>
       </div>
 
-    <div class="col-md-6" style="margin-bottom: 20px">
-      <div class="input-container">
-        <input class="form-control" type="text" id="brand" name="brand" required="" th:field="*{brand}">
-        <label for="brand" class="label">Brand</label>
-        <div class="underline"></div>
-      </div>
-    </div>
+<!--    <div class="col-md-6" style="margin-bottom: 20px">-->
+<!--      <div class="input-container">-->
+<!--        <input class="form-control" type="text" id="brand" name="brand" required="" th:field="*{brand}">-->
+<!--        <label for="brand" class="label">Brand</label>-->
+<!--        <div class="underline"></div>-->
+<!--      </div>-->
+<!--    </div>-->
     <div class="col-md-6" style="margin-bottom: 20px">
       <div class="input-container">
         <input class="form-control" type="text" id="price" name="price" required="" th:field="*{price}" oninput="validateNumberInput(this)">
@@ -63,6 +66,14 @@
       </div>
     </div>
 
+<!--      <div class="col-md-6" style="margin-bottom: 20px">-->
+<!--        <div class="input-container">-->
+<!--          <input class="form-control" type="text" id="stock" name="stock" required="" th:field="*{stock}">-->
+<!--          <label for="stock" class="label">Stock</label>  -->
+<!--          <div class="underline"></div>-->
+<!--        </div>-->
+<!--      </div>-->
+
     <div class="col-md-6" style="margin-bottom: 20px">
       <div class="input-container">
         <input class="form-control" type="text" id="discount" name="discount" required="" th:field="*{discount}" oninput="validateNumberInput(this)">
@@ -72,17 +83,29 @@
       <p th:if="${#fields.hasErrors('discount')}" th:errors="*{discount}" class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
     </div>
     <div class="col-md-6" style="margin-bottom: 20px;">
+      <div class="input-container">
       <select class="form-control" name="status" th:field="*{status}">
         <option th:value="1" class="text-success">Hoạt động</option>
         <option th:value="0" class="text-danger">Hủy</option>
       </select>
+      </div>
     </div>
     <div class="col-md-6" style="margin-bottom: 20px">
+      <div class="input-container">
       <select class="form-control" id="category" th:field="*{category}" >
         <option value="" th:if="${selectedValue}" th:disabled="disabled">Danh mục</option>
         <option th:each="category : ${categories}" th:value="${category.getId()}" th:text="${category.getMainName()}"></option>
       </select>
+      </div>
     </div>
+      <div class="col-md-6" style="margin-bottom: 20px">
+        <div class="input-container">
+        <select class="form-control" id="brand" th:field="*{brand}" >
+          <option value="" th:if="${selectedValue}" th:disabled="disabled">Brand</option>
+          <option th:each="brand : ${brands}" th:value="${brand.getId()}" th:text="${brand.getTitle()}"></option>
+        </select>
+        </div>
+      </div>
       <div class="col-md-12" style="margin-bottom: 20px">
         <input class="form-control" type="file" id="files" multiple="multiple" name="files"  accept="image/png, image/jpeg">
       </div>
@@ -101,7 +124,6 @@
   <tr class="active">
     <th>ID</th>
     <th>Product Name</th>
-    <th>Brand</th>
     <th>Price</th>
     <th>Old Price</th>
     <th>Short Description</th>
@@ -114,7 +136,6 @@
   <tr class="info">
     <td class="text-center" th:text="*{product.id}"></td>
     <td class="text-center" th:text="*{product.name}"></td>
-    <td class="text-center" th:text="*{product.brand}"></td>
     <td class="text-center" th:text="${#numbers.formatDecimal(product.getPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></td>
     <td class="text-center" th:text="${#numbers.formatDecimal(product.getOldPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></td>
     <td class="text-center" th:text="*{product.shortDesc}"></td>
@@ -123,9 +144,7 @@
     <td><a th:href="@{'/admin/products/update/id=' + *{product.id}}">update</a>
       <a th:href="@{'/admin/products/delete/' + *{product.id}}">Delete</a></td>
   </tr>
-
   </tbody>
-
 </table>
 
 <ul class="pagination">

@@ -4,7 +4,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="ISO-8859-1">
-  <title>Quản lý nhãn hiệu </title>
+  <title>Quản lý Color </title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <body>
@@ -16,8 +16,9 @@
   <h3 class="page-header">Quản lý Color</h3>
   <label for="color"></label>
   <div class="container">
-
-
+    <div th:if="${message}" class="alert alert-success text-center">
+      [[${message}]]
+    </div>
   <form th:action="@{/admin/productsColor/add}" th:object="${colors}" method="post" >
     <div class="row">
       <input type="hidden" name="id" >
@@ -49,7 +50,7 @@
         Save
       </button>
     </div>
-  </form>
+  </form> 
   </div>
   <table class="table table-hover nhanHieuTable">
     <thead>
@@ -59,12 +60,12 @@
       <th></th>
     </tr>
     </thead>
-    <tbody th:each="color : ${color}">
+    <tbody th:each="colors : ${color}">
     <tr class="info">
-      <td class="text-center" th:text="${color.getId()}"></td>
-      <td class="text-center" th:text="${color.getColor()}"></td>>
-      <td><a th:href="@{'/admin/productsColor/update/id=' + ${color.getId()}}">Update</a>
-        <a th:href="@{'/admin/productsColor/delete/' + ${color.getId()}}">Delete</a></td>
+      <td class="text-center" th:text="${colors.id}"></td>
+      <td class="text-center" th:text="${colors.color}"></td>>
+      <td><a th:href="@{'/admin/productsColor/update/id=' + ${colors.id}}">Update</a>
+        <a th:href="@{'/admin/productsColor/delete/' + ${colors.getId()}}">Delete</a></td>
     </tr>
 
     </tbody>

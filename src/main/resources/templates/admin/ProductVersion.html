@@ -4,7 +4,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="ISO-8859-1">
-  <title>Quản lý nhãn hiệu </title>
+  <title>Quản lý Version</title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <body>
@@ -15,6 +15,9 @@
 <section >
   <h3 class="page-header">Quản lý Version</h3>
   <div class="container">
+    <div th:if="${message}" class="alert alert-success text-center">
+      [[${message}]]
+    </div>
   <form th:action="@{/admin/productsVersion/add}" th:object="${versions}" method="post" >
     <div class="row">
     <input type="hidden" name="id" >
@@ -50,12 +53,12 @@
       <th></th>
     </tr>
     </thead>
-    <tbody th:each="version : ${version}">
+    <tbody th:each="versions : ${version}">
     <tr class="info">
-      <td class="text-center" th:text="${version.getId()}"></td>
-      <td class="text-center" th:text="${version.getName()}"></td>
-      <td><a th:href="@{'/admin/productsVersion/update/id=' + *{version.id}}">Update</a>
-        <a th:href="@{'/admin/productsVersion/delete/' + ${version.getId()}}">Delete</a></td>
+      <td class="text-center" th:text="${versions.id}"></td>
+      <td class="text-center" th:text="${versions.name}"></td>
+      <td><a th:href="@{'/admin/productsVersion/update/id=' + *{versions.id}}">Update</a>
+        <a th:href="@{'/admin/productsVersion/delete/' + ${versions.getId()}}">Delete</a></td>
     </tr>
 
     </tbody>
@@ -70,7 +73,6 @@
 
 
   <div th:replace="admin/layout/footer"></div>
-  <script th:src="@{/admin/js/nhanHieuAjax.js}"></script>
 </section>
 </body>
 </html>

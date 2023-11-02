@@ -33,7 +33,8 @@ public class CRUDCategoryController {
     }
 
     @GetMapping("/admin/category/add")
-    public String addCategory(@ModelAttribute("category") Category category, Model model, BindingResult result, String mainName) {
+    public String addCategory(@ModelAttribute("category") Category category, Model model,
+                              BindingResult result, String mainName, RedirectAttributes ra) {
 //        model.addAttribute("category", category);
         if (category.getMainName() == null || category.getMainName().isEmpty()) {
             List<Category> categories = categoryService.findAllCategory();
@@ -49,6 +50,7 @@ public class CRUDCategoryController {
                     "Category name không được trùng!");
             return "admin/QuanLyDanhMuc";
         }
+        ra.addFlashAttribute("message", "Save successfully");
         categoryRepository.save(category);
         return "redirect:/admin/category";
     }
@@ -58,15 +60,17 @@ public class CRUDCategoryController {
     public String getUpdateCategory(@PathVariable("id") Long id, Model model,RedirectAttributes ra, @ModelAttribute Category category) {
         Category categories = categoryService.getCategoryById(id);
         model.addAttribute("categories",categories);
-        return "admin/CRUDupdate/updateCategory";
+        return "admin/Update/updateCategory";
     }
     @PostMapping("/admin/category/update")
-    public String updateCategory(Category category) {
+    public String updateCategory(Category category, RedirectAttributes ra) {
+        ra.addFlashAttribute("message", "Update successfully");
         categoryService.updateCategory(category);
         return "redirect:/admin/category";
     }
     @GetMapping(value = "/admin/category/delete/{id}")
-    public String delete(@PathVariable Long id) {
+    public String delete(@PathVariable Long id, RedirectAttributes ra) {
+        ra.addFlashAttribute("message", "Delete successfully");
         categoryService.deleteCategory(id);
         return "redirect:/admin/category";
     }

@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="ISO-8859-1">
+  <title>Qu?n lý Brand </title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+<div th:replace="admin/layout/header"></div>
+<!--content -->
+<div th:replace="admin/layout/home"></div>
+<section>
+  <div >
+    <h3 class="page-header">Brand</h3>
+    <div class="container">
+      <div th:if="${message}" class="alert alert-success text-center">
+        [[${message}]]
+      </div>
+      <label for="title"></label>
+      <form th:action="@{/admin/brand/add}" th:object="${brand}" >
+        <input type="hidden" name="id" >
+        <div class="row">
+          <div class="col-md-12" style="margin-bottom: 20px">
+            <div class="input-container">
+              <input class="form-control" type="text" id="title" name="title" required="" th:field="*{title}">
+              <label for="title" class="label">Title Name</label>
+              <div class="underline"></div>
+            </div>
+            <p th:errors="*{title}" class="text-danger fs-6 mb-3"
+               th:if="${#fields.hasErrors('title')}"></p>
+          </div>
+            </div>
+        <div class=" text-center">
+          <button type="submit">
+            Save
+          </button>
+        </div>
+
+      </form>
+    </div>
+    <div>
+      <table class="table table-hover nhanHieuTable">
+        <thead>
+        <tr class="active">
+          <th>ID</th>
+          <th>Name Brand</th>
+          <th></th>
+        </tr>
+        </thead>
+        <tbody th:each="brands: ${brands}">
+        <tr class="info">
+          <td class="text-center" th:text="*{brands.id}"/>
+          <td class="text-center" th:text="*{brands.title}"/>
+          <td><a th:href="@{'/admin/brand/update/id=' + *{brands.id}}">update</a>
+            <a th:href="@{'/admin/brand/delete/' + *{brands.getId()}}">Delete</a></td>
+        </tr>
+
+        </tbody>
+      </table>
+    </div>
+    <ul class="pagination">
+    </ul>
+  </div>
+</section>
+
+
+
+
+
+<div th:replace="admin/layout/footer"></div>
+
+</body>
+</html>

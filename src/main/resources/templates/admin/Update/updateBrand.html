@@ -4,7 +4,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="ISO-8859-1">
-  <title>Quản lý Color</title>
+  <title>Quản lý Brand </title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <body>
@@ -13,19 +13,21 @@
 <div th:replace="admin/layout/home"></div>
 <section>
   <div >
-    <h3 class="text-center page-header">UPDATE DANH MỤC</h3>
+    <h3 class="text-center page-header">UPDATE BRAND</h3>
     <div class="container">
-      <label for="color"></label>
-      <form th:action="@{/admin/productsColor/update}" th:object="${color}" method="post">
+      <label for="title"></label>
+      <form th:action="@{/admin/brand/update}" th:object="${brands}" method="post">
         <div class="row">
-        <input type="hidden" name="id"  th:field="*{id}">
-        <div style="margin-bottom: 20px" class="col-md-6">
-          <input class="form-control" type="text" disabled id="id" name="id"  th:field="*{id}">
+          <input type="hidden" name="id"  th:field="*{id}">
+          <div style="margin-bottom: 20px" class="col-md-6">
+            <input class="form-control" type="text" disabled id="id" name="id"  th:field="*{id}">
+          </div>
+          <div style="margin-bottom: 20px" class="col-md-6">
+            <input class="form-control" type="text" id="title" name="title" placeholder="Title Name" th:field="*{title}">
+          </div>
         </div>
-        <div style="margin-bottom: 20px" class="col-md-6">
-          <input class="form-control" type="text"  id="color" name="color"  th:field="*{color}">
-        </div>
-    </div>
+        <p th:errors="*{title}" class="text-danger fs-6 mb-3"
+           th:if="${#fields.hasErrors('title')}"></p>
         <div class=" text-center">
           <button type="submit">
             Update
@@ -36,21 +38,14 @@
         </div>
       </form>
     </div>
-
     <ul class="pagination">
     </ul>
   </div>
 </section>
-
-
-
-
-
 <div th:replace="admin/layout/footer"></div>
-<!--<script th:src="@{/admin/js/danhMucAjax.js}"></script>-->
 <script type="text/javascript">
   function cancelForm(){
-    window.location = "[[@{/admin/productsColor}]]";
+    window.location = "[[@{/admin/brand}]]";
   }
 </script>
 </body>

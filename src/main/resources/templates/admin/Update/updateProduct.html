@@ -4,7 +4,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="ISO-8859-1">
-  <title>Quản lý danh mục </title>
+  <title>Quản lý Sản Phẩm </title>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <body>
@@ -19,15 +19,12 @@
     <form th:action="@{/admin/products/update}" th:object="${product}" enctype="multipart/form-data" method="post" >
       <div class="row">
         <input type="hidden" name="id"  th:field="*{id}">
-        <div style="margin-bottom: 20px" class="col-md-6">
+        <div style="margin-bottom: 20px" class="col-md-12">
           <input class="form-control" type="text" disabled name="id"  th:field="*{id}">
         </div>
         <div style="margin-bottom: 20px" class="col-md-6">
           <input class="form-control" type="text" id="name" name="name"  th:field="*{name}">
           <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger fs-6 mb-3">Không được để trống tên sản phẩm!</p>
-        </div>
-        <div style="margin-bottom: 20px" class="col-md-6">
-          <input class="form-control" type="text" id="brand" name="brand" placeholder="Brand" th:field="*{brand}">
         </div>
         <div style="margin-bottom: 20px" class="col-md-6">
           <input class="form-control" type="text" id="price" name="price" placeholder="Price" th:field="*{price}" oninput="validateNumberInput(this)">

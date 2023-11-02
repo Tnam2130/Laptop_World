@@ -15,8 +15,9 @@
 <section>
   <h3 class="page-header">Quản lý Tài khoản</h3>
 <div class="container">
-
-
+  <div th:if="${message}" class="alert alert-success text-center">
+    [[${message}]]
+  </div>
   <form th:action="@{/admin/accounts/add}"  method="post" >
     <div class="row">
       <div class="col-md-12" style="margin-bottom: 20px">

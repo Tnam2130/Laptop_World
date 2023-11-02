@@ -103,7 +103,6 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void updateProduct(Products products) {
         products.setName(products.getName());
-        products.setBrand(products.getBrand());
         products.setPrice(products.getPrice());
         products.setOldPrice(products.getOldPrice());
         products.setShortDesc(products.getShortDesc());

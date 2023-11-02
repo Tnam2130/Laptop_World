@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -30,7 +31,8 @@ public class AccountController {
 
 
     @GetMapping(value = "/admin/accounts/delete/{id}")
-    public String delete(@PathVariable Long id) {
+    public String delete(@PathVariable Long id, RedirectAttributes ra) {
+        ra.addFlashAttribute("message", "Delete successfully");
         userService.deleteUser(id);
         return "redirect:/admin/accounts";
     }
@@ -38,11 +40,12 @@ public class AccountController {
     public String edit(@PathVariable Long id, Model model, @ModelAttribute User user) {
         User users = userService.findById(id);
         model.addAttribute("users", users);
-        return "admin/CRUDupdate/updateUser";
+        return "admin/Update/updateUser";
     }
 
     @PostMapping(value = "/admin/accounts/update")
-    public String update(User user) {
+    public String update(User user, RedirectAttributes ra) {
+        ra.addFlashAttribute("message", "Update successfully");
         userService.updateUser(user);
 
         return "redirect:/admin/accounts";
@@ -57,7 +60,8 @@ public class AccountController {
 
     @PostMapping(value ="/admin/accounts/add")
     public String save(@Valid @ModelAttribute("user") User user,
-                       BindingResult result, Model model) {
+                       BindingResult result, Model model, RedirectAttributes ra) {
+        ra.addFlashAttribute("message", "Save successfully");
         userService.save(user);
         return "redirect:/admin/accounts";
     }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 @Controller
@@ -37,7 +38,8 @@ public class CRUDProductImageController {
 //        return "redirect:/admin/images";
 //    }
 @RequestMapping(value = "/admin/images/delete/{id}")
-public String deleteImages(@PathVariable Long id) {
+public String deleteImages(@PathVariable Long id, RedirectAttributes ra) {
+    ra.addFlashAttribute("message", "Delete successfully");
     ProductImages productImages=imgService.getImageById(id);
     imgService.deleteImage(productImages);
     return "redirect:/admin/products";

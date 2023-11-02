@@ -26,4 +26,9 @@ public class ProductColorServiceImpl implements ProductColorService {
         productColor.setColor(productColor.getColor());
 
     }
+
+    @Override
+    public ProductColor findById(Long id) {
+        return repository.findById(id).orElse(null);
+    }
 }
