@@ -11,11 +11,10 @@ public interface ProductService {
     List<Products> findAllProduct(Specification<Products> spec);
     public Products getProductById(Long id);
     void saveProduct(Products product);
+    void updateProduct(Products products);
     void deleteProduct(Products products);
     Page<Products> productFilterAndPaginate (Long categoryId, String priceSort, int page, int pageSize);
     List<Products> findByKeyword(String keyword);
     List<Products> searchProducts(String searchTerm, String category);
-
-    void updateProduct(Products products);
 }
 

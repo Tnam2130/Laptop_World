@@ -47,9 +47,13 @@
           <option th:value="0">Hủy</option>
         </select>
         </div>
+        <div class="col" style="margin-bottom: 20px;">
+          <select class="form-control" id="brand" name="brandId" th:field="*{brand}">
+            <option value="">Thương hiệu</option>
+            <option th:each="brand : ${brandList}" th:value="${brand.getId()}" th:text="${brand.getTitle()}"></option>
+          </select>
+        </div>
       </div>
-
-
 
       <div class=" text-center">
         <button type="submit">

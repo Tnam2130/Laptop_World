@@ -32,13 +32,13 @@
                             <div class="col-lg-5">
                                 <div class="me-lg-5">
                                     <div class="d-flex">
-                                        <div th:each="image, limit : *{item.getProducts().getImages()}"
+                                        <a th:href="@{'/collections/product='+ *{item.getProducts().getId()}+'&category='+*{item.getProducts().category.getId()}}" th:each="image, limit : *{item.getProducts().getImages()}"
                                              th:if="${limit.index} &lt; 1">
                                             <img th:src="@{'/uploads/products/'+ *{image.getName()}}"
                                                  th:alt="*{image.getName()}"
                                                  th:class="${limit.index % 2 == 0 ? '' :'img-fluid border rounded me-3'}"
                                                  style="aspect-ratio: 1 / 1; width: 96px; height: 96px;">
-                                        </div>
+                                        </a>
                                         <div>
                                             <a th:href="@{'/collections/product='+ *{item.getProducts().getId()}+'&category='+*{item.getProducts().category.getId()} }"
                                                class="nav-link fw-bold"
@@ -51,9 +51,9 @@
                             </div>
                             <div class="col-lg-2 col-sm-6 col-6 d-flex flex-row flex-lg-column flex-xl-row text-nowrap">
                                 <div class="mx-3">
-                                    <input type="text" name="quantity" th:value="*{item.getQuantity()}"
+                                    <input type="text" name="quantity" readonly th:value="*{item.getQuantity()}"
                                            class="form-control form-control-sm text-center"
-                                           style="min-width: 40px; max-height: 30px;"/>
+                                           style="min-width: 40px; max-height: 30px; cursor: default;"/>
                                 </div>
                                 <div class="">
                                     <text class="h6"

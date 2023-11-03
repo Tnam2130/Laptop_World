@@ -29,7 +29,7 @@
       <div class="col-md-6" style="margin-bottom: 20px">
         <div class="input-container">
           <input class="form-control" type="text" id="name" name="name" required="" th:field="*{name}">
-          <label for="name" class="label">Product Name</label>
+          <label for="name" class="label">Tên sản phẩm</label>
           <div class="underline"></div>
         </div>
         <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger fs-6 mb-3">Không được để trống tên sản phẩm!</p>
@@ -45,7 +45,7 @@
     <div class="col-md-6" style="margin-bottom: 20px">
       <div class="input-container">
         <input class="form-control" type="text" id="price" name="price" required="" th:field="*{price}" oninput="validateNumberInput(this)">
-        <label for="price" class="label">Price</label>
+        <label for="price" class="label">Giá khuyến mãi</label>
         <div class="underline"></div>
       </div>
       <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
@@ -53,7 +53,7 @@
     <div class="col-md-6" style="margin-bottom: 20px">
       <div class="input-container">
         <input class="form-control" type="text" id="oldPrice" name="oldPrice" required="" th:field="*{oldPrice}" oninput="validateNumberInput(this)">
-        <label for="oldPrice" class="label">Old Price</label>
+        <label for="oldPrice" class="label">Giá gốc</label>
         <div class="underline"></div>
       </div>
       <p th:if="${#fields.hasErrors('oldPrice')}" th:errors="*{oldPrice}" class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
@@ -61,7 +61,7 @@
     <div class="col-md-6" style="margin-bottom: 20px">
       <div class="input-container">
         <input class="form-control" type="text" id="shortDesc" name="shortDesc" required="" th:field="*{shortDesc}">
-        <label for="shortDesc" class="label">ShortDesc</label>
+        <label for="shortDesc" class="label">Lời giới thiệu ngắn</label>
         <div class="underline"></div>
       </div>
     </div>
@@ -77,7 +77,7 @@
     <div class="col-md-6" style="margin-bottom: 20px">
       <div class="input-container">
         <input class="form-control" type="text" id="discount" name="discount" required="" th:field="*{discount}" oninput="validateNumberInput(this)">
-        <label for="discount" class="label">DisCount</label>
+        <label for="discount" class="label">Giảm giá</label>
         <div class="underline"></div>
       </div>
       <p th:if="${#fields.hasErrors('discount')}" th:errors="*{discount}" class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
@@ -101,7 +101,7 @@
       <div class="col-md-6" style="margin-bottom: 20px">
         <div class="input-container">
         <select class="form-control" id="brand" th:field="*{brand}" >
-          <option value="" th:if="${selectedValue}" th:disabled="disabled">Brand</option>
+          <option value="" th:if="${selectedValue}" th:disabled="disabled">Thương hiệu</option>
           <option th:each="brand : ${brands}" th:value="${brand.getId()}" th:text="${brand.getTitle()}"></option>
         </select>
         </div>
@@ -123,25 +123,29 @@
   <thead>
   <tr class="active">
     <th>ID</th>
-    <th>Product Name</th>
-    <th>Price</th>
-    <th>Old Price</th>
-    <th>Short Description</th>
-    <th>Discount</th>
-    <th>Status</th>
+    <th>Tên sản phẩm</th>
+    <th>Thương hiệu</th>
+    <th>Giá khuyến mãi</th>
+    <th>Giá gốc</th>
+    <th>Lời giới thiệu ngắn</th>
+    <th>Giảm giá</th>
+    <th>Danh mục</th>
+    <th>Trạng thái</th>
     <th></th>
   </tr>
   </thead>
-  <tbody th:each=" product: ${productList}">
+  <tbody th:each=" product, index: ${productList}">
   <tr class="info">
-    <td class="text-center" th:text="*{product.id}"></td>
+    <td class="text-center" th:text="*{index.index + 1}"></td>
     <td class="text-center" th:text="*{product.name}"></td>
+    <td class="text-center" th:text="*{product.brand.getTitle()}"></td>
     <td class="text-center" th:text="${#numbers.formatDecimal(product.getPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></td>
     <td class="text-center" th:text="${#numbers.formatDecimal(product.getOldPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></td>
     <td class="text-center" th:text="*{product.shortDesc}"></td>
     <td class="text-center" th:text="${product.discount}+' %'"></td>
+    <td class="text-center" th:text="${product.category.mainName}"></td>
     <td th:class="*{product.status} ? 'text-success fw-bold' : 'text-danger'"  th:text="*{product.status} ? 'Hoạt động' : 'Hủy'"></td>
-    <td><a th:href="@{'/admin/products/update/id=' + *{product.id}}">update</a>
+    <td><a th:href="@{'/admin/products/update/id=' + *{product.id}}">Update</a>
       <a th:href="@{'/admin/products/delete/' + *{product.id}}">Delete</a></td>
   </tr>
   </tbody>

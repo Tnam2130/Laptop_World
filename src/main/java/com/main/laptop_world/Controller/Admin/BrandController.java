@@ -27,6 +27,7 @@ public class BrandController {
         List<Brand> brands = brandService.findAllBrand();
         model.addAttribute("brand", new Brand());
         model.addAttribute("brands", brands);
+        model.addAttribute("title","Quản lý thương hiệu");
         return "admin/QuanLyBrand";
     }
 

@@ -18,6 +18,7 @@
                 <th class="fw-bold">Trạng thái</th>
                 <th class="fw-bold">Ngày đặt hàng</th>
                 <th class="fw-bold">Tổng tiền</th>
+                <th></th>
             </tr>
             </thead>
             <tbody th:each="order : ${orderList}">
@@ -37,7 +38,7 @@
                 <span class="rounded-pill d-inline"><span
                         th:text="${#dates.format(order.createdAt, 'dd-MM-yyyy')}"></span></span>
                 </td>
-                <td><span class="mb-0 ms-2"
+                <td><span class="mb-0 ms-2 text-danger fw-semibold"
                           th:text="${#numbers.formatDecimal(order.total, 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></span>
                 </td>
                 <td>

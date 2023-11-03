@@ -34,7 +34,7 @@ public class User {
     private List<Cart> carts;
 
     @OneToMany(mappedBy = "user")
-    private List<Transaction> transactions;
+    private List<Payments> payments;
 
     @Embedded
     private UserDetailEmbeddable userDetailEmbeddable;

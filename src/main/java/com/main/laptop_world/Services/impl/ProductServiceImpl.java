@@ -13,14 +13,16 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+
 @Service
 
 public class ProductServiceImpl implements ProductService {
     private ProductRepository repository;
     private ProductSpecification productSpecification;
-    public ProductServiceImpl(ProductRepository repository, ProductSpecification productSpecification){
-        this.repository=repository;
-        this.productSpecification=productSpecification;
+
+    public ProductServiceImpl(ProductRepository repository, ProductSpecification productSpecification) {
+        this.repository = repository;
+        this.productSpecification = productSpecification;
     }
 
     @Override
@@ -40,11 +42,11 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Products getProductById(Long id) {
-        Optional<Products> optional=repository.findById(id);
+        Optional<Products> optional = repository.findById(id);
         Products product = null;
-        if(optional.isPresent()){
-            product=optional.get();
-        }else {
+        if (optional.isPresent()) {
+            product = optional.get();
+        } else {
             throw new RuntimeException(" Product not found for id :: " + id);
         }
         return product;
@@ -53,6 +55,18 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public void saveProduct(Products product) {
         this.repository.save(product);
+    }
+
+    @Override
+    public void updateProduct(Products products) {
+        products.setName(products.getName());
+        products.setPrice(products.getPrice());
+        products.setOldPrice(products.getOldPrice());
+        products.setShortDesc(products.getShortDesc());
+        products.setDiscount(products.getDiscount());
+        products.setStatus(products.getStatus());
+        products.setBrand(products.getBrand());
+        repository.save(products);
     }
 
     @Override
@@ -83,7 +97,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Products> findByKeyword(String keyword) {
-        if(keyword != null){
+        if (keyword != null) {
             return repository.findAll(keyword);
         }
         return repository.findAll();
@@ -100,14 +114,4 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
-    @Override
-    public void updateProduct(Products products) {
-        products.setName(products.getName());
-        products.setPrice(products.getPrice());
-        products.setOldPrice(products.getOldPrice());
-        products.setShortDesc(products.getShortDesc());
-        products.setDiscount(products.getDiscount());
-        products.setStatus(products.getStatus());
-        repository.save(products);
-    }
 }

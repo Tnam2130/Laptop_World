@@ -25,7 +25,7 @@ public class Order {
     private Date updatedAt;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<Transaction> transactions;
+    private List<Payments> payments;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems;

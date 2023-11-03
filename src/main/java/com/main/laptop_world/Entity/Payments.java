@@ -9,25 +9,25 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "transaction")
+@Table(name = "payments")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Transaction {
+public class Payments {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String type;
+
     private String mode;
     private String status;
     private Date createdAt;
     private Date updatedAt;
 
     @ManyToOne
-    @JoinColumn(name = "transaction_user_id",referencedColumnName = "id")
+    @JoinColumn(name = "payment_user_id",referencedColumnName = "id")
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "transaction_order_id",referencedColumnName = "id")
+    @JoinColumn(name = "payment_order_id",referencedColumnName = "id")
     private Order order;
 
 

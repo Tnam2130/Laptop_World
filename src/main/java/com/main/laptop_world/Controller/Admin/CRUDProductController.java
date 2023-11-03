@@ -60,7 +60,7 @@ public class CRUDProductController {
         model.addAttribute("categories", categories);
         model.addAttribute("productList", productList);
         model.addAttribute("product", new Products());
-        boolean selected=true;
+        boolean selected = true;
         model.addAttribute("selectedValue", selected);
         return "admin/QuanLySanPham";
     }
@@ -68,7 +68,7 @@ public class CRUDProductController {
     @PostMapping("/admin/products/add")
     public String save(@Valid @ModelAttribute("product") Products product, BindingResult result, RedirectAttributes ra,
                        @RequestParam("files") MultipartFile[] files) throws IOException {
-        if(result.hasErrors()){
+        if (result.hasErrors()) {
             return "admin/QuanLySanPham";
         }
         if (files != null && files.length > 0) {
@@ -98,11 +98,20 @@ public class CRUDProductController {
     @GetMapping("/admin/products/update/id={id}")
     public String getUpdateProduct(@PathVariable("id") Long id, Model model, RedirectAttributes ra, @ModelAttribute Products products) {
         Products product = productService.getProductById(id);
-        model.addAttribute("product",product);
-        return "admin/Update/updateProduct";
+        List<Brand> brands = brandService.findAllBrand();
+        if (product == null) {
+            return "redirect:/admin/products";
+        } else {
+            model.addAttribute("product", product);
+            model.addAttribute("brandList", brands);
+            return "admin/Update/updateProduct";
+        }
+
     }
+
     @PostMapping("/admin/products/update")
     public String updateProduct(Products products, RedirectAttributes ra) {
+        // Lấy brand từ form và gán cho sản phẩm
         ra.addFlashAttribute("message", "Update successfully");
         productService.updateProduct(products);
         return "redirect:/admin/products";
@@ -153,10 +162,11 @@ public class CRUDProductController {
     public String getUpdateProductVersion(@PathVariable("id") Long id, Model model,
                                           @ModelAttribute ProductVersion productVersion) {
         ProductVersion version = productVersionRepository.getById(id);
-        model.addAttribute("version",version);
+        model.addAttribute("version", version);
 
         return "admin/Update/updateVersion";
     }
+
     @PostMapping("/admin/productsVersion/update")
     public String updateProductVersion(ProductVersion products, RedirectAttributes ra) {
         ra.addFlashAttribute("message", "Update successfully");
@@ -209,15 +219,17 @@ public class CRUDProductController {
     @GetMapping("/admin/productsColor/update/id={id}")
     public String getUpdateColor(@PathVariable("id") Long id, Model model, RedirectAttributes ra, @ModelAttribute ProductColor colors) {
         ProductColor productColor = productColorRepository.getById(id);
-        model.addAttribute("color",productColor);
+        model.addAttribute("color", productColor);
         return "admin/Update/updateColor";
     }
+
     @PostMapping("/admin/productsColor/update")
     public String updateColor(ProductColor productColor, RedirectAttributes ra) {
         ra.addFlashAttribute("message", "Update successfully");
         productColorRepository.save(productColor);
         return "redirect:/admin/productsColor";
     }
+
     @GetMapping(value = "/admin/productsColor/delete/{id}")
     public String deleteColor(@PathVariable Long id, RedirectAttributes ra) {
         ra.addFlashAttribute("message", "Delete successfully");
