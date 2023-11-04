@@ -28,6 +28,7 @@ public class Products {
     @Column(name = "short_description")
     private String shortDesc;
     private Double discount;
+    private int quantity;
     private Boolean status;
 
     // MappedBy trỏ tới tên biến products nằm trong ProductVersion
@@ -57,9 +58,6 @@ public class Products {
     @JoinColumn(name = "category_id", referencedColumnName = "id")
     private Category category;
 
-    @ManyToOne
-    @JoinColumn(name = "stock_id", referencedColumnName = "id")
-    private Stock stock;
 
     @ManyToOne
     @JoinColumn(name = "brand_id", referencedColumnName = "id")

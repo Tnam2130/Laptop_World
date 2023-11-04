@@ -32,7 +32,6 @@ public class CRUDProductController {
     ProductColorRepository productColorRepository;
     ProductVersionService productVersionService;
     ProductColorService productColorService;
-    StockService stockService;
 
     public CRUDProductController(
             ProductService productService,
@@ -41,7 +40,7 @@ public class CRUDProductController {
             ProductImgService imgService,
             ProductRepository productRepository,
             ProductVersionRepository productVersionRepository,
-            ProductColorRepository productColorRepository, StockService stockService) {
+            ProductColorRepository productColorRepository) {
         this.productRepository = productRepository;
         this.brandService = brandService;
         this.productService = productService;
@@ -49,7 +48,6 @@ public class CRUDProductController {
         this.imgService = imgService;
         this.productVersionRepository = productVersionRepository;
         this.productColorRepository = productColorRepository;
-        this.stockService = stockService;
     }
 
     @RequestMapping("/admin/products")
@@ -68,11 +66,10 @@ public class CRUDProductController {
 
     @PostMapping("/admin/products/add")
     public String save(@Valid @ModelAttribute("product") Products product, BindingResult result, RedirectAttributes ra,
-                       @RequestParam("files") MultipartFile[] files, @RequestParam("stock") int stockQuantity) throws IOException {
+                       @RequestParam("files") MultipartFile[] files) throws IOException {
         if (result.hasErrors()) {
             return "admin/QuanLySanPham";
         }
-        System.out.println(stockQuantity);
         if (files != null && files.length > 0) {
             try {
                 List<ProductImages> imagesList = new ArrayList<>();
@@ -83,18 +80,8 @@ public class CRUDProductController {
                     imagesList.add(images);
                     FileUploadUtil.saveFile(UPLOAD_DIRECTORY, fileName, file);
                 }
-                Stock existingStock = stockService.findProductById(product.getId());
-                if (existingStock == null) {
-                    existingStock = new Stock();
-                    existingStock.setQuantity(stockQuantity);
-                } else {
-                    existingStock.setQuantity(existingStock.getQuantity() + stockQuantity);
-                }
-
-                stockService.save(existingStock);
                 productService.saveProduct(product);
                 product.setImages(imagesList);
-                product.setStock(existingStock);
                 imgService.saveImageFilesList(imagesList);
                 ra.addFlashAttribute("message", "Save successfully");
             } catch (Exception e) {
@@ -120,19 +107,11 @@ public class CRUDProductController {
     @PostMapping("/admin/products/update/id={id}")
     public String updateProduct(@PathVariable("id") Long id, Products products, RedirectAttributes ra,
                                 @RequestParam("category") Long categoryId,
-                                @RequestParam("brand") Long brandId, @RequestParam("stock") int stockQuantity) {
+                                @RequestParam("brand") Long brandId) {
         Products product = productService.getProductById(id);
-        Stock existingStock = stockService.findProductById(product.getId());
         Category existingCategory = categoryService.getCategoryById(categoryId);
         Brand existingBrand = brandService.getBrandById(brandId);
-        if (existingStock == null) {
-            existingStock = new Stock();
-            existingStock.setQuantity(stockQuantity);
-        } else {
-            existingStock.setQuantity(existingStock.getQuantity() + stockQuantity);
-        }
         ra.addFlashAttribute("message", "Update successfully");
-        product.setStock(existingStock);
         product.setCategory(existingCategory);
         product.setBrand(existingBrand);
         productService.updateProduct(products);

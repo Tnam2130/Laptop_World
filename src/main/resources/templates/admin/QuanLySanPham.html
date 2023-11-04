@@ -68,11 +68,11 @@
     </div>
       <div class="col-md-6" style="margin-bottom: 20px">
         <div class="input-container">
-          <input class="form-control" type="text" id="stock" name="stock" required="" oninput="validateNumberInput(this)">
+          <input class="form-control" type="text" id="quantity" name="quantity" th:field="*{quantity}" required="" oninput="validateNumberInput(this)">
           <label for="discount" class="label">Số lượng trong kho</label>
           <div class="underline"></div>
         </div>
-        <p th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}" class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
+        <p th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}" class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
       </div>
     <div class="col-md-6" style="margin-bottom: 20px;">
       <div class="input-container">
@@ -122,6 +122,7 @@
     <th>Lời giới thiệu ngắn</th>
     <th>Giảm giá</th>
     <th>Danh mục</th>
+    <th>Số lượng</th>
     <th>Trạng thái</th>
     <th></th>
   </tr>
@@ -136,6 +137,7 @@
     <td class="text-center" th:text="*{product.shortDesc}"></td>
     <td class="text-center" th:text="${product.discount}+' %'"></td>
     <td class="text-center" th:text="${product.category.mainName}"></td>
+    <td class="text-center" th:text="${product.quantity}"></td>
     <td th:class="*{product.status} ? 'text-success fw-bold' : 'text-danger'"  th:text="*{product.status} ? 'Hoạt động' : 'Hủy'"></td>
     <td><a th:href="@{'/admin/products/update/id=' + *{product.id}}">Update</a>
       <a th:href="@{'/admin/products/delete/' + *{product.id}}">Delete</a></td>

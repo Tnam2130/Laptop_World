@@ -45,10 +45,9 @@
                         <input th:field="*{userDetailEmbeddable.phoneNumber}" type="text" class="form-control phone-input"
                                id="phonenumber" placeholder="Số điện thoại" onblur="validateNumberInput(this)" required>
                         <label for="phonenumber" class="form-label fs-6">Số điện thoại</label>
-<!--                        <p th:if="${#fields.hasErrors('userDetailEmbeddable.phoneNumber')}" th:errors="*{userDetailEmbeddable.phoneNumber}" class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số !!!</p>-->
                     </div>
                 </div>
-                <button class="btn btn-primary w-25 mt-4" type="submit" onclick="UpdateSuccessAlert()">Cập nhật</button>
+                <button id="updateButton" class="btn btn-primary w-25 mt-4" type="submit" onclick="UpdateSuccessAlert()">Cập nhật</button>
             </form>
         </div>
         <div class="col-md-3"></div>
@@ -56,10 +55,34 @@
 </div>
 </body>
 <script th:inline="javascript">
+    // document.addEventListener("DOMContentLoaded", function () {
+    //     // Lấy danh sách tất cả các trường input bạn muốn kiểm tra.
+    //     const inputFields = document.querySelectorAll("input[type='text'], input[type='email']");
+    //     console.log(inputFields)
+    //     // Lắng nghe sự kiện input trên các trường input.
+    //     inputFields.forEach(function (input) {
+    //         input.addEventListener("input", function () {
+    //             // Kiểm tra xem tất cả các trường có giá trị không trống không.
+    //             const allFieldsFilled = Array.from(inputFields).every(function (field) {
+    //                 return field.value.trim() !== "";
+    //             });
+    //
+    //             // Lấy nút "Cập nhật" theo ID.
+    //             const updateButton = document.getElementById("updateButton");
+    //
+    //             // Cập nhật thuộc tính disabled của nút "Cập nhật" dựa trên kết quả kiểm tra.
+    //             if (updateButton) {
+    //                 updateButton.disabled = !allFieldsFilled;
+    //             }else {
+    //                 updateButton.enabled=allFieldsFilled;
+    //             }
+    //         });z
+    //     });
+    // });
     function validateNumberInput(input) {
-        const regex = /[0-9]{10}$/;
+        const regex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
         if (!regex.test(input.value)) {
-            alert("Vui lòng nhập số đúng kiểu số điện thoại (VietNam +84).");
+            alert("Vui lòng nhập số đúng kiểu số điện thoại (VietNam +84), đầu số: (03, 05, 07, 08, 09).");
             input.value = ""; // Xóa nếu không hợp lệ
         }
     }

@@ -119,7 +119,7 @@
                         <button type="button" class="custom-btn-primary p-1 quantity-control" data-action="decrease">-
                         </button>
                         <input type="text" name="quantity" value="1"
-                               class="form-control text-center mx-1 text-black" readonly="readonly" style="cursor: default">
+                               class="form-control text-center mx-1 text-black" th:max="*{product.getQuantity()}" readonly="readonly" style="cursor: default">
                         <button type="button" class="custom-btn-primary p-1 quantity-control" data-action="increase">+
                         </button>
                         <button type="submit" class="btn mx-2">Thêm vào giỏ hàng <i class="fas fa-shopping-cart"></i>

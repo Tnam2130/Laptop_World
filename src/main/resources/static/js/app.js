@@ -5,10 +5,13 @@ document.addEventListener('DOMContentLoaded', function () {
         control.addEventListener('click', function () {
             const quantityInput = control.parentNode.querySelector('input[type="text"]');
             const action = control.getAttribute('data-action');
-
+            const maxQuantity = parseInt(quantityInput.getAttribute('max'));
+            console.log(maxQuantity)
             let quantity = parseInt(quantityInput.value);
             if (action === 'increase') {
-                quantity += 1;
+                if (quantity < maxQuantity) {
+                    quantity += 1;
+                }
             } else if (action === 'decrease') {
                 if (quantity > 1) {
                     quantity -= 1;

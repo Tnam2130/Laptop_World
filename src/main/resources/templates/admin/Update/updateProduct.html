@@ -42,8 +42,8 @@
           <p th:if="${#fields.hasErrors('discount')}" th:errors="*{discount}" class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
         </div>
         <div style="margin-bottom: 20px" class="col-md-6">
-          <input class="form-control" type="text" id="stock" name="stock" placeholder="Số lượng trong kho" th:field="*{stock.quantity}" oninput="validateNumberInput(this)">
-          <p th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}" class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
+          <input class="form-control" type="text" id="quantity" name="quantity" placeholder="Số lượng trong kho" th:field="*{quantity}" oninput="validateNumberInput(this)">
+          <p th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}" class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
         </div>
         <div style="margin-bottom: 20px" class="col-md-6">
         <select class="form-control my-1" name="status" th:field="*{status}" >
