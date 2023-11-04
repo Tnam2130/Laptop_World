@@ -34,14 +34,6 @@
         </div>
         <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger fs-6 mb-3">Không được để trống tên sản phẩm!</p>
       </div>
-
-<!--    <div class="col-md-6" style="margin-bottom: 20px">-->
-<!--      <div class="input-container">-->
-<!--        <input class="form-control" type="text" id="brand" name="brand" required="" th:field="*{brand}">-->
-<!--        <label for="brand" class="label">Brand</label>-->
-<!--        <div class="underline"></div>-->
-<!--      </div>-->
-<!--    </div>-->
     <div class="col-md-6" style="margin-bottom: 20px">
       <div class="input-container">
         <input class="form-control" type="text" id="price" name="price" required="" th:field="*{price}" oninput="validateNumberInput(this)">
@@ -66,14 +58,6 @@
       </div>
     </div>
 
-<!--      <div class="col-md-6" style="margin-bottom: 20px">-->
-<!--        <div class="input-container">-->
-<!--          <input class="form-control" type="text" id="stock" name="stock" required="" th:field="*{stock}">-->
-<!--          <label for="stock" class="label">Stock</label>  -->
-<!--          <div class="underline"></div>-->
-<!--        </div>-->
-<!--      </div>-->
-
     <div class="col-md-6" style="margin-bottom: 20px">
       <div class="input-container">
         <input class="form-control" type="text" id="discount" name="discount" required="" th:field="*{discount}" oninput="validateNumberInput(this)">
@@ -82,6 +66,14 @@
       </div>
       <p th:if="${#fields.hasErrors('discount')}" th:errors="*{discount}" class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
     </div>
+      <div class="col-md-6" style="margin-bottom: 20px">
+        <div class="input-container">
+          <input class="form-control" type="text" id="stock" name="stock" required="" oninput="validateNumberInput(this)">
+          <label for="discount" class="label">Số lượng trong kho</label>
+          <div class="underline"></div>
+        </div>
+        <p th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}" class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
+      </div>
     <div class="col-md-6" style="margin-bottom: 20px;">
       <div class="input-container">
       <select class="form-control" name="status" th:field="*{status}">

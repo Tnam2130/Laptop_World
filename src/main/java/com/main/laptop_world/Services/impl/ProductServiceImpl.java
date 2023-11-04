@@ -53,20 +53,21 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public void saveProduct(Products product) {
-        this.repository.save(product);
+    public Products saveProduct(Products product) {
+        return repository.save(product);
     }
 
     @Override
-    public void updateProduct(Products products) {
+    public Products updateProduct(Products products) {
         products.setName(products.getName());
         products.setPrice(products.getPrice());
         products.setOldPrice(products.getOldPrice());
         products.setShortDesc(products.getShortDesc());
         products.setDiscount(products.getDiscount());
         products.setStatus(products.getStatus());
+        products.setCategory(products.getCategory());
         products.setBrand(products.getBrand());
-        repository.save(products);
+        return repository.save(products);
     }
 
     @Override
@@ -75,15 +76,14 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<Products> productFilterAndPaginate(Long id, String priceSort, int page, int pageSize) {
+    public Page<Products> productFilterAndPaginate(Long id, Long brandId, String priceSort, int page, int pageSize) {
         Pageable pageable;
         if (priceSort != null && priceSort.equalsIgnoreCase("asc")) {
             pageable = PageRequest.of(page, pageSize, Sort.by("price"));
         } else if (priceSort != null && priceSort.equalsIgnoreCase("desc")) {
             pageable = PageRequest.of(page, pageSize, Sort.by("price").descending());
         } else {
-            // Nếu priceSort không được xác định, sử dụng giá trị mặc định (có thể là Sort.by("price") hoặc Sort.unsorted())
-            pageable = PageRequest.of(page, pageSize, Sort.unsorted()); // hoặc Sort.unsorted() nếu bạn muốn không áp dụng sắp xếp
+            pageable = PageRequest.of(page, pageSize, Sort.unsorted()); //Sort.unsorted() không áp dụng sắp xếp
         }
 
         Specification<Products> spec = Specification.where(null);
@@ -91,7 +91,9 @@ public class ProductServiceImpl implements ProductService {
         if (id != null) {
             spec = spec.and((root, query, builder) -> builder.equal(root.get("category").get("id"), id));
         }
-
+        if (brandId != null) {
+            spec = spec.and((root, query, builder) -> builder.equal(root.get("brand").get("id"), brandId));
+        }
         return repository.findAll(spec, pageable);
     }
 

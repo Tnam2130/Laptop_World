@@ -42,7 +42,7 @@ public class UserServiceImpl implements UserService {
     public void saveUser(UserDTO UserDTO) {
         User user = new User();
         user.setUsername(UserDTO.getUsername());
-        System.out.println(UserDTO.getUsername());
+        user.setEmail(UserDTO.getEmail());
         //encrypt the password once we integrate spring security
         //user.setPassword(UserDTO.getPassword());
         user.setPassword(passwordEncoder.encode(UserDTO.getPassword()));
@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByEmail(String email) {
-        return userRepository.findByUserDetailEmbeddable_Email(email);
+        return userRepository.findByEmail(email);
     }
 
     @Override

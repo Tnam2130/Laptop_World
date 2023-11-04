@@ -56,7 +56,7 @@ public class EmailServiceImpl implements EmailService {
     }
     @Override
     public String generateCode() {
-        return String.valueOf((int) (Math.random() * ((999 - 100) + 1)) + 1000);
+        return String.valueOf((int) (Math.random() * 900000 + 100000));
     }
 
 

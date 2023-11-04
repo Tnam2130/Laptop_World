@@ -20,6 +20,7 @@ public class User {
     private Long id;
     private String username;
     private String password;
+    private String email;
     private boolean isActive = true;
 
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -51,8 +52,6 @@ class UserDetailEmbeddable {
     private String lastName;
     @Column(name = "full_name", table = "user_detail")
     private String fullName;
-    @Column(name = "email", table = "user_detail")
-    private String email;
     @Column(name = "address", table = "user_detail")
     private String address;
     @Column(name = "phone_number", table = "user_detail")

@@ -46,6 +46,12 @@ public class UserController {
                     "Tên tài khoản đã được đăng ký!");
             return "/users/register";
         }
+        User existingEmail=userService.findByEmail(user.getEmail());
+        if(existingEmail!=null){
+            result.rejectValue("email", "error.user",
+                    "Email đã được đăng ký!");
+            return "/users/register";
+        }
         if(user.getPassword().length() < 6){
             result.rejectValue("password", "error.user", "Mật khẩu phải có từ 6 ký tự trở lên !!!");
             return "/users/register";
@@ -88,53 +94,53 @@ public class UserController {
 
     @GetMapping("/send-code")
     public String sendCode() {
-        return "/users/sendCode";
+        return "/users/SendCode";
     }
 
     @PostMapping("/do-sendCode")
-    public String doSendCode(@ModelAttribute("username") String username) {
-        User existUsername = userService.findByUsername(username);
+    public String doSendCode(@ModelAttribute("email") String email) {
+        User existEmail = userService.findByEmail(email);
 
-        if (existUsername != null) {
-            emailService.sendCode(username);
-            return "redirect:/check-code?username=" + username;
+        if (existEmail != null) {
+            emailService.sendCode(email);
+            return "redirect:/check-code?email=" + email;
         } else {
             return "redirect:/send-code?error";
         }
     }
 
     @GetMapping("/check-code")
-    public String checkCode(Model model, @RequestParam(name = "username", defaultValue = "") String username) {
-        model.addAttribute("username", username);
-        return "users/checkCode";
+    public String checkCode(Model model, @RequestParam(name = "email", defaultValue = "") String email) {
+        model.addAttribute("email", email);
+        return "users/CheckCode";
     }
 
     @PostMapping("/do-checkCode")
-    public String doCheckCode(@ModelAttribute("username") String username, @ModelAttribute("code") String code) {
+    public String doCheckCode(@RequestParam("email") String email, @ModelAttribute("code") String code) {
         User users = emailService.getUserByCode(code);
         if (users != null) {
-            return "redirect:/resetPassword?username=" + username;
+            return "redirect:/resetPassword?email=" + email;
         } else {
             return "redirect:/check-code?error";
         }
     }
 
     @GetMapping("/resetPassword")
-    public String resetPassword(Model model, @RequestParam(name = "username") String username) {
-        model.addAttribute("username", username);
-        return "users/resetPassword";
+    public String resetPassword(Model model, @RequestParam(name = "email") String email) {
+        System.out.println(email);
+        model.addAttribute("email", email);
+        return "users/ResetPassword";
     }
 
     @PostMapping("/do-resetPassword")
-    public String doResetPassword(@ModelAttribute("username") String username, @ModelAttribute("password1") String newPassword, @ModelAttribute("password2") String repeatPassword) {
+    public String doResetPassword(@ModelAttribute("email") String email, @ModelAttribute("password1") String newPassword, @ModelAttribute("password2") String repeatPassword) {
         if (repeatPassword.equals(newPassword)) {
-            userService.resetPassword(username, repeatPassword);
+            userService.resetPassword(email, repeatPassword);
             System.out.println("ok");
             return "redirect:/login";
         } else {
             System.out.println("no ok");
-            return "redirect:/resetPassword?username=" + username + "?error";
+            return "redirect:/resetPassword?email=" + email + "?error";
         }
     }
-
 }

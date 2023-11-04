@@ -30,7 +30,7 @@
                     <label for="fullname" class="form-label fs-6">Họ và Tên</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input th:field="*{userDetailEmbeddable.email}" type="email" class="form-control"
+                    <input th:field="${user.email}" type="email" class="form-control"
                            id="email" placeholder="Email" required>
                     <label for="email" class="form-label fs-6">Email</label>
                 </div>

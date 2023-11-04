@@ -29,6 +29,12 @@ public class WebSecurityConfig {
             "/login/**",
             "/register/**",
             "/collections/**",
+            "/send-code",
+            "/do-sendCode",
+            "/check-code",
+            "/do-checkCode",
+            "/resetPassword",
+            "/do-resetPassword",
             "/c/**"
     };
     private static final String[] USER_RESOURCES={

@@ -16,7 +16,7 @@
     <h3 class="text-center page-header">UPDATE SẢN PHẨM</h3>
 
     <div class="container">
-    <form th:action="@{/admin/products/update}" th:object="${product}" enctype="multipart/form-data" method="post" >
+    <form th:action="@{'/admin/products/update/id='+ ${product.id}}" th:object="${product}" enctype="multipart/form-data" method="post" >
       <div class="row">
         <input type="hidden" name="id"  th:field="*{id}">
         <div style="margin-bottom: 20px" class="col-md-12">
@@ -38,8 +38,12 @@
           <input class="form-control" type="text" id="shortDesc" name="shortDesc" placeholder="ShortDesc" th:field="*{shortDesc}">
         </div>
         <div style="margin-bottom: 20px" class="col-md-6">
-          <input class="form-control" type="text" id="discount" name="discount" placeholder="DisCount" th:field="*{discount}" oninput="validateNumberInput(this)">
+          <input class="form-control" type="text" id="discount" name="discount" placeholder="Mã giảm giá" th:field="*{discount}" oninput="validateNumberInput(this)">
           <p th:if="${#fields.hasErrors('discount')}" th:errors="*{discount}" class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
+        </div>
+        <div style="margin-bottom: 20px" class="col-md-6">
+          <input class="form-control" type="text" id="stock" name="stock" placeholder="Số lượng trong kho" th:field="*{stock.quantity}" oninput="validateNumberInput(this)">
+          <p th:if="${#fields.hasErrors('stock')}" th:errors="*{stock}" class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
         </div>
         <div style="margin-bottom: 20px" class="col-md-6">
         <select class="form-control my-1" name="status" th:field="*{status}" >
@@ -47,10 +51,16 @@
           <option th:value="0">Hủy</option>
         </select>
         </div>
+        <div class="col-md-6" style="margin-bottom: 20px;">
+          <select class="form-control" id="category" name="category">
+            <option value="">Danh mục</option>
+            <option th:each=" category : ${categories}" th:selected="${category.mainName == product.category.mainName}" th:value="${category.getId()}" th:text="${category.getMainName()}"></option>
+          </select>
+        </div>
         <div class="col" style="margin-bottom: 20px;">
-          <select class="form-control" id="brand" name="brandId" th:field="*{brand}">
+          <select class="form-control" id="brand" name="brand">
             <option value="">Thương hiệu</option>
-            <option th:each="brand : ${brandList}" th:value="${brand.getId()}" th:text="${brand.getTitle()}"></option>
+            <option th:each="brand : ${brandList}" th:selected="${brand.title == product.brand.title}" th:value="${brand.getId()}" th:text="${brand.getTitle()}"></option>
           </select>
         </div>
       </div>

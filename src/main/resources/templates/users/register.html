@@ -8,7 +8,9 @@
         <div class="row w-100 h-100 g-0">
             <div th:if="${param.success}">
                 <div class="alert alert-success d-flex align-items-center">
-                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
+                    <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:">
+                        <use xlink:href="#check-circle-fill"/>
+                    </svg>
                     <div>Đăng ký thành công!</div>
                 </div>
             </div>
@@ -16,7 +18,7 @@
             <div class="col-sm-12 col-md-6 d-flex align-items-center justify-content-center">
                 <!--                form-->
                 <form th:action="@{/register}" th:object="${user}" role="form" class="bg-white rounded-2 form-wrapper"
-                                      method="post">
+                      method="post">
                     <a th:href="@{/}" class="px-5 d-flex align-items-center justify-content-center">
                         <img th:src="@{/images/logo.png}"
                              class="form-logo" alt="">
@@ -24,37 +26,32 @@
                     <div class="form-floating mb-3">
                         <input name="username" class="form-control" id="username" type="text" placeholder="username"
                                th:field="*{username}" required>
-<!--                        <input name="username" class="form-control" id="username" type="text" placeholder="username" required>-->
                         <label for="username" class="form-label fs-6">Tên tài khoản</label>
                         <p th:errors="*{username}" class="text-danger fs-6 mb-3"
                            th:if="${#fields.hasErrors('username')}"></p>
                     </div>
                     <div class="form-floating mb-3">
-                        <input name="username" class="form-control" id="email" type="text" placeholder="username"
+                        <input name="email" class="form-control" id="email" type="text" placeholder="Email"
                                th:field="*{email}" required>
-                        <!--                        <input name="username" class="form-control" id="username" type="text" placeholder="username" required>-->
                         <label for="email" class="form-label fs-6">Email</label>
-                        <p th:errors="*{email}" class="text-danger fs-6 mb-3"
-                           th:if="${#fields.hasErrors('username')}"></p>
+                        <p th:errors="*{email}" class="text-danger fs-6 mb-3" th:if="${#fields.hasErrors('email')}"></p>
                     </div>
                     <div class="form-floating mb-3">
                         <input name="pass" type="password" class="form-control"
                                id="password" placeholder="Mật khẩu" th:field="*{password}" required>
-<!--                        <input name="pass" type="password" class="form-control"-->
-<!--                               id="password" placeholder="Mật khẩu" required>-->
                         <label for="password" class="form-label fs-6">Mật khẩu</label>
-                        <p th:errors="*{password}" class="text-danger"
-                           th:if="${#fields.hasErrors('password')}"></p>
+                        <div th:if="${#fields.hasErrors('password')}">
+                            <p th:errors="*{password}" class="text-danger"></p>
+                        </div>
                     </div>
-                              <div class="form-floating mb-3">
-                                <input name="confirmPassword" type="password" class="form-control"
-                                       id="confirmPassword" placeholder="Nhập lại mật khẩu" required>
-                                <label for="confirmPassword" class="form-label fs-6">Nhập lại mật khẩu</label>
-                                  <div th:if="${#fields.hasErrors('confirmPassword')}">
-                                      <p th:errors="*{confirmPassword}" class="text-danger"
-                                      ></p>
-                                  </div>
-                              </div>
+                    <div class="form-floating mb-3">
+                        <input name="confirmPassword" type="password" class="form-control"
+                               id="confirmPassword" placeholder="Nhập lại mật khẩu" required>
+                        <label for="confirmPassword" class="form-label fs-6">Nhập lại mật khẩu</label>
+                        <div th:if="${#fields.hasErrors('confirmPassword')}">
+                            <p th:errors="*{confirmPassword}" class="text-danger"></p>
+                        </div>
+                    </div>
 
                     <button type="submit" class="w-100 btn bg-black my-2 fs-6"><span class="text-white">Đăng
                                 Ký</span></button>

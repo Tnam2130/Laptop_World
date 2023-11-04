@@ -9,7 +9,7 @@
             <div class="col-sm-12 col-md-6 d-none d-md-block"></div>
             <div class="col-sm-12 col-md-6 d-flex align-items-center justify-content-center">
                 <form th:action="@{/do-checkCode}" role="form" class="bg-white rounded-2 form-wrapper" method="post">
-                    <input name="username" type="hidden" th:value="${username}">
+                    <input name="email" type="hidden" th:value="${email}">
                     <a th:href="@{/}" class="px-5 d-flex align-items-center justify-content-center">
                         <img th:src="@{/images/logo.png}"
                              class="form-logo" alt="">

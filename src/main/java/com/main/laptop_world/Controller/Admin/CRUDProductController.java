@@ -32,6 +32,7 @@ public class CRUDProductController {
     ProductColorRepository productColorRepository;
     ProductVersionService productVersionService;
     ProductColorService productColorService;
+    StockService stockService;
 
     public CRUDProductController(
             ProductService productService,
@@ -40,7 +41,7 @@ public class CRUDProductController {
             ProductImgService imgService,
             ProductRepository productRepository,
             ProductVersionRepository productVersionRepository,
-            ProductColorRepository productColorRepository) {
+            ProductColorRepository productColorRepository, StockService stockService) {
         this.productRepository = productRepository;
         this.brandService = brandService;
         this.productService = productService;
@@ -48,7 +49,7 @@ public class CRUDProductController {
         this.imgService = imgService;
         this.productVersionRepository = productVersionRepository;
         this.productColorRepository = productColorRepository;
-
+        this.stockService = stockService;
     }
 
     @RequestMapping("/admin/products")
@@ -67,10 +68,11 @@ public class CRUDProductController {
 
     @PostMapping("/admin/products/add")
     public String save(@Valid @ModelAttribute("product") Products product, BindingResult result, RedirectAttributes ra,
-                       @RequestParam("files") MultipartFile[] files) throws IOException {
+                       @RequestParam("files") MultipartFile[] files, @RequestParam("stock") int stockQuantity) throws IOException {
         if (result.hasErrors()) {
             return "admin/QuanLySanPham";
         }
+        System.out.println(stockQuantity);
         if (files != null && files.length > 0) {
             try {
                 List<ProductImages> imagesList = new ArrayList<>();
@@ -81,11 +83,20 @@ public class CRUDProductController {
                     imagesList.add(images);
                     FileUploadUtil.saveFile(UPLOAD_DIRECTORY, fileName, file);
                 }
-                ra.addFlashAttribute("message", "Save successfully");
+                Stock existingStock = stockService.findProductById(product.getId());
+                if (existingStock == null) {
+                    existingStock = new Stock();
+                    existingStock.setQuantity(stockQuantity);
+                } else {
+                    existingStock.setQuantity(existingStock.getQuantity() + stockQuantity);
+                }
+
+                stockService.save(existingStock);
                 productService.saveProduct(product);
                 product.setImages(imagesList);
+                product.setStock(existingStock);
                 imgService.saveImageFilesList(imagesList);
-
+                ra.addFlashAttribute("message", "Save successfully");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -99,20 +110,31 @@ public class CRUDProductController {
     public String getUpdateProduct(@PathVariable("id") Long id, Model model, RedirectAttributes ra, @ModelAttribute Products products) {
         Products product = productService.getProductById(id);
         List<Brand> brands = brandService.findAllBrand();
-        if (product == null) {
-            return "redirect:/admin/products";
-        } else {
-            model.addAttribute("product", product);
-            model.addAttribute("brandList", brands);
-            return "admin/Update/updateProduct";
-        }
-
+        List<Category> categories = categoryService.findAllCategory();
+        model.addAttribute("product", product);
+        model.addAttribute("brandList", brands);
+        model.addAttribute("categories", categories);
+        return "admin/Update/updateProduct";
     }
 
-    @PostMapping("/admin/products/update")
-    public String updateProduct(Products products, RedirectAttributes ra) {
-        // Lấy brand từ form và gán cho sản phẩm
+    @PostMapping("/admin/products/update/id={id}")
+    public String updateProduct(@PathVariable("id") Long id, Products products, RedirectAttributes ra,
+                                @RequestParam("category") Long categoryId,
+                                @RequestParam("brand") Long brandId, @RequestParam("stock") int stockQuantity) {
+        Products product = productService.getProductById(id);
+        Stock existingStock = stockService.findProductById(product.getId());
+        Category existingCategory = categoryService.getCategoryById(categoryId);
+        Brand existingBrand = brandService.getBrandById(brandId);
+        if (existingStock == null) {
+            existingStock = new Stock();
+            existingStock.setQuantity(stockQuantity);
+        } else {
+            existingStock.setQuantity(existingStock.getQuantity() + stockQuantity);
+        }
         ra.addFlashAttribute("message", "Update successfully");
+        product.setStock(existingStock);
+        product.setCategory(existingCategory);
+        product.setBrand(existingBrand);
         productService.updateProduct(products);
         return "redirect:/admin/products";
     }
