@@ -15,9 +15,9 @@ public class Specifications {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "information_id")
     private Long id;
-    @Column(name = "information_title")
+    @Column(name = "information_cpu")
     private String cpu_name;
-    @Column(name = "information_content")
+    @Column(name = "information_ram")
     private String ram_name;
     @Column(name = "information_HardDrive")
     private String hard_drive;
