@@ -19,7 +19,7 @@ public class Specifications {
     private String cpu_name;
     @Column(name = "information_ram")
     private String ram_name;
-    @Column(name = "information_HardDrive")
+    @Column(name = "information_driver")
     private String hard_drive;
     @Column(name = "information_Card")
     private String card;
