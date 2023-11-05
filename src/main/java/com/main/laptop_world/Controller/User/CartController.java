@@ -15,14 +15,10 @@ import java.util.List;
 public class CartController {
     private CartService cartService;
     private UserService userService;
-    private OrderService orderService;
-    private OrderItemService orderItemService;
 
-    public CartController(CartService cartService, UserService userService, OrderService orderService, OrderItemService orderItemService) {
+    public CartController(CartService cartService, UserService userService, ProductService productService) {
         this.cartService = cartService;
         this.userService = userService;
-        this.orderService = orderService;
-        this.orderItemService = orderItemService;
     }
 
     @GetMapping("/cart")

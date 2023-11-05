@@ -72,3 +72,8 @@ img {
     overflow-clip-margin: content-box;
     overflow: clip;
 }
+
+.disable{
+    opacity: 0.75;
+    cursor: no-drop !important;
+}

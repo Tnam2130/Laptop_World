@@ -88,8 +88,10 @@
             </div>
         </div>
         <!-- card right -->
-        <div class="col">
+        <div class="col position-relative">
             <div class="product-content" th:each="product : ${products}">
+                   <span th:if="*{product.status == false}" class="position-absolute translate-middle badge rounded-pill bg-danger"
+                         style="top: 2%; left: -90%; z-index: 1;">Hết hàng</span>
                 <h2 class="product-title" th:text="*{product.name}"></h2>
                 <div class="product-price">
                     <p class="last-price">Giá gốc: <span
@@ -112,20 +114,36 @@
                     </ul>
                 </div>
 
-
-                <form th:action="@{'/cart/add/'+ ${product.id}}" method="post" class="purchase-info">
-                    <input type="hidden" name="productId" th:value="*{product.id}">
-                    <div class="d-flex w-100">
-                        <button type="button" class="custom-btn-primary p-1 quantity-control" data-action="decrease">-
-                        </button>
-                        <input type="text" name="quantity" value="1"
-                               class="form-control text-center mx-1 text-black" th:max="*{product.getQuantity()}" readonly="readonly" style="cursor: default">
-                        <button type="button" class="custom-btn-primary p-1 quantity-control" data-action="increase">+
-                        </button>
-                        <button type="submit" class="btn mx-2">Thêm vào giỏ hàng <i class="fas fa-shopping-cart"></i>
-                        </button>
+                <th:block th:if="*{product.status==true}">
+                    <form th:action="@{'/cart/add/'+ ${product.id}}" method="post" class="purchase-info">
+                        <input type="hidden" name="productId" th:value="*{product.id}">
+                        <div class="d-flex w-100">
+                            <button type="button" class="custom-btn-primary p-1 quantity-control" data-action="decrease">-
+                            </button>
+                            <input type="text" name="quantity" value="1"
+                                   class="form-control text-center mx-1 text-black" th:max="*{product.getQuantity()}" readonly="readonly" style="cursor: default">
+                            <button type="button" class="custom-btn-primary p-1 quantity-control" data-action="increase">+
+                            </button>
+                            <button type="submit" class="btn mx-2">Thêm vào giỏ hàng <i class="fas fa-shopping-cart"></i>
+                            </button>
+                        </div>
+                    </form>
+                </th:block>
+                <th:block th:unless="*{product.status == true}">
+                    <div class="purchase-info disable">
+                        <input type="hidden" name="productId" th:value="*{product.id}">
+                        <div class="d-flex w-100">
+                            <button type="button" class="custom-btn-primary p-1 quantity-control disable" data-action="decrease">-
+                            </button>
+                            <input type="text" name="quantity" value="1"
+                                   class="form-control text-center mx-1 text-black" th:max="*{product.getQuantity()}" readonly="readonly" disabled style="cursor: no-drop;">
+                            <button type="button" class="custom-btn-primary p-1 quantity-control disable" data-action="increase">+
+                            </button>
+                            <button type="button" class="btn mx-2 disabled">Thêm vào giỏ hàng <i class="fas fa-shopping-cart"></i>
+                            </button>
+                        </div>
                     </div>
-                </form>
+                </th:block>
             </div>
         </div>
     </div>

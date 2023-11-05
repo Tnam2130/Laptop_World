@@ -29,7 +29,7 @@ public class Products {
     private String shortDesc;
     private Double discount;
     private int quantity;
-    private Boolean status;
+    private Boolean status=true;
 
     // MappedBy trỏ tới tên biến products nằm trong ProductVersion
     // LAZY để tránh việc truy xuất dữ liệu không cần thiết. Lúc nào cần thì mới query

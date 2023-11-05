@@ -23,37 +23,77 @@ public class CartServiceImpl implements CartService {
         this.cartRepository = cartRepository;
         this.productService = productService;
         this.userService = userService;
-        this.orderService=orderService;
-        this.orderItemService=orderItemService;
+        this.orderService = orderService;
+        this.orderItemService = orderItemService;
     }
 
     @Override
     public void addToCart(Long userId, Long productId, int quantity) {
         Optional<Cart> cartItemOptional = cartRepository.findByUserIdAndProductsId(userId, productId);
+        Products product = productService.getProductById(productId);
+        int stockQuantity = product.getQuantity();
         if (cartItemOptional.isPresent()) {
             Cart cartItem = cartItemOptional.get();
-            cartItem.setQuantity(cartItem.getQuantity() + quantity); // Cộng thêm quantity vào số lượng hiện tại
-            updateTotalPrice(cartItem);
-            cartRepository.save(cartItem);
-        } else {
-            Products product = productService.getProductById(productId);
-            if (product != null) {
-                User user = userService.findById(userId);
-                if (user != null) {
-                    Cart cartItem = new Cart();
-                    cartItem.setUser(user);
-                    cartItem.setProducts(product);
-                    cartItem.setQuantity(quantity); // Số lượng sản phẩm được truyền từ tham số quantity
+            int updatedQuantity = cartItem.getQuantity() + quantity;
+            if (updatedQuantity <= stockQuantity) {
+                cartItem.setQuantity(updatedQuantity); // Cộng thêm quantity vào số lượng hiện tại
+                updateTotalPrice(cartItem);
+                cartRepository.save(cartItem);
+                product.setQuantity(stockQuantity - quantity);
+                productService.saveProduct(product);
+            }else {
+                if (stockQuantity > 0) {
+
+                    // Giới hạn số lượng sản phẩm thêm vào giỏ hàng bằng stockQuantity
+                    cartItem.setQuantity(stockQuantity + quantity);
                     updateTotalPrice(cartItem);
                     cartRepository.save(cartItem);
+
+                    // Giảm số lượng sản phẩm trong kho còn lại
+                    product.setQuantity(0);
+                    product.setStatus(false);
+                    productService.saveProduct(product);
                 }
             }
+        } else {
+            User user = userService.findById(userId);
+            if (user != null) {
+                Cart cartItem = new Cart();
+                cartItem.setUser(user);
+                cartItem.setProducts(product);
+                cartItem.setQuantity(quantity); // Số lượng sản phẩm được truyền từ tham số quantity
+                updateTotalPrice(cartItem);
+                cartRepository.save(cartItem);
+                product.setQuantity(stockQuantity - quantity);
+                productService.saveProduct(product);
+            }
+            int totalQuantity=stockQuantity-quantity;
+//            System.out.println("abc "+totalQuantity);
+            if (totalQuantity <= 0) {
+                product.setStatus(false);
+            }
+            productService.saveProduct(product);
         }
     }
 
     @Override
     public void removeToCart(Long cartItemId) {
-        cartRepository.deleteById(cartItemId);
+        Optional<Cart> cartItemOptional = cartRepository.findById(cartItemId);
+
+        if (cartItemOptional.isPresent()) {
+            Cart cartItem = cartItemOptional.get();
+            int quantity = cartItem.getQuantity();
+            Products product = cartItem.getProducts();
+
+            // Trả lại số lượng sản phẩm vào số lượng trong kho
+            product.setQuantity(product.getQuantity() + quantity);
+            product.setStatus(true);
+            // Lưu lại sản phẩm
+            productService.saveProduct(product);
+
+            // Xóa Cart item khỏi giỏ hàng
+            cartRepository.deleteById(cartItemId);
+        }
     }
 
     @Override
@@ -79,15 +119,15 @@ public class CartServiceImpl implements CartService {
     @Override
     public BigDecimal calculateDiscount(List<Cart> cartItems) {
         BigDecimal total = BigDecimal.ZERO;
-        int quantity=0;
+        int quantity = 0;
         for (Cart cartItem : cartItems) {
             total = total.add(cartItem.getTotalPrice());
             quantity += cartItem.getQuantity();
         }
-        if (quantity >= 2 && quantity <5){
+        if (quantity >= 2 && quantity < 5) {
             BigDecimal discount = total.multiply(new BigDecimal("0.05")); // Giảm giá 5%
             total = total.subtract(discount);
-        }else if(quantity >=5 && quantity <10){
+        } else if (quantity >= 5 && quantity < 10) {
             BigDecimal discount = total.multiply(new BigDecimal("0.1")); // Giảm giá 10%
             total = total.subtract(discount);
         } else if (quantity >= 10) {
