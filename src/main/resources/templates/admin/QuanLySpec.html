@@ -1,0 +1,119 @@
+
+<!DOCTYPE html>
+<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="ISO-8859-1">
+    <title th:text="${title}"></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+<div th:replace="admin/layout/header"></div>
+<!--content -->
+<div th:replace="admin/layout/home"></div>
+<section>
+    <div >
+        <h3 class="page-header">Thông s? s?n ph?m</h3>
+        <div class="container">
+            <div th:if="${message}" class="alert alert-success text-center">
+                [[${message}]]
+            </div>
+            <form th:action="@{/admin/spec/add}" th:object="${specs}" >
+                <input type="hidden" name="id" >
+                <div class="row">
+                    <div class="col-md-6" style="margin-bottom: 20px">
+                        <div class="input-container">
+                            <input class="form-control" type="text" id="cpu_name" name="cpu_name" required="" th:field="*{cpu_name}">
+                            <label for="cpu_name" class="label">CPU Name</label>
+                            <div class="underline"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="margin-bottom: 20px">
+                        <div class="input-container">
+                            <input class="form-control" type="text" id="ram_name" name="ram_name" required="" th:field="*{ram_name}">
+                            <label for="ram_name" class="label">RAM Name</label>
+                            <div class="underline"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="margin-bottom: 20px">
+                        <div class="input-container">
+                            <input class="form-control" type="text" id="hard_drive" name="hard_drive" required="" th:field="*{hard_drive}">
+                            <label for="hard_drive" class="label">Hard Drive</label>
+                            <div class="underline"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="margin-bottom: 20px">
+                        <div class="input-container">
+                            <input class="form-control" type="text" id="card" name="card" required="" th:field="*{card}">
+                            <label for="card" class="label">Card Name</label>
+                            <div class="underline"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="margin-bottom: 20px">
+                        <div class="input-container">
+                            <input class="form-control" type="text" id="screen" name="screen" required="" th:field="*{screen}">
+                            <label for="screen" class="label">Screen Name</label>
+                            <div class="underline"></div>
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="margin-bottom: 20px;">
+                        <div class="input-container">
+                        <select class="form-control" id="productList" th:field="*{products}">
+                            <option value="">Products</option>
+                            <option th:each="productlist : ${productList}" th:value="${productlist.getId()}" th:text="${productlist.getName()}"></option>
+                        </select>
+                        </div>
+                    </div>
+                </div>
+                <div class=" text-center">
+                    <button type="submit">
+                        Save
+                    </button>
+                </div>
+
+            </form>
+        </div>
+        <div>
+            <table class="table table-hover nhanHieuTable">
+                <thead>
+                <tr class="active">
+                    <th>ID</th>
+                    <th>CPU Name</th>
+                    <th>RAM Name</th>
+                    <th>Hard Drive</th>
+                    <th>Card</th>
+                    <th>Screen</th>
+                    <th>Product</th>
+
+                    <th></th>
+                </tr>
+                </thead>
+                <tbody th:each="specs: ${spec}">
+                <tr class="info">
+                    <td class="text-center" th:text="*{specs.id}"/>
+                    <td class="text-center" th:text="*{specs.cpu_name}"/>
+                    <td class="text-center" th:text="*{specs.ram_name}"/>
+                    <td class="text-center" th:text="*{specs.hard_drive}"/>
+                    <td class="text-center" th:text="*{specs.card}"/>
+                    <td class="text-center" th:text="*{specs.screen}"/>
+                    <td class="text-center" th:text="*{specs.getProducts().getName()}"/>
+                    <td><a th:href="@{'/admin/spec/update/id=' + *{specs.id}}">update</a>
+                        <a th:href="@{'/admin/spec/delete/' + *{specs.getId()}}">Delete</a></td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+        <ul class="pagination">
+        </ul>
+    </div>
+</section>
+
+
+
+
+
+<div th:replace="admin/layout/footer"></div>
+
+</body>
+</html>

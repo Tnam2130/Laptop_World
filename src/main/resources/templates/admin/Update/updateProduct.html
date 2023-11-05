@@ -19,7 +19,7 @@
     <form th:action="@{'/admin/products/update/id='+ ${product.id}}" th:object="${product}" enctype="multipart/form-data" method="post" >
       <div class="row">
         <input type="hidden" name="id"  th:field="*{id}">
-        <div style="margin-bottom: 20px" class="col-md-12">
+        <div style="margin-bottom: 20px" class="col-md-6">
           <input class="form-control" type="text" disabled name="id"  th:field="*{id}">
         </div>
         <div style="margin-bottom: 20px" class="col-md-6">
@@ -57,7 +57,7 @@
             <option th:each=" category : ${categories}" th:selected="${category.mainName == product.category.mainName}" th:value="${category.getId()}" th:text="${category.getMainName()}"></option>
           </select>
         </div>
-        <div class="col" style="margin-bottom: 20px;">
+        <div class="col-md-6" style="margin-bottom: 20px;">
           <select class="form-control" id="brand" name="brand">
             <option value="">Thương hiệu</option>
             <option th:each="brand : ${brandList}" th:selected="${brand.title == product.brand.title}" th:value="${brand.getId()}" th:text="${brand.getTitle()}"></option>

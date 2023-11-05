@@ -16,9 +16,15 @@ public class Specifications {
     @Column(name = "information_id")
     private Long id;
     @Column(name = "information_title")
-    private String title;
+    private String cpu_name;
     @Column(name = "information_content")
-    private String content;
+    private String ram_name;
+    @Column(name = "information_HardDrive")
+    private String hard_drive;
+    @Column(name = "information_Card")
+    private String card;
+    @Column(name = "information_screen")
+    private String screen;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")

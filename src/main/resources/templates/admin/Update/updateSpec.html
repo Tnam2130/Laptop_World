@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="ISO-8859-1">
+  <title>Quản lý Color</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+<div th:replace="admin/layout/header"></div>
+<!--content -->
+<div th:replace="admin/layout/home"></div>
+<section>
+  <div >
+    <h3 class="text-center page-header">UPDATE THÔNG SỐ</h3>
+    <div class="container">
+      <form th:action="@{/admin/spec/update}" th:object="${spec}" method="post">
+        <div class="row">
+          <input type="hidden" name="id"  th:field="*{id}">
+          <div style="margin-bottom: 20px" class="col-md-12">
+            <input class="form-control" type="text" disabled id="id" name="id"  th:field="*{id}">
+          </div>
+          <div style="margin-bottom: 20px" class="col-md-6">
+            <input class="form-control" type="text"  id="cpu_name" name="cpu_name"  th:field="*{cpu_name}">
+          </div>
+          <div style="margin-bottom: 20px" class="col-md-6">
+            <input class="form-control" type="text"  id="ram_name" name="ram_name"  th:field="*{ram_name}">
+          </div>
+          <div style="margin-bottom: 20px" class="col-md-6">
+            <input class="form-control" type="text"  id="hard_drive" name="hard_drive"  th:field="*{hard_drive}">
+          </div>
+          <div style="margin-bottom: 20px" class="col-md-6">
+            <input class="form-control" type="text"  id="card" name="card"  th:field="*{card}">
+          </div>
+          <div style="margin-bottom: 20px" class="col-md-6">
+            <input class="form-control" type="text"  id="screen" name="screen"  th:field="*{screen}">
+          </div>
+          <div style="margin-bottom: 20px" class="col-md-6">
+            <select class="form-control" name="product" id="product">
+              <option value="">Products</option>
+              <option th:each="product : ${productList}" th:value="${product.getId()}" th:text="${product.getName()}"></option>
+            </select>
+          </div>
+
+        </div>
+        <div class=" text-center">
+          <button type="submit">
+            Update
+          </button>
+          <button onclick="cancelForm()" type="button">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <ul class="pagination">
+    </ul>
+  </div>
+</section>
+
+
+
+
+
+<div th:replace="admin/layout/footer"></div>
+<!--<script th:src="@{/admin/js/danhMucAjax.js}"></script>-->
+<script type="text/javascript">
+  function cancelForm(){
+    window.location = "[[@{/admin/spec}]]";
+  }
+</script>
+</body>
+</html>
