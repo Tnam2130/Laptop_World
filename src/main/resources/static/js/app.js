@@ -22,3 +22,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     });
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Ẩn trang tải khi trang đã tải xong
+    document.getElementById("loading-page").style.display = "none";
+});

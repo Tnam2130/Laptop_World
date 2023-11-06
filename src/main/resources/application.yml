@@ -18,9 +18,9 @@ server:
 spring:
 ### My SQL
   datasource:
-    url: jdbc:mysql://localhost:3306/laptop_world?allowPublicKeyRetrieval=true&useSSL=false
-    username: root
-    password: 1234
+    url: jdbc:mysql://avnadmin:AVNS_5uOiL8WRxGR0ol0wUvN@laptopworld-datn.a.aivencloud.com:17235/defaultdb?ssl-mode=REQUIRED
+    username: avnadmin
+    password: AVNS_5uOiL8WRxGR0ol0wUvN
     tomcat:
       connection-properties:
         useUnicode=true
