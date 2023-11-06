@@ -49,7 +49,7 @@ public class OrderController {
     public String checkoutCart(Principal principal){
         User user = userService.findByUsername(principal.getName());
         Long userId = user.getId();
-        Long or = cartService.createOrderFormCart(userId);
+        Long or = cartService.createOrderFromCart(userId);
         return "redirect:/order/order=" + or;
     }
 

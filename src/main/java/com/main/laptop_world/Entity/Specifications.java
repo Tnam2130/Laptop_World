@@ -21,7 +21,7 @@ public class Specifications {
     private String ram_name;
     @Column(name = "information_driver")
     private String hard_drive;
-    @Column(name = "information_Card")
+    @Column(name = "information_card")
     private String card;
     @Column(name = "information_screen")
     private String screen;

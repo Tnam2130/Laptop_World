@@ -3,9 +3,8 @@
 <html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="ISO-8859-1">
+    <meta charset="UTF-8">
     <title th:text="${title}"></title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <body>
 <div th:replace="admin/layout/header"></div>
@@ -13,7 +12,7 @@
 <div th:replace="admin/layout/home"></div>
 <section>
     <div >
-        <h3 class="page-header">Th�ng s? s?n ph?m</h3>
+        <h3 class="page-header">Thông số sản phẩm</h3>
         <div class="container">
             <div th:if="${message}" class="alert alert-success text-center">
                 [[${message}]]
@@ -23,35 +22,35 @@
                 <div class="row">
                     <div class="col-md-6" style="margin-bottom: 20px">
                         <div class="input-container">
-                            <input class="form-control" type="text" id="cpu_name" name="cpu_name" required="" th:field="*{cpu_name}">
+                            <input class="form-control" type="text" id="cpu_name" name="cpu_name" required th:field="*{cpu_name}">
                             <label for="cpu_name" class="label">CPU Name</label>
                             <div class="underline"></div>
                         </div>
                     </div>
                     <div class="col-md-6" style="margin-bottom: 20px">
                         <div class="input-container">
-                            <input class="form-control" type="text" id="ram_name" name="ram_name" required="" th:field="*{ram_name}">
+                            <input class="form-control" type="text" id="ram_name" name="ram_name" required th:field="*{ram_name}">
                             <label for="ram_name" class="label">RAM Name</label>
                             <div class="underline"></div>
                         </div>
                     </div>
                     <div class="col-md-6" style="margin-bottom: 20px">
                         <div class="input-container">
-                            <input class="form-control" type="text" id="hard_drive" name="hard_drive" required="" th:field="*{hard_drive}">
+                            <input class="form-control" type="text" id="hard_drive" name="hard_drive" required th:field="*{hard_drive}">
                             <label for="hard_drive" class="label">Hard Drive</label>
                             <div class="underline"></div>
                         </div>
                     </div>
                     <div class="col-md-6" style="margin-bottom: 20px">
                         <div class="input-container">
-                            <input class="form-control" type="text" id="card" name="card" required="" th:field="*{card}">
+                            <input class="form-control" type="text" id="card" name="card" required th:field="*{card}">
                             <label for="card" class="label">Card Name</label>
                             <div class="underline"></div>
                         </div>
                     </div>
                     <div class="col-md-6" style="margin-bottom: 20px">
                         <div class="input-container">
-                            <input class="form-control" type="text" id="screen" name="screen" required="" th:field="*{screen}">
+                            <input class="form-control" type="text" id="screen" name="screen" required th:field="*{screen}">
                             <label for="screen" class="label">Screen Name</label>
                             <div class="underline"></div>
                         </div>

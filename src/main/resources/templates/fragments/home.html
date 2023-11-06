@@ -10,64 +10,139 @@
             <div class="tieude my-3 box-text--shadow d-flex justify-content-between align-items-center">
                 <h3 class="text-uppercase fs-5 fw-bold text-danger" style="margin: 0 1.2rem; line-height: 2rem;"
                     th:text="*{category.mainName}"></h3>
-                <a th:href="@{'/collections/filters?categoryId='+ ${category.id}}" class="text-primary category--link">Xem thêm</a>
+                <a th:href="@{'/collections/filters?categoryId='+ ${category.id}}" class="text-primary category--link">Xem
+                    thêm</a>
             </div>
             <div class="sanPhamTrungBay">
                 <div class="row row-cols-3 g-5">
                     <th:block th:each="product, iterStat : ${productList}"
                               th:if="*{product.category.mainName == category.mainName}">
-                        <div class="col product_hover" th:if="${iterStat.index <= 4}">
-                            <a th:href="@{'/collections/product='+ *{product.getId()}+'&category='+*{product.category.getId()} }"
-                               class="card border border-light " style="cursor: pointer">
-                                <div th:each="image, limit : *{product.getImages()}" th:if="${limit.index} &lt; 1">
-                                    <img th:src="@{'/uploads/products/'+ *{image.getName()}}"
-                                         th:alt="*{image.getName()}"
-                                         th:class="${limit.index % 1 == 0 ? '' :'img-fluid'}"
-                                         style="aspect-ratio: 1 / 1;">
-                                </div>
-                                <div class="card-body">
-                                    <h6 class="card-title fw-bolder text-center fs-4"
-                                        th:text="*{product.getName()}"></h6>
-                                    <div class="cardthongtin pt-2">
-                                        <div class="row ">
-                                            <div class="col-5 text-end">
-                                                <small class="text-secondary text-opacity-75 ">CPU </small><br>
-                                                <small class="text-secondary text-opacity-75 ">RAM</small><br>
-                                                <small class="text-secondary text-opacity-75 ">Ổ cứng </small><br>
-                                                <small class="text-secondary text-opacity-75 ">Card </small><br>
-                                                <small class="text-secondary text-opacity-75 ">M.Hình </small>
-
-                                            </div>
-
-                                            <div class="col-7 text-star">
-                                                <small class=" text-secondary text-opacity-75">i5-12500KH</small><br>
-                                                <small class=" text-secondary text-opacity-75">16GB DDR4</small><br>
-                                                <small class=" text-secondary text-opacity-75"> SSD 512GB</small><br>
-                                                <small class=" text-secondary text-opacity-75"> Nvidia RTX
-                                                    8050Ti</small><br>
-                                                <small class=" text-secondary text-opacity-75"> 15.6' FUll HD
-                                                    144Hz</small>
-
-                                            </div>
-                                        </div>
-                                        <div class="ps-5 text-center pt-4">
-                                            <p class="card-text d-inline ">
-                                                <small class="text-body-secondary  text-decoration-line-through"
-                                                       th:text="${#numbers.formatDecimal(product.getOldPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></small>
-                                            </p>
-                                            <p class="d-inline">
-                                                <small class="ms-2 bg-danger text-white p-1 rounded-pill"
-                                                       th:text="${#numbers.formatDecimal(product.getDiscount(), 0, 'COMMA', 0, 'DEFAULT')}+' %'"></small>
-                                            </p>
-                                        </div>
-                                        <p class=" text-center pt-2">
-                                            <small class=" fs-5 text-danger fw-bolder"
-                                                   th:text="${#numbers.formatDecimal(product.getPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></small>
-                                        </p>
+                        <th:block th:if="*{product.status ==true}">
+                            <div class="col" th:if="${iterStat.index <= 5}">
+                                <a th:href="@{'/collections/product='+ *{product.getId()}+'&category='+*{product.category.getId()} }"
+                                   class="card border border-light product-box" style="cursor: pointer">
+                                    <div class="sale-label position-relative d-flex justify-content-center align-items-center text-danger fw-semibold">
+                                        <span th:text="${#numbers.formatDecimal(product.discount, 0, 'COMMA', 0, 'DEFAULT')} + '%'"></span>
                                     </div>
-                                </div>
-                            </a>
-                        </div>
+                                    <div th:each="image, limit : *{product.getImages()}" th:if="${limit.index} &lt; 1">
+                                        <img th:src="@{'/uploads/products/'+ *{image.getName()}}"
+                                             th:alt="*{image.getName()}"
+                                             th:class="${limit.index % 1 == 0 ? '' :'img-fluid'}"
+                                             style="width:100%; aspect-ratio: 1 / 1;">
+                                    </div>
+                                    <div class="card-body">
+                                        <h6 class="card-title fw-bolder text-center fs-4"
+                                            th:text="*{product.getName()}"></h6>
+                                        <div class="cardthongtin pt-2">
+                                            <div class="row ">
+                                                <div class="col-5 text-end">
+                                                    <small class="text-secondary text-opacity-75 ">CPU </small><br>
+                                                    <small class="text-secondary text-opacity-75 ">RAM</small><br>
+                                                    <small class="text-secondary text-opacity-75 ">Ổ cứng </small><br>
+                                                    <small class="text-secondary text-opacity-75 ">Card </small><br>
+                                                    <small class="text-secondary text-opacity-75 ">M.Hình </small>
+
+                                                </div>
+
+                                                <div class="col-7 text-star">
+                                                    <small class=" text-secondary text-opacity-75">i5-12500KH</small><br>
+                                                    <small class=" text-secondary text-opacity-75">16GB DDR4</small><br>
+                                                    <small class=" text-secondary text-opacity-75"> SSD
+                                                        512GB</small><br>
+                                                    <small class=" text-secondary text-opacity-75"> Nvidia RTX
+                                                        8050Ti</small><br>
+                                                    <small class=" text-secondary text-opacity-75"> 15.6' FUll HD
+                                                        144Hz</small>
+
+                                                </div>
+                                            </div>
+                                            <div class="ps-5 text-center pt-4">
+                                                <p class="card-text d-inline ">
+                                                    <small class="text-body-secondary  text-decoration-line-through"
+                                                           th:text="${#numbers.formatDecimal(product.getOldPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></small>
+                                                </p>
+                                                <p class="d-inline">
+                                                    <small class="ms-2 bg-danger text-white p-1 rounded-pill"
+                                                           th:text="${#numbers.formatDecimal(product.getDiscount(), 0, 'COMMA', 0, 'DEFAULT')}+' %'"></small>
+                                                </p>
+                                            </div>
+                                            <p class=" text-center pt-2">
+                                                <small class=" fs-5 text-danger fw-bolder"
+                                                       th:text="${#numbers.formatDecimal(product.getPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></small>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        </th:block>
+                        <th:block th:unless="*{product.status==true}">
+                            <div class="col" th:if="${iterStat.index <= 5}" th:remove="all">
+                                <th:block
+                                        th:each="nextProduct : ${#lists.subList(productList, iterStat.index + 1, productList.size())}"
+                                        th:remove="none">
+                                    <th:block th:if="${nextProduct.status == true}" th:remove="tag">
+                                        <a th:href="@{'/collections/product='+ *{product.getId()}+'&category='+*{product.category.getId()} }"
+                                           class="card border border-light product-box" style="cursor: pointer">
+                                            <div class="sale-label position-relative d-flex justify-content-center align-items-center text-danger fw-semibold">
+                                                <span th:text="${#numbers.formatDecimal(product.discount, 0, 'COMMA', 0, 'DEFAULT')} + '%'"></span>
+                                            </div>
+                                            <div th:each="image, limit : *{product.getImages()}"
+                                                 th:if="${limit.index} &lt; 1">
+                                                <img th:src="@{'/uploads/products/'+ *{image.getName()}}"
+                                                     th:alt="*{image.getName()}"
+                                                     th:class="${limit.index % 1 == 0 ? '' :'img-fluid'}"
+                                                     style="aspect-ratio: 1 / 1;">
+                                            </div>
+                                            <div class="card-body">
+                                                <h6 class="card-title fw-bolder text-center fs-4"
+                                                    th:text="*{product.getName()}"></h6>
+                                                <div class="cardthongtin pt-2">
+                                                    <div class="row ">
+                                                        <div class="col-5 text-end">
+                                                            <small class="text-secondary text-opacity-75 ">CPU </small><br>
+                                                            <small class="text-secondary text-opacity-75 ">RAM</small><br>
+                                                            <small class="text-secondary text-opacity-75 ">Ổ
+                                                                cứng </small><br>
+                                                            <small class="text-secondary text-opacity-75 ">Card </small><br>
+                                                            <small class="text-secondary text-opacity-75 ">M.Hình </small>
+
+                                                        </div>
+
+                                                        <div class="col-7 text-star">
+                                                            <small class=" text-secondary text-opacity-75">i5-12500KH</small><br>
+                                                            <small class=" text-secondary text-opacity-75">16GB
+                                                                DDR4</small><br>
+                                                            <small class=" text-secondary text-opacity-75"> SSD
+                                                                512GB</small><br>
+                                                            <small class=" text-secondary text-opacity-75"> Nvidia RTX
+                                                                8050Ti</small><br>
+                                                            <small class=" text-secondary text-opacity-75"> 15.6' FUll
+                                                                HD
+                                                                144Hz</small>
+
+                                                        </div>
+                                                    </div>
+                                                    <div class="ps-5 text-center pt-4">
+                                                        <p class="card-text d-inline ">
+                                                            <small class="text-body-secondary  text-decoration-line-through"
+                                                                   th:text="${#numbers.formatDecimal(product.getOldPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></small>
+                                                        </p>
+                                                        <p class="d-inline">
+                                                            <small class="ms-2 bg-danger text-white p-1 rounded-pill"
+                                                                   th:text="${#numbers.formatDecimal(product.getDiscount(), 0, 'COMMA', 0, 'DEFAULT')}+' %'"></small>
+                                                        </p>
+                                                    </div>
+                                                    <p class=" text-center pt-2">
+                                                        <small class=" fs-5 text-danger fw-bolder"
+                                                               th:text="${#numbers.formatDecimal(product.getPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></small>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </th:block>
+                                </th:block>
+                            </div>
+                        </th:block>
                     </th:block>
                 </div>
             </div>

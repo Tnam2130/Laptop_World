@@ -70,9 +70,3 @@ spring:
           starttls:
             enable: true
         protocol: smtp
----
-  paypal:
-    mode: sandbox
-    client:
-      id: AWb_-VfZI9QmKbQNK4LopnMppaG_hvlsuonNFkKlQ8z8nnUjf3ZwIN8H-nlQZBNAp2gSCst4VnGiMdL5
-      secret: EFvEMUKc2OEg3C99ALBB3tndwwCuLFwuteRfEvTlpJheuRDPApfZCg3D3hvhccDLlvy9ZhecttXAIFX1

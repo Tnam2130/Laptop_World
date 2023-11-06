@@ -32,8 +32,9 @@
                             <div class="col-lg-5">
                                 <div class="me-lg-5">
                                     <div class="d-flex">
-                                        <a th:href="@{'/collections/product='+ *{item.getProducts().getId()}+'&category='+*{item.getProducts().category.getId()}}" th:each="image, limit : *{item.getProducts().getImages()}"
-                                             th:if="${limit.index} &lt; 1">
+                                        <a th:href="@{'/collections/product='+ *{item.getProducts().getId()}+'&category='+*{item.getProducts().category.getId()}}"
+                                           th:each="image, limit : *{item.getProducts().getImages()}"
+                                           th:if="${limit.index} &lt; 1">
                                             <img th:src="@{'/uploads/products/'+ *{image.getName()}}"
                                                  th:alt="*{image.getName()}"
                                                  th:class="${limit.index % 2 == 0 ? '' :'img-fluid border rounded me-3'}"
@@ -101,23 +102,40 @@
                             <div class="d-flex justify-content-between">
                                 <p class="mb-2 fw-bold">Discount:</p>
                                 <p class="mb-2 text-success">
-                                <span th:text="${#numbers.formatDecimal(discount, 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></span></p>
+                                    <span th:text="${#numbers.formatDecimal(discount, 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></span>
+                                </p>
                             </div>
                             <div style="line-height: 1.2rem">
-                                <p class="text-danger fw-semibold" style="font-size: 0.8rem; margin-top: 4px;" th:if="${quantities >= 2 && quantities <5}">Với mỗi <span th:text="${quantities}"></span> sản phẩm, bạn sẽ được giảm <span th:text="${#numbers.formatDecimal(percentage, 0, 'COMMA', 0, 'DEFAULT')} + '%'"></span> tổng đơn hàng.</p>
-                                <p class="text-danger fw-semibold" style="font-size: 0.8rem; margin-top: 4px;" th:if="${quantities >= 5 && quantities <10}">Với mỗi <span th:text="${quantities}"></span> sản phẩm, bạn sẽ được giảm <span th:text="${#numbers.formatDecimal(percentage, 0, 'COMMA', 0, 'DEFAULT')} + '%'"></span> tổng đơn hàng.</p>
-                                <p class="text-danger fw-semibold" style="font-size: 0.8rem; margin-top: 4px;" th:if="${quantities >= 10}">Với mỗi <span th:text="${quantities}"></span> sản phẩm, bạn sẽ được giảm <span th:text="${#numbers.formatDecimal(percentage, 0, 'COMMA', 0, 'DEFAULT')} + '%'"></span> tổng đơn hàng.</p>
+                                <p class="text-danger fw-semibold" style="font-size: 0.8rem; margin-top: 4px;"
+                                   th:if="${quantities >= 2 && quantities <5}">Với mỗi <span
+                                        th:text="${quantities}"></span> sản phẩm, bạn sẽ được giảm <span
+                                        th:text="${#numbers.formatDecimal(percentage, 0, 'COMMA', 0, 'DEFAULT')} + '%'"></span>
+                                    tổng đơn hàng.</p>
+                                <p class="text-danger fw-semibold" style="font-size: 0.8rem; margin-top: 4px;"
+                                   th:if="${quantities >= 5 && quantities <10}">Với mỗi <span
+                                        th:text="${quantities}"></span> sản phẩm, bạn sẽ được giảm <span
+                                        th:text="${#numbers.formatDecimal(percentage, 0, 'COMMA', 0, 'DEFAULT')} + '%'"></span>
+                                    tổng đơn hàng.</p>
+                                <p class="text-danger fw-semibold" style="font-size: 0.8rem; margin-top: 4px;"
+                                   th:if="${quantities >= 10}">Với mỗi <span th:text="${quantities}"></span> sản phẩm,
+                                    bạn sẽ được giảm <span
+                                            th:text="${#numbers.formatDecimal(percentage, 0, 'COMMA', 0, 'DEFAULT')} + '%'"></span>
+                                    tổng đơn hàng.</p>
                             </div>
                             <hr/>
                             <div class="d-flex justify-content-between">
                                 <p class="mb-2 fw-bold">Tổng tiền:</p>
                                 <p class="mb-2 text-danger fw-bold"
-                                   th:text="${#numbers.formatDecimal(total, 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></p>
+                                   th:text="${#numbers.formatDecimal(total, 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"
+                                   id="totalValue"></p>
                             </div>
-                            <div class="mt-3">
+                            <div class="mt-3 d-flex justify-content-center align-items-center" style="height: 125px;">
                                 <form th:action="@{/order/checkout}" method="post">
                                     <input type="hidden" name="orderId" value="${orderId}">
-                                    <button type="submit" class="btn btn-dark w-100 shadow-0 mb-2"><i class="fa-solid fa-money-bills text-success"></i> Thanh toán bằng tiền mặt  </button>
+                                    <input type="hidden" id="userId" th:value="${user.getId()}">
+                                    <button type="submit" class="btn btn-dark w-100 shadow-0 mb-2"><i
+                                            class="fa-solid fa-money-bills text-success"></i> Thanh toán bằng tiền mặt
+                                    </button>
                                     <a th:href="@{/}" class="btn btn-light w-100 border mt-2"> Trang chủ </a>
                                 </form>
                             </div>

@@ -148,7 +148,7 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
-    public Long createOrderFormCart(Long userId) {
+    public Long createOrderFromCart(Long userId) {
         List<Cart> cartList = cartRepository.findByUserId(userId);
         BigDecimal totalAmount = calculateTotalPrice(cartList);
         BigDecimal discount = totalAmount.subtract(calculateDiscount(cartList));
