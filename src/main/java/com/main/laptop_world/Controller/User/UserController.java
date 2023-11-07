@@ -101,7 +101,7 @@ public class UserController {
     public String doSendCode(@ModelAttribute("email") String email) {
         User existEmail = userService.findByEmail(email);
 
-        if (existEmail != null) {
+        if (existEmail != null && email.equals(existEmail.getEmail())) {
             emailService.sendCode(email);
             return "redirect:/check-code?email=" + email;
         } else {

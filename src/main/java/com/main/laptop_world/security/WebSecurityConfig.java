@@ -13,6 +13,7 @@ import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.rememberme.TokenBasedRememberMeServices;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+
 @Configuration
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -49,7 +50,10 @@ public class WebSecurityConfig {
     private static final String[] ADMIN_RESOURCES = {
             "/admin/**"
     };
-
+    private static final String[] EMPLOYEE_RESOURCES ={
+            "/admin/home",
+            "/admin/products/**"
+    };
     @Bean
     public static PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -67,9 +71,10 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http, RememberMeServices rememberMeServices) throws Exception {
         http.authorizeHttpRequests(c ->
                 c
-                        .requestMatchers(ADMIN_RESOURCES).hasAuthority("ADMIN")
-                        .requestMatchers(USER_RESOURCES).hasAuthority("USER")
                         .requestMatchers(PUBLIC_RESOURCES).permitAll()
+                        .requestMatchers(ADMIN_RESOURCES).hasAnyAuthority("ADMIN")
+                        .requestMatchers(USER_RESOURCES).hasAuthority("USER")
+                        .requestMatchers(EMPLOYEE_RESOURCES).hasRole("EMPLOYEE")
                         .anyRequest().authenticated());
         http.rememberMe((remember -> remember.rememberMeServices(rememberMeServices).tokenValiditySeconds(86400).rememberMeParameter("remember-me")));
         http.formLogin(c -> c.loginPage("/login")

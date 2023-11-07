@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="fragments/head :: head"></head>
+<head th:insert="fragments/head :: head">
+    <link type="text/css" rel="stylesheet" th:href="@{/admin/css/admin.css}">
+
+</head>
 <body>
 <div th:replace="admin/layout/header :: headerAdmin"></div>
 <!--content -->

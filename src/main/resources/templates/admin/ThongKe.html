@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="ISO-8859-1">
+<head th:insert="fragments/head :: head">
     <title>thống kê </title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link type="text/css" rel="stylesheet" th:href="@{/admin/css/admin.css}">
     <script>
         window.onload = function () {
             var data = [];
