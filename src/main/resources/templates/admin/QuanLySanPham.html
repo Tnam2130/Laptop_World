@@ -1,172 +1,176 @@
-
 <!DOCTYPE html>
-<html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="ISO-8859-1">
-  <title>Quản lý sản phẩm </title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <style type="text/css">
-    .modal-open {
-      overflow: scroll;
-    }
-  </style>
-</head>
+<head th:insert="fragments/head :: head"></head>
 <body>
-<div th:replace="admin/layout/header"></div>
+<div th:replace="admin/layout/header :: headerAdmin"></div>
 <!--content -->
-<div th:replace="admin/layout/home"></div>
+<div class="row">
+    <th:block th:insert="admin/layout/sidebar :: sidebar"></th:block>
+    <div class="col-10 mt-3">
+        <h3 class="page-header">Quản lý Sản Phẩm</h3>
+        <div class="container">
+            <div th:if="${message}" class="alert alert-success text-center">
+                [[${message}]]
+            </div>
+            <form th:action="@{/admin/products/add}" th:object="${product}" enctype="multipart/form-data" method="post">
+                <input type="hidden" name="id">
+                <div class="row">
+                    <div class="col-md-6" style="margin-bottom: 20px">
+                        <div class="input-container">
+                            <input class="form-control" type="text" id="name" name="name" required=""
+                                   th:field="*{name}">
+                            <label for="name" class="label">Tên sản phẩm</label>
+                            <div class="underline"></div>
+                        </div>
+                        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger fs-6 mb-3">Không
+                            được để trống tên sản phẩm!</p>
+                    </div>
+                    <div class="col-md-6" style="margin-bottom: 20px">
+                        <div class="input-container">
+                            <input class="form-control" type="text" id="price" name="price" required=""
+                                   th:field="*{price}" oninput="validateNumberInput(this)">
+                            <label for="price" class="label">Giá khuyến mãi</label>
+                            <div class="underline"></div>
+                        </div>
+                        <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger fs-6 mb-3">Vui
+                            lòng chỉ nhập số!!!</p>
+                    </div>
+                    <div class="col-md-6" style="margin-bottom: 20px">
+                        <div class="input-container">
+                            <input class="form-control" type="text" id="oldPrice" name="oldPrice" required=""
+                                   th:field="*{oldPrice}" oninput="validateNumberInput(this)">
+                            <label for="oldPrice" class="label">Giá gốc</label>
+                            <div class="underline"></div>
+                        </div>
+                        <p th:if="${#fields.hasErrors('oldPrice')}" th:errors="*{oldPrice}"
+                           class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
+                    </div>
+                    <div class="col-md-6" style="margin-bottom: 20px">
+                        <div class="input-container">
+                            <input class="form-control" type="text" id="shortDesc" name="shortDesc" required=""
+                                   th:field="*{shortDesc}">
+                            <label for="shortDesc" class="label">Lời giới thiệu ngắn</label>
+                            <div class="underline"></div>
+                        </div>
+                    </div>
 
-<section >
-  <h3 class="page-header">Quản lý Sản Phẩm</h3>
-  <div class="container">
-    <div th:if="${message}" class="alert alert-success text-center">
-      [[${message}]]
-    </div>
-  <form th:action="@{/admin/products/add}" th:object="${product}" enctype="multipart/form-data" method="post" >
-    <input type="hidden" name="id" >
-    <div class="row">
-      <div class="col-md-6" style="margin-bottom: 20px">
-        <div class="input-container">
-          <input class="form-control" type="text" id="name" name="name" required="" th:field="*{name}">
-          <label for="name" class="label">Tên sản phẩm</label>
-          <div class="underline"></div>
+                    <div class="col-md-6" style="margin-bottom: 20px">
+                        <div class="input-container">
+                            <input class="form-control" type="text" id="discount" name="discount" required=""
+                                   th:field="*{discount}" oninput="validateNumberInput(this)">
+                            <label for="discount" class="label">Giảm giá</label>
+                            <div class="underline"></div>
+                        </div>
+                        <p th:if="${#fields.hasErrors('discount')}" th:errors="*{discount}"
+                           class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
+                    </div>
+                    <div class="col-md-6" style="margin-bottom: 20px">
+                        <div class="input-container">
+                            <input class="form-control" type="text" id="quantity" name="quantity" th:field="*{quantity}"
+                                   required="" oninput="validateNumberInput(this)">
+                            <label for="quantity" class="label">Số lượng trong kho</label>
+                            <div class="underline"></div>
+                        </div>
+                        <p th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"
+                           class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
+                    </div>
+                    <div class="col-md-6" style="margin-bottom: 20px;">
+                        <div class="input-container">
+                            <select class="form-control" name="status" th:field="*{status}">
+                                <option th:value="1" class="text-success">Hoạt động</option>
+                                <option th:value="0" class="text-danger">Hủy</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="margin-bottom: 20px">
+                        <div class="input-container">
+                            <select class="form-control" id="category" th:field="*{category}">
+                                <option value="" th:if="${selectedValue}" th:disabled="disabled">Danh mục</option>
+                                <option th:each="category : ${categories}" th:value="${category.getId()}"
+                                        th:text="${category.getMainName()}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="margin-bottom: 20px">
+                        <div class="input-container">
+                            <select class="form-control" id="brand" th:field="*{brand}">
+                                <option value="" th:if="${selectedValue}" th:disabled="disabled">Thương hiệu</option>
+                                <option th:each="brand : ${brands}" th:value="${brand.getId()}"
+                                        th:text="${brand.getTitle()}"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="margin-bottom: 20px">
+                        <div class="input-container">
+                            <input class="form-control" type="file" id="files" multiple="multiple" name="files"
+                                   accept="image/png, image/jpeg">
+                        </div>
+                    </div>
+                </div>
+                <div class=" text-center">
+                    <button type="submit">
+                        Save
+                    </button>
+                </div>
+
+            </form>
         </div>
-        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger fs-6 mb-3">Không được để trống tên sản phẩm!</p>
-      </div>
-    <div class="col-md-6" style="margin-bottom: 20px">
-      <div class="input-container">
-        <input class="form-control" type="text" id="price" name="price" required="" th:field="*{price}" oninput="validateNumberInput(this)">
-        <label for="price" class="label">Giá khuyến mãi</label>
-        <div class="underline"></div>
-      </div>
-      <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
-    </div>
-    <div class="col-md-6" style="margin-bottom: 20px">
-      <div class="input-container">
-        <input class="form-control" type="text" id="oldPrice" name="oldPrice" required="" th:field="*{oldPrice}" oninput="validateNumberInput(this)">
-        <label for="oldPrice" class="label">Giá gốc</label>
-        <div class="underline"></div>
-      </div>
-      <p th:if="${#fields.hasErrors('oldPrice')}" th:errors="*{oldPrice}" class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
-    </div>
-    <div class="col-md-6" style="margin-bottom: 20px">
-      <div class="input-container">
-        <input class="form-control" type="text" id="shortDesc" name="shortDesc" required="" th:field="*{shortDesc}">
-        <label for="shortDesc" class="label">Lời giới thiệu ngắn</label>
-        <div class="underline"></div>
-      </div>
-    </div>
+        <table class="table table-hover sanPhamTable "
+               style="text-align: center;">
+            <thead>
+            <tr class="active">
+                <th class="fw-bold text-center" style="line-height: 1.5rem;">ID</th>
+                <th class="fw-bold text-center" style="line-height: 1.5rem;">Tên sản phẩm</th>
+                <th class="fw-bold text-center" style="line-height: 1.5rem;">Thương hiệu</th>
+                <th class="fw-bold text-center" style="line-height: 1.5rem;">Giá khuyến mãi</th>
+                <th class="fw-bold text-center" style="line-height: 1.5rem;">Giá gốc</th>
+                <th class="fw-bold text-center" style="line-height: 1.5rem;">Lời giới thiệu ngắn</th>
+                <th class="fw-bold text-center" style="line-height: 1.5rem;">Giảm giá</th>
+                <th class="fw-bold text-center" style="line-height: 1.5rem;">Danh mục</th>
+                <th class="fw-bold text-center" style="line-height: 1.5rem;">Số lượng</th>
+                <th class="fw-bold text-center" style="line-height: 1.5rem;">Trạng thái</th>
+                <th class="fw-bold text-center"></th>
+            </tr>
+            </thead>
+            <tbody th:each=" product, index: ${productList}">
+            <tr class="info">
+                <td class="text-center" th:text="*{index.index + 1}"></td>
+                <td class="text-center" th:text="*{product.name}" style="line-height: 1.5rem;"></td>
+                <td class="text-center" th:text="*{product.brand.getTitle()}" style="line-height: 1.5rem;"></td>
+                <td class="text-center"
+                    th:text="${#numbers.formatDecimal(product.getPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></td>
+                <td class="text-center"
+                    th:text="${#numbers.formatDecimal(product.getOldPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></td>
+                <td class="text-center" th:text="*{product.shortDesc}" style="line-height: 1.5rem;"></td>
+                <td class="text-center" th:text="${product.discount}+' %'" style="line-height: 1.5rem;"></td>
+                <td class="text-center" th:text="${product.category.mainName}" style="line-height: 1.5rem;"></td>
+                <td class="text-center" th:text="${product.quantity}"></td>
+                <td th:class="*{product.status} ? 'text-success fw-bold' : 'text-danger'"
+                    th:text="*{product.status} ? 'Hoạt động' : 'Hủy'" style="line-height: 1.5rem;"></td>
+                <td><a th:href="@{'/admin/products/update/id=' + *{product.id}}">Update</a>
+                    <a th:href="@{'/admin/products/delete/' + *{product.id}}">Delete</a></td>
+            </tr>
+            </tbody>
+        </table>
 
-    <div class="col-md-6" style="margin-bottom: 20px">
-      <div class="input-container">
-        <input class="form-control" type="text" id="discount" name="discount" required="" th:field="*{discount}" oninput="validateNumberInput(this)">
-        <label for="discount" class="label">Giảm giá</label>
-        <div class="underline"></div>
-      </div>
-      <p th:if="${#fields.hasErrors('discount')}" th:errors="*{discount}" class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
+        <ul class="pagination">
+        </ul>
     </div>
-      <div class="col-md-6" style="margin-bottom: 20px">
-        <div class="input-container">
-          <input class="form-control" type="text" id="quantity" name="quantity" th:field="*{quantity}" required="" oninput="validateNumberInput(this)">
-          <label for="quantity" class="label">Số lượng trong kho</label>
-          <div class="underline"></div>
-        </div>
-        <p th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}" class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
-      </div>
-    <div class="col-md-6" style="margin-bottom: 20px;">
-      <div class="input-container">
-      <select class="form-control" name="status" th:field="*{status}">
-        <option th:value="1" class="text-success">Hoạt động</option>
-        <option th:value="0" class="text-danger">Hủy</option>
-      </select>
-      </div>
-    </div>
-    <div class="col-md-6" style="margin-bottom: 20px">
-      <div class="input-container">
-      <select class="form-control" id="category" th:field="*{category}" >
-        <option value="" th:if="${selectedValue}" th:disabled="disabled">Danh mục</option>
-        <option th:each="category : ${categories}" th:value="${category.getId()}" th:text="${category.getMainName()}"></option>
-      </select>
-      </div>
-    </div>
-      <div class="col-md-6" style="margin-bottom: 20px">
-        <div class="input-container">
-        <select class="form-control" id="brand" th:field="*{brand}" >
-          <option value="" th:if="${selectedValue}" th:disabled="disabled">Thương hiệu</option>
-          <option th:each="brand : ${brands}" th:value="${brand.getId()}" th:text="${brand.getTitle()}"></option>
-        </select>
-        </div>
-      </div>
-      <div class="col-md-6" style="margin-bottom: 20px">
-        <div class="input-container">
-        <input class="form-control" type="file" id="files" multiple="multiple" name="files"  accept="image/png, image/jpeg">
-      </div>
-      </div>
-    </div>
-    <div class=" text-center">
-      <button type="submit">
-        Save
-      </button>
-    </div>
-
-  </form>
-  </div>
-<table class="table table-hover sanPhamTable "
-       style="text-align: center;">
-  <thead>
-  <tr class="active">
-    <th>ID</th>
-    <th>Tên sản phẩm</th>
-    <th>Thương hiệu</th>
-    <th>Giá khuyến mãi</th>
-    <th>Giá gốc</th>
-    <th>Lời giới thiệu ngắn</th>
-    <th>Giảm giá</th>
-    <th>Danh mục</th>
-    <th>Số lượng</th>
-    <th>Trạng thái</th>
-    <th></th>
-  </tr>
-  </thead>
-  <tbody th:each=" product, index: ${productList}">
-  <tr class="info">
-    <td class="text-center" th:text="*{index.index + 1}"></td>
-    <td class="text-center" th:text="*{product.name}"></td>
-    <td class="text-center" th:text="*{product.brand.getTitle()}"></td>
-    <td class="text-center" th:text="${#numbers.formatDecimal(product.getPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></td>
-    <td class="text-center" th:text="${#numbers.formatDecimal(product.getOldPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></td>
-    <td class="text-center" th:text="*{product.shortDesc}"></td>
-    <td class="text-center" th:text="${product.discount}+' %'"></td>
-    <td class="text-center" th:text="${product.category.mainName}"></td>
-    <td class="text-center" th:text="${product.quantity}"></td>
-    <td th:class="*{product.status} ? 'text-success fw-bold' : 'text-danger'"  th:text="*{product.status} ? 'Hoạt động' : 'Hủy'"></td>
-    <td><a th:href="@{'/admin/products/update/id=' + *{product.id}}">Update</a>
-      <a th:href="@{'/admin/products/delete/' + *{product.id}}">Delete</a></td>
-  </tr>
-  </tbody>
-</table>
-
-<ul class="pagination">
-</ul>
-</section>
-
 </div>
-
-
 <div th:replace="admin/layout/footer"></div>
 <script
         src="https://cdnjs.cloudflare.com/ajax/libs/jquery.serializeJSON/2.9.0/jquery.serializejson.js"></script>
 <script th:src="@{/admin/js/sanPhamAjax.js}"></script>
 
 <script th:inline="javascript">
-  function validateNumberInput(input) {
-    const regex = /^-?\d+(\.\d+)?$/;
-    if (!regex.test(input.value)) {
-      alert("Vui lòng nhập số nguyên hoặc số thực.");
-      input.value = ""; // Xóa nếu không hợp lệ
+    function validateNumberInput(input) {
+        const regex = /^-?\d+(\.\d+)?$/;
+        if (!regex.test(input.value)) {
+            alert("Vui lòng nhập số nguyên hoặc số thực.");
+            input.value = ""; // Xóa nếu không hợp lệ
+        }
     }
-  }
 </script>
 </body>
+<script th:src="@{/admin/js/admin.js}"></script>
 </html>

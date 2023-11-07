@@ -2,8 +2,10 @@ package com.main.laptop_world.Controller.Admin;
 
 import com.main.laptop_world.Entity.DTO.UserDTO;
 import com.main.laptop_world.Entity.ProductVersion;
+import com.main.laptop_world.Entity.Role;
 import com.main.laptop_world.Entity.User;
 import com.main.laptop_world.Repository.UserRepository;
+import com.main.laptop_world.Services.RoleService;
 import com.main.laptop_world.Services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,19 +15,26 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.List;
 
 @Controller
 //@RequestMapping("/admin")
 public class AccountController {
     UserService userService;
-    public AccountController(UserService userService){
+    RoleService roleService;
+    public AccountController(UserService userService, RoleService roleService){
         this.userService=userService;
+        this.roleService=roleService;
     }
     @GetMapping("/admin/accounts")
-    public String quanLyTaiKhoanPage(Model model) {
+    public String quanLyTaiKhoanPage(Model model, Principal principal) {
+        User currentUser=userService.findByUsername(principal.getName());
         List<User> users = userService.findAllUser();
-        model.addAttribute("user", users);
+        List<Role> roleList=roleService.findAllRoles();
+        model.addAttribute("currentUser", currentUser);
+        model.addAttribute("roleList", roleList);
+        model.addAttribute("users", users);
         return "admin/QuanLyTaiKhoan";
     }
 
@@ -48,21 +57,6 @@ public class AccountController {
         ra.addFlashAttribute("message", "Update successfully");
         userService.updateUser(user);
 
-        return "redirect:/admin/accounts";
-    }
-
-    @GetMapping(value ="/admin/accounts/add")
-    public String add(Model model) {
-        User userDTO = new User();
-        model.addAttribute("user", userDTO);
-        return "admin/QuanLyTaiKhoan";
-    }
-
-    @PostMapping(value ="/admin/accounts/add")
-    public String save(@Valid @ModelAttribute("user") User user,
-                       BindingResult result, Model model, RedirectAttributes ra) {
-        ra.addFlashAttribute("message", "Save successfully");
-        userService.save(user);
         return "redirect:/admin/accounts";
     }
 }

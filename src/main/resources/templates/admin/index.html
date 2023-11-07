@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-
+    <th:block th:insert="fragments/head :: head"></th:block>
     <title>Trang Quản Trị </title>
 </head>
 <body>
-<div th:replace="admin/layout/header" ></div>
+<div th:replace="admin/layout/header :: headerAdmin"></div>
 <!--content -->
-<div th:replace="admin/layout/home"></div>
+<div th:replace="admin/layout/sidebar :: sidebar"></div>
 <!--footer-->
 <div th:replace="admin/layout/footer"></div>
 

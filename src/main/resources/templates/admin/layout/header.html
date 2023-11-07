@@ -1,41 +1,52 @@
-
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
-<head>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link type="text/css" rel="stylesheet" th:href="@{/admin/css/admin.css}">
-
-</head>
-
+<head th:insert="fragments/head :: head"></head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-light bg-black bg-opacity-25" th:fragment="headerAdmin">
+    <!-- Container wrapper -->
+    <div class="container-fluid">
+        <div class="container d-flex justify-content-between">
+            <!-- Toggle button -->
+            <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-mdb-toggle="collapse"
+                    data-mdb-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+            >
+                <i class="fas fa-bars"></i>
+            </button>
+            <!-- Collapsible wrapper -->
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <!-- Navbar brand -->
+                <a class="navbar-brand mt-2 mt-lg-0" href="#">
+                    <img
+                            th:src="@{/images/logo.png}"
+                            height="75"
+                            alt="Laptop_World Logo"
+                            loading="lazy"
+                    />
+                </a>
+                <h5>Laptop World - Trang quản trị</h5>
+            </div>
+            <!-- Collapsible wrapper -->
 
-<nav class="navbar navbar-inverse navbar-fixed-top">
-  <div class="container">
-    <div class="navbar-header">
-      <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#">Laptop World - Trang Quản Trị</a>
+            <!-- Right elements -->
+            <div class="d-flex align-items-center">
+                <a th:href="@{/logout}" class="mx-3"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</a>
+                <!-- Avatar -->
+                <div class="dropdown">
+                    <a href="#">
+                        <i class="fa-solid fa-user mx-3"></i>Xin chào: <span
+                            th:text="${#authentication.principal.username}"></span></a>
+                </div>
+            </div>
+            <!-- Right elements -->
+        </div>
     </div>
-    <div class="collapse navbar-collapse">
-      <ul class="nav navbar-nav navbar-right">
-        <li>
-          <a href="#">
-            <span class="glyphicon glyphicon-user">&nbsp;</span>Xin chào: <span th:text="${#authentication.principal.username}"></span></a>
-        </li>
-        <li>
-          <a th:href="@{/logout}"><span class="glyphicon glyphicon-log-out"></span> Đăng xuất</a>
-        </li>
-      </ul>
-    </div>
-  </div>
+    <!-- Container wrapper -->
 </nav>
 </body>
 </html>

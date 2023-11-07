@@ -1,57 +1,40 @@
-
 <!DOCTYPE html>
-<html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="ISO-8859-1">
-  <title>Quản lý Hình Ảnh </title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-</head>
+<head th:insert="fragments/head :: head"></head>
 <body>
-<div th:replace="admin/layout/header"></div>
+<div th:replace="admin/layout/header :: headerAdmin"></div>
 <!--content -->
-<div th:replace="admin/layout/home"></div>
+<div class="row">
+    <th:block th:insert="admin/layout/sidebar :: sidebar"></th:block>
+    <div class="col-10 mt-3">
+        <h3 class="page-header">Quản lý Hình ảnh</h3>
+        <div th:if="${message}" class="alert alert-success text-center">
+            [[${message}]]
+        </div>
+        <table class="table table-hover nhanHieuTable">
+            <thead>
+            <tr class="active">
+                <th class="fw-bold text-center">ID</th>
+                <th class="fw-bold text-center">Image Name</th>
+                <th class="fw-bold text-center">Product</th>
+                <th class="fw-bold text-center"></th>
+            </tr>
+            </thead>
+            <tbody th:each="image: ${productImages}">
+            <tr class="info">
+                <td class="text-center" th:text="${image.getId()}"></td>
+                <td class="text-center" th:text="${image.getName()}"></td>
+                <td class="text-center" th:text="${image.getProducts().getName()}"></td>
+                <td><a th:href="@{'/admin/images/delete/' + ${image.getId()}}">Delete</a></td>
+            </tr>
 
-<section >
-  <h3 class="page-header">Quản lý Hình ảnh</h3>
-  <div th:if="${message}" class="alert alert-success text-center">
-    [[${message}]]
-  </div>
-  <table class="table table-hover nhanHieuTable">
-    <thead>
-    <tr class="active">
-      <th>ID</th>
-      <th>Image Name</th>
-      <th>Product</th>
-      <th></th>
-    </tr>
-    </thead>
-    <tbody th:each="image: ${productImages}">
-    <tr class="info">
-      <td class="text-center" th:text="${image.getId()}"></td>
-      <td class="text-center" th:text="${image.getName()}"></td>
-      <td class="text-center" th:text="${image.getProducts().getName()}"></td>
-      <td><a th:href="@{'/admin/images/delete/' + ${image.getId()}}">Delete</a></td>
-    </tr>
+            </tbody>
 
-    </tbody>
-
-  </table>
-
-  <ul class="pagination">
-  </ul>
+        </table>
+    </div>
 </div>
-<div class="row col-md-6">
-  <form class="nhanHieuForm" id="form">
-
-    
-  </form>
-</div>
-</div>
-
-
 <div th:replace="admin/layout/footer"></div>
 <script th:src="@{/admin/js/nhanHieuAjax.js}"></script>
-</section>
+<script th:src="@{/admin/js/admin.js}"></script>
 </body>
 </html>

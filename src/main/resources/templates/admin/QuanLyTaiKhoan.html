@@ -1,91 +1,55 @@
-
 <!DOCTYPE html>
-<html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="ISO-8859-1">
-  <title>Quản lý tài khoản </title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-</head>
+<head th:insert="fragments/head :: head"></head>
 <body>
-<div th:replace="admin/layout/header"></div>
+<div th:replace="admin/layout/header :: headerAdmin"></div>
 <!--content -->
-<div th:replace="admin/layout/home"></div>
-
-<section>
-  <h3 class="page-header">Quản lý Tài khoản</h3>
-<div class="container">
-  <div th:if="${message}" class="alert alert-success text-center">
-    [[${message}]]
-  </div>
-  <form th:action="@{/admin/accounts/add}"  method="post" >
-    <div class="row">
-      <div class="col-md-12" style="margin-bottom: 20px">
-        <div class="input-container">
-          <input class="form-control" type="text" id="username" name="username" required="">
-          <label for="username" class="label">User Name</label>
-          <div class="underline"></div>
+<div class="row">
+        <th:block th:insert="admin/layout/sidebar :: sidebar"></th:block>
+    <div class="col-10 mt-3">
+        <h3 class="page-header">Quản lý Tài khoản</h3>
+        <div class="container">
+            <div th:if="${message}" class="alert alert-success text-center">
+                [[${message}]]
+            </div>
         </div>
-      </div>
+        <table class="table table-hover "
+               style="text-align: center;">
+            <thead>
+            <tr class="active">
+                <th>ID</th>
+                <th>UserName</th>
+                <th>Role</th>
+                <th>Trạng thái</th>
+                <th></th>
+            </tr>
 
-      <div class="col-md-12" style="margin-bottom: 20px">
-        <div class="input-container">
-          <input class="form-control" type="text" id="password" name="password" required="">
-          <label for="password" class="label">Password</label>
-          <div class="underline"></div>
-        </div>
-      </div>
+            </thead>
+            <tbody th:each="user, count: ${users}">
+            <th:block th:if="*{user.id != currentUser.id}">
+                <tr class="info">
+                    <td class="text-center" th:text="*{count.index}"></td>
+                    <td class="text-center" th:text="*{user.username}"></td>
+                    <td class="text-center">
+                        <th:block th:each="role : *{user.roles}">
+                            <span th:text="${role.name}"></span>
+                        </th:block>
+                    </td>
+                    <td class="text-center"
+                        th:class="*{user.active} ? 'fw-semibold text-success' : 'fw-semibold text-danger'"
+                        th:text="*{user.active} ? 'Hoạt động' : 'Hủy'"></td>
 
-      <div class="col-md-12" style="margin-bottom: 20px">
-        <div class="input-container">
-          <input class="form-control" type="text" id="confirmPassword" name="confirmPassword" required="">
-          <label for="confirmPassword" class="label">ConfirmPassword</label>
-          <div class="underline"></div>
-        </div>
-      </div>
+                    <td><a th:href="@{'/admin/accounts/update/id=' + ${user.id}}">update</a>
+                        <a th:href="@{'/admin/accounts/delete/' + ${user.id}}">Delete</a></td>
+                </tr>
+            </th:block>
+            </tbody>
+        </table>
     </div>
-    <div class=" text-center">
-      <button type="submit">
-        Save
-      </button>
-    </div>
-  </form>
 </div>
-  <table class="table table-hover "
-         style="text-align: center;">
-    <thead>
-    <tr class="active">
-      <th>ID</th>
-      <th>UserName</th>
-      <th>Password</th>
-      <th>Trạng thái</th>
-      <th></th>
-    </tr>
-
-    </thead>
-    <tbody th:each="user: ${user}">
-    <tr class="info">
-      <td class="text-center" th:text="*{user.id}"></td>
-      <td class="text-center" th:text="*{user.username}"></td>
-      <td class="text-center" th:text="*{user.password}"></td>
-      <td class="text-center" th:class="*{user.active} ? 'fw-semibold text-success' : 'fw-semibold text-danger'" th:text="*{user.active} ? 'Hoạt động' : 'Hủy'"></td>
-
-      <td><a th:href="@{'/admin/accounts/update/id=' + ${user.id}}">update</a>
-        <a th:href="@{'/admin/accounts/delete/' + ${user.id}}">Delete</a></td>
-    </tr>
-
-    </tbody>
-
-  </table>
-</div>
-
-</div>
-
-
 <div th:replace="admin/layout/footer"></div>
+</body>
 <script
         src="https://cdnjs.cloudflare.com/ajax/libs/jquery.serializeJSON/2.9.0/jquery.serializejson.js"></script>
 <script th:src="@{/admin/js/taiKhoanAjax.js}"></script>
-</section>
-</body>
 </html>

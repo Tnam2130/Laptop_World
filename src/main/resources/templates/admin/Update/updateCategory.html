@@ -1,36 +1,31 @@
-
 <!DOCTYPE html>
-<html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="ISO-8859-1">
-    <title>Quản lý danh mục </title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-</head>
+<head th:insert="fragments/head :: head"></head>
 <body>
-<div th:replace="admin/layout/header"></div>
+<div th:replace="admin/layout/header :: headerAdmin"></div>
 <!--content -->
-<div th:replace="admin/layout/home"></div>
-<section>
-    <div >
+<div class="row">
+    <th:block th:insert="admin/layout/sidebar :: sidebar"></th:block>
+    <div class="col-10 mt-3">
         <h3 class="text-center page-header">UPDATE DANH MỤC</h3>
         <div class="container">
             <label for="mainName"></label>
             <form th:action="@{/admin/category/update}" th:object="${categories}" method="post">
                 <div class="row">
-                    <input type="hidden" name="id"  th:field="*{id}">
+                    <input type="hidden" name="id" th:field="*{id}">
                     <div style="margin-bottom: 20px" class="col-md-6">
-                        <input class="form-control" type="text" disabled id="id" name="id"  th:field="*{id}">
+                        <input class="form-control" type="text" disabled id="id" name="id" th:field="*{id}">
                     </div>
                     <div style="margin-bottom: 20px" class="col-md-6">
-                        <input class="form-control" type="text" id="mainName" name="mainName" placeholder="Category Name" th:field="*{mainName}">
+                        <input class="form-control" type="text" id="mainName" name="mainName"
+                               placeholder="Category Name" th:field="*{mainName}">
                     </div>
                 </div>
 
 
                 <p th:errors="*{mainName}" class="text-danger fs-6 mb-3"
                    th:if="${#fields.hasErrors('mainName')}"></p>
-<!--                <input type="text" id="subName" name="subName" placeholder="sub Category" th:field="*{categoryEmbeddable.subName}">-->
+                <!--                <input type="text" id="subName" name="subName" placeholder="sub Category" th:field="*{categoryEmbeddable.subName}">-->
 
                 <div class=" text-center">
                     <button type="submit">
@@ -46,16 +41,12 @@
         <ul class="pagination">
         </ul>
     </div>
-</section>
-
-
-
-
+</div>
 
 <div th:replace="admin/layout/footer"></div>
 <!--<script th:src="@{/admin/js/danhMucAjax.js}"></script>-->
 <script type="text/javascript">
-    function cancelForm(){
+    function cancelForm() {
         window.location = "[[@{/admin/category}]]";
     }
 </script>

@@ -1,67 +1,78 @@
-
 <!DOCTYPE html>
-<html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="ISO-8859-1">
-  <title>Quản lý User </title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-</head>
+<head th:insert="fragments/head :: head"></head>
 <body>
-<div th:replace="admin/layout/header"></div>
+<div th:replace="admin/layout/header :: headerAdmin"></div>
 <!--content -->
-<div th:replace="admin/layout/home"></div>
-<section>
-  <div >
-    <h3 class="text-center page-header">UPDATE USER</h3>
-    <div class="container">
-      <label for="username"></label>
-      <form th:action="@{/admin/accounts/update}" th:object="${users}" method="post">
-        <div class="row">
-          <input type="hidden" name="id"  th:field="*{id}">
-          <div style="margin-bottom: 20px" class="col-md-12">
-            <input class="form-control" type="text" id="username" name="username" placeholder="Username" th:field="*{username}">
-          </div>
-          <div style="margin-bottom: 20px" class="col-md-12">
-            <input class="form-control" type="email" id="email" name="email" placeholder="Email" th:field="*{email}">
-          </div>
-<!--          <div style="margin-bottom: 20px" class="col-md-12">-->
-<!--            <input class="form-control" type="password" id="password" name="password" placeholder="Password" th:field="*{password}">-->
-<!--          </div>-->
-          <div style="margin-bottom: 20px" class="col-md-6">
-          <select class="form-control my-1" name="status" th:field="*{active}" >
-            <option th:value="1" class="text-success">Hoạt động</option>
-            <option th:value="0" class="text-danger">Hủy</option>
-          </select>
-          </div>
+<div class="row">
+    <th:block th:insert="admin/layout/sidebar :: sidebar"></th:block>
+    <div class="col-10 mt-3">
+        <h3 class="text-center page-header">UPDATE USER</h3>
+        <div class="container">
+            <label for="username"></label>
+            <form th:action="@{/admin/accounts/update}" th:object="${users}" method="post">
+                <div class="row row-cols-2">
+                    <input type="hidden" name="id" th:field="*{id}">
+                    <div style="margin-bottom: 20px" class="col">
+                        <input class="form-control" type="text" id="username" name="username" placeholder="Username"
+                               th:field="*{username}">
+                    </div>
+                    <div style="margin-bottom: 20px" class="col">
+                        <input class="form-control" type="email" id="email" name="email" placeholder="Email"
+                               th:field="*{email}">
+                    </div>
+                    <div style="margin-bottom: 20px" class="col">
+                        <select class="form-control my-1" name="status" th:field="*{active}">
+                            <option th:value="1" class="text-success">Hoạt động</option>
+                            <option th:value="0" class="text-danger">Hủy</option>
+                        </select>
+                    </div>
+                    <div style="margin-bottom: 20px" class="col">
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                            <label class="form-check-label" for="flexSwitchCheckDefault">Default switch checkbox
+                                input</label>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                            <label class="form-check-label" for="flexSwitchCheckDefault">Default switch checkbox
+                                input</label>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                            <label class="form-check-label" for="flexSwitchCheckDefault">Default switch checkbox
+                                input</label>
+                        </div>
+                        <div class="form-check form-switch">
+                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
+                            <label class="form-check-label" for="flexSwitchCheckDefault">Default switch checkbox
+                                input</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class=" text-center">
+                    <button type="submit">
+                        Update
+                    </button>
+                    <button onclick="cancelForm()" type="button">
+                        Cancel
+                    </button>
+                </div>
+            </form>
         </div>
 
-        <div class=" text-center">
-          <button type="submit">
-            Update
-          </button>
-          <button onclick="cancelForm()" type="button">
-            Cancel
-          </button>
-        </div>
-      </form>
+        <ul class="pagination">
+        </ul>
     </div>
-
-    <ul class="pagination">
-    </ul>
-  </div>
-</section>
-
-
-
-
+</div>
 
 <div th:replace="admin/layout/footer"></div>
 <!--<script th:src="@{/admin/js/danhMucAjax.js}"></script>-->
 <script type="text/javascript">
-  function cancelForm(){
-    window.location = "[[@{/admin/accounts}]]";
-  }
+    function cancelForm() {
+        window.location = "[[@{/admin/accounts}]]";
+    }
 </script>
 </body>
 </html>

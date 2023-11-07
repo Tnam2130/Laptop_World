@@ -1,105 +1,112 @@
-
 <!DOCTYPE html>
-<html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="ISO-8859-1">
-  <title>Quản lý Sản Phẩm </title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-</head>
+<head th:insert="fragments/head :: head"></head>
 <body>
-<div th:replace="admin/layout/header"></div>
+<div th:replace="admin/layout/header :: headerAdmin"></div>
 <!--content -->
-<div th:replace="admin/layout/home"></div>
-<section>
-  <div >
-    <h3 class="text-center page-header">UPDATE SẢN PHẨM</h3>
+<div class="row">
+    <th:block th:insert="admin/layout/sidebar :: sidebar"></th:block>
+    <div class="col-10 mt-3">
 
-    <div class="container">
-    <form th:action="@{'/admin/products/update/id='+ ${product.id}}" th:object="${product}" enctype="multipart/form-data" method="post" >
-      <div class="row">
-        <input type="hidden" name="id"  th:field="*{id}">
-        <div style="margin-bottom: 20px" class="col-md-6">
-          <input class="form-control" type="text" disabled name="id"  th:field="*{id}">
-        </div>
-        <div style="margin-bottom: 20px" class="col-md-6">
-          <input class="form-control" type="text" id="name" name="name"  th:field="*{name}">
-          <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger fs-6 mb-3">Không được để trống tên sản phẩm!</p>
-        </div>
-        <div style="margin-bottom: 20px" class="col-md-6">
-          <input class="form-control" type="text" id="price" name="price" placeholder="Price" th:field="*{price}" oninput="validateNumberInput(this)">
-          <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
-        </div>
-        <div style="margin-bottom: 20px" class="col-md-6">
-          <input class="form-control" type="text" id="oldPrice" name="oldPrice" placeholder="Old Price" th:field="*{oldPrice}" oninput="validateNumberInput(this)">
-          <p th:if="${#fields.hasErrors('oldPrice')}" th:errors="*{oldPrice}" class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
-        </div>
-        <div style="margin-bottom: 20px" class="col-md-6">
-          <input class="form-control" type="text" id="shortDesc" name="shortDesc" placeholder="ShortDesc" th:field="*{shortDesc}">
-        </div>
-        <div style="margin-bottom: 20px" class="col-md-6">
-          <input class="form-control" type="text" id="discount" name="discount" placeholder="Mã giảm giá" th:field="*{discount}" oninput="validateNumberInput(this)">
-          <p th:if="${#fields.hasErrors('discount')}" th:errors="*{discount}" class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
-        </div>
-        <div style="margin-bottom: 20px" class="col-md-6">
-          <input class="form-control" type="text" id="quantity" name="quantity" placeholder="Số lượng trong kho" th:field="*{quantity}" oninput="validateNumberInput(this)">
-          <p th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}" class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
-        </div>
-        <div style="margin-bottom: 20px" class="col-md-6">
-        <select class="form-control my-1" name="status" th:field="*{status}" >
-          <option th:value="1">Hoạt động</option>
-          <option th:value="0">Hủy</option>
-        </select>
-        </div>
-        <div class="col-md-6" style="margin-bottom: 20px;">
-          <select class="form-control" id="category" name="category">
-            <option value="">Danh mục</option>
-            <option th:each=" category : ${categories}" th:selected="${category.mainName == product.category.mainName}" th:value="${category.getId()}" th:text="${category.getMainName()}"></option>
-          </select>
-        </div>
-        <div class="col-md-6" style="margin-bottom: 20px;">
-          <select class="form-control" id="brand" name="brand">
-            <option value="">Thương hiệu</option>
-            <option th:each="brand : ${brandList}" th:selected="${brand.title == product.brand.title}" th:value="${brand.getId()}" th:text="${brand.getTitle()}"></option>
-          </select>
-        </div>
-      </div>
+        <h3 class="text-center page-header">UPDATE SẢN PHẨM</h3>
 
-      <div class=" text-center">
-        <button type="submit">
-          Update
-        </button>
-        <button onclick="cancelForm()" type="button">
-          Cancel
-        </button>
-      </div>
-    </form>
-  </div>
+        <div class="container">
+            <form th:action="@{'/admin/products/update/id='+ ${product.id}}" th:object="${product}"
+                  enctype="multipart/form-data" method="post">
+                <div class="row">
+                    <input type="hidden" name="id" th:field="*{id}">
+                    <div style="margin-bottom: 20px" class="col-md-6">
+                        <input class="form-control" type="text" disabled name="id" th:field="*{id}">
+                    </div>
+                    <div style="margin-bottom: 20px" class="col-md-6">
+                        <input class="form-control" type="text" id="name" name="name" th:field="*{name}">
+                        <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger fs-6 mb-3">
+                            Không được để trống tên sản phẩm!</p>
+                    </div>
+                    <div style="margin-bottom: 20px" class="col-md-6">
+                        <input class="form-control" type="text" id="price" name="price" placeholder="Price"
+                               th:field="*{price}" oninput="validateNumberInput(this)">
+                        <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger fs-6 mb-3">
+                            Vui lòng chỉ nhập số!!!</p>
+                    </div>
+                    <div style="margin-bottom: 20px" class="col-md-6">
+                        <input class="form-control" type="text" id="oldPrice" name="oldPrice"
+                               placeholder="Old Price" th:field="*{oldPrice}" oninput="validateNumberInput(this)">
+                        <p th:if="${#fields.hasErrors('oldPrice')}" th:errors="*{oldPrice}"
+                           class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
+                    </div>
+                    <div style="margin-bottom: 20px" class="col-md-6">
+                        <input class="form-control" type="text" id="shortDesc" name="shortDesc"
+                               placeholder="ShortDesc" th:field="*{shortDesc}">
+                    </div>
+                    <div style="margin-bottom: 20px" class="col-md-6">
+                        <input class="form-control" type="text" id="discount" name="discount"
+                               placeholder="Mã giảm giá" th:field="*{discount}" oninput="validateNumberInput(this)">
+                        <p th:if="${#fields.hasErrors('discount')}" th:errors="*{discount}"
+                           class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
+                    </div>
+                    <div style="margin-bottom: 20px" class="col-md-6">
+                        <input class="form-control" type="text" id="quantity" name="quantity"
+                               placeholder="Số lượng trong kho" th:field="*{quantity}"
+                               oninput="validateNumberInput(this)">
+                        <p th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"
+                           class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
+                    </div>
+                    <div style="margin-bottom: 20px" class="col-md-6">
+                        <select class="form-control my-1" name="status" th:field="*{status}">
+                            <option th:value="1">Hoạt động</option>
+                            <option th:value="0">Hủy</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6" style="margin-bottom: 20px;">
+                        <select class="form-control" id="category" name="category">
+                            <option value="">Danh mục</option>
+                            <option th:each=" category : ${categories}"
+                                    th:selected="${category.mainName == product.category.mainName}"
+                                    th:value="${category.getId()}" th:text="${category.getMainName()}"></option>
+                        </select>
+                    </div>
+                    <div class="col-md-6" style="margin-bottom: 20px;">
+                        <select class="form-control" id="brand" name="brand">
+                            <option value="">Thương hiệu</option>
+                            <option th:each="brand : ${brandList}"
+                                    th:selected="${brand.title == product.brand.title}" th:value="${brand.getId()}"
+                                    th:text="${brand.getTitle()}"></option>
+                        </select>
+                    </div>
+                </div>
 
-    <ul class="pagination">
-    </ul>
-  </div>
-</section>
+                <div class=" text-center">
+                    <button type="submit">
+                        Update
+                    </button>
+                    <button onclick="cancelForm()" type="button">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
 
-
-
-
+        <ul class="pagination">
+        </ul>
+    </div>
+</div>
 
 <div th:replace="admin/layout/footer"></div>
 <!--<script th:src="@{/admin/js/danhMucAjax.js}"></script>-->
 <script type="text/javascript">
-  function cancelForm(){
-    window.location = "[[@{/admin/products}]]";
-  }
+    function cancelForm() {
+        window.location = "[[@{/admin/products}]]";
+    }
 </script>
 <script th:inline="javascript">
-  function validateNumberInput(input) {
-    const regex = /^-?\d+(\.\d+)?$/;
-    if (!regex.test(input.value)) {
-      alert("Vui lòng nhập số nguyên hoặc số thực.");
-      input.value = ""; // Xóa nếu không hợp lệ
+    function validateNumberInput(input) {
+        const regex = /^-?\d+(\.\d+)?$/;
+        if (!regex.test(input.value)) {
+            alert("Vui lòng nhập số nguyên hoặc số thực.");
+            input.value = ""; // Xóa nếu không hợp lệ
+        }
     }
-  }
 </script>
 </body>
 </html>
