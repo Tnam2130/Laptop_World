@@ -62,11 +62,18 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUser(User user) {
-
+        User existingUser= userRepository.findById(user.getId()).orElse(null);
+        if (existingUser != null) {
+            // Kiểm tra xem trường mật khẩu đã được cung cấp trong biểu mẫu cập nhật hay không
+            if (user.getPassword() == null || user.getPassword().equals(existingUser.getPassword())) {
+                // Nếu mật khẩu không được cung cấp, giữ nguyên mật khẩu hiện tại
+                user.setPassword(passwordEncoder.encode(existingUser.getPassword()));
+            }
             user.setUsername(user.getUsername());
-            user.setPassword(user.getPassword());
-//            user.setActive(user.isActive());
+            user.setEmail(user.getEmail());
+            user.setActive(user.isActive());
             userRepository.save(user);
+        }
 
     }
 

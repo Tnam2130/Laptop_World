@@ -58,20 +58,20 @@
       <th>ID</th>
       <th>UserName</th>
       <th>Password</th>
-      <th>Role</th>
+      <th>Trạng thái</th>
       <th></th>
     </tr>
 
     </thead>
-    <tbody th:each="users: ${user}">
+    <tbody th:each="user: ${user}">
     <tr class="info">
-      <td class="text-center" th:text="${users.id}"></td>
-      <td class="text-center" th:text="${users.username}"></td>
-      <td class="text-center" th:text="${users.password}"></td>
-      <td class="text-center" th:text="${users.isActive}"></td>
+      <td class="text-center" th:text="*{user.id}"></td>
+      <td class="text-center" th:text="*{user.username}"></td>
+      <td class="text-center" th:text="*{user.password}"></td>
+      <td class="text-center" th:class="*{user.active} ? 'fw-semibold text-success' : 'fw-semibold text-danger'" th:text="*{user.active} ? 'Hoạt động' : 'Hủy'"></td>
 
-      <td><a th:href="@{'/admin/accounts/update/id=' + ${users.id}}">update</a>
-        <a th:href="@{'/admin/accounts/delete/' + ${users.id}}">Delete</a></td>
+      <td><a th:href="@{'/admin/accounts/update/id=' + ${user.id}}">update</a>
+        <a th:href="@{'/admin/accounts/delete/' + ${user.id}}">Delete</a></td>
     </tr>
 
     </tbody>

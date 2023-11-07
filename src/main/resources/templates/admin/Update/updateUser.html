@@ -20,20 +20,20 @@
         <div class="row">
           <input type="hidden" name="id"  th:field="*{id}">
           <div style="margin-bottom: 20px" class="col-md-12">
-            <input class="form-control" type="text" disabled id="id" name="id"  th:field="*{id}">
+            <input class="form-control" type="text" id="username" name="username" placeholder="Username" th:field="*{username}">
           </div>
           <div style="margin-bottom: 20px" class="col-md-12">
-            <input class="form-control" type="text" id="username" name="username" placeholder="Category Name" th:field="*{username}">
+            <input class="form-control" type="email" id="email" name="email" placeholder="Email" th:field="*{email}">
           </div>
-          <div style="margin-bottom: 20px" class="col-md-12">
-            <input class="form-control" type="text" id="password" name="password" placeholder="Category Name" th:field="*{password}">
-          </div>
-<!--          <div style="margin-bottom: 20px" class="col-md-6">-->
-<!--          <select class="form-control my-1" name="status" th:field="*{isActive()}" >-->
-<!--            <option th:value="1">True</option>-->
-<!--            <option th:value="0">False</option>-->
-<!--          </select>-->
+<!--          <div style="margin-bottom: 20px" class="col-md-12">-->
+<!--            <input class="form-control" type="password" id="password" name="password" placeholder="Password" th:field="*{password}">-->
 <!--          </div>-->
+          <div style="margin-bottom: 20px" class="col-md-6">
+          <select class="form-control my-1" name="status" th:field="*{active}" >
+            <option th:value="1" class="text-success">Hoạt động</option>
+            <option th:value="0" class="text-danger">Hủy</option>
+          </select>
+          </div>
         </div>
 
         <div class=" text-center">
