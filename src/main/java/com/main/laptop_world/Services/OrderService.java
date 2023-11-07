@@ -12,4 +12,8 @@ public interface OrderService {
     List<Order> findAll();
     Order findOrderById(Long orderId);
     List<Order> findByUserId(Long userId);
+
+    void updateOrder(Long id, String newStatus);
+
+    void updateOrders(Order order);
 }

@@ -10,6 +10,10 @@
 <div class="row">
     <th:block th:insert="admin/layout/sidebar :: sidebar"></th:block>
     <div class="col-10 mt-3">
+    <div th:if="${message}" class="alert alert-success text-center">
+        [[${message}]]
+    </div>
+    <div>
         <table class="table table-hover align-middle mb-0 bg-white">
             <thead class="bg-light">
             <tr>
@@ -18,9 +22,10 @@
                 <th class="fw-bold">Trạng thái</th>
                 <th class="fw-bold">Ngày đặt hàng</th>
                 <th class="fw-bold">Tổng tiền</th>
+                <th></th>
             </tr>
             </thead>
-            <tbody th:each="order : ${orderList}">
+            <tbody th:each="order : ${orders}">
             <tr>
                 <td>
                     <div class="d-flex align-items-center">
@@ -35,7 +40,7 @@
                             th:text="*{order.user.userDetailEmbeddable.lastName}"></span></p>
                 </td>
                 <td>
-                    <p class="fw-normal mb-1 text-success text-center"><span th:text="*{order.status}"></span></p>
+                    <p class="text-center" ><span th:text="*{order.status}"></span></p>
                 </td>
                 <td>
                 <span class="rounded-pill d-inline"><span class="text-center"
@@ -44,11 +49,8 @@
                 <td><span class="mb-0 ms-2 text-center"
                           th:text="${#numbers.formatDecimal(order.total, 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></span>
                 </td>
-                <!--                <td>-->
-                <!--                    <a th:href="@{'/order/order='+*{order.id}}" class="btn btn-link btn-sm btn-rounded">-->
-                <!--                        Xem-->
-                <!--                    </a>-->
-                <!--                </td>-->
+                <td><a th:href="@{'/admin/order/update/id=' + *{order.id}}">Update trạng thái</a>
+                    <a th:href="@{'/admin/order/delete/' + *{order.id}}">Delete</a></td>
             </tr>
             </tbody>
         </table>

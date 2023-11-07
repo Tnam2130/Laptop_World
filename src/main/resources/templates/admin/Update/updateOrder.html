@@ -1,0 +1,62 @@
+
+<!DOCTYPE html>
+<html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="ISO-8859-1">
+  <title>Quản lý trạng thái </title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+<div th:replace="admin/layout/header"></div>
+<!--content -->
+<div th:replace="admin/layout/home"></div>
+<section>
+  <div >
+    <h3 class="text-center page-header">UPDATE Trạng thái</h3>
+    <div class="container">
+      <form th:action="@{/admin/order/update}" th:object="${orders}" method="post">
+        <div class="row">
+          <input type="hidden" name="id"  th:field="*{id}">
+          <div style="margin-bottom: 20px" class="col-md-6">
+            <input class="form-control" type="text" disabled id="id" name="id"  th:field="*{id}">
+          </div>
+
+          <div class="col-md-6" style="margin-bottom: 20px;">
+              <select class="form-control" name="status" >
+                <option class="text-success">Pending</option>
+                <option class="text-danger">Cancel</option>
+                <option class="text-nowrap">Out Of Stock</option>
+                <option class="text-info">Dlivered</option>
+              </select>
+          </div>
+        </div>
+        <div class=" text-center">
+          <button type="submit">
+            Update
+          </button>
+          <button onclick="cancelForm()" type="button">
+            Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <ul class="pagination">
+    </ul>
+  </div>
+</section>
+
+
+
+
+
+<div th:replace="admin/layout/footer"></div>
+<!--<script th:src="@{/admin/js/danhMucAjax.js}"></script>-->
+<script type="text/javascript">
+  function cancelForm(){
+    window.location = "[[@{/admin/order}]]";
+  }
+</script>
+</body>
+</html>

@@ -38,4 +38,21 @@ public class OrderServiceImpl implements OrderService {
     public List<Order> findByUserId(Long userId) {
         return orderRepository.findByUserId(userId);
     }
+
+    @Override
+    public void updateOrder(Long id, String newStatus) {
+        Order order = orderRepository.findById(id).orElse(null);
+        if (order != null){
+            order.setStatus(newStatus);
+            orderRepository.save(order);
+        }
+    }
+
+    @Override
+    public void updateOrders(Order order) {
+        order.setStatus(order.getStatus());
+        orderRepository.save(order);
+    }
+
+
 }
