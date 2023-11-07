@@ -34,30 +34,35 @@ spring:
       ddl-auto: update
     show-sql: true
 ---
-#  jpa:
-#    properties:
-#      hibernate:
-#        dialect: org.hibernate.dialect.MySQL5Dialect
-#    show-sql: true
-#    hibernate:
-#      ddl-auto: update
 
-### MS SQL
-#  datasource:
-#    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-#    url: jdbc:sqlserver://sqlsrv\\sqlexpress;databaseName=customer
-#    username: sa
-#    password: 1234
-#  jpa:
-#    properties:
-#      hibernate:
-#        dialect: org.hibernate.dialect.MySQL5Dialect
-#    show-sql: true
-#    hibernate:
-#      ddl-auto: update
-
-##Mail
 spring:
+  jpa:
+    properties:
+      hibernate:
+        enable_lazy_load_no_trans=true:
+        #  jpa:
+        #    properties:
+        #      hibernate:
+        #        dialect: org.hibernate.dialect.MySQL5Dialect
+        #    show-sql: true
+        #    hibernate:
+        #      ddl-auto: update
+
+        ### MS SQL
+        #  datasource:
+        #    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+        #    url: jdbc:sqlserver://sqlsrv\\sqlexpress;databaseName=customer
+        #    username: sa
+        #    password: 1234
+        #  jpa:
+        #    properties:
+        #      hibernate:
+        #        dialect: org.hibernate.dialect.MySQL5Dialect
+        #    show-sql: true
+        #    hibernate:
+        #      ddl-auto: update
+
+        ##Mail
   mail:
     host: smtp.gmail.com
     port: 587
