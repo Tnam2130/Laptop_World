@@ -45,8 +45,13 @@
                                             <a th:href="@{'/collections/product='+ *{item.getProducts().getId()}+'&category='+*{item.getProducts().category.getId()} }"
                                                class="nav-link fw-bold"
                                                th:text="*{item.getProducts().getName()}"></a>
-<!--                                            <p class="text-muted"-->
-<!--                                               th:text="*{item.getProducts().getShortDesc()}"></p>-->
+                                            <ul th:each="infor : *{item.products.specifications}" class="p-0">
+                                                <li class="fw-semibold">CPU: <span class="fw-normal" th:text="*{infor.cpu_name}"></span></li>
+                                                <li class="fw-semibold">RAM: <span class="fw-normal" th:text="*{infor.ram_name}"></span></li>
+                                                <li class="fw-semibold">Ổ cứng: <span class="fw-normal" th:text="*{infor.hard_drive}"></span></li>
+                                                <li class="fw-semibold">Card: <span class="fw-normal" th:text="*{infor.card}"></span></li>
+                                                <li class="fw-semibold">Màn hình: <span class="fw-normal" th:text="*{infor.screen}"></span></li>
+                                            </ul>
                                         </div>
                                     </div>
                                 </div>
@@ -63,7 +68,7 @@
                                     <br/>
                                     <small class="text-muted text-nowrap"> <span
                                             th:text="${#numbers.formatDecimal(item.getProducts().getPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></span>
-                                        / 1 sản phẩm </small>
+                                        <span class="fw-semibold">/ 1 sản phẩm</span></small>
                                 </div>
                             </div>
                             <div
@@ -79,20 +84,6 @@
                 </div>
                 <!-- summary -->
                 <div class="col-lg-3">
-                    <!--                    <div class="card mb-3 border shadow-0">-->
-                    <!--                        <div class="card-body">-->
-                    <!--                            <form>-->
-                    <!--                                <div class="form-group">-->
-                    <!--                                    <label class="form-label">Have coupon?</label>-->
-                    <!--                                    <div class="input-group">-->
-                    <!--                                        <input type="text" class="form-control border" name=""-->
-                    <!--                                            placeholder="Coupon code" />-->
-                    <!--                                        <button class="btn btn-light border">Apply</button>-->
-                    <!--                                    </div>-->
-                    <!--                                </div>-->
-                    <!--                            </form>-->
-                    <!--                        </div>-->
-                    <!--                    </div>-->
                     <div class="card shadow-0 border">
                         <div class="card-body">
                             <div class="d-flex justify-content-between">

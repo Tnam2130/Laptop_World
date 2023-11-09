@@ -13,7 +13,7 @@ public interface ProductService {
     Products saveProduct(Products product);
     Products updateProduct(Products products);
     void deleteProduct(Products products);
-    Page<Products> productFilterAndPaginate (Long categoryId, Long brandId, String priceSort, int page, int pageSize);
+    Page<Products> productFilterAndPaginate (Long categoryId, Long brandId, String keyword, String priceSort, int page, int pageSize);
     List<Products> findByKeyword(String keyword);
     List<Products> searchProducts(String searchTerm, String category);
 }

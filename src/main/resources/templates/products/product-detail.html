@@ -106,12 +106,12 @@
                 <div class="product-detail mt-3">
                     <div style="font-weight: 500; font-size: 2rem; line-height: 3rem;">Thông tin về sản phẩm</div>
                     <p th:text="*{product.shortDesc}"></p>
-                    <ul>
-                        <li>Color: <span>Black</span></li>
-                        <li>Available: <span>in stock</span></li>
-                        <li>Category: <span>Shoes</span></li>
-                        <li>Shipping Area: <span>All over the world</span></li>
-                        <li>Shipping Fee: <span>Free</span></li>
+                    <ul th:each="infor : *{product.specifications}">
+                        <li>CPU: <span th:text="*{infor.cpu_name}"></span></li>
+                        <li>RAM: <span th:text="*{infor.ram_name}"></span></li>
+                        <li>Ổ cứng: <span th:text="*{infor.hard_drive}"></span></li>
+                        <li>Card: <span th:text="*{infor.card}"></span></li>
+                        <li>Màn hình: <span th:text="*{infor.screen}"></span></li>
                     </ul>
                 </div>
 

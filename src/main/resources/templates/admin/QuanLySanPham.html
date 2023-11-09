@@ -18,59 +18,56 @@
                 <input type="hidden" name="id">
                 <div class="row">
                     <div class="col-md-6" style="margin-bottom: 20px">
-                        <div class="input-container">
+                        <div class="form-floating mb-3">
                             <input class="form-control" type="text" id="name" name="name" required=""
-                                   th:field="*{name}">
-                            <label for="name" class="label">Tên sản phẩm</label>
-                            <div class="underline"></div>
+                                   th:field="*{name}" placeholder="Tên sản phẩm">
+                            <label for="name" class="form-label fs-6">Tên sản phẩm</label>
                         </div>
                         <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="text-danger fs-6 mb-3">Không
                             được để trống tên sản phẩm!</p>
                     </div>
                     <div class="col-md-6" style="margin-bottom: 20px">
-                        <div class="input-container">
+                        <div class="form-floating mb-3">
                             <input class="form-control" type="text" id="price" name="price" required=""
-                                   th:field="*{price}" oninput="validateNumberInput(this)">
-                            <label for="price" class="label">Giá khuyến mãi</label>
-                            <div class="underline"></div>
+                                   th:field="*{price}" oninput="validateNumberInput(this)" placeholder="Giá khuyến mãi">
+                            <label for="price" class="form-label fs-6">Giá khuyến mãi</label>
                         </div>
                         <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger fs-6 mb-3">Vui
                             lòng chỉ nhập số!!!</p>
                     </div>
                     <div class="col-md-6" style="margin-bottom: 20px">
-                        <div class="input-container">
+                        <div class="form-floating mb-3">
                             <input class="form-control" type="text" id="oldPrice" name="oldPrice" required=""
-                                   th:field="*{oldPrice}" oninput="validateNumberInput(this)">
-                            <label for="oldPrice" class="label">Giá gốc</label>
-                            <div class="underline"></div>
+                                   th:field="*{oldPrice}" oninput="validateNumberInput(this)" placeholder="Giá gốc">
+                            <label for="oldPrice" class="form-label fs-6">Giá gốc</label>
                         </div>
                         <p th:if="${#fields.hasErrors('oldPrice')}" th:errors="*{oldPrice}"
                            class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
                     </div>
                     <div class="col-md-6" style="margin-bottom: 20px">
-                        <div class="input-container">
+                        <div class="form-floating mb-3">
                             <input class="form-control" type="text" id="shortDesc" name="shortDesc" required=""
-                                   th:field="*{shortDesc}">
-                            <label for="shortDesc" class="label">Lời giới thiệu ngắn</label>
+                                   th:field="*{shortDesc}" placeholder="Giới thiệu ngắn">
+                            <label for="shortDesc" class="form-label fs-6">Giới thiệu ngắn</label>
                             <div class="underline"></div>
                         </div>
                     </div>
 
                     <div class="col-md-6" style="margin-bottom: 20px">
-                        <div class="input-container">
+                        <div class="form-floating mb-3">
                             <input class="form-control" type="text" id="discount" name="discount" required=""
-                                   th:field="*{discount}" oninput="validateNumberInput(this)">
-                            <label for="discount" class="label">Giảm giá</label>
+                                   th:field="*{discount}" oninput="validateNumberInput(this)" placeholder="Giảm giá">
+                            <label for="discount" class="form-label fs-6">Giảm giá</label>
                             <div class="underline"></div>
                         </div>
                         <p th:if="${#fields.hasErrors('discount')}" th:errors="*{discount}"
                            class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
                     </div>
                     <div class="col-md-6" style="margin-bottom: 20px">
-                        <div class="input-container">
+                        <div class="form-floating mb-3">
                             <input class="form-control" type="text" id="quantity" name="quantity" th:field="*{quantity}"
-                                   required="" oninput="validateNumberInput(this)">
-                            <label for="quantity" class="label">Số lượng trong kho</label>
+                                   required="" oninput="validateNumberInput(this)" placeholder="Số luượng trong kho">
+                            <label for="quantity" class="form-label fs-6">Số lượng trong kho</label>
                             <div class="underline"></div>
                         </div>
                         <p th:if="${#fields.hasErrors('quantity')}" th:errors="*{quantity}"
@@ -110,7 +107,7 @@
                     </div>
                 </div>
                 <div class=" text-center">
-                    <button type="submit">
+                    <button class="btn btn-outline-success" type="submit">
                         Save
                     </button>
                 </div>
@@ -149,8 +146,8 @@
                 <td class="text-center" th:text="${product.quantity}"></td>
                 <td th:class="*{product.status} ? 'text-success fw-bold' : 'text-danger'"
                     th:text="*{product.status} ? 'Hoạt động' : 'Hủy'" style="line-height: 1.5rem;"></td>
-                <td><a th:href="@{'/admin/products/update/id=' + *{product.id}}">Update</a>
-                    <a th:href="@{'/admin/products/delete/' + *{product.id}}">Delete</a></td>
+                <td><a class="btn btn-outline-primary my-3" th:href="@{'/admin/products/update/id=' + *{product.id}}">Update</a>
+                    <a class="btn btn-outline-danger " th:href="@{'/admin/products/delete/' + *{product.id}}">Delete</a></td>
             </tr>
             </tbody>
         </table>

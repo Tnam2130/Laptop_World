@@ -77,7 +77,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public Page<Products> productFilterAndPaginate(Long id, Long brandId, String priceSort, int page, int pageSize) {
+    public Page<Products> productFilterAndPaginate(Long id, Long brandId, String keyword, String priceSort, int page, int pageSize) {
         Pageable pageable;
         if (priceSort != null && priceSort.equalsIgnoreCase("asc")) {
             pageable = PageRequest.of(page, pageSize, Sort.by("price"));
@@ -94,6 +94,9 @@ public class ProductServiceImpl implements ProductService {
         }
         if (brandId != null) {
             spec = spec.and((root, query, builder) -> builder.equal(root.get("brand").get("id"), brandId));
+        }
+        if (keyword != null && !keyword.isEmpty()) {
+            spec = spec.and((root, query, builder) -> builder.like(root.get("name"), "%" + keyword + "%"));
         }
         return repository.findAll(spec, pageable);
     }

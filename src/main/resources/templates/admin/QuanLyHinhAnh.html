@@ -27,7 +27,7 @@
                 <td class="text-center" th:text="${image.getId()}"></td>
                 <td class="text-center" th:text="${image.getName()}"></td>
                 <td class="text-center" th:text="${image.getProducts().getName()}"></td>
-                <td><a th:href="@{'/admin/images/delete/' + ${image.getId()}}">Delete</a></td>
+                <td><a class="btn btn-outline-danger" th:href="@{'/admin/images/delete/' + ${image.getId()}}">Delete</a></td>
             </tr>
 
             </tbody>

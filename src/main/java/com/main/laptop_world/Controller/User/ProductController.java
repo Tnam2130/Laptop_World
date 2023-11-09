@@ -49,6 +49,7 @@ public class ProductController {
         Page<Products> productPage = productService.productFilterAndPaginate(
                 filterCriteria.getCategoryId(),
                 filterCriteria.getBrandId(),
+                null,
                 filterCriteria.getPriceSort(),
                 page,
                 PAGE_SIZE
@@ -85,6 +86,7 @@ public class ProductController {
         Page<Products> productPage = productService.productFilterAndPaginate(
                 filterCriteria.getCategoryId(),
                 filterCriteria.getBrandId(),
+                null,
                 filterCriteria.getPriceSort(),
                 page,
                 PAGE_SIZE
@@ -123,10 +125,18 @@ public class ProductController {
     }
 
     @RequestMapping("/search")
-    public String searchProducts(Model model, @Param("keyword") String keyword) {
-
-        List<Products> productList = productService.findByKeyword(keyword);
-        model.addAttribute("productList", productList);
+    public String searchProducts(Model model, @Param("keyword") String keyword, @ModelAttribute("filterCriteria") FilterCriteria filterCriteria, @RequestParam(defaultValue = "0") int page) {
+        Page<Products> productPage = productService.productFilterAndPaginate(
+                filterCriteria.getCategoryId(),
+                filterCriteria.getBrandId(),
+                keyword,
+                filterCriteria.getPriceSort(),
+                page,
+                PAGE_SIZE
+        );
+//        List<Products> productList = productService.findByKeyword(keyword);
+//        model.addAttribute("productList", productList);
+        model.addAttribute("productPage", productPage);
         return "/products/products";
     }
 }

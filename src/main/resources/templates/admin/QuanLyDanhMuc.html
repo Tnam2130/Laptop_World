@@ -19,27 +19,27 @@
                     <input type="hidden" name="id">
                     <div class="row">
                         <div class="col-md-6" style="margin-bottom: 20px">
-                            <div class="input-container">
+                            <div class="form-floating mb-3">
                                 <input class="form-control" type="text" id="mainName" name="mainName" required=""
-                                       th:field="*{mainName}">
-                                <label for="mainName" class="label">Category Name</label>
+                                       th:field="*{mainName}" placeholder="Danh mục chính">
+                                <label for="mainName" class="form-label fs-6">Danh mục chính</label>
                                 <div class="underline"></div>
                             </div>
                             <p th:errors="*{mainName}" class="text-danger fs-6 mb-3"
                                th:if="${#fields.hasErrors('mainName')}"></p>
                         </div>
                         <div style="margin-bottom: 20px" class="col-md-6">
-                            <div class="input-container">
+                            <div class="form-floating">
                                 <input class="form-control" type="text" id="subName" name="subName" required=""
-                                       th:field="*{categoryEmbeddable.subName}">
-                                <label for="subName" class="label">Sub Category</label>
+                                       th:field="*{categoryEmbeddable.subName}" placeholder="Danh mục phụ">
+                                <label for="subName" class="form-label fs-6">Danh mục phụ</label>
                                 <div class="underline"></div>
                             </div>
 
                         </div>
                     </div>
                     <div class=" text-center">
-                        <button type="submit">
+                        <button class="btn btn-outline-success" type="submit">
                             Save
                         </button>
                     </div>
@@ -61,8 +61,8 @@
                         <td class="text-center" th:text="*{category.id}"/>
                         <td class="text-center" th:text="*{category.mainName}"/>
                         <!--        <td class="text-center" th:text="*{category.categoryEmbeddable.subName}"/>-->
-                        <td><a th:href="@{'/admin/category/update/id=' + *{category.id}}">update</a>
-                            <a th:href="@{'/admin/category/delete/' + *{category.getId()}}">Delete</a></td>
+                        <td><a class="btn btn-outline-primary" th:href="@{'/admin/category/update/id=' + *{category.id}}">update</a>
+                            <a class="btn btn-outline-danger" th:href="@{'/admin/category/delete/' + *{category.getId()}}">Delete</a></td>
                     </tr>
 
                     </tbody>

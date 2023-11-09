@@ -20,25 +20,24 @@
                 <div class="row">
                     <input type="hidden" name="id">
                     <div class="col-md-12" style="margin-bottom: 20px">
-                        <div class="input-container">
+                        <div class="form-floating mb-3">
                             <input class="form-control" type="text" id="color" name="color" required=""
-                                   th:field="*{color}">
-                            <label for="color" class="label">Color Name</label>
-                            <div class="underline"></div>
+                                   th:field="*{color}" placeholder="Color Name">
+                            <label for="color" class="form-label fs-6">Color Name</label>
                         </div>
                         <p th:errors="*{color}" class="text-danger fs-6 mb-3"
                            th:if="${#fields.hasErrors('color')}"></p>
                     </div>
 
                     <div class="col-md-6" style="margin-bottom: 20px;">
-                        <select class="form-control" id="version" th:field="*{version}">
+                        <select class="form-select" id="version" th:field="*{version}">
                             <option value="">Version</option>
                             <option th:each="version : ${versions}" th:value="${version.getId()}"
                                     th:text="${version.getName()}"></option>
                         </select>
                     </div>
                     <div class="col-md-6" style="margin-bottom: 20px;">
-                        <select class="form-control" id="productlist" th:field="*{products}">
+                        <select class="form-select" id="productlist" th:field="*{products}">
                             <option value="">Products</option>
                             <option th:each="productlist : ${productList}" th:value="${productlist.getId()}"
                                     th:text="${productlist.getName()}"></option>
@@ -46,7 +45,7 @@
                     </div>
                 </div>
                 <div class=" text-center">
-                    <button type="submit">
+                    <button class="btn btn-outline-success" type="submit">
                         Save
                     </button>
                 </div>
@@ -65,8 +64,8 @@
                 <td class="text-center" th:text="${colors.id}"></td>
                 <td class="text-center" th:text="${colors.color}"></td>
                 >
-                <td><a th:href="@{'/admin/productsColor/update/id=' + ${colors.id}}">Update</a>
-                    <a th:href="@{'/admin/productsColor/delete/' + ${colors.getId()}}">Delete</a></td>
+                <td><a class="btn btn-outline-primary" th:href="@{'/admin/productsColor/update/id=' + ${colors.id}}">Update</a>
+                    <a  th:href="@{'/admin/productsColor/delete/' + ${colors.getId()}}">Delete</a></td>
             </tr>
 
             </tbody>

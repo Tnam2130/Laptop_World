@@ -27,10 +27,10 @@
                 <p th:errors="*{title}" class="text-danger fs-6 mb-3"
                    th:if="${#fields.hasErrors('title')}"></p>
                 <div class=" text-center">
-                    <button type="submit">
+                    <button class="btn btn-outline-primary" type="submit">
                         Update
                     </button>
-                    <button onclick="cancelForm()" type="button">
+                    <button class="btn btn-outline-danger" onclick="cancelForm()" type="button">
                         Cancel
                     </button>
                 </div>

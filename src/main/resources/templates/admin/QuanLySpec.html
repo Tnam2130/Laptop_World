@@ -19,48 +19,48 @@
                     <input type="hidden" name="id">
                     <div class="row">
                         <div class="col-md-6" style="margin-bottom: 20px">
-                            <div class="input-container">
+                            <div class="form-floating mb-3">
                                 <input class="form-control" type="text" id="cpu_name" name="cpu_name" required
-                                       th:field="*{cpu_name}">
-                                <label for="cpu_name" class="label">CPU Name</label>
+                                       th:field="*{cpu_name}" placeholder="CPU">
+                                <label for="cpu_name" class="form-label fs-6">CPU</label>
                                 <div class="underline"></div>
                             </div>
                         </div>
                         <div class="col-md-6" style="margin-bottom: 20px">
-                            <div class="input-container">
+                            <div class="form-floating mb-3">
                                 <input class="form-control" type="text" id="ram_name" name="ram_name" required
-                                       th:field="*{ram_name}">
-                                <label for="ram_name" class="label">RAM Name</label>
+                                       th:field="*{ram_name}" placeholder="RAM">
+                                <label for="ram_name" class="form-label fs-6">RAM</label>
                                 <div class="underline"></div>
                             </div>
                         </div>
                         <div class="col-md-6" style="margin-bottom: 20px">
-                            <div class="input-container">
+                            <div class="form-floating mb-3">
                                 <input class="form-control" type="text" id="hard_drive" name="hard_drive" required
-                                       th:field="*{hard_drive}">
-                                <label for="hard_drive" class="label">Hard Drive</label>
+                                       th:field="*{hard_drive}" placeholder="Ổ cứng">
+                                <label for="hard_drive" class="form-label fs-6">Ổ cứng</label>
                                 <div class="underline"></div>
                             </div>
                         </div>
                         <div class="col-md-6" style="margin-bottom: 20px">
-                            <div class="input-container">
+                            <div class="form-floating mb-3">
                                 <input class="form-control" type="text" id="card" name="card" required
-                                       th:field="*{card}">
-                                <label for="card" class="label">Card Name</label>
+                                       th:field="*{card}" placeholder="Card">
+                                <label for="card" class="form-label fs-6">Card</label>
                                 <div class="underline"></div>
                             </div>
                         </div>
                         <div class="col-md-6" style="margin-bottom: 20px">
-                            <div class="input-container">
+                            <div class="form-floating mb-3">
                                 <input class="form-control" type="text" id="screen" name="screen" required
-                                       th:field="*{screen}">
-                                <label for="screen" class="label">Screen Name</label>
+                                       th:field="*{screen}" placeholder="Màn hình">
+                                <label for="screen" class="form-label fs-6">Màn hình</label>
                                 <div class="underline"></div>
                             </div>
                         </div>
                         <div class="col-md-6" style="margin-bottom: 20px;">
                             <div class="input-container">
-                                <select class="form-control" id="productList" th:field="*{products}">
+                                <select class="form-select" id="productList" th:field="*{products}">
                                     <option value="">Products</option>
                                     <option th:each="productlist : ${productList}" th:value="${productlist.getId()}"
                                             th:text="${productlist.getName()}"></option>
@@ -69,7 +69,7 @@
                         </div>
                     </div>
                     <div class=" text-center">
-                        <button type="submit">
+                        <button class="btn btn-outline-success" type="submit">
                             Save
                         </button>
                     </div>
@@ -100,8 +100,8 @@
                         <td class="text-center" th:text="*{specs.card}"/>
                         <td class="text-center" th:text="*{specs.screen}"/>
                         <td class="text-center" th:text="*{specs.getProducts().getName()}"/>
-                        <td><a th:href="@{'/admin/spec/update/id=' + *{specs.id}}">update</a>
-                            <a th:href="@{'/admin/spec/delete/' + *{specs.getId()}}">Delete</a></td>
+                        <td><a class="btn btn-outline-primary my-3" th:href="@{'/admin/spec/update/id=' + *{specs.id}}">update</a>
+                            <a class="btn btn-outline-danger " th:href="@{'/admin/spec/delete/' + *{specs.getId()}}">Delete</a></td>
                     </tr>
 
                     </tbody>

@@ -22,17 +22,16 @@
             <div class="row">
               <input type="hidden" name="id" />
               <div class="col-md-12" style="margin-bottom: 20px">
-                <div class="input-container">
+                <div class="form-floating mb-3">
                   <input
                     class="form-control"
                     type="text"
                     id="name"
                     name="name"
                     required=""
-                    th:field="*{name}"
+                    th:field="*{name}" placeholder="Tên phiên bản"
                   />
-                  <label for="name" class="label">Product Name</label>
-                  <div class="underline"></div>
+                  <label for="name" class="form-label fs-6">Tên phiên bản</label>
                 </div>
                 <p
                   th:errors="*{name}"
@@ -56,7 +55,7 @@
               </div>
             </div>
             <div class="text-center">
-              <button type="submit">Save</button>
+              <button class="btn btn-outline-success" type="submit">Save</button>
             </div>
           </form>
         </div>
@@ -73,11 +72,11 @@
               <td class="text-center" th:text="${versions.id}"></td>
               <td class="text-center" th:text="${versions.name}"></td>
               <td>
-                <a
+                <a class="btn btn-outline-primary"
                   th:href="@{'/admin/productsVersion/update/id=' + *{versions.id}}"
                   >Update</a
                 >
-                <a
+                <a class="btn btn-outline-danger"
                   th:href="@{'/admin/productsVersion/delete/' + ${versions.getId()}}"
                   >Delete</a
                 >

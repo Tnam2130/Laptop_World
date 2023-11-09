@@ -39,8 +39,8 @@
                         th:class="*{user.active} ? 'fw-semibold text-success' : 'fw-semibold text-danger'"
                         th:text="*{user.active} ? 'Hoạt động' : 'Hủy'"></td>
 
-                    <td><a th:href="@{'/admin/accounts/update/id=' + ${user.id}}">update</a>
-                        <a th:href="@{'/admin/accounts/delete/' + ${user.id}}">Delete</a></td>
+                    <td><a class="btn btn-outline-primary" th:href="@{'/admin/accounts/update/id=' + ${user.id}}">update</a>
+                        <a class="btn btn-outline-danger" th:href="@{'/admin/accounts/delete/' + ${user.id}}">Delete</a></td>
                 </tr>
             </th:block>
             </tbody>

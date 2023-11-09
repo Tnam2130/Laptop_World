@@ -7,6 +7,7 @@ public class FilterCriteria {
     private Long categoryId;
     private Long brandId;
     private String priceSort;
+    private String keyword;
 
     public void clear() {
         this.categoryId=null;

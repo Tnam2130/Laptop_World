@@ -20,18 +20,17 @@
                 <input type="hidden" name="id">
                 <div class="row">
                     <div class="col-md-12" style="margin-bottom: 20px">
-                        <div class="input-container">
+                        <div class="form-floating mb-3">
                             <input class="form-control" type="text" id="title" name="title" required=""
-                                   th:field="*{title}">
-                            <label for="title" class="label">Title Name</label>
-                            <div class="underline"></div>
+                                   th:field="*{title}" placeholder="Tên thương hiệu">
+                            <label for="title" class="form-label fs-6">Tên thương hiệu</label>
                         </div>
                         <p th:errors="*{title}" class="text-danger fs-6 mb-3"
                            th:if="${#fields.hasErrors('title')}"></p>
                     </div>
                 </div>
                 <div class=" text-center">
-                    <button type="submit">
+                    <button class="btn btn-outline-success" type="submit">
                         Save
                     </button>
                 </div>
@@ -51,8 +50,8 @@
                 <tr class="info">
                     <td class="text-center" th:text="*{brands.id}"/>
                     <td class="text-center" th:text="*{brands.title}"/>
-                    <td><a th:href="@{'/admin/brand/update/id=' + *{brands.id}}">update</a>
-                        <a th:href="@{'/admin/brand/delete/' + *{brands.getId()}}">Delete</a></td>
+                    <td><a class="btn btn-outline-primary" th:href="@{'/admin/brand/update/id=' + *{brands.id}}">update</a>
+                        <a class="btn btn-outline-danger" th:href="@{'/admin/brand/delete/' + *{brands.getId()}}">Delete</a></td>
                 </tr>
 
                 </tbody>

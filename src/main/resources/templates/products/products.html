@@ -60,7 +60,7 @@
 </div>
 <div class="container mt-3 mb-4">
     <div class="row row-cols-3 g-3" id="productList">
-        <div class="col position-relative" th:each="product : ${productPage.content}" style="line-height: 1.5rem;">
+        <div class="col position-relative" th:if="${productPage.content}" th:each="product : ${productPage.content}" style="line-height: 1.5rem;">
              <span th:if="*{product.status == false}" class="position-absolute translate-middle badge rounded-pill bg-danger"
                    style="top: 5%; left: 12%; z-index: 1;">Hết hàng</span>
             <th:block th:if="*{product.status == true}" >
@@ -76,41 +76,84 @@
                     <div class="card-body">
                         <h6 class="card-title fw-bolder text-center fs-4" th:text="${product.getName()}"></h6>
                         <!-- Hiển thị thông tin sản phẩm -->
-                        <div class="cardthongtin pt-2">
-                            <div class="row">
-                                <div class="col-5 text-end">
-                                    <small class="text-secondary text-opacity-75">Thương hiệu</small><br>
-                                    <small class="text-secondary text-opacity-75">CPU</small><br>
-                                    <small class="text-secondary text-opacity-75">RAM</small><br>
-                                    <small class="text-secondary text-opacity-75">Ổ cứng</small><br>
-                                    <small class="text-secondary text-opacity-75">Card</small><br>
-                                    <small class="text-secondary text-opacity-75">M.Hình</small>
-                                </div>
+                        <th:block th:if="*{product.specifications != null}">
+                            <div class="cardthongtin pt-2">
+                                <div class="row ">
+                                    <div class="col-5 text-end">
+                                        <small class="text-secondary text-danger fw-bold">CPU </small><br>
+                                        <small class="text-secondary text-danger fw-bold">RAM</small><br>
+                                        <small class="text-secondary text-danger fw-bold">Ổ cứng </small><br>
+                                        <small class="text-secondary text-danger fw-bold">Card </small><br>
+                                        <small class="text-secondary text-danger fw-bold">M.Hình </small>
 
-                                <div class="col-7 text-star">
-                                    <small class="text-secondary text-opacity-75"><span th:text="${product.getBrand().getTitle()}"></span></small><br>
-                                    <small class="text-secondary text-opacity-75">16GB DDR4</small><br>
-                                    <small class="text-secondary text-opacity-75">SSD 512GB</small><br>
-                                    <small class="text-secondary text-opacity-75">Nvidia RTX 8050Ti</small><br>
-                                    <small class="text-secondary text-opacity-75">15.6' FUll HD 144Hz</small>
+                                    </div>
+                                    <th:block th:each="infor : *{product.specifications}">
+                                        <div class="col-7 text-star">
+                                            <small class="text-secondary fw-semibold" th:text="*{infor.cpu_name}"></small><br>
+                                            <small class="text-secondary fw-semibold" th:text="*{infor.ram_name}"></small><br>
+                                            <small class="text-secondary fw-semibold" th:text="*{infor.hard_drive}"></small><br>
+                                            <small class="text-secondary fw-semibold" th:text="*{infor.card}"></small><br>
+                                            <small class="text-secondary fw-semibold" th:text="*{infor.screen}"></small>
+
+                                        </div>
+                                    </th:block>
                                 </div>
-                            </div>
-                            <div class="ps-5 text-center pt-4">
-                                <!-- Hiển thị giá sản phẩm -->
-                                <p class="card-text d-inline ">
-                                    <small class="text-body-secondary text-decoration-line-through"
-                                           th:text="${#numbers.formatDecimal(product.getOldPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></small>
+                                <div class="ps-5 text-center pt-4">
+                                    <p class="card-text d-inline ">
+                                        <small class="text-body-secondary  text-decoration-line-through"
+                                               th:text="${#numbers.formatDecimal(product.getOldPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></small>
+                                    </p>
+                                    <p class="d-inline">
+                                        <small class="ms-2 bg-danger text-white p-1 rounded-pill"
+                                               th:text="${#numbers.formatDecimal(product.getDiscount(), 0, 'COMMA', 0, 'DEFAULT')}+' %'"></small>
+                                    </p>
+                                </div>
+                                <p class=" text-center pt-2">
+                                    <small class=" fs-5 text-danger fw-bolder"
+                                           th:text="${#numbers.formatDecimal(product.getPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></small>
                                 </p>
-                                <p class="d-inline">
-                                    <small class="ms-2 bg-danger text-white p-1 rounded-pill">-19%</small>
+                            </div>
+                        </th:block>
+                        <th:block th:unless="*{product.specifications != null}">
+                            <div class="cardthongtin pt-2">
+                                <div class="row ">
+                                    <div class="col-5 text-end">
+                                        <small class="text-secondary text-opacity-75 ">CPU </small><br>
+                                        <small class="text-secondary text-opacity-75 ">RAM</small><br>
+                                        <small class="text-secondary text-opacity-75 ">Ổ cứng </small><br>
+                                        <small class="text-secondary text-opacity-75 ">Card </small><br>
+                                        <small class="text-secondary text-opacity-75 ">M.Hình </small>
+
+                                    </div>
+
+                                    <div class="col-7 text-star">
+                                        <small class=" text-secondary text-opacity-75">i5-12500KH</small><br>
+                                        <small class=" text-secondary text-opacity-75">16GB DDR4</small><br>
+                                        <small class=" text-secondary text-opacity-75"> SSD
+                                            512GB</small><br>
+                                        <small class=" text-secondary text-opacity-75"> Nvidia RTX
+                                            8050Ti</small><br>
+                                        <small class=" text-secondary text-opacity-75"> 15.6' FUll HD
+                                            144Hz</small>
+
+                                    </div>
+                                </div>
+                                <div class="ps-5 text-center pt-4">
+                                    <p class="card-text d-inline ">
+                                        <small class="text-body-secondary  text-decoration-line-through"
+                                               th:text="${#numbers.formatDecimal(product.getOldPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></small>
+                                    </p>
+                                    <p class="d-inline">
+                                        <small class="ms-2 bg-danger text-white p-1 rounded-pill"
+                                               th:text="${#numbers.formatDecimal(product.getDiscount(), 0, 'COMMA', 0, 'DEFAULT')}+' %'"></small>
+                                    </p>
+                                </div>
+                                <p class=" text-center pt-2">
+                                    <small class=" fs-5 text-danger fw-bolder"
+                                           th:text="${#numbers.formatDecimal(product.getPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></small>
                                 </p>
                             </div>
-                            <!-- Hiển thị giá sản phẩm -->
-                            <p class="text-center pt-2">
-                                <small class="fs-5 text-danger fw-bolder"
-                                       th:text="${#numbers.formatDecimal(product.getPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></small>
-                            </p>
-                        </div>
+                        </th:block>
                     </div>
                 </a>
             </th:block>
@@ -164,6 +207,7 @@
             </th:block>
         </div>
     </div>
+    <div th:unless="${productPage.hasContent()}">Không tìm thấy sản phẩm nào.</div>
     <!-- phân trang -->
     <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center my-3">
