@@ -1,6 +1,7 @@
 package com.main.laptop_world.Services.impl;
 
 import com.main.laptop_world.Entity.Cart;
+import com.main.laptop_world.Entity.DTO.OrderDTO;
 import com.main.laptop_world.Entity.Order;
 import com.main.laptop_world.Entity.OrderItem;
 import com.main.laptop_world.Repository.OrderItemRepository;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -54,5 +56,11 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.save(order);
     }
 
-
+    @Override
+    public List<OrderDTO> getRevenueData() {
+        List<Object[]> revenueList = orderRepository.getRevenueByMonth();
+        return revenueList.stream()
+                .map(data -> new OrderDTO((int) data[0], (int) data[1], (BigDecimal) data[2]))
+                .collect(Collectors.toList());
+    }
 }

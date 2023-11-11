@@ -1,6 +1,7 @@
 package com.main.laptop_world.Services;
 
 import com.main.laptop_world.Entity.Cart;
+import com.main.laptop_world.Entity.DTO.OrderDTO;
 import com.main.laptop_world.Entity.Order;
 import com.main.laptop_world.Entity.OrderItem;
 
@@ -16,4 +17,5 @@ public interface OrderService {
     void updateOrder(Long id, String newStatus);
 
     void updateOrders(Order order);
+    List<OrderDTO> getRevenueData();
 }

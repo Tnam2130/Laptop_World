@@ -11,6 +11,8 @@ import java.util.List;
 public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findByUserId(Long userId);
 
-    @Query("SELECT new Order (MONTH(d.createdAt), SUM(d.total)) FROM Order d GROUP BY MONTH(d.createdAt)")
-    List<Order> tinhDoanhThuTheoThang();
+    @Query("SELECT MONTH(e.createdAt) as month, YEAR(e.createdAt) as year, SUM(e.total) as totalRevenue " +
+            "FROM Order e " +
+            "GROUP BY MONTH(e.createdAt), YEAR(e.createdAt)")
+    List<Object[]> getRevenueByMonth();
 }
