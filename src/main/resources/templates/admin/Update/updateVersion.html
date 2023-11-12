@@ -16,13 +16,19 @@
             <form th:action="@{/admin/productsVersion/update}" th:object="${version}" method="post">
                 <div class="row">
                     <input type="hidden" name="id" th:field="*{id}">
-                    <div style="margin-bottom: 20px" class="col-md-6">
+                    <div style="margin-bottom: 20px" class="col-md-12">
                         <input class="form-control" type="text" disabled id="id" name="id" th:field="*{id}">
                     </div>
-                    <div style="margin-bottom: 20px" class="col-md-6">
+                    <div style="margin-bottom: 20px" class="col-md-12">
                         <input class="form-control" type="text" id="name" name="name" th:field="*{name}">
                     </div>
-
+                    <div style="margin-bottom: 20px" class="col-md-12">
+                        <select class="form-control" name="product" id="product">
+                            <option value="">Products</option>
+                            <option th:each="product : ${productList}" th:value="${product.getId()}"
+                                    th:text="${product.getName()}"></option>
+                        </select>
+                    </div>
                 </div>
                 <div class=" text-center">
                     <button type="submit">

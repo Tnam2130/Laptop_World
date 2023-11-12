@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="fragments/head :: head">
+    <link type="text/css" rel="stylesheet" th:href="@{/admin/css/admin.css}" />
+</head>
+<body>
+<div th:replace="admin/layout/header :: headerAdmin"></div>
+<!--content -->
+<div class="row">
+    <th:block th:insert="admin/layout/sidebar :: sidebar"></th:block>
+    <div class="col-10 mt-3">
+        <h3 class="page-header">Quản lý mô tả</h3>
+        <div class="container">
+            <div th:if="${message}" class="alert alert-success text-center">
+                [[${message}]]
+            </div>
+            <form
+                    th:action="@{/admin/desc/add}"
+                    th:object="${description}"
+                    method="post"
+            >
+                <div class="row">
+                    <input type="hidden" name="id" />
+                    <div class="col-md-12" style="margin-bottom: 20px">
+                        <div class="input-container">
+                            <input
+                                    class="form-control"
+                                    type="text"
+                                    id="title"
+                                    name="title"
+                                    required=""
+                                    th:field="*{title}"
+                            />
+                            <label for="title" class="label">Desc Name</label>
+                            <div class="underline"></div>
+                        </div>
+                        <p
+                                th:errors="*{title}"
+                                class="text-danger fs-6 mb-3"
+                                th:if="${#fields.hasErrors('title')}"
+                        ></p>
+                    </div>
+                    <div class="col-md-12" style="margin-bottom: 20px">
+                        <div class="input-container">
+                            <input
+                                    class="form-control"
+                                    type="text"
+                                    id="content"
+                                    name="content"
+                                    required=""
+                                    th:field="*{content}"
+                            />
+                            <label for="content" class="label">Content Name</label>
+                            <div class="underline"></div>
+                        </div>
+                        <p
+                                th:errors="*{content}"
+                                class="text-danger fs-6 mb-3"
+                                th:if="${#fields.hasErrors('content')}"
+                        ></p>
+                    </div>
+                    <div class="col-md-12" style="margin-bottom: 20px">
+                        <select
+                                class="form-control"
+                                id="productlist"
+                                th:field="*{products}"
+                        >
+                            <option value="">Products</option>
+                            <option
+                                    th:each="productlist : ${productList}"
+                                    th:value="${productlist.getId()}"
+                                    th:text="${productlist.getName()}"
+                            ></option>
+                        </select>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <button type="submit">Save</button>
+                </div>
+            </form>
+        </div>
+        <table class="table table-hover nhanHieuTable">
+            <thead>
+            <tr class="active">
+                <th class="fw-bold text-center">ID</th>
+                <th class="fw-bold text-center">Title</th>
+                <th class="fw-bold text-center">Content</th>
+                <th class="fw-bold text-center">Products</th>
+
+                <th class="fw-bold text-center"></th>
+            </tr>
+            </thead>
+            <tbody th:each="desc : ${descriptions}">
+            <tr class="info">
+                <td class="text-center" th:text="${desc.id}"></td>
+                <td class="text-center" th:text="${desc.title}"></td>
+                <td class="text-center" th:text="${desc.content}"></td>
+                <td class="text-center" th:text="${desc.getProducts().getName()}"></td>
+
+                <td>
+                    <a
+                            th:href="@{'/admin/desc/update/id=' + *{desc.id}}"
+                    >Update</a
+                    >
+                    <a
+                            th:href="@{'/admin/desc/delete/' + ${desc.getId()}}"
+                    >Delete</a
+                    >
+                </td>
+            </tr>
+            </tbody>
+        </table>
+
+        <ul class="pagination"></ul>
+        <div th:replace="admin/layout/footer"></div>
+    </div>
+</div>
+</body>
+<script th:src="@{/admin/js/admin.js}"></script>
+</html>

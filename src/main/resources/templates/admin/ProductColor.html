@@ -57,6 +57,9 @@
             <tr class="active">
                 <th class="fw-bold text-center">ID</th>
                 <th class="fw-bold text-center">Color</th>
+                <th class="fw-bold text-center">Version</th>
+                <th class="fw-bold text-center">Product</th>
+
                 <th class="fw-bold text-center"></th>
             </tr>
             </thead>
@@ -64,7 +67,9 @@
             <tr class="info">
                 <td class="text-center" th:text="${colors.id}"></td>
                 <td class="text-center" th:text="${colors.color}"></td>
-                >
+                <td class="text-center" th:text="${colors.getVersion().getName()}"></td>
+                <td class="text-center" th:text="${colors.getProducts().getName()}"></td>
+
                 <td><a th:href="@{'/admin/productsColor/update/id=' + ${colors.id}}">Update</a>
                     <a th:href="@{'/admin/productsColor/delete/' + ${colors.getId()}}">Delete</a></td>
             </tr>

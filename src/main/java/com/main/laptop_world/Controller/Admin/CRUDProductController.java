@@ -164,14 +164,18 @@ public class CRUDProductController {
                                           @ModelAttribute ProductVersion productVersion) {
         ProductVersion version = productVersionRepository.getById(id);
         model.addAttribute("version", version);
-
+        List<Products> productList = productService.findAllProduct();
+        model.addAttribute("productList", productList);
         return "admin/Update/updateVersion";
     }
 
     @PostMapping("/admin/productsVersion/update")
-    public String updateProductVersion(ProductVersion products, RedirectAttributes ra) {
+    public String updateProductVersion(ProductVersion productVersion, RedirectAttributes ra,
+                                       @RequestParam("product") Long productId) {
         ra.addFlashAttribute("message", "Update successfully");
-        productVersionRepository.save(products);
+        Products products = productService.getProductById(productId);
+        productVersion.setProducts(products);
+        productVersionRepository.save(productVersion);
         return "redirect:/admin/productsVersion";
     }
 
@@ -221,12 +225,22 @@ public class CRUDProductController {
     public String getUpdateColor(@PathVariable("id") Long id, Model model, RedirectAttributes ra, @ModelAttribute ProductColor colors) {
         ProductColor productColor = productColorRepository.getById(id);
         model.addAttribute("color", productColor);
+        List<Products> productList = productService.findAllProduct();
+        model.addAttribute("productList", productList);
+        List<ProductVersion> version = productVersionRepository.findAll();
+        model.addAttribute("versions", version);
         return "admin/Update/updateColor";
     }
 
     @PostMapping("/admin/productsColor/update")
-    public String updateColor(ProductColor productColor, RedirectAttributes ra) {
+    public String updateColor(ProductColor productColor, RedirectAttributes ra,
+                              @RequestParam("product") Long productId,
+                              @RequestParam("version") Long versionId) {
         ra.addFlashAttribute("message", "Update successfully");
+        Products products = productService.getProductById(productId);
+        productColor.setProducts(products);
+        ProductVersion versions = productVersionRepository.getById(versionId);
+        productColor.setVersion(versions);
         productColorRepository.save(productColor);
         return "redirect:/admin/productsColor";
     }
