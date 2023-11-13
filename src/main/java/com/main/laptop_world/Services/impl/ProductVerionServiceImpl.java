@@ -24,6 +24,7 @@ public class ProductVerionServiceImpl implements ProductVersionService {
 
     @Override
     public void updateProduct(ProductVersion productVersion) {
+
         productVersion.setName(productVersion.getName());
     }
 

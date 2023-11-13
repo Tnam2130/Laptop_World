@@ -22,6 +22,20 @@
                     <div style="margin-bottom: 20px" class="col-md-6">
                         <input class="form-control" type="text" id="color" name="color" th:field="*{color}">
                     </div>
+                    <div style="margin-bottom: 20px" class="col-md-6">
+                        <select class="form-control" name="product" id="product">
+                            <option value="">Products</option>
+                            <option th:each="product : ${productList}" th:value="${product.getId()}"
+                                    th:text="${product.getName()}"></option>
+                        </select>
+                    </div>
+                    <div style="margin-bottom: 20px" class="col-md-6">
+                        <select class="form-control" name="version" id="version">
+                            <option value="">Version</option>
+                            <option th:each="product : ${versions}" th:value="${product.getId()}"
+                                    th:text="${product.getName()}"></option>
+                        </select>
+                    </div>
                 </div>
                 <div class=" text-center">
                     <button class="btn btn-outline-primary" type="submit">

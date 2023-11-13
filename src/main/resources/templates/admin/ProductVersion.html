@@ -64,6 +64,8 @@
             <tr class="active">
               <th class="fw-bold text-center">ID</th>
               <th class="fw-bold text-center">Version</th>
+              <th class="fw-bold text-center">Products</th>
+
               <th class="fw-bold text-center"></th>
             </tr>
           </thead>
@@ -71,6 +73,8 @@
             <tr class="info">
               <td class="text-center" th:text="${versions.id}"></td>
               <td class="text-center" th:text="${versions.name}"></td>
+              <td class="text-center" th:text="${versions.getProducts().getName()}"></td>
+
               <td>
                 <a class="btn btn-outline-primary"
                   th:href="@{'/admin/productsVersion/update/id=' + *{versions.id}}"

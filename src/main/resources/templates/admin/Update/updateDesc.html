@@ -10,45 +10,53 @@
 <div class="row">
     <th:block th:insert="admin/layout/sidebar :: sidebar"></th:block>
     <div class="col-10 mt-3">
-        <h3 class="text-center page-header">UPDATE VERSION</h3>
+        <h3 class="text-center page-header">UPDATE MÔ TẢ</h3>
         <div class="container">
-            <label for="name"></label>
-            <form th:action="@{/admin/productsVersion/update}" th:object="${version}" method="post">
+            <form th:action="@{/admin/desc/update}" th:object="${descriptions}" method="post">
                 <div class="row">
                     <input type="hidden" name="id" th:field="*{id}">
-                    <div style="margin-bottom: 20px" class="col-md-12">
+                    <div style="margin-bottom: 20px" class="col-md-6">
                         <input class="form-control" type="text" disabled id="id" name="id" th:field="*{id}">
                     </div>
-                    <div style="margin-bottom: 20px" class="col-md-12">
-                        <input class="form-control" type="text" id="name" name="name" th:field="*{name}">
+                    <div style="margin-bottom: 20px" class="col-md-6">
+                        <input class="form-control" type="text" id="cpu_name" name="cpu_name"
+                               th:field="*{title}">
                     </div>
-                    <div style="margin-bottom: 20px" class="col-md-12">
+                    <div style="margin-bottom: 20px" class="col-md-6">
+                        <input class="form-control" type="text" id="ram_name" name="ram_name"
+                               th:field="*{content}">
+                    </div>
+
+                    <div style="margin-bottom: 20px" class="col-md-6">
                         <select class="form-control" name="product" id="product">
                             <option value="">Products</option>
                             <option th:each="product : ${productList}" th:value="${product.getId()}"
                                     th:text="${product.getName()}"></option>
                         </select>
                     </div>
+
                 </div>
                 <div class=" text-center">
-                    <button class="btn btn-outline-primary" type="submit">
+                    <button type="submit">
                         Update
                     </button>
-                    <button class="btn btn-outline-danger" onclick="cancelForm()" type="button">
+                    <button onclick="cancelForm()" type="button">
                         Cancel
                     </button>
                 </div>
             </form>
         </div>
+
         <ul class="pagination">
         </ul>
     </div>
 </div>
+
 <div th:replace="admin/layout/footer"></div>
 <!--<script th:src="@{/admin/js/danhMucAjax.js}"></script>-->
 <script type="text/javascript">
     function cancelForm() {
-        window.location = "[[@{/admin/productsVersion}]]";
+        window.location = "[[@{/admin/desc}]]";
     }
 </script>
 </body>
