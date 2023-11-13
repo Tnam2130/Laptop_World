@@ -1,5 +1,5 @@
 package com.main.laptop_world.Constant;
 
-public enum AuthenticationProvider {
+public enum Provider {
     LOCAL, GOOGLE, FACEBOOK
 }

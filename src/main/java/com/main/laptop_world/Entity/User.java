@@ -1,5 +1,6 @@
 package com.main.laptop_world.Entity;
 
+import com.main.laptop_world.Constant.Provider;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,7 +24,10 @@ public class User {
     private String email;
     private boolean active = true;
 
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @Enumerated(EnumType.STRING)
+    private Provider provider;
+
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "role_id"))
     private List<Role> roles = new ArrayList<>();

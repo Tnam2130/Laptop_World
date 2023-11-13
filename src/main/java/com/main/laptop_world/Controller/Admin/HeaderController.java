@@ -18,9 +18,18 @@ public class HeaderController {
     }
     @ModelAttribute("cartItemCount")
     public int getCartItemCount(Principal principal){
-        if(principal != null){
-            User user = userService.findByUsername(principal.getName());
-            return cartService.getCartItemCount(user.getId());
+        if (principal != null) {
+            String principalName = principal.getName();
+            System.out.println(principalName);
+            if (principalName != null && !principalName.isEmpty()) {
+                User user = userService.findByUsername(principalName);
+                if (user != null) {
+                    Long userId = user.getId();
+                    if (userId != null) {
+                        return cartService.getCartItemCount(userId);
+                    }
+                }
+            }
         }
         return 0;
     }

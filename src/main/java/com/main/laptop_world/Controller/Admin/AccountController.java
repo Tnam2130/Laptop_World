@@ -53,14 +53,13 @@ public class AccountController {
 
     @PostMapping(value = "/admin/accounts/update")
     public String update(User user,@RequestParam("roleIds") List<Integer> roleIds, RedirectAttributes ra) {
-        ra.addFlashAttribute("message", "Update successfully");
         User existingUser = userService.findById(user.getId());
         if(existingUser !=null){
             List<Role> roles=roleService.getRoleByIds(roleIds);
             existingUser.setRoles(roles);
         }
         userService.updateUser(existingUser);
-
+        ra.addFlashAttribute("message", "Update successfully");
         return "redirect:/admin/accounts";
     }
 

@@ -1,0 +1,31 @@
+spring:
+  jpa:
+    properties:
+      hibernate:
+        enable_lazy_load_no_trans=true:
+        ##Mail
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: vip101183@gmail.com
+    password: yyjxdoucxszoyxbn
+    properties:
+      mail:
+        smtp:
+          ssl:
+            trust: "*"
+          auth: true
+          starttls:
+            enable: true
+        protocol: smtp
+---
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            client-id: 708026380075-beji39l6a6p0vhlh40a7khedk07hnk9l.apps.googleusercontent.com
+            client-secret: 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
+            scope:
+              - email

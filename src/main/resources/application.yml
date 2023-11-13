@@ -8,15 +8,11 @@ spring:
     multipart:
       max-file-size: 15MB
       max-request-size: 15MB
-
----
-server:
-  error:
-    whitelabel:
-      enabled: false
+  profiles:
+    active: dev
 ---
 spring:
-### My SQL
+  ### My SQL
   datasource:
     url: jdbc:mysql://avnadmin:AVNS_5uOiL8WRxGR0ol0wUvN@laptopworld-datn.a.aivencloud.com:17235/defaultdb?ssl-mode=REQUIRED
     username: avnadmin
@@ -34,46 +30,7 @@ spring:
       ddl-auto: update
     show-sql: true
 ---
-
-spring:
-  jpa:
-    properties:
-      hibernate:
-        enable_lazy_load_no_trans=true:
-        #  jpa:
-        #    properties:
-        #      hibernate:
-        #        dialect: org.hibernate.dialect.MySQL5Dialect
-        #    show-sql: true
-        #    hibernate:
-        #      ddl-auto: update
-
-        ### MS SQL
-        #  datasource:
-        #    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
-        #    url: jdbc:sqlserver://sqlsrv\\sqlexpress;databaseName=customer
-        #    username: sa
-        #    password: 1234
-        #  jpa:
-        #    properties:
-        #      hibernate:
-        #        dialect: org.hibernate.dialect.MySQL5Dialect
-        #    show-sql: true
-        #    hibernate:
-        #      ddl-auto: update
-
-        ##Mail
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: vip101183@gmail.com
-    password: yyjxdoucxszoyxbn
-    properties:
-      mail:
-        smtp:
-          ssl:
-            trust: "*"
-          auth: true
-          starttls:
-            enable: true
-        protocol: smtp
+server:
+  error:
+    whitelabel:
+      enabled: false

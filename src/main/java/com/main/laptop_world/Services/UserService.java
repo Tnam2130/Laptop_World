@@ -11,7 +11,6 @@ import java.util.Optional;
 @Service
 public interface UserService {
     void saveUser(UserDTO userDto);
-    void save(User user);
     void updateUser(User user);
     User findByUsername(String username);
     User findById(Long id);
@@ -20,6 +19,6 @@ public interface UserService {
     List<User> findAllUser();
     User findByEmail(String email);
     User resetPassword(String username,String newPassword);
-    void processOAuthPostLogin(String username);
+    void processOAuthPostLogin(String email);
 }
 

@@ -53,11 +53,11 @@
                         <img th:src="@{/images/facebook.png}" class="form-social-icon me-2" alt=""/>
                         <span class="text-white fs-6">Đăng nhập với Facebook</span>
                     </div>
-                    <div
+                    <a th:href="@{/oauth2/authorization/google}"
                             class="d-flex border justify-content-center align-items-center py-1 rounded-1 mt-2 form-social-btn">
                         <img th:src="@{/images/google.png}" class="form-social-icon me-2" alt=""/>
                         <span class="text-secondary fs-6">Đăng nhập với Google</span>
-                    </div>
+                    </a>
                     <div class="d-flex align-items-center justify-content-center mt-4">
                         <a class="text-decoration-none fs-6" th:href="@{/register}">Đăng ký ngay?</a>
                     </div>
