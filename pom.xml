@@ -10,8 +10,7 @@
     </parent>
     <groupId>com.main</groupId>
     <artifactId>Laptop_World</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <version>1.0-SNAPSHOT</version>
     <name>Laptop_World</name>
     <description>Laptop_World</description>
     <properties>
