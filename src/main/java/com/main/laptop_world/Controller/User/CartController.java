@@ -15,16 +15,18 @@ import java.util.List;
 public class CartController {
     private CartService cartService;
     private UserService userService;
-
-    public CartController(CartService cartService, UserService userService, ProductService productService) {
+private GeneralService generalService;
+    public CartController(CartService cartService, UserService userService, GeneralService generalService) {
         this.cartService = cartService;
         this.userService = userService;
+        this.generalService=generalService;
     }
 
     @GetMapping("/cart")
     public String showFormCart(Model model, Principal principal) {
-        User user = userService.findByUsername(principal.getName());
-        List<Cart> cartItems = cartService.getCartItems(user.getId());
+        Long userId= generalService.usernameHandler(principal);
+        User user= userService.findById(userId);
+        List<Cart> cartItems = cartService.getCartItems(userId);
         if(user.getUserDetailEmbeddable() == null){
             return "redirect:/user/profile";
         }else{
@@ -61,8 +63,7 @@ public class CartController {
 
     @PostMapping("/cart/add/{productId}")
     public String addToCart(@PathVariable Long productId, Principal principal, @ModelAttribute("quantity") int quantity) {
-        User user = userService.findByUsername(principal.getName());
-        Long userId = user.getId();
+        Long userId= generalService.usernameHandler(principal);
         cartService.addToCart(userId, productId, quantity);
         return "redirect:/cart";
     }

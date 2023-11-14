@@ -1,5 +1,6 @@
 package com.main.laptop_world.security;
 
+import com.main.laptop_world.Entity.User;
 import com.main.laptop_world.Services.UserService;
 import com.main.laptop_world.security.oauth2.CustomOAuth2User;
 import com.main.laptop_world.security.oauth2.CustomOAuth2UserService;
@@ -118,9 +119,19 @@ public class WebSecurityConfig {
                                 .successHandler((request, response, authentication) -> {
                                     if (authentication.getPrincipal() instanceof CustomOAuth2User customOAuth2User) {
                                         String email = customOAuth2User.getName();
-                                        System.out.println("email: " + email);
-                                        userService.processOAuthPostLogin(email);
-                                        response.sendRedirect("/");
+                                        User existingUser= userService.findByEmail(email);
+                                        String username= customOAuth2User.getUsername();
+                                        String clientName= customOAuth2User.getOauth2ClientNames();;
+                                        System.out.println("email: " + email+", client: "+clientName+
+                                                ", username: "+ username);
+                                        if(existingUser != null){
+
+                                            response.sendRedirect("/");
+                                            System.out.println("User is existing!");
+                                        }else{
+                                            userService.processOAuthPostLogin(email, clientName);
+                                            response.sendRedirect("/");
+                                        }
                                     } else {
                                         // Handle other cases if needed
                                         response.sendRedirect("/login"); // Redirect to login page in case of an issue

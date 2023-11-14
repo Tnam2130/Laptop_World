@@ -19,6 +19,6 @@ public interface UserService {
     List<User> findAllUser();
     User findByEmail(String email);
     User resetPassword(String username,String newPassword);
-    void processOAuthPostLogin(String email);
+    void processOAuthPostLogin(String email, String oauth2ClientName);
 }
 

@@ -7,10 +7,7 @@ import com.main.laptop_world.Entity.User;
 import com.main.laptop_world.Repository.RoleRepository;
 import com.main.laptop_world.Repository.UserRepository;
 import com.main.laptop_world.Services.UserService;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import org.hibernate.Session;
-import org.springframework.beans.factory.annotation.Autowired;;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -121,14 +118,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void processOAuthPostLogin(String email) {
+    public void processOAuthPostLogin(String email, String oauth2ClientName) {
         User existUser = userRepository.findByEmail(email);
         if (existUser == null) {
             User newUser = new User();
             newUser.setEmail(email);
             newUser.setUsername(email);
             newUser.setPassword(passwordEncoder.encode("123456"));
-            newUser.setProvider(Provider.GOOGLE);
+            Provider provider=Provider.valueOf(oauth2ClientName.toUpperCase());
+            newUser.setProvider(provider);
             Role role = roleRepository.findByName("USER");
             if (role == null) {
                 role = checkRoleExist();

@@ -8,7 +8,7 @@ spring:
     host: smtp.gmail.com
     port: 587
     username: vip101183@gmail.com
-    password: yyjxdoucxszoyxbn
+    password: sjlowwxdwqsntnpe
     properties:
       mail:
         smtp:
@@ -29,3 +29,9 @@ spring:
             client-secret: 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
             scope:
               - email
+          facebook:
+            client-id: 244836248317972
+            client-secret: 7a5d355aa318803a3e0cc2173c1ae71c
+            scope:
+              - email
+              - public_profile

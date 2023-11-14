@@ -20,6 +20,11 @@
                             Tên đăng nhập hoặc mật khẩu không hợp lệ.
                         </div>
                     </div>
+                    <div th:if="${param.errorOAuth2}">
+                        <div class="alert alert-danger mb-3">
+                            Tài khoản đã được đăng ký.
+                        </div>
+                    </div>
                     <div class="form-floating mb-3">
                         <input name="username" class="form-control" id="username" type="text" placeholder="Ussername" required>
                         <label for="username" class="form-label fs-6">Tên tài khoản</label>
@@ -48,11 +53,11 @@
                     <div class="form-line position-relative text-secondary my-2 mb-4">
                         <span class="position-absolute options-signin">Hoặc</span>
                     </div>
-                    <div
+                    <a th:href="@{/oauth2/authorization/facebook}"
                             class="bg-fb d-flex justify-content-center align-items-center py-1 rounded-1 mt-2 form-social-btn">
                         <img th:src="@{/images/facebook.png}" class="form-social-icon me-2" alt=""/>
                         <span class="text-white fs-6">Đăng nhập với Facebook</span>
-                    </div>
+                    </a>
                     <a th:href="@{/oauth2/authorization/google}"
                             class="d-flex border justify-content-center align-items-center py-1 rounded-1 mt-2 form-social-btn">
                         <img th:src="@{/images/google.png}" class="form-social-icon me-2" alt=""/>

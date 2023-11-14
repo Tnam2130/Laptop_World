@@ -69,7 +69,7 @@
                                 <p th:if="${#authentication.principal instanceof T(com.main.laptop_world.security.oauth2.CustomOAuth2User)}"
                                    sec:authorize="isAuthenticated()" class="m-0">
                                     <i class="fa-solid fa-circle-user me-1"></i>
-                                    Xin chào, <span th:text="${#authentication.principal.name}"></span>
+                                    Xin chào, <span th:text="${#authentication.principal.username}"></span>
                                 </p>
 
                                 <p th:unless="${#authentication.principal instanceof T(com.main.laptop_world.security.oauth2.CustomOAuth2User)}"

@@ -1,6 +1,8 @@
 package com.main.laptop_world.security.oauth2;
 
 import com.main.laptop_world.Entity.Role;
+import com.main.laptop_world.Entity.User;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -12,10 +14,14 @@ public class CustomOAuth2User implements OAuth2User {
 
     private final List<Role> roles;
     private final OAuth2User oAuth2User;
-
-    public CustomOAuth2User(OAuth2User oAuth2User, List<Role> roles) {
+    @Getter
+    private final String oauth2ClientNames;
+    private final User username;
+    public CustomOAuth2User(OAuth2User oAuth2User, List<Role> roles, String oauth2ClientNames, User username) {
         this.oAuth2User = oAuth2User;
         this.roles = roles;
+        this.oauth2ClientNames=oauth2ClientNames;
+        this.username = username;
     }
 
     @Override
@@ -31,6 +37,9 @@ public class CustomOAuth2User implements OAuth2User {
     @Override
     public String getName() {
         return oAuth2User.getAttribute("email");
+    }
+    public String getUsername(){
+        return username.getUsername();
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(List<Role> roles) {

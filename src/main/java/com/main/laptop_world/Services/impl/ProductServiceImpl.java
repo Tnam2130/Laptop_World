@@ -18,11 +18,9 @@ import java.util.Optional;
 
 public class ProductServiceImpl implements ProductService {
     private ProductRepository repository;
-    private ProductSpecification productSpecification;
 
-    public ProductServiceImpl(ProductRepository repository, ProductSpecification productSpecification) {
+    public ProductServiceImpl(ProductRepository repository) {
         this.repository = repository;
-        this.productSpecification = productSpecification;
     }
 
     @Override
@@ -99,25 +97,6 @@ public class ProductServiceImpl implements ProductService {
             spec = spec.and((root, query, builder) -> builder.like(root.get("name"), "%" + keyword + "%"));
         }
         return repository.findAll(spec, pageable);
-    }
-
-    @Override
-    public List<Products> findByKeyword(String keyword) {
-        if (keyword != null) {
-            return repository.findAll(keyword);
-        }
-        return repository.findAll();
-    }
-
-    @Override
-    public List<Products> searchProducts(String searchTerm, String category) {
-        if (searchTerm != null && !searchTerm.isEmpty() && category != null && !category.isEmpty()) {
-            return repository.findBySearchTermAndCategory(searchTerm, category);
-        } else if (searchTerm != null && !searchTerm.isEmpty()) {
-            return repository.findBySearchTerm(searchTerm);
-        } else {
-            return repository.findAll();
-        }
     }
 
 }

@@ -58,16 +58,16 @@
                     <div class="form-line position-relative text-secondary my-2 mb-4">
                         <span class="position-absolute options-signin">Hoặc</span>
                     </div>
-                    <div
-                            class="bg-fb d-flex justify-content-center align-items-center py-1 rounded-1 mt-2 form-social-btn">
+                    <a th:href="@{/oauth2/authorization/facebook}"
+                       class="bg-fb d-flex justify-content-center align-items-center py-1 rounded-1 mt-2 form-social-btn">
                         <img th:src="@{/images/facebook.png}" class="form-social-icon me-2" alt=""/>
                         <span class="text-white fs-6">Đăng nhập với Facebook</span>
-                    </div>
-                    <div
-                            class="d-flex border justify-content-center align-items-center py-1 rounded-1 mt-2 form-social-btn">
+                    </a>
+                    <a th:href="@{/oauth2/authorization/google}"
+                       class="d-flex border justify-content-center align-items-center py-1 rounded-1 mt-2 form-social-btn">
                         <img th:src="@{/images/google.png}" class="form-social-icon me-2" alt=""/>
                         <span class="text-secondary fs-6">Đăng nhập với Google</span>
-                    </div>
+                    </a>
                     <div class="d-flex align-items-center justify-content-center mt-4">
                         <a class="text-decoration-none fs-6" th:href="@{/login}">Đăng nhập ngay?</a>
                     </div>

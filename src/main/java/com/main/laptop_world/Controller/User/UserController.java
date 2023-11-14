@@ -71,15 +71,22 @@ public class UserController {
     @GetMapping ("/user/profile")
     public String handleUpdateUser(Model model, Principal principal){
         String username=principal.getName();
+        System.out.println("username: "+ username);
         User existingUser=userService.findByUsername(username);
         if(existingUser == null){
-            System.out.println("User not found!");
-            return "error";
+            User existingEmail=userService.findByEmail(username);
+            if (existingEmail == null){
+                System.out.println("User not found!");
+                return "error";
+            }else{
+                model.addAttribute("user", existingEmail);
+            }
+        }else{
+            if(existingUser.getUserDetailEmbeddable() == null){
+                model.addAttribute("errorMessage", "Bạn cần phải nhập đầy đủ thông tin!!!");
+                model.addAttribute("user", existingUser);
+            }
         }
-        if(existingUser.getUserDetailEmbeddable() == null){
-            model.addAttribute("errorMessage", "Bạn cần phải nhập đầy đủ thông tin!!!");
-        }
-        model.addAttribute("user", existingUser);
         model.addAttribute("title","Trang cá nhân");
         return "users/profile";
     }
@@ -88,11 +95,18 @@ public class UserController {
         String username=principal.getName();
         User existingUser=userService.findByUsername(username);
         if(existingUser == null){
-            System.out.println("User not found!");
-            return "error";
+            User existingEmail=userService.findByEmail(username);
+            if(existingEmail== null){
+                System.out.println("User not found!");
+                return "error";
+            }else{
+                existingEmail.setUserDetailEmbeddable(user.getUserDetailEmbeddable());
+                userService.updateUser(existingEmail);
+            }
+        }else{
+            existingUser.setUserDetailEmbeddable(user.getUserDetailEmbeddable());
+            userService.updateUser(existingUser);
         }
-        existingUser.setUserDetailEmbeddable(user.getUserDetailEmbeddable());
-        userService.updateUser(existingUser);
         return "redirect:/user/profile";
     }
 
