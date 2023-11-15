@@ -11,6 +11,7 @@
     <groupId>com.main</groupId>
     <artifactId>Laptop_World</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
     <name>Laptop_World</name>
     <description>Laptop_World</description>
     <properties>
