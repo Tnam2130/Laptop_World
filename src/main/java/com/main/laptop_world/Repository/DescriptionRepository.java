@@ -6,10 +6,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface DescriptionRepository extends JpaRepository<Description, Long> {
     @Query("SELECT c FROM Description c WHERE c.title = :title")
     Optional<ProductVersion> findByName(String title);
+    List<Description> findByProductsId(Long productId);
 }

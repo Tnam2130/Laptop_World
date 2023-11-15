@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:insert="fragments/head :: head">
-    <link type="text/css" rel="stylesheet" th:href="@{/admin/css/admin.css}" />
+    <link type="text/css" rel="stylesheet" th:href="@{/admin/css/admin.css}"/>
 </head>
 <body>
 <div th:replace="admin/layout/header :: headerAdmin"></div>
@@ -20,19 +20,15 @@
                     method="post"
             >
                 <div class="row">
-                    <input type="hidden" name="id" />
+                    <input type="hidden" name="id"/>
                     <div class="col-md-12" style="margin-bottom: 20px">
-                        <div class="input-container">
-                            <input
-                                    class="form-control"
-                                    type="text"
-                                    id="title"
-                                    name="title"
-                                    required=""
-                                    th:field="*{title}"
-                            />
-                            <label for="title" class="label">Desc Name</label>
-                            <div class="underline"></div>
+                        <div class="form-floating mb-3">
+                            <input class="form-control" type="text"
+                                   id="title"
+                                   name="title"
+                                   required
+                                   th:field="*{title}" placeholder="Tiêu đề">
+                            <label for="title" class="form-label fs-6">Tiêu đề</label>
                         </div>
                         <p
                                 th:errors="*{title}"
@@ -41,17 +37,9 @@
                         ></p>
                     </div>
                     <div class="col-md-12" style="margin-bottom: 20px">
-                        <div class="input-container">
-                            <input
-                                    class="form-control"
-                                    type="text"
-                                    id="content"
-                                    name="content"
-                                    required=""
-                                    th:field="*{content}"
-                            />
-                            <label for="content" class="label">Content Name</label>
-                            <div class="underline"></div>
+                        <div class="mb-3">
+                            <label for="content" class="form-label fs-6">Nội dung</label>
+                            <textarea class="form-control" id="content" th:field="*{content}" required rows="3"></textarea>
                         </div>
                         <p
                                 th:errors="*{content}"
@@ -75,7 +63,7 @@
                     </div>
                 </div>
                 <div class="text-center">
-                    <button type="submit">Save</button>
+                    <button class="btn btn-outline-success" type="submit">Save</button>
                 </div>
             </form>
         </div>
@@ -90,20 +78,20 @@
                 <th class="fw-bold text-center"></th>
             </tr>
             </thead>
-            <tbody th:each="desc : ${descriptions}">
+            <tbody th:each="desc, index : ${descriptions}">
             <tr class="info">
-                <td class="text-center" th:text="${desc.id}"></td>
+                <td class="text-center" th:text="*{index.index+1}"></td>
                 <td class="text-center" th:text="${desc.title}"></td>
                 <td class="text-center" th:text="${desc.content}"></td>
                 <td class="text-center" th:text="${desc.getProducts().getName()}"></td>
 
                 <td>
-                    <a
-                            th:href="@{'/admin/desc/update/id=' + *{desc.id}}"
+                    <a class="btn btn-outline-success"
+                       th:href="@{'/admin/desc/update/id=' + *{desc.id}}"
                     >Update</a
                     >
-                    <a
-                            th:href="@{'/admin/desc/delete/' + ${desc.getId()}}"
+                    <a class="btn btn-outline-danger"
+                       th:href="@{'/admin/desc/delete/' + ${desc.getId()}}"
                     >Delete</a
                     >
                 </td>

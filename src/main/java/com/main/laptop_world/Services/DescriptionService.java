@@ -8,6 +8,7 @@ public interface DescriptionService {
     public Description getById(Long id);
     void updateDesc(Description description);
     List<Description> findAllDesc();
+    List<Description> getDescriptionProduct(Long productId);
     void saveDesc(Description description);
     void deleteDesc(Description description);
 

@@ -61,37 +61,73 @@
                         <img class="image-popup" alt="Popup Image">
                     </div>
                 </div>
-                <div>
-                    <div class="card">
-                        <div class="card-header">
-                            Thông tin khuyến mãi
-                        </div>
+                <th:block th:if="${descriptionList} != null">
+                    <div class="card border-3 mb-3" style="max-width: 40rem;">
                         <div class="card-body">
-                            <!-- <h5 class="card-title">Special title treatment</h5> -->
-                            <p class="card-text">KHÁCH HÀNG ĐƯỢC CHỌN 1 TRONG 2 OPTION KHUYẾN MẠI:
-
-
-                                .</p>
-                            <p class="card-text">- Cấu hình gốc RAM 8GB - Giá: 15.990.000đ</p>
-                            <p class="card-text">- (*)Tặng thêm 8GB RAM - Giá: 16.390.000đ</p>
-                            <p class="card-text">(*) TẶNG RAM 8GB DDR4 bus 3200 G.Skill RIPJAWS | Silicon Power</p>
-                            <p class="card-text">(*) TẶNG RAM 8GB DDR4 bus 3200 G.Skill RIPJAWS | Silicon Power</p>
-                            <p class="card-text">(*) TẶNG RAM 8GB DDR4 bus 3200 G.Skill RIPJAWS | Silicon Power</p>
-                            <p class="card-text">(*) TẶNG RAM 8GB DDR4 bus 3200 G.Skill RIPJAWS | Silicon Power</p>
-                            <p class="card-text">(*) TẶNG RAM 8GB DDR4 bus 3200 G.Skill RIPJAWS | Silicon Power</p>
-                            <p class="card-text">(*) TẶNG RAM 8GB DDR4 bus 3200 G.Skill RIPJAWS | Silicon Power</p>
-                            <p class="card-text">(*) TẶNG RAM 8GB DDR4 bus 3200 G.Skill RIPJAWS | Silicon Power</p>
-
-                            <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                            <h3 class="card-header text-center text-danger text-uppercase"
+                                style="line-height: 3rem;">đặc điểm nổi bật của sản phẩm</h3>
+                            <th:block th:each="desc : ${descriptionList}">
+                                <div class="collapse px-3" id="collapseExample">
+                                    <h4 class="mt-3 text-danger text-center" style="line-height: 2rem;"
+                                        th:text="*{desc.title}"></h4>
+                                    <p style="line-height: 1.4rem;" th:text="*{desc.content}"></p>
+                                </div>
+                            </th:block>
                         </div>
+                        <p class="m-auto mb-3">
+                            <a class="btn btn-secondary px-5" data-bs-toggle="collapse" href="#collapseExample"
+                               role="button" aria-expanded="false" aria-controls="collapseExample">
+                                Xem thêm...
+                            </a>
+                        </p>
                     </div>
-                </div>
+                </th:block>
+                <th:block th:if="${descriptionList} == null">
+                    <div class="card border-success mb-3" style="max-width: 40rem;">
+                        <div class="card-body ">
+                            <div class="card-header"><h4 class="text-center text-danger"> ĐẶC ĐIỂM NỔI BẬT</h4>
+                                <p>CPU Intel Pentium N6000 xử lý tốt các tác vụ văn phòng: Excel, Word,</p>
+                                <p>RAM 4 GB và ổ cứng SSD 256 GB đa nhiệm mượt mà, không gian lưu trữ vừa phải</p>
+                                <p>Màn hình 15.6 inch Full HD giúp thể hiện nội dung đầy đủ chi tiết</p>
+                                <p>Công nghệ LED Backlit cho hình ảnh có màu sắc tươi sáng, độ tương phản tốt</p>
+                                <p>Tích hợp bảo mật vân tay giúp bảo mật thông tin một cách tốt nhất</p>
+                            </div>
+
+                            <h4 class="mt-3">Laptop Asus Vivobook X515KA-EJ135W Mạnh mẽ hiệu năng, hoạt động đa
+                                nhiệm</h4>
+                            <p class="card-text">Laptop Asus Vivobook X515KA-EJ135W là một trong những dòng laptop
+                                chuyên dành cho dân văn phòng và học sinh, sinh viên với những đặc điểm ưu trội. Qua
+                                hiệu năng vượt bậc, chiếc laptop Asus Vivobook mang trong mình khả năng xử lý nhanh
+                                chóng giúp tối ưu trải nghiệm của bạn.</p>
+                            <h4>Bộ RAM ấn tượng, dung lượng ổ cứng cao</h4>
+                            <p class="card-text">ung lượng RAM 4GB của laptop Asus Vivobook X515KA-EJ135W cho phép máy
+                                chạy tốt các ứng dụng đòi hỏi tài nguyên cao như xử lý video, đồ họa, và chơi game.</p>
+                        </div>
+
+                        <div class="collapse px-3" id="collapse">
+
+                            <p>Some placeholder content for the collapse component. This panel is hidden by default but
+                                revealed when the user activates the relevant trigger.</p>
+                            <p>Some placeholder content for the collapse component. This panel is hidden by default but
+                                revealed when the user activates the relevant trigger.</p>
+                            <p>Some placeholder content for the collapse component. This panel is hidden by default but
+                                revealed when the user activates the relevant trigger.</p>
+
+                        </div>
+                        <p class="m-auto mb-3">
+                            <button class="btn btn-secondary px-5" type="button" data-bs-toggle="collapse" data-bs-target="#collapse" aria-expanded="false" aria-controls="collapse">
+                                Xem thêm...
+                            </button>
+                        </p>
+                    </div>
+                </th:block>
             </div>
         </div>
         <!-- card right -->
         <div class="col position-relative">
             <div class="product-content" th:each="product : ${products}">
-                   <span th:if="*{product.status == false}" class="position-absolute translate-middle badge rounded-pill bg-danger"
+                   <span th:if="*{product.status == false}"
+                         class="position-absolute translate-middle badge rounded-pill bg-danger"
                          style="top: 2%; left: -90%; z-index: 1;">Hết hàng</span>
                 <h2 class="product-title" th:text="*{product.name}"></h2>
                 <div class="product-price">
@@ -119,13 +155,17 @@
                     <form th:action="@{'/cart/add/'+ ${product.id}}" method="post" class="purchase-info">
                         <input type="hidden" name="productId" th:value="*{product.id}">
                         <div class="d-flex w-100">
-                            <button type="button" class="custom-btn-primary p-1 quantity-control" data-action="decrease">-
+                            <button type="button" class="custom-btn-primary p-1 quantity-control"
+                                    data-action="decrease">-
                             </button>
                             <input type="text" name="quantity" value="1"
-                                   class="form-control text-center mx-1 text-black" th:max="*{product.getQuantity()}" readonly="readonly" style="cursor: default">
-                            <button type="button" class="custom-btn-primary p-1 quantity-control" data-action="increase">+
+                                   class="form-control text-center mx-1 text-black" th:max="*{product.getQuantity()}"
+                                   readonly="readonly" style="cursor: default">
+                            <button type="button" class="custom-btn-primary p-1 quantity-control"
+                                    data-action="increase">+
                             </button>
-                            <button type="submit" class="btn mx-2">Thêm vào giỏ hàng <i class="fas fa-shopping-cart"></i>
+                            <button type="submit" class="btn mx-2">Thêm vào giỏ hàng <i
+                                    class="fas fa-shopping-cart"></i>
                             </button>
                         </div>
                     </form>
@@ -134,21 +174,46 @@
                     <div class="purchase-info disable">
                         <input type="hidden" name="productId" th:value="*{product.id}">
                         <div class="d-flex w-100">
-                            <button type="button" class="custom-btn-primary p-1 quantity-control disable" data-action="decrease">-
+                            <button type="button" class="custom-btn-primary p-1 quantity-control disable"
+                                    data-action="decrease">-
                             </button>
                             <input type="text" name="quantity" value="1"
-                                   class="form-control text-center mx-1 text-black" th:max="*{product.getQuantity()}" readonly="readonly" disabled style="cursor: no-drop;">
-                            <button type="button" class="custom-btn-primary p-1 quantity-control disable" data-action="increase">+
+                                   class="form-control text-center mx-1 text-black" th:max="*{product.getQuantity()}"
+                                   readonly="readonly" disabled style="cursor: no-drop;">
+                            <button type="button" class="custom-btn-primary p-1 quantity-control disable"
+                                    data-action="increase">+
                             </button>
-                            <button type="button" class="btn mx-2 disabled">Thêm vào giỏ hàng <i class="fas fa-shopping-cart"></i>
+                            <button type="button" class="btn mx-2 disabled">Thêm vào giỏ hàng <i
+                                    class="fas fa-shopping-cart"></i>
                             </button>
                         </div>
                     </div>
                 </th:block>
             </div>
+            <div class="card">
+                <div class="card-header">
+                    Thông tin khuyến mãi
+                </div>
+                <div class="card-body">
+                    <!-- <h5 class="card-title">Special title treatment</h5> -->
+                    <p class="card-text">KHÁCH HÀNG ĐƯỢC CHỌN 1 TRONG 2 OPTION KHUYẾN MÃI:</p>
+                    <p class="card-text">- Cấu hình gốc RAM 8GB - Giá: 15.990.000đ</p>
+                    <p class="card-text">- (*)Tặng thêm 8GB RAM - Giá: 16.390.000đ</p>
+                    <p class="card-text">(*) TẶNG RAM 8GB DDR4 bus 3200 G.Skill RIPJAWS | Silicon Power</p>
+                    <p class="card-text">(*) TẶNG RAM 8GB DDR4 bus 3200 G.Skill RIPJAWS | Silicon Power</p>
+                    <p class="card-text">(*) TẶNG RAM 8GB DDR4 bus 3200 G.Skill RIPJAWS | Silicon Power</p>
+                    <p class="card-text">(*) TẶNG RAM 8GB DDR4 bus 3200 G.Skill RIPJAWS | Silicon Power</p>
+                    <p class="card-text">(*) TẶNG RAM 8GB DDR4 bus 3200 G.Skill RIPJAWS | Silicon Power</p>
+                    <p class="card-text">(*) TẶNG RAM 8GB DDR4 bus 3200 G.Skill RIPJAWS | Silicon Power</p>
+                    <p class="card-text">(*) TẶNG RAM 8GB DDR4 bus 3200 G.Skill RIPJAWS | Silicon Power</p>
+
+                    <!-- <a href="#" class="btn btn-primary">Go somewhere</a> -->
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
 <footer th:replace="fragments/footer :: footer"></footer>
 </body>
 <script th:inline="javascript">

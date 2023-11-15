@@ -1,9 +1,6 @@
 package com.main.laptop_world.Controller.User;
 
-import com.main.laptop_world.Entity.Brand;
-import com.main.laptop_world.Entity.Category;
-import com.main.laptop_world.Entity.ProductImages;
-import com.main.laptop_world.Entity.Products;
+import com.main.laptop_world.Entity.*;
 import com.main.laptop_world.Repository.specification.ProductSpecification;
 import com.main.laptop_world.Services.*;
 import com.main.laptop_world.Filters.FilterCriteria;
@@ -26,14 +23,16 @@ public class ProductController {
     CategoryService categoryService;
     ProductImgService imgService;
     BrandService brandService;
+    DescriptionService descriptionService;
 
     public ProductController(ProductService productService,
-                             CategoryService categoryService,
-                             ProductImgService imgService, BrandService brandService) {
+                             CategoryService categoryService, ProductImgService imgService,
+                             BrandService brandService, DescriptionService descriptionService) {
         this.productService = productService;
         this.categoryService = categoryService;
         this.imgService = imgService;
-        this.brandService=brandService;
+        this.brandService = brandService;
+        this.descriptionService = descriptionService;
     }
 
     @ModelAttribute("filterCriteria") // Nạp FilterCriteria từ session vào mỗi request
@@ -45,7 +44,7 @@ public class ProductController {
     public String getCollectionForm(Model model, @ModelAttribute("filterCriteria") FilterCriteria filterCriteria, @RequestParam(defaultValue = "0") int page) {
         int pageSize = 6;
         List<Category> categories = categoryService.findAllCategory();
-        List<Brand> brandList=brandService.findAllBrand();
+        List<Brand> brandList = brandService.findAllBrand();
         Page<Products> productPage = productService.productFilterAndPaginate(
                 filterCriteria.getCategoryId(),
                 filterCriteria.getBrandId(),
@@ -75,7 +74,7 @@ public class ProductController {
             filterCriteria.setPriceSort(priceSort);
         } else {
             // Đảm bảo rằng filterCriteria chỉ được xóa nếu không sử dụng bộ lọc và có sử dụng bộ phân trang
-            if (filterCriteria.getCategoryId() != null || filterCriteria.getBrandId() !=null ||
+            if (filterCriteria.getCategoryId() != null || filterCriteria.getBrandId() != null ||
                     filterCriteria.getPriceSort() != null) {
                 filterCriteria.clear(); // Xóa thông tin bộ lọc
                 sessionStatus.setComplete();
@@ -93,7 +92,7 @@ public class ProductController {
         );
 
         List<Category> categories = categoryService.findAllCategory();
-        List<Brand> brandList=brandService.findAllBrand();
+        List<Brand> brandList = brandService.findAllBrand();
         model.addAttribute("title", "Tất cả sản phẩm");
         model.addAttribute("categoryId", filterCriteria.getCategoryId());
         model.addAttribute("brandId", filterCriteria.getBrandId());
@@ -116,10 +115,12 @@ public class ProductController {
         }
         List<Products> relatedProduct = productService.findAllProduct(spec);
         Products product = productService.getProductById(productId);
+        List<Description> descriptionList=descriptionService.getDescriptionProduct(productId);
         List<ProductImages> productImageList = imgService.findByProductId(productId);
         model.addAttribute("relatedProduct", relatedProduct);
         model.addAttribute("title", product.getName());
         model.addAttribute("productImages", productImageList);
+        model.addAttribute("descriptionList", descriptionList);
         model.addAttribute("products", product);
         return "/products/product-detail";
     }

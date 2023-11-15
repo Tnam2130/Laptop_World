@@ -11,6 +11,11 @@ import java.util.Optional;
 @Service
 public class DescriptionServiceImpl implements DescriptionService {
     public DescriptionRepository repository;
+
+    public DescriptionServiceImpl(DescriptionRepository repository) {
+        this.repository = repository;
+    }
+
     @Override
     public Description getById(Long id) {
         Optional<Description> optional=repository.findById(id);
@@ -31,6 +36,11 @@ public class DescriptionServiceImpl implements DescriptionService {
     @Override
     public List<Description> findAllDesc() {
         return repository.findAll();
+    }
+
+    @Override
+    public List<Description> getDescriptionProduct(Long productId) {
+        return repository.findByProductsId(productId);
     }
 
     @Override
