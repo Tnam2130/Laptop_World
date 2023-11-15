@@ -24,8 +24,8 @@ public class Order {
     private Date createdAt =new Date();
     private Date updatedAt;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<Payments> payments;
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    private Payments payments;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems;

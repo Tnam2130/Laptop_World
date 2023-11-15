@@ -16,19 +16,18 @@ public class Payments {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    private String tradingCode;
     private String mode;
-    private String status;
+    private boolean status=false;
     private Date createdAt;
     private Date updatedAt;
 
     @ManyToOne
-    @JoinColumn(name = "payment_user_id",referencedColumnName = "id")
+    @JoinColumn(name = "payment_user_id", referencedColumnName = "id")
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "payment_order_id",referencedColumnName = "id")
+    @OneToOne
+    @JoinColumn(name = "payment_order_id", referencedColumnName = "id")
     private Order order;
-
 
 }

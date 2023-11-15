@@ -67,6 +67,7 @@ public class WebSecurityConfig {
             "/check-code",
             "/do-checkCode",
             "/resetPassword",
+            "/pay",
             "/do-resetPassword",
             "/c/**"
     };

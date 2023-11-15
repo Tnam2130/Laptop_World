@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+</head>
+<body class="gradient-custom">
+<header th:replace="fragments/header :: header"></header>
+<section style="margin-top: 12rem;">
+    <div class="container my-5 py-5">
+        <div class="row d-flex justify-content-center py-5">
+            <div class="col-md-7 col-lg-5 col-xl-4">
+                <div class="card" style="border-radius: 15px">
+                    <div
+                            class="card-img d-flex justify-content-center align-items-center"
+                    >
+                        <img
+                                class="img-fluid"
+                                th:src="@{/images/vnpaylogo.png}"
+                                alt=""
+                                style="width: 40%"
+                        />
+                    </div>
+                    <div class="card-title d-flex justify-content-center align-items-center">
+                        <h4 th:text="${vnp_OrderInfo}" style="line-height: 1.4rem;"></h4>
+                    </div>
+                    <div class="card-body px-4 py-1">
+                        <div class="mb-3">
+                            <span class="fw-bold"> Mã giao dịch: </span>
+                            <p class="d-inline" th:text="${vnp_TxnRef}"></p>
+                        </div>
+                        <div class="mb-3">
+                            <span class="fw-bold"> Số tiền đã thanh toán: </span>
+                            <p class="d-inline" th:text="${#numbers.formatDecimal(vnp_Amount, 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></p>
+                        </div>
+                        <div class="mb-3">
+                            <span class="fw-bold"> Ngày tạo: </span>
+                            <p class="d-inline" th:text="${vnp_PayDate}"></p>
+                        </div>
+                        <div class="mb-3">
+                            <span class="fw-bold"> Trạng thái: </span>
+                            <p class="d-inline" th:classappend="${vnp_TransactionStatus} ? 'text-success' : 'text-danger'" th:text="${vnp_TransactionStatus} ? 'Đã thanh toán':'Chua thanh toán'"></p>
+                        </div>
+                        <a href="/" class="btn btn-outline-primary d-block" style="margin-bottom: 8px;">Trang chủ</a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

@@ -3,6 +3,8 @@ package com.main.laptop_world.Services.impl;
 import com.main.laptop_world.Entity.*;
 import com.main.laptop_world.Repository.CartRepository;
 import com.main.laptop_world.Services.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -15,11 +17,17 @@ public class CartServiceImpl implements CartService {
     private CartRepository cartRepository;
     private ProductService productService;
     private UserService userService;
-    private OrderItemService orderItemService;
     private OrderService orderService;
+    private OrderItemService orderItemService;
 
-    public CartServiceImpl(CartRepository cartRepository, ProductService productService, UserService userService,
-                           OrderService orderService, OrderItemService orderItemService) {
+    @Autowired
+    @Lazy
+    public CartServiceImpl(
+            CartRepository cartRepository,
+            ProductService productService,
+            UserService userService,
+            OrderService orderService,
+            OrderItemService orderItemService) {
         this.cartRepository = cartRepository;
         this.productService = productService;
         this.userService = userService;
@@ -97,6 +105,12 @@ public class CartServiceImpl implements CartService {
     }
 
     @Override
+    public List<Cart> getCartToUserId(Long userId) {
+        return cartRepository.findByUserId(userId);
+    }
+
+
+    @Override
     public void deletePaidCartItems(Long userId) {
         List<Cart> cartList = cartRepository.findByUserId(userId);
         cartRepository.deleteAll(cartList);
@@ -161,9 +175,21 @@ public class CartServiceImpl implements CartService {
         order.setTotal(totalAmount.subtract(discount));
         order.setStatus("Pending");
         order.setUpdatedAt(new Date());
-
         Order savedOrder = orderService.saveOrder(order);
+        saveOrderItem(cartList, discount, savedOrder, orderItemService);
+        deletePaidCartItems(userId);
+        return savedOrder.getId();
+    }
+    @Override
+    public BigDecimal getTotalPriceByUserId(Long userId) {
+        return cartRepository.findTotalPriceByUserId(userId);
+    }
 
+    private void updateTotalPrice(Cart cartItem) {
+        BigDecimal totalPrice = cartItem.getProducts().getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity()));
+        cartItem.setTotalPrice(totalPrice);
+    }
+    private void saveOrderItem(List<Cart> cartList, BigDecimal discount, Order savedOrder, OrderItemService orderItemService) {
         for (Cart item : cartList) {
             OrderItem orderItem = new OrderItem();
             orderItem.setOrder(savedOrder);
@@ -175,14 +201,5 @@ public class CartServiceImpl implements CartService {
             orderItem.setUpdatedAt(new Date());
             orderItemService.save(orderItem);
         }
-
-        deletePaidCartItems(userId);
-
-        return savedOrder.getId();
-    }
-
-    private void updateTotalPrice(Cart cartItem) {
-        BigDecimal totalPrice = cartItem.getProducts().getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity()));
-        cartItem.setTotalPrice(totalPrice);
     }
 }

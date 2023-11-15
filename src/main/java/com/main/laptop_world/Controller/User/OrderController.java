@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.math.BigDecimal;
 import java.security.Principal;
+import java.text.ParseException;
 import java.util.List;
 
 @Controller
@@ -49,10 +50,11 @@ public class OrderController {
         return "orders/order";
     }
     @PostMapping("/order/checkout")
-    public String checkoutCart(Principal principal){
+    public String checkoutCart(Principal principal) throws ParseException {
         Long userId= generalService.usernameHandler(principal);
-        Long or = cartService.createOrderFromCart(userId);
-        return "redirect:/order/order=" + or;
+        Long orderId = cartService.createOrderFromCart(userId);
+        orderService.updateOrderWithPayment(orderId, userId);
+        return "redirect:/order/order=" + orderId;
     }
 
     @GetMapping("/order/history")

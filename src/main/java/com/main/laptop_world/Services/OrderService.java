@@ -1,11 +1,9 @@
 package com.main.laptop_world.Services;
 
-import com.main.laptop_world.Entity.Cart;
 import com.main.laptop_world.Entity.DTO.OrderDTO;
 import com.main.laptop_world.Entity.Order;
-import com.main.laptop_world.Entity.OrderItem;
 
-import java.math.BigDecimal;
+import java.text.ParseException;
 import java.util.List;
 
 public interface OrderService {
@@ -13,9 +11,7 @@ public interface OrderService {
     List<Order> findAll();
     Order findOrderById(Long orderId);
     List<Order> findByUserId(Long userId);
-
     void updateOrder(Long id, String newStatus);
-
-    void updateOrders(Order order);
+    void updateOrderWithPayment(Long orderId, Long userId) throws ParseException;
     List<OrderDTO> getRevenueData();
 }

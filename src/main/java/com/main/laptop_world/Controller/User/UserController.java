@@ -3,6 +3,7 @@ package com.main.laptop_world.Controller.User;
 import com.main.laptop_world.Entity.DTO.UserDTO;
 import com.main.laptop_world.Entity.User;
 import com.main.laptop_world.Services.EmailService;
+import com.main.laptop_world.Services.GeneralService;
 import com.main.laptop_world.Services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +21,11 @@ public class UserController {
 
     private UserService userService;
     private EmailService emailService;
-    public UserController(UserService userService, EmailService emailService){
+    private GeneralService generalService;
+    public UserController(UserService userService, EmailService emailService, GeneralService generalService){
         this.userService=userService;
         this.emailService=emailService;
+        this.generalService=generalService;
     }
 
     @GetMapping("/login")
@@ -70,43 +73,32 @@ public class UserController {
     }
     @GetMapping ("/user/profile")
     public String handleUpdateUser(Model model, Principal principal){
-        String username=principal.getName();
-        System.out.println("username: "+ username);
-        User existingUser=userService.findByUsername(username);
-        if(existingUser == null){
-            User existingEmail=userService.findByEmail(username);
-            if (existingEmail == null){
-                System.out.println("User not found!");
-                return "error";
-            }else{
-                model.addAttribute("user", existingEmail);
-            }
-        }else{
-            if(existingUser.getUserDetailEmbeddable() == null){
-                model.addAttribute("errorMessage", "Bạn cần phải nhập đầy đủ thông tin!!!");
-                model.addAttribute("user", existingUser);
-            }
+        Long userId= generalService.usernameHandler(principal);
+        User existingUser=userService.findById(userId);
+        if(existingUser.getUserDetailEmbeddable() == null){
+            model.addAttribute("errorMessage", "Bạn cần phải nhập đầy đủ thông tin!!!");
         }
+        model.addAttribute("user", existingUser);
         model.addAttribute("title","Trang cá nhân");
         return "users/profile";
     }
     @PostMapping("/user/profile")
-    public String updateUserDetail(Principal principal, @ModelAttribute("user") User user){
-        String username=principal.getName();
-        User existingUser=userService.findByUsername(username);
-        if(existingUser == null){
-            User existingEmail=userService.findByEmail(username);
-            if(existingEmail== null){
-                System.out.println("User not found!");
-                return "error";
-            }else{
-                existingEmail.setUserDetailEmbeddable(user.getUserDetailEmbeddable());
-                userService.updateUser(existingEmail);
-            }
+    public String updateUserDetail(Principal principal, @ModelAttribute("user") User user, BindingResult result, Model model){
+        Long userId= generalService.usernameHandler(principal);
+        User existingUser=userService.findById(userId);
+        if (existingUser.getEmail().equalsIgnoreCase(user.getEmail())){
+            result.rejectValue("email", "error.user",
+                    "Email đã được đăng ký!");
+        } else if (userService.isPhoneNumberRegistered(user.getUserDetailEmbeddable().getPhoneNumber())) {
+            result.rejectValue("phoneNumber", "error.user",
+                    "Số điện thoại đã được đăng ký!");
         }else{
-            existingUser.setUserDetailEmbeddable(user.getUserDetailEmbeddable());
-            userService.updateUser(existingUser);
+            return "redirect:/user/profile?successg";
         }
+        existingUser.setUserDetailEmbeddable(user.getUserDetailEmbeddable());
+        userService.updateUser(existingUser);
+        model.addAttribute("user", user);
+        model.addAttribute("title", "Trang cá nhân");
         return "redirect:/user/profile";
     }
 

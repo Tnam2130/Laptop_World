@@ -123,11 +123,15 @@
                             </div>
                             <div class="mt-3 d-flex justify-content-center align-items-center" style="height: 125px;">
                                 <form th:action="@{/order/checkout}" method="post">
-                                    <input type="hidden" name="orderId" value="${orderId}">
-                                    <input type="hidden" id="userId" th:value="${user.getId()}">
+                                    <input type="hidden" id="userId" name="userId" th:value="${user.getId()}">
                                     <button type="submit" class="btn btn-dark w-100 shadow-0 mb-2"><i
                                             class="fa-solid fa-money-bills text-success"></i> Thanh toán bằng tiền mặt
                                     </button>
+                                    <a th:href="@{/pay}" class="btn btn-dark w-100 shadow-0 mb-2 d-flex justify-content-center">
+                                        <img class="img-fluid d-inline" th:src="@{/images/vnpaylogo.png}" style="width: 10%; margin: 0 4px 0 0;">
+                                        <input type="hidden" id="total" name="total" th:value="${total}">
+                                        <span>Thanh toán qua VNPAY</span>
+                                    </a>
                                     <a th:href="@{/}" class="btn btn-light w-100 border mt-2"> Trang chủ </a>
                                 </form>
                             </div>

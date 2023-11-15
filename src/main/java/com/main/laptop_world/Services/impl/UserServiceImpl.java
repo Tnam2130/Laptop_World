@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService {
     private UserDTO convertEntityToDto(User user) {
         UserDTO UserDTO = new UserDTO();
         UserDTO.setUsername(user.getUsername());
-        System.out.println("UserDTO: "+user.getUsername());
+        System.out.println("UserDTO: " + user.getUsername());
         return UserDTO;
     }
 
@@ -109,6 +109,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public boolean isPhoneNumberRegistered(String phoneNumber) {
+        User user = userRepository.findByUserDetailEmbeddable_PhoneNumber(phoneNumber);
+        return user != null;
+    }
+
+    @Override
     public User resetPassword(String email, String newPassword) {
         return Optional.ofNullable(findByEmail(email))
                 .map(users -> {
@@ -125,7 +131,7 @@ public class UserServiceImpl implements UserService {
             newUser.setEmail(email);
             newUser.setUsername(email);
             newUser.setPassword(passwordEncoder.encode("123456"));
-            Provider provider=Provider.valueOf(oauth2ClientName.toUpperCase());
+            Provider provider = Provider.valueOf(oauth2ClientName.toUpperCase());
             newUser.setProvider(provider);
             Role role = roleRepository.findByName("USER");
             if (role == null) {

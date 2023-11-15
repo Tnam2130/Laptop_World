@@ -18,6 +18,7 @@ public interface UserService {
     List<UserDTO> findAllUsers();
     List<User> findAllUser();
     User findByEmail(String email);
+    boolean isPhoneNumberRegistered(String phoneNumber);
     User resetPassword(String username,String newPassword);
     void processOAuthPostLogin(String email, String oauth2ClientName);
 }

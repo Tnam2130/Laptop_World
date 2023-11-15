@@ -1,47 +1,123 @@
 package com.main.laptop_world.Controller.User;
 
-import com.main.laptop_world.Entity.DTO.CreatePaymentRequest;
+import com.main.laptop_world.Constant.config.VNPayConfig;
+import com.main.laptop_world.Entity.Order;
 import com.main.laptop_world.Entity.Payments;
-import com.main.laptop_world.Entity.User;
-import com.main.laptop_world.Services.CartService;
-import com.main.laptop_world.Services.OrderService;
-import com.main.laptop_world.Services.PaymentService;
-import com.main.laptop_world.Services.UserService;
-import org.springframework.http.ResponseEntity;
+import com.main.laptop_world.Services.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.security.Principal;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
-@RestController
+@Controller
 @CrossOrigin("*")
 public class PaymentController {
     CartService cartService;
     UserService userService;
     OrderService orderService;
     PaymentService paymentService;
+    GeneralService generalService;
 
-    public PaymentController(CartService cartService, UserService userService, OrderService orderService, PaymentService paymentService) {
+    public PaymentController(CartService cartService, UserService userService, OrderService orderService, PaymentService paymentService, GeneralService generalService) {
         this.cartService = cartService;
         this.userService = userService;
         this.orderService = orderService;
         this.paymentService = paymentService;
+        this.generalService = generalService;
     }
 
-//    @PostMapping("/payment/api/create")
-//    public ResponseEntity<String> createPayment(@RequestBody CreatePaymentRequest request, Principal principal) {
-//        User user = userService.findByUsername(principal.getName());
-//        Long userId = user.getId();
-//        // Xử lý yêu cầu tạo giao dịch thanh toán ở đây
-//        // Tạo một đối tượng Payments từ thông tin request và lưu nó vào cơ sở dữ liệu
-//        Payments payment = new Payments();
-//        payment.setMode(request.getMode());
-//        payment.setStatus(request.getStatus());
-//        payment.setUser(request.getUser());
-//        payment.setOrder(request.getOrder());
-//        paymentService.savePayment(payment);
-//
-//        // Tạo đơn hàng mới hoặc thực hiện các xử lý khác
-//        Long newOrderId = cartService.createOrderFromCart(userId);
-//        return ResponseEntity.ok("Payment created, and a new order with ID " + newOrderId + " has been created.");
-//    }
+    @GetMapping("/pay")
+    public String getPay(Principal principal) {
+        Long userId = generalService.usernameHandler(principal);
+        BigDecimal total = cartService.getTotalPriceByUserId(userId);
+        System.out.println(total);
+        String vnp_Version = "2.1.0";
+        String vnp_Command = "pay";
+        String orderType = "other";
+        long amount = total.multiply(BigDecimal.valueOf(100)).longValue();
+        String bankCode = "NCB";
+        String vnp_TxnRef = "HD" + VNPayConfig.getRandomNumber(8);
+        String vnp_IpAddr = "127.0.0.1";
+
+        String vnp_TmnCode = VNPayConfig.vnp_TmnCode;
+
+        Map<String, String> vnp_Params = new HashMap<>();
+        vnp_Params.put("vnp_Version", vnp_Version);
+        vnp_Params.put("vnp_Command", vnp_Command);
+        vnp_Params.put("vnp_TmnCode", vnp_TmnCode);
+        vnp_Params.put("vnp_Amount", String.valueOf(amount));
+        vnp_Params.put("vnp_CurrCode", "VND");
+
+        vnp_Params.put("vnp_BankCode", bankCode);
+        vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
+        vnp_Params.put("vnp_OrderInfo", "Thanh toan don hang:" + vnp_TxnRef);
+        vnp_Params.put("vnp_OrderType", orderType);
+        vnp_Params.put("vnp_Locale", "vn");
+        vnp_Params.put("vnp_ReturnUrl", VNPayConfig.vnp_ReturnUrl);
+        vnp_Params.put("vnp_IpAddr", vnp_IpAddr);
+
+        Calendar cld = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
+        String vnp_CreateDate = formatter.format(cld.getTime());
+        vnp_Params.put("vnp_CreateDate", vnp_CreateDate);
+
+        cld.add(Calendar.MINUTE, 15);
+        String vnp_ExpireDate = formatter.format(cld.getTime());
+        vnp_Params.put("vnp_ExpireDate", vnp_ExpireDate);
+
+        List fieldNames = new ArrayList(vnp_Params.keySet());
+        Collections.sort(fieldNames);
+        StringBuilder hashData = new StringBuilder();
+        StringBuilder query = new StringBuilder();
+        Iterator itr = fieldNames.iterator();
+        while (itr.hasNext()) {
+            String fieldName = (String) itr.next();
+            String fieldValue = vnp_Params.get(fieldName);
+            if ((fieldValue != null) && (!fieldValue.isEmpty())) {
+                //Build hash data
+                hashData.append(fieldName);
+                hashData.append('=');
+                hashData.append(URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII));
+                //Build query
+                query.append(URLEncoder.encode(fieldName, StandardCharsets.US_ASCII));
+                query.append('=');
+                query.append(URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII));
+                if (itr.hasNext()) {
+                    query.append('&');
+                    hashData.append('&');
+                }
+            }
+        }
+        String queryUrl = query.toString();
+        String vnp_SecureHash = VNPayConfig.hmacSHA512(VNPayConfig.secretKey, hashData.toString());
+        queryUrl += "&vnp_SecureHash=" + vnp_SecureHash;
+        String paymentUrl = VNPayConfig.vnp_PayUrl + "?" + queryUrl;
+        return "redirect:" + paymentUrl;
+    }
+
+    @GetMapping("/payment/result")
+    public String paymentResultForm(@RequestParam("vnp_Amount") String vnp_Amount,
+                                    @RequestParam("vnp_TxnRef") String vnp_TxnRef,
+                                    @RequestParam("vnp_OrderInfo") String vnp_OrderInfo,
+                                    @RequestParam("vnp_PayDate") String vnp_PayDate,
+                                    @RequestParam("vnp_TransactionStatus") String vnp_TransactionStatus,
+                                    Principal principal,
+                                    Model model){
+        Long userId = generalService.usernameHandler(principal);
+        Long orderId= paymentService.createVNPayOrderFromCart(userId, vnp_Amount, vnp_TxnRef, vnp_TransactionStatus);
+        Order order= orderService.findOrderById(orderId);
+        Payments payments=paymentService.getPaymentByOrderId(orderId);
+        model.addAttribute("vnp_PayDate", vnp_PayDate);
+        model.addAttribute("vnp_OrderInfo",vnp_OrderInfo);
+        model.addAttribute("vnp_TxnRef",vnp_TxnRef);
+        model.addAttribute("vnp_Amount", order.getTotal());
+        model.addAttribute("vnp_TransactionStatus", payments.isStatus());
+        return "orders/PaymentResult";
+    }
 }

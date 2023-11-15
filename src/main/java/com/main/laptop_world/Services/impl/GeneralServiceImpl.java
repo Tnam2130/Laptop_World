@@ -13,21 +13,21 @@ import java.security.Principal;
 public class GeneralServiceImpl implements GeneralService {
     private UserService userService;
 
-    public GeneralServiceImpl(UserService userService){
-        this.userService=userService;
+    public GeneralServiceImpl(UserService userService) {
+        this.userService = userService;
     }
+
     @Override
     public Long usernameHandler(Principal principal) {
-        return getUsername(principal, userService);
+        return getUsername(principal);
     }
 
-    public static Long getUsername(Principal principal, UserService userService) {
-        String username= principal.getName();
+    public Long getUsername(Principal principal) {
+        String username = principal.getName();
         User user = userService.findByUsername(username);
-
-        CustomOAuth2User oauthUser = (CustomOAuth2User) ((Authentication) principal).getPrincipal();
-        if(user == null){
-            String existingEmail=oauthUser.getUsername();
+        if (user == null) {
+            CustomOAuth2User oauthUser = (CustomOAuth2User) ((Authentication) principal).getPrincipal();
+            String existingEmail = oauthUser.getUsername();
             user = userService.findByUsername(existingEmail);
             System.out.println(existingEmail);
         }

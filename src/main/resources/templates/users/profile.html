@@ -12,6 +12,11 @@
             <th:block th:if="${errorMessage != null}">
                 <div class="alert alert-danger" th:text="${errorMessage}"></div>
             </th:block>
+            <th:block th:if="${param.success != null}">
+                <div class="alert alert-success mb-3">
+                    Cập nhật thành công!
+                </div>
+            </th:block>
             <h3 class="text-center mb-2">Trang cá nhân</h3>
             <form th:object="${user}" th:action="@{/user/profile}" method="post">
                 <input type="hidden" th:field="*{id}"/>
@@ -31,9 +36,10 @@
                     <label for="fullname" class="form-label fs-6">Họ và Tên</label>
                 </div>
                 <div class="form-floating mb-3">
-                    <input th:field="${user.email}" type="email" class="form-control"
+                    <input th:field="*{email}" type="email" class="form-control"
                            id="email" placeholder="Email" required>
                     <label for="email" class="form-label fs-6">Email</label>
+                    <p th:errors="*{email}" class="text-danger fs-6 mb-3" th:if="${#fields.hasErrors('email')}"></p>
                 </div>
                 <div class="form-floating mb-3">
                     <input th:field="*{userDetailEmbeddable.address}" type="text" class="form-control"
@@ -44,11 +50,13 @@
                     <input type="text" value="+84" readonly="readonly" class="form-control readonly-input"/>
                     <div class="form-floating mb-3 w-100">
                         <input th:field="*{userDetailEmbeddable.phoneNumber}" type="text" class="form-control phone-input"
-                               id="phonenumber" placeholder="Số điện thoại" onblur="validateNumberInput(this)" required>
-                        <label for="phonenumber" class="form-label fs-6">Số điện thoại</label>
+                               id="phoneNumber" placeholder="Số điện thoại" onblur="validateNumberInput(this)" required>
+                        <label for="phoneNumber" class="form-label fs-6">Số điện thoại</label>
+                        <p th:errors="*{userDetailEmbeddable.phoneNumber}" class="text-danger fs-6 mb-3" th:if="${#fields.hasErrors('phoneNumber')}"></p>
                     </div>
                 </div>
-                <button id="updateButton" class="btn btn-primary w-25 mt-4" type="submit" onclick="UpdateSuccessAlert()">Cập nhật</button>
+                <button id="updateButton" class="btn btn-primary w-25 mt-4" type="submit"
+                        disabled>Cập nhật</button>
             </form>
         </div>
         <div class="col-md-3"></div>
@@ -56,30 +64,6 @@
 </div>
 </body>
 <script th:inline="javascript">
-    // document.addEventListener("DOMContentLoaded", function () {
-    //     // Lấy danh sách tất cả các trường input bạn muốn kiểm tra.
-    //     const inputFields = document.querySelectorAll("input[type='text'], input[type='email']");
-    //     console.log(inputFields)
-    //     // Lắng nghe sự kiện input trên các trường input.
-    //     inputFields.forEach(function (input) {
-    //         input.addEventListener("input", function () {
-    //             // Kiểm tra xem tất cả các trường có giá trị không trống không.
-    //             const allFieldsFilled = Array.from(inputFields).every(function (field) {
-    //                 return field.value.trim() !== "";
-    //             });
-    //
-    //             // Lấy nút "Cập nhật" theo ID.
-    //             const updateButton = document.getElementById("updateButton");
-    //
-    //             // Cập nhật thuộc tính disabled của nút "Cập nhật" dựa trên kết quả kiểm tra.
-    //             if (updateButton) {
-    //                 updateButton.disabled = !allFieldsFilled;
-    //             }else {
-    //                 updateButton.enabled=allFieldsFilled;
-    //             }
-    //         });z
-    //     });
-    // });
     function validateNumberInput(input) {
         const regex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/g;
         if (!regex.test(input.value)) {
@@ -87,9 +71,24 @@
             input.value = ""; // Xóa nếu không hợp lệ
         }
     }
-    function UpdateSuccessAlert(){
-        alert("Cập nhật thành công!.")
-    }
+    var inputIds = ['firstname', 'lastname', 'email', 'address', 'phoneNumber'];
+
+    // Lặp qua mảng và thêm sự kiện cho từng trường nhập liệu
+    inputIds.forEach(function(id) {
+        var inputElement = document.getElementById(id);
+
+        if (inputElement) {
+            inputElement.addEventListener('input', function() {
+                // Kiểm tra điều kiện (có thể thêm điều kiện cho các trường nhập liệu khác)
+                var isFormValid = inputIds.every(function(id) {
+                    return document.getElementById(id).value.trim() !== '';
+                });
+
+                // Mở hoặc đóng nút button dựa trên điều kiện
+                document.getElementById('updateButton').disabled = !isFormValid;
+            });
+        }
+    });
 </script>
 <script th:src="@{/js/app.js}"></script>
 
