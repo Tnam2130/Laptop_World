@@ -69,7 +69,6 @@ public class OrderServiceImpl implements OrderService {
         User currentUser = userService.findById(userId);
         if (order != null) {
             Payments payments = new Payments();
-            payments.setOrder(order);
             payments.setUser(currentUser);
             SimpleDateFormat dateFormat = new SimpleDateFormat("ddMMyyHHmm");
             String formattedDate = dateFormat.format(new Date());
@@ -77,9 +76,19 @@ public class OrderServiceImpl implements OrderService {
             payments.setMode("CASH");
             payments.setCreatedAt(new Date());
             payments.setStatus(false);
+
+            // Save the Payments entity to persist it in the database
             paymentService.savePayment(payments);
+
+            // Update the Order with the new Payments
+            order.setPayments(payments);
+
+            // Set the updatedAt field to the same date as createdAt in Payments for consistency
+            order.setUpdatedAt(payments.getCreatedAt());
+
+            // Save the updated Order entity
+            saveOrder(order);
         }
-        saveOrder(order);
     }
 
     @Override

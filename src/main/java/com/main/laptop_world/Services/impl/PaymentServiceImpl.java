@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -41,30 +42,40 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public Long createVNPayOrderFromCart(Long userId, String vnp_Amount, String vnp_TxnRef, String vnp_TransactionStatus) {
-        BigDecimal total= new BigDecimal(vnp_Amount).divide(BigDecimal.valueOf(100), RoundingMode.CEILING);
-        System.out.println("Total with VNPay: "+total);
+        BigDecimal total = new BigDecimal(vnp_Amount).divide(BigDecimal.valueOf(100), RoundingMode.CEILING);
+        System.out.println("Total with VNPay: " + total);
         List<Cart> cartList = cartService.getCartToUserId(userId);
         BigDecimal totalAmount = cartService.calculateTotalPrice(cartList);
         BigDecimal discount = totalAmount.subtract(cartService.calculateDiscount(cartList));
         User currentUser = userService.findById(userId);
-        Order order = new Order();
-
-        order.setUser(currentUser);
-        order.setDiscount(discount);
-        order.setTotal(total);
-        order.setStatus("Pending");
-        order.setUpdatedAt(new Date());
-
-        Order savedOrder = orderService.saveOrder(order);
-
         Payments payments = new Payments();
         payments.setTradingCode(vnp_TxnRef);
-        payments.setOrder(savedOrder);
         payments.setUser(currentUser);
         payments.setMode("VNPay");
         payments.setCreatedAt(new Date());
         payments.setStatus(vnp_TransactionStatus.equalsIgnoreCase("00"));
         savePayment(payments);
+
+        Order order = new Order();
+        order.setUser(currentUser);
+        order.setDiscount(discount);
+        order.setTotal(total);
+        if (payments.isStatus()) {
+            order.setStatus("Pending");
+        } else {
+            order.setStatus("Cancel");
+        }
+        order.setUpdatedAt(new Date());
+        order.setPayments(payments);
+
+        // Thêm Order vào danh sách order của Payments
+        List<Order> orders = new ArrayList<>();
+        orders.add(order);
+        payments.setOrder(orders);
+        savePayment(payments);
+        // Lưu đối tượng Order vào cơ sở dữ liệu
+        Order savedOrder = orderService.saveOrder(order);
+
         for (Cart item : cartList) {
             OrderItem orderItem = new OrderItem();
             orderItem.setOrder(savedOrder);
@@ -76,7 +87,6 @@ public class PaymentServiceImpl implements PaymentService {
             orderItem.setUpdatedAt(new Date());
             orderItemService.save(orderItem);
         }
-
         cartService.deletePaidCartItems(userId);
         return order.getId();
     }

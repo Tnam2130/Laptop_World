@@ -5,6 +5,7 @@ import com.main.laptop_world.Repository.CartRepository;
 import com.main.laptop_world.Services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -182,7 +183,18 @@ public class CartServiceImpl implements CartService {
     }
     @Override
     public BigDecimal getTotalPriceByUserId(Long userId) {
-        return cartRepository.findTotalPriceByUserId(userId);
+        Specification<Cart> spec = (root, query, builder) -> {
+            query.distinct(true); // Ensure distinct results
+            return builder.equal(root.get("user").get("id"), userId);
+        };
+
+        List<Cart> cartList = cartRepository.findAll(spec);
+
+        // Calculate total price from the list of Cart entities
+
+        return cartList.stream()
+                .map(cart -> cart.getProducts().getPrice().multiply(BigDecimal.valueOf(cart.getQuantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     private void updateTotalPrice(Cart cartItem) {

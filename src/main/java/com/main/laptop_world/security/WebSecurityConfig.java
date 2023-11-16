@@ -120,16 +120,17 @@ public class WebSecurityConfig {
                                 .successHandler((request, response, authentication) -> {
                                     if (authentication.getPrincipal() instanceof CustomOAuth2User customOAuth2User) {
                                         String email = customOAuth2User.getName();
-                                        User existingUser= userService.findByEmail(email);
-                                        String username= customOAuth2User.getUsername();
-                                        String clientName= customOAuth2User.getOauth2ClientNames();;
-                                        System.out.println("email: " + email+", client: "+clientName+
-                                                ", username: "+ username);
-                                        if(existingUser != null){
+                                        User existingUser = userService.findByEmail(email);
+                                        if (existingUser != null) {
 
                                             response.sendRedirect("/");
                                             System.out.println("User is existing!");
-                                        }else{
+                                        } else {
+                                            String username = customOAuth2User.getUsername();
+                                            String clientName = customOAuth2User.getOauth2ClientNames();
+                                            ;
+                                            System.out.println("email: " + email + ", client: " + clientName +
+                                                    ", username: " + username);
                                             userService.processOAuthPostLogin(email, clientName);
                                             response.sendRedirect("/");
                                         }

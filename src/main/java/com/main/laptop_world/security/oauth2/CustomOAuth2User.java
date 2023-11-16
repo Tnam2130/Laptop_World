@@ -39,7 +39,7 @@ public class CustomOAuth2User implements OAuth2User {
         return oAuth2User.getAttribute("email");
     }
     public String getUsername(){
-        return username.getUsername();
+        return(username!= null) ? username.getUsername() : oAuth2User.getAttribute("email");
     }
 
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(List<Role> roles) {

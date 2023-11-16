@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -26,8 +27,7 @@ public class Payments {
     @JoinColumn(name = "payment_user_id", referencedColumnName = "id")
     private User user;
 
-    @OneToOne
-    @JoinColumn(name = "payment_order_id", referencedColumnName = "id")
-    private Order order;
+    @OneToMany(mappedBy = "payments", cascade = CascadeType.ALL)
+    private List<Order> order;
 
 }
