@@ -22,10 +22,11 @@ public class UserController {
     private UserService userService;
     private EmailService emailService;
     private GeneralService generalService;
-    public UserController(UserService userService, EmailService emailService, GeneralService generalService){
-        this.userService=userService;
-        this.emailService=emailService;
-        this.generalService=generalService;
+
+    public UserController(UserService userService, EmailService emailService, GeneralService generalService) {
+        this.userService = userService;
+        this.emailService = emailService;
+        this.generalService = generalService;
     }
 
     @GetMapping("/login")
@@ -53,13 +54,13 @@ public class UserController {
                     "Tên tài khoản đã được đăng ký!");
             return "/users/register";
         }
-        User existingEmail=userService.findByEmail(user.getEmail());
-        if(existingEmail!=null){
+        User existingEmail = userService.findByEmail(user.getEmail());
+        if (existingEmail != null) {
             result.rejectValue("email", "error.user",
                     "Email đã được đăng ký!");
             return "/users/register";
         }
-        if(user.getPassword().length() < 6){
+        if (user.getPassword().length() < 6) {
             result.rejectValue("password", "error.user", "Mật khẩu phải có từ 6 ký tự trở lên !!!");
             return "/users/register";
         }
@@ -71,35 +72,36 @@ public class UserController {
         userService.saveUser(user);
         return "redirect:/login";
     }
-    @GetMapping ("/user/profile")
-    public String handleUpdateUser(Model model, Principal principal){
-        Long userId= generalService.usernameHandler(principal);
-        User existingUser=userService.findById(userId);
-        if(existingUser.getUserDetailEmbeddable() == null){
+
+    @GetMapping("/user/profile")
+    public String handleUpdateUser(Model model, Principal principal) {
+        Long userId = generalService.usernameHandler(principal);
+        User existingUser = userService.findById(userId);
+        if (existingUser.getUserDetailEmbeddable() == null) {
             model.addAttribute("errorMessage", "Bạn cần phải nhập đầy đủ thông tin!!!");
         }
         model.addAttribute("user", existingUser);
-        model.addAttribute("title","Trang cá nhân");
+        model.addAttribute("title", "Trang cá nhân");
         return "users/profile";
     }
+
     @PostMapping("/user/profile")
-    public String updateUserDetail(Principal principal, @ModelAttribute("user") User user, BindingResult result, Model model){
-        Long userId= generalService.usernameHandler(principal);
-        User existingUser=userService.findById(userId);
-        if (existingUser.getEmail().equalsIgnoreCase(user.getEmail())){
+    public String updateUserDetail(Principal principal, @ModelAttribute("user") User user, BindingResult result, Model model) {
+        Long userId = generalService.usernameHandler(principal);
+        User existingUser = userService.findById(userId);
+        if (existingUser.getEmail().equalsIgnoreCase(user.getEmail())) {
             result.rejectValue("email", "error.user",
                     "Email đã được đăng ký!");
-        } else if (userService.isPhoneNumberRegistered(user.getUserDetailEmbeddable().getPhoneNumber())) {
-            result.rejectValue("phoneNumber", "error.user",
+        }
+        if (userService.isPhoneNumberRegistered(user.getUserDetailEmbeddable().getPhoneNumber())) {
+            result.rejectValue("userDetailEmbeddable.phoneNumber", "error.user",
                     "Số điện thoại đã được đăng ký!");
-        }else{
-            return "redirect:/user/profile?successg";
         }
         existingUser.setUserDetailEmbeddable(user.getUserDetailEmbeddable());
         userService.updateUser(existingUser);
         model.addAttribute("user", user);
         model.addAttribute("title", "Trang cá nhân");
-        return "redirect:/user/profile";
+        return "redirect:/user/profile?success";
     }
 
     @GetMapping("/send-code")

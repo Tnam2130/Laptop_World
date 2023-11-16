@@ -52,7 +52,7 @@
                         <input th:field="*{userDetailEmbeddable.phoneNumber}" type="text" class="form-control phone-input"
                                id="phoneNumber" placeholder="Số điện thoại" onblur="validateNumberInput(this)" required>
                         <label for="phoneNumber" class="form-label fs-6">Số điện thoại</label>
-                        <p th:errors="*{userDetailEmbeddable.phoneNumber}" class="text-danger fs-6 mb-3" th:if="${#fields.hasErrors('phoneNumber')}"></p>
+                        <p th:errors="*{userDetailEmbeddable.phoneNumber}" class="text-danger fs-6 mb-3" th:if="${#fields.hasErrors('userDetailEmbeddable.phoneNumber')}"></p>
                     </div>
                 </div>
                 <button id="updateButton" class="btn btn-primary w-25 mt-4" type="submit"
