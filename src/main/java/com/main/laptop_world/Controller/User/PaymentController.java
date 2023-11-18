@@ -108,16 +108,18 @@ public class PaymentController {
                                     @RequestParam("vnp_PayDate") String vnp_PayDate,
                                     @RequestParam("vnp_TransactionStatus") String vnp_TransactionStatus,
                                     Principal principal,
-                                    Model model){
+                                    Model model) {
         Long userId = generalService.usernameHandler(principal);
-        Long orderId= paymentService.createVNPayOrderFromCart(userId, vnp_Amount, vnp_TxnRef, vnp_TransactionStatus);
-        Order order= orderService.findOrderById(orderId);
-        Payments payments=paymentService.getPaymentByOrderId(orderId);
-        model.addAttribute("vnp_PayDate", vnp_PayDate);
-        model.addAttribute("vnp_OrderInfo",vnp_OrderInfo);
-        model.addAttribute("vnp_TxnRef",vnp_TxnRef);
-        model.addAttribute("vnp_Amount", order.getTotal());
-        model.addAttribute("vnp_TransactionStatus", payments.isStatus());
+        if (vnp_TransactionStatus.equalsIgnoreCase("00")) {
+            Long orderId = paymentService.createVNPayOrderFromCart(userId, vnp_Amount, vnp_TxnRef, vnp_TransactionStatus);
+            Order order = orderService.findOrderById(orderId);
+            Payments payments = paymentService.getPaymentByOrderId(orderId);
+            model.addAttribute("vnp_PayDate", vnp_PayDate);
+            model.addAttribute("vnp_OrderInfo", vnp_OrderInfo);
+            model.addAttribute("vnp_TxnRef", vnp_TxnRef);
+            model.addAttribute("vnp_Amount", order.getTotal());
+            model.addAttribute("vnp_TransactionStatus", payments.isStatus());
+        }
         return "orders/PaymentResult";
     }
 }

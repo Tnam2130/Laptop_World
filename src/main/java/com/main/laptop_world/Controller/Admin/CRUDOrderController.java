@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Controller
@@ -26,6 +27,7 @@ public class CRUDOrderController {
     @GetMapping("/admin/order")
     public String getOrderForm(Model model) {
         List<Order> orderList = orderService.findAll();
+        orderList.sort(Comparator.comparing(Order::getCreatedAt).reversed());
         model.addAttribute("orders", orderList);
         return "admin/QuanLyDonHang";
     }
