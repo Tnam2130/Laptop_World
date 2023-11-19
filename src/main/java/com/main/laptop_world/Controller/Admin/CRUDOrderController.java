@@ -42,12 +42,61 @@ public class CRUDOrderController {
     public String getUpdateCategory(@PathVariable("id") Long id, Model model, @ModelAttribute Order order) {
         Order orders = orderRepository.getById(id);
         model.addAttribute("orders", orders);
+
         return "admin/Update/updateOrder";
     }
+
     @PostMapping("/admin/order/update")
-    public String updateCategory(@RequestParam Long id, @RequestParam String status, RedirectAttributes ra) {
-        ra.addFlashAttribute("message", "Update successfully");
-        orderService.updateOrder(id, status);
+    public String updateCategory(@RequestParam Long id, @RequestParam String status, RedirectAttributes ra, @ModelAttribute Order order) {
+//        ra.addFlashAttribute("message", "Update successfully");
+//        orderService.updateOrder(id, status);
+
+        Order orders = orderRepository.getById(id);
+        String currentStatus = orders.getStatus();
+
+        switch (currentStatus) {
+            case "Pending":
+                switch (status) {
+                    case "Out Of Stock":
+                    case "Cancel":
+                        ra.addFlashAttribute("message", "Update successfully");
+                        orderService.updateOrder(id, status);
+
+                        break;
+                    default:
+                        ra.addFlashAttribute("message", "The status can only be changed from 'Pending' to 'Out of stock'");
+                        return "redirect:/admin/order";
+                }
+                break;
+
+            case "Out Of Stock":
+                switch (status) {
+                    case "Delivering":
+                    case "Cancel":
+                        ra.addFlashAttribute("message", "Update successfully");
+                        orderService.updateOrder(id, status);
+                        break;
+                    default:
+                        ra.addFlashAttribute("message", "The status can only be changed from 'Out of stock' to 'Delivering'");
+                        return "redirect:/admin/order";
+                }
+                break;
+
+            case "Delivering":
+                switch (status) {
+                    case "Delivered":
+                    case "Cancel":
+                        ra.addFlashAttribute("message", "Update successfully");
+                        orderService.updateOrder(id, status);
+                        break;
+                    default:
+                        ra.addFlashAttribute("message", "The status can only be changed from 'Delivering' to 'Delivered'");
+                        return "redirect:/admin/order";
+                }
+                break;
+        }
+
         return "redirect:/admin/order";
+        }
     }
-    }
+

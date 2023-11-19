@@ -46,8 +46,25 @@
                     <td><span class="mb-0 ms-2 text-center d-block"
                               th:text="${#numbers.formatDecimal(order.total, 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></span>
                     </td>
-                    <td><a class="btn btn-outline-primary" th:href="@{'/admin/order/update/id=' + *{order.id}}">Update
-                        trạng thái</a>
+                    <td th:switch="*{order.status}">
+
+                        <th:block th:case="'Delivered'">
+                                <button class="btn btn-outline-primary" disabled>
+                                Update trạng thái
+                            </button>
+                        </th:block>
+
+                        <th:block th:case="'Cancel'">
+                                <button class="btn btn-outline-primary" disabled>
+                                Update trạng thái
+                            </button>
+                        </th:block>
+
+                        <th:block th:case="*">
+                            <a class="btn btn-outline-primary" th:href="@{'/admin/order/update/id=' + *{order.id}}">Update
+                                trạng thái</a>
+                        </th:block>
+
                     </td>
                 </tr>
                 </tbody>
