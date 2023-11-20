@@ -40,7 +40,6 @@ public class UserController {
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         UserDTO userDTO = new UserDTO();
-        System.out.println(1);
         model.addAttribute("title", "Đăng ký");
         model.addAttribute("user", userDTO);
         return "users/register";

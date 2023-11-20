@@ -57,11 +57,9 @@ public class CRUDOrderController {
                     case "Cancel":
                         ra.addFlashAttribute("message", "Update successfully");
                         orderService.updateOrder(id, status);
-
                         break;
                     default:
-                        ra.addFlashAttribute("message", "The status can only be changed from 'Pending' to 'Out of stock'");
-                        return "redirect:/admin/order";
+                        return "redirect:/admin/order?error";
                 }
                 break;
 
@@ -73,8 +71,7 @@ public class CRUDOrderController {
                         orderService.updateOrder(id, status);
                         break;
                     default:
-                        ra.addFlashAttribute("message", "The status can only be changed from 'Out of stock' to 'Delivering'");
-                        return "redirect:/admin/order";
+                        return "redirect:/admin/order?error";
                 }
                 break;
 
@@ -86,8 +83,7 @@ public class CRUDOrderController {
                         orderService.updateOrder(id, status);
                         break;
                     default:
-                        ra.addFlashAttribute("message", "The status can only be changed from 'Delivering' to 'Delivered'");
-                        return "redirect:/admin/order";
+                        return "redirect:/admin/order?error";
                 }
                 break;
         }

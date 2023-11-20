@@ -12,6 +12,11 @@
         <div th:if="${message}" class="alert alert-success text-center">
           [[${message}]]
         </div>
+        <div th:if="${param.error}">
+          <div class="alert alert-danger mb-3 text-center">
+            Chỉ được chuyển đổi trạng thái theo từng bước(Chờ xác nhận -> Xuất kho -> Đang giao -> Đã giao).
+          </div>
+        </div>
         <ul class="nav nav-tabs nav-fill nav-justified mb-3" id="myTabs">
           <li class="nav-item">
             <a
