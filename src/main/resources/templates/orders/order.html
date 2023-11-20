@@ -2,20 +2,23 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/head :: head">
 </head>
-<body>
+<body class="gradient-custom">
 <header th:replace="fragments/header :: header"></header>
-<section class="h-100 gradient-custom">
+<section class="h-100">
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100" style="margin-top: 6rem;">
             <div class="col-lg-10 col-xl-8">
                 <div class="card" style="border-radius: 10px;">
                     <div class="card-header px-4 py-5">
-                        <h5 class="text-muted mb-0">Cảm ơn bạn đã đặt hàng, <span style="color: #a8729a;" th:text="${#authentication.principal.username}"></span>!</h5>
+                        <h5 class="text-muted mb-0">Cảm ơn bạn đã đặt hàng, <span style="color: #a8729a;"
+                                                                                  th:text="${#authentication.principal.username}"></span>!
+                        </h5>
                     </div>
                     <div class="card-body p-4">
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <p class="lead fw-normal mb-0" style="color: #a8729a;">Đơn hàng</p>
-                            <p class="small text-muted mb-0 fw-semibold" th:text="'HD' + ${#dates.format(order.createdAt, 'ddMMyyHHmm')}"></p>
+                            <p class="small text-muted mb-0 fw-semibold"
+                               th:text="'HD' + ${#dates.format(order.createdAt, 'ddMMyyHHmm')}"></p>
                         </div>
                         <div class="card shadow-0 border mb-4" th:each="orderItem : ${orderItemList}">
                             <div class="card-body">
@@ -33,16 +36,17 @@
                                         <p class="text-muted mb-0" th:text="*{orderItem.getProducts().getName()}"></p>
                                     </div>
                                     <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                        <p class="text-muted mb-0 small" th:text="*{orderItem.products.category.mainName}"></p>
+                                        <p class="text-muted mb-0 small"
+                                           th:text="*{orderItem.products.category.mainName}"></p>
                                     </div>
                                     <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                        <p class="text-muted mb-0 small" th:text="*{orderItem.products.shortDesc}"></p>
+                                        <p class="text-muted mb-0 small">Số lượng: <span
+                                                th:text="*{orderItem.quantity}"></span></p>
                                     </div>
                                     <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                        <p class="text-muted mb-0 small">Số lượng: <span th:text="*{orderItem.quantity}"></span></p>
-                                    </div>
-                                    <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                        <p class="text-muted mb-0 small"><span th:text="${#numbers.formatDecimal(orderItem.price, 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></span></p>
+                                        <p class="text-muted mb-0 small"><span class="fw-bold"
+                                                                               th:text="${#numbers.formatDecimal(orderItem.price, 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></span>
+                                        </p>
                                     </div>
                                 </div>
                                 <hr class="mb-4" style="background-color: #e0e0e0; opacity: 1;">
@@ -75,7 +79,7 @@
                                             <th:block th:case="*">
                                                 <!-- Trường hợp mặc định nếu trạng thái không khớp với bất kỳ trường hợp nào trên -->
                                                 <div class="progress-bar" role="progressbar"
-                                                     style="width: 0%; border-radius: 16px; border: 4px solid #a8729a;"
+                                                     style="width: 0; border-radius: 16px; border: 4px solid #a8729a;"
                                                      aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                                             </th:block>
                                         </th:block>
@@ -95,24 +99,53 @@
                         </div>
 
                         <div class="d-flex justify-content-between pt-2">
-                            <p class="text-muted mb-0 order-user-detail--input"><span class="fw-bold me-1">Khách hàng: </span>Anh/Chị <span th:text="${order.user.userDetailEmbeddable.lastName}"></span></p>
-                            <p class="text-muted mb-0 order-user-detail--input"><span class="fw-bold me-1">Giảm giá: </span><span th:text="${#numbers.formatDecimal(order.discount, 0, 'COMMA', 0, 'DEFAULT')} + '&#x20AB;'"></span></p>
+                            <p class="text-muted mb-0 order-user-detail--input"><span
+                                    class="fw-bold me-1">Khách hàng: </span>Anh/Chị <span
+                                    th:text="${order.user.userDetailEmbeddable.fullName}"></span></p>
+                            <p class="text-muted mb-0 order-user-detail--input"><span
+                                    class="fw-bold me-1">Giảm giá: </span><span
+                                    th:text="${#numbers.formatDecimal(order.discount, 0, 'COMMA', 0, 'DEFAULT')} + '&#x20AB;'"></span>
+                            </p>
                         </div>
 
                         <div class="d-flex justify-content-between">
-                            <p class="text-muted mb-0 order-user-detail--input"><span class="fw-bold me-1">Số điện thoại: </span><span th:text="${order.user.userDetailEmbeddable.phoneNumber}"></span></p>
-                            <p class="text-muted mb-0 order-user-detail--input">Ngày tạo : <span th:text="${#dates.format(order.createdAt, 'dd-MM-yyyy')}"></span></p>
+                            <p class="text-muted mb-0 order-user-detail--input"><span class="fw-bold me-1">Số điện thoại: </span><span
+                                    th:text="${order.user.userDetailEmbeddable.phoneNumber}"></span></p>
+                            <p class="text-muted mb-0 order-user-detail--input"><span
+                                    class="fw-bold me-1">Ngày tạo: </span> <span
+                                    th:text="${#dates.format(order.createdAt, 'dd-MM-yyyy')}"></span></p>
                         </div>
                         <div class="d-flex justify-content-between">
-                            <p class="text-muted mb-0 order-user-detail--input"><span class="fw-bold me-1">Địa chỉ: </span><span th:text="${order.user.userDetailEmbeddable.address}"></span></p>
+                            <p class="text-muted mb-0 order-user-detail--input"><span
+                                    class="fw-bold me-1">Địa chỉ: </span><span
+                                    th:text="${order.user.userDetailEmbeddable.address}"></span></p>
+                            <p class="text-muted mb-0 order-user-detail--input"><span class="fw-bold me-1">Phương thức thanh toán: </span>
+                                <th:block th:switch="${order.payments.mode}">
+                                    <span th:case="'CASH'">Tiền mặt</span>
+                                    <span th:case="*">VNPAY</span>
+                                </th:block>
+                            </p>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <p class="text-muted mb-0 order-user-detail--input"><span
+                                    class="fw-bold me-1">Trạng thái: </span><span
+                                    th:text="${order.payments.status} ? 'Đã thanh toán' : 'Chưa thanh toán'"
+                                    th:classappend="${order.payments.status} ? 'text-success fw-semibold' : 'text-danger fw-semibold'"></span>
+                            </p>
                         </div>
                         <div class="d-flex justify-content-end pt-3">
-                            <p class="text-center mb-0" style="line-height: 1.5rem;"><span class="fs-5 fw-bold">Tổng tiền: <span class="fs-5 text-danger" th:text="${#numbers.formatDecimal(totalAmount , 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></span></span></p>
+                            <p class="text-center mb-0" style="line-height: 1.5rem;"><span class="fs-5 fw-bold">Tổng tiền: <span
+                                    class="fs-5 text-danger"
+                                    th:text="${#numbers.formatDecimal(totalAmount , 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></span></span>
+                            </p>
                         </div>
                     </div>
                     <div class="card-footer border-0 px-4 py-5"
                          style="background-color: #a8729a; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
-                        <h5 class="d-flex align-items-center justify-content-end text-white mb-0">Số tiền cần trả: <span class="h5 mb-0 ms-2" th:text="${#numbers.formatDecimal(order.total, 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></span></h5>
+                        <h5 class="d-flex align-items-center justify-content-end text-white mb-0">Số tiền cần trả: <span
+                                class="h5 mb-0 ms-2"
+                                th:text="${#numbers.formatDecimal(order.total, 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></span>
+                        </h5>
                     </div>
                 </div>
             </div>

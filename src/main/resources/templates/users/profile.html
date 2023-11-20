@@ -37,7 +37,7 @@
                 </div>
                 <div class="form-floating mb-3">
                     <input th:field="*{email}" type="email" class="form-control"
-                           id="email" placeholder="Email" required>
+                           id="email" placeholder="Email" required readonly="readonly">
                     <label for="email" class="form-label fs-6">Email</label>
                     <p th:errors="*{email}" class="text-danger fs-6 mb-3" th:if="${#fields.hasErrors('email')}"></p>
                 </div>

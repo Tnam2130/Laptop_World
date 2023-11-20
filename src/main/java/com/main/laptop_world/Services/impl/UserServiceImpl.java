@@ -111,7 +111,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public boolean isPhoneNumberRegistered(String phoneNumber) {
         User user = userRepository.findByUserDetailEmbeddable_PhoneNumber(phoneNumber);
-        return user != null;
+
+        // Check if user and user.getUserDetailEmbeddable() are not null before accessing getPhoneNumber()
+        if (user != null && user.getUserDetailEmbeddable() != null) {
+            return phoneNumber.equals(user.getUserDetailEmbeddable().getPhoneNumber());
+        }
+
+        return false;
     }
 
     @Override

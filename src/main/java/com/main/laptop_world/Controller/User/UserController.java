@@ -91,21 +91,30 @@ public class UserController {
         User existingUser = userService.findById(userId);
         // Check if the new email is different from the current email
         if (!existingUser.getEmail().equalsIgnoreCase(user.getEmail())) {
-            // Check if the new email already exists in the database
             User existingEmailUser = userService.findByEmail(user.getEmail());
             if (existingEmailUser != null) {
                 result.rejectValue("email", "error.user", "Email đã được đăng ký!");
                 return "/users/profile";
             }
         }
-        if (!existingUser.getUserDetailEmbeddable().getPhoneNumber().equalsIgnoreCase(user.getUserDetailEmbeddable().getPhoneNumber())){
-            if (userService.isPhoneNumberRegistered(user.getUserDetailEmbeddable().getPhoneNumber())) {
-                result.rejectValue("userDetailEmbeddable.phoneNumber", "error.user",
-                        "Số điện thoại đã được đăng ký!");
-                return "/users/profile";
+        if (user.getUserDetailEmbeddable() != null) {
+            if (existingUser.getUserDetailEmbeddable() == null) {
+                if (userService.isPhoneNumberRegistered(user.getUserDetailEmbeddable().getPhoneNumber())) {
+                    result.rejectValue("userDetailEmbeddable.phoneNumber", "error.user", "Số điện thoại đã được đăng ký!");
+                    return "/users/profile";
+                }
+                existingUser.setUserDetailEmbeddable(user.getUserDetailEmbeddable());
+            } else {
+                if (user.getUserDetailEmbeddable().getPhoneNumber() != null &&
+                        !existingUser.getUserDetailEmbeddable().getPhoneNumber().equalsIgnoreCase(user.getUserDetailEmbeddable().getPhoneNumber())) {
+                    if (userService.isPhoneNumberRegistered(user.getUserDetailEmbeddable().getPhoneNumber())) {
+                        result.rejectValue("userDetailEmbeddable.phoneNumber", "error.user", "Số điện thoại đã được đăng ký!");
+                        return "/users/profile";
+                    }
+                    existingUser.getUserDetailEmbeddable().setPhoneNumber(user.getUserDetailEmbeddable().getPhoneNumber());
+                }
             }
         }
-        existingUser.setUserDetailEmbeddable(user.getUserDetailEmbeddable());
         userService.updateUser(existingUser);
         model.addAttribute("user", user);
         model.addAttribute("title", "Trang cá nhân");

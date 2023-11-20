@@ -67,6 +67,7 @@ public class OrderController {
         Long userId = generalService.usernameHandler(principal);
         List<Order> orderList = orderService.findByUserId(userId);
         orderList.sort(Comparator.comparing(Order::getCreatedAt).reversed());
+        model.addAttribute("title","Lịch sử đơn hàng");
         model.addAttribute("orderList", orderList);
         return "orders/OrderHistory";
     }
