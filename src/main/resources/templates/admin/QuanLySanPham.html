@@ -28,20 +28,31 @@
                     </div>
                     <div class="col-md-6" style="margin-bottom: 20px">
                         <div class="form-floating mb-3">
-                            <input class="form-control" type="text" id="price" name="price" required=""
-                                   th:field="*{price}" oninput="validateNumberInput(this)" placeholder="Giá khuyến mãi">
-                            <label for="price" class="form-label fs-6">Giá khuyến mãi</label>
+                            <input class="form-control" type="text" id="oldPrice" name="oldPrice" required=""
+                                   th:field="*{oldPrice}" oninput="validateNumberInput(this); calculateDiscountPrice()" placeholder="Giá gốc">
+                            <label for="oldPrice" class="form-label fs-6">Giá gốc</label>
                         </div>
-                        <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}" class="text-danger fs-6 mb-3">Vui
+                        <p th:if="${#fields.hasErrors('oldPrice')}" th:errors="*{oldPrice}"
+                           class="text-danger fs-6 mb-3">Vui
                             lòng chỉ nhập số!!!</p>
                     </div>
                     <div class="col-md-6" style="margin-bottom: 20px">
                         <div class="form-floating mb-3">
-                            <input class="form-control" type="text" id="oldPrice" name="oldPrice" required=""
-                                   th:field="*{oldPrice}" oninput="validateNumberInput(this)" placeholder="Giá gốc">
-                            <label for="oldPrice" class="form-label fs-6">Giá gốc</label>
+                            <input class="form-control" type="text" id="discount" name="discount" required=""
+                                   th:field="*{discount}" oninput="validateNumberInput(this); calculateDiscountPrice()" placeholder="Giảm giá">
+                            <label for="discount" class="form-label fs-6">Giảm giá</label>
+                            <div class="underline"></div>
                         </div>
-                        <p th:if="${#fields.hasErrors('oldPrice')}" th:errors="*{oldPrice}"
+                        <p th:if="${#fields.hasErrors('discount')}" th:errors="*{discount}"
+                           class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
+                    </div>
+                    <div class="col-md-6" style="margin-bottom: 20px">
+                        <div class="form-floating mb-3">
+                            <input class="form-control" type="text" id="price" name="price" required=""
+                                   th:field="*{price}" oninput="validateNumberInput(this)" placeholder="Giá khuyến mãi" readonly>
+                            <label for="price" class="form-label fs-6">Giá khuyến mãi</label>
+                        </div>
+                        <p th:if="${#fields.hasErrors('price')}" th:errors="*{price}"
                            class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
                     </div>
                     <div class="col-md-6" style="margin-bottom: 20px">
@@ -51,17 +62,6 @@
                             <label for="shortDesc" class="form-label fs-6">Giới thiệu ngắn</label>
                             <div class="underline"></div>
                         </div>
-                    </div>
-
-                    <div class="col-md-6" style="margin-bottom: 20px">
-                        <div class="form-floating mb-3">
-                            <input class="form-control" type="text" id="discount" name="discount" required=""
-                                   th:field="*{discount}" oninput="validateNumberInput(this)" placeholder="Giảm giá">
-                            <label for="discount" class="form-label fs-6">Giảm giá</label>
-                            <div class="underline"></div>
-                        </div>
-                        <p th:if="${#fields.hasErrors('discount')}" th:errors="*{discount}"
-                           class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
                     </div>
                     <div class="col-md-6" style="margin-bottom: 20px">
                         <div class="form-floating mb-3">
@@ -147,7 +147,8 @@
                 <td th:class="*{product.status} ? 'text-success fw-bold' : 'text-danger'"
                     th:text="*{product.status} ? 'Hoạt động' : 'Hủy'" style="line-height: 1.5rem;"></td>
                 <td><a class="btn btn-outline-primary my-3" th:href="@{'/admin/products/update/id=' + *{product.id}}">Update</a>
-                    <a class="btn btn-outline-danger " th:href="@{'/admin/products/delete/' + *{product.id}}">Delete</a></td>
+                    <a class="btn btn-outline-danger " th:href="@{'/admin/products/delete/' + *{product.id}}">Delete</a>
+                </td>
             </tr>
             </tbody>
         </table>
@@ -167,6 +168,21 @@
         if (!regex.test(input.value)) {
             alert("Vui lòng nhập số nguyên hoặc số thực.");
             input.value = ""; // Xóa nếu không hợp lệ
+        }
+    }
+    function calculateDiscountPrice() {
+        // Lấy giá gốc và phần trăm giảm giá từ các ô input
+        let oldPrice = parseFloat(document.getElementById('oldPrice').value);
+        let discount = parseFloat(document.getElementById('discount').value);
+        if (isNaN(discount)) {
+            discount = 0;
+        }
+        // Kiểm tra nếu giá gốc và phần trăm giảm giá hợp lệ
+        if (!isNaN(oldPrice) && !isNaN(discount)) {
+            // Tính toán giá khuyến mãi
+            let discountAmount = (discount / 100) * oldPrice;
+            // Hiển thị giá khuyến mãi trong ô input 'price'
+            document.getElementById('price').value = oldPrice - discountAmount;
         }
     }
 </script>

@@ -28,10 +28,8 @@ public class CRUDProductController {
     BrandService brandService;
     ProductImgService imgService;
     ProductRepository productRepository;
-    ProductVersionRepository productVersionRepository;
-    ProductColorRepository productColorRepository;
-    ProductVersionService productVersionService;
-    ProductColorService productColorService;
+    ProductVersionService versionService;
+    ProductColorService colorService;
 
     public CRUDProductController(
             ProductService productService,
@@ -39,15 +37,15 @@ public class CRUDProductController {
             CategoryService categoryService,
             ProductImgService imgService,
             ProductRepository productRepository,
-            ProductVersionRepository productVersionRepository,
-            ProductColorRepository productColorRepository) {
+            ProductVersionService versionService,
+            ProductColorService colorService) {
         this.productRepository = productRepository;
         this.brandService = brandService;
         this.productService = productService;
         this.categoryService = categoryService;
         this.imgService = imgService;
-        this.productVersionRepository = productVersionRepository;
-        this.productColorRepository = productColorRepository;
+        this.versionService=versionService;
+        this.colorService=colorService;
     }
 
     @RequestMapping("/admin/products")
@@ -128,7 +126,7 @@ public class CRUDProductController {
 
     @RequestMapping("/admin/productsVersion")
     public String getProductVersion(Model model) {
-        List<ProductVersion> version = productVersionRepository.findAll();
+        List<ProductVersion> version = versionService.findAllProduct();
         List<Products> productList = productService.findAllProduct();
         model.addAttribute("version", version);
         model.addAttribute("productList", productList);
@@ -141,28 +139,28 @@ public class CRUDProductController {
     public String addVersion(@ModelAttribute("versions") ProductVersion productVersion,
                              String name, Model model, BindingResult result, RedirectAttributes ra) {
         if (productVersion.getName() == null || productVersion.getName().isEmpty()) {
-            List<ProductVersion> version = productVersionRepository.findAll();
+            List<ProductVersion> version = versionService.findAllProduct();
             model.addAttribute("version", version);
             result.rejectValue("name", "error.version",
                     "Không được để trống Version name!");
             return "admin/ProductVersion";
         }
-        if (productVersionRepository.findByName(name).isPresent()) {
-            List<ProductVersion> version = productVersionRepository.findAll();
+        if (versionService.findVersionByName(name).isPresent()) {
+            List<ProductVersion> version = versionService.findAllProduct();
             model.addAttribute("version", version);
             result.rejectValue("name", "error.version",
                     "Version name không được trùng!");
             return "admin/ProductVersion";
         }
         ra.addFlashAttribute("message", "Save successfully");
-        productVersionRepository.save(productVersion);
+        versionService.saveProduct(productVersion);
         return "redirect:/admin/productsVersion";
     }
 
     @GetMapping("/admin/productsVersion/update/id={id}")
     public String getUpdateProductVersion(@PathVariable("id") Long id, Model model,
                                           @ModelAttribute ProductVersion productVersion) {
-        ProductVersion version = productVersionRepository.getById(id);
+        ProductVersion version = versionService.getProductByVersionId(id);
         model.addAttribute("version", version);
         List<Products> productList = productService.findAllProduct();
         model.addAttribute("productList", productList);
@@ -175,21 +173,21 @@ public class CRUDProductController {
         ra.addFlashAttribute("message", "Update successfully");
         Products products = productService.getProductById(productId);
         productVersion.setProducts(products);
-        productVersionRepository.save(productVersion);
+        versionService.saveProduct(productVersion);
         return "redirect:/admin/productsVersion";
     }
 
     @GetMapping(value = "/admin/productsVersion/delete/{id}")
     public String deleteVersion(@PathVariable Long id, RedirectAttributes ra) {
         ra.addFlashAttribute("message", "Delete successfully");
-        productVersionRepository.deleteById(id);
+        versionService.deleteVersionById(id);
         return "redirect:/admin/productsVersion";
     }
 
     @RequestMapping("/admin/productsColor")
     public String getProductColor(Model model) {
-        List<ProductColor> color = productColorRepository.findAll();
-        List<ProductVersion> version = productVersionRepository.findAll();
+        List<ProductColor> color = colorService.findAllColor();
+        List<ProductVersion> version = versionService.findAllProduct();
         List<Products> productList = productService.findAllProduct();
         model.addAttribute("color", color);
         model.addAttribute("versions", version);
@@ -203,31 +201,24 @@ public class CRUDProductController {
     public String addColor(@ModelAttribute("colors") ProductColor productColor,
                            String color, Model model, BindingResult result, RedirectAttributes ra) {
         if (productColor.getColor() == null || productColor.getColor().isEmpty()) {
-            List<ProductColor> colors = productColorRepository.findAll();
+            List<ProductColor> colors = colorService.findAllColor();
             model.addAttribute("color", colors);
             result.rejectValue("color", "error.color",
-                    "Không được để trống Color name!");
+                    "Không được để trống màu!");
             return "admin/ProductColor";
         }
-//        if (productColorRepository.findByName(color).isPresent()) {
-//            List<ProductColor> colors = productColorRepository.findAll();
-//            model.addAttribute("color", colors);
-//            result.rejectValue("color", "error.color",
-//                    "Color name không được trùng!");
-//            return "admin/ProductColor";
-//        }
         ra.addFlashAttribute("message", "Save successfully");
-        productColorRepository.save(productColor);
+        colorService.saveColor(productColor);
         return "redirect:/admin/productsColor";
     }
 
     @GetMapping("/admin/productsColor/update/id={id}")
     public String getUpdateColor(@PathVariable("id") Long id, Model model, RedirectAttributes ra, @ModelAttribute ProductColor colors) {
-        ProductColor productColor = productColorRepository.getById(id);
+        ProductColor productColor = colorService.getColorById(id);
         model.addAttribute("color", productColor);
         List<Products> productList = productService.findAllProduct();
         model.addAttribute("productList", productList);
-        List<ProductVersion> version = productVersionRepository.findAll();
+        List<ProductVersion> version = versionService.findAllProduct();
         model.addAttribute("versions", version);
         return "admin/Update/updateColor";
     }
@@ -239,16 +230,16 @@ public class CRUDProductController {
         ra.addFlashAttribute("message", "Update successfully");
         Products products = productService.getProductById(productId);
         productColor.setProducts(products);
-        ProductVersion versions = productVersionRepository.getById(versionId);
+        ProductVersion versions = versionService.getProductByVersionId(versionId);
         productColor.setVersion(versions);
-        productColorRepository.save(productColor);
+        colorService.saveColor(productColor);
         return "redirect:/admin/productsColor";
     }
 
     @GetMapping(value = "/admin/productsColor/delete/{id}")
     public String deleteColor(@PathVariable Long id, RedirectAttributes ra) {
         ra.addFlashAttribute("message", "Delete successfully");
-        productColorRepository.deleteById(id);
+        colorService.deleteColorById(id);
         return "redirect:/admin/productsColor";
     }
 

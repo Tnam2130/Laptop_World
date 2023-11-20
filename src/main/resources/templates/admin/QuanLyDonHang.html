@@ -1,545 +1,652 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head th:insert="fragments/head :: head">
-    <link type="text/css" rel="stylesheet" th:href="@{/admin/css/admin.css}" />
-  </head>
-  <body>
-    <div th:replace="admin/layout/header :: headerAdmin"></div>
-    <!--content -->
-    <div class="row">
-      <th:block th:insert="admin/layout/sidebar :: sidebar"></th:block>
-      <div class="col-10 mt-3">
+<head th:insert="fragments/head :: head">
+    <link type="text/css" rel="stylesheet" th:href="@{/admin/css/admin.css}"/>
+</head>
+<body>
+<div th:replace="admin/layout/header :: headerAdmin"></div>
+<!--content -->
+<div class="row">
+    <th:block th:insert="admin/layout/sidebar :: sidebar"></th:block>
+    <div class="col-10 mt-3">
         <div th:if="${message}" class="alert alert-success text-center">
-          [[${message}]]
+            [[${message}]]
         </div>
         <div th:if="${param.error}">
-          <div class="alert alert-danger mb-3 text-center">
-            Chỉ được chuyển đổi trạng thái theo từng bước(Chờ xác nhận -> Xuất kho -> Đang giao -> Đã giao).
-          </div>
+            <div class="alert alert-danger mb-3 text-center">
+                Chỉ được chuyển đổi trạng thái theo từng bước(Chờ xác nhận -> Xuất kho -> Đang giao -> Đã giao).
+            </div>
         </div>
         <ul class="nav nav-tabs nav-fill nav-justified mb-3" id="myTabs">
-          <li class="nav-item">
-            <a
-              class="nav-link active text-dark fw-bold"
-              id="tab1"
-              data-bs-toggle="tab"
-              href="#content1"
-              >Đang chờ xác nhận</a
-            >
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link text-info fw-bold"
-              id="tab2"
-              data-bs-toggle="tab"
-              href="#content2"
-              >Xuất kho</a
-            >
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link text-warning fw-bold"
-              id="tab3"
-              data-bs-toggle="tab"
-              href="#content3"
-              >Đang giao</a
-            >
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link text-success fw-bold"
-              id="tab4"
-              data-bs-toggle="tab"
-              href="#content4"
-              >Đã giao</a
-            >
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link text-danger fw-bold"
-              id="tab5"
-              data-bs-toggle="tab"
-              href="#content5"
-              >Bị hủy</a
-            >
-          </li>
+            <li class="nav-item">
+                <a
+                        class="nav-link active text-dark fw-bold"
+                        id="tab1"
+                        data-bs-toggle="tab"
+                        href="#content1"
+                >Đang chờ xác nhận</a
+                >
+            </li>
+            <li class="nav-item">
+                <a
+                        class="nav-link text-info fw-bold"
+                        id="tab2"
+                        data-bs-toggle="tab"
+                        href="#content2"
+                >Xuất kho</a
+                >
+            </li>
+            <li class="nav-item">
+                <a
+                        class="nav-link text-warning fw-bold"
+                        id="tab3"
+                        data-bs-toggle="tab"
+                        href="#content3"
+                >Đang giao</a
+                >
+            </li>
+            <li class="nav-item">
+                <a
+                        class="nav-link text-success fw-bold"
+                        id="tab4"
+                        data-bs-toggle="tab"
+                        href="#content4"
+                >Đã giao</a
+                >
+            </li>
+            <li class="nav-item">
+                <a
+                        class="nav-link text-danger fw-bold"
+                        id="tab5"
+                        data-bs-toggle="tab"
+                        href="#content5"
+                >Bị hủy</a
+                >
+            </li>
         </ul>
 
         <!-- Tab Content -->
         <div class="tab-content">
-          <div class="tab-pane fade show active" id="content1">
-            <!-- Tab 1 content -->
-            <div>
-              <table class="table table-hover align-middle mb-0 bg-white">
-                <thead class="bg-light">
-                  <tr>
-                    <th class="fw-bold text-center">Mã đơn hàng</th>
-                    <th class="fw-bold text-center">Người đặt hàng</th>
-                    <th class="fw-bold text-center">Trạng thái</th>
-                    <th class="fw-bold text-center">Ngày đặt hàng</th>
-                    <th class="fw-bold text-center">Tổng tiền</th>
-                    <th class="fw-bold text-center">Thanh toán</th>
-                    <th class="fw-bold text-center">Phương thức</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody th:each="order : ${orders}">
-                  <th:block th:switch="*{order.status}">
-                    <tr th:case="'Pending'">
-                      <td>
-                        <div class="ms-3">
-                          <p class="fw-bold mb-1 text-center">
+            <div class="tab-pane fade show active" id="content1">
+                <!-- Tab 1 content -->
+                <div>
+                    <table class="table table-hover align-middle mb-0 bg-white">
+                        <thead class="bg-light">
+                        <tr>
+                            <th class="fw-bold text-center">Sản phẩm</th>
+                            <th class="fw-bold text-center">Tên sản phẩm</th>
+                            <th class="fw-bold text-center">Mã đơn hàng</th>
+                            <th class="fw-bold text-center">Người đặt hàng</th>
+                            <th class="fw-bold text-center">Trạng thái</th>
+                            <th class="fw-bold text-center">Ngày đặt hàng</th>
+                            <th class="fw-bold text-center">Tổng tiền</th>
+                            <th class="fw-bold text-center">Thanh toán</th>
+                            <th class="fw-bold text-center">Phương thức</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <th:block th:each="order : ${orders}" th:switch="*{order.status}">
+                            <th:block th:each="orderItem : *{order.getOrderItems()}">
+                                <tr th:case="'Pending'">
+                                    <td>
+                                        <div class="ms-3">
+                                            <div th:each="image, limit : *{orderItem.getProducts().getImages()}"
+                                                 th:if="${limit.index} &lt; 1">
+                                                <img th:src="@{'/uploads/products/'+ *{image.getName()}}"
+                                                     th:alt="*{image.getName()}"
+                                                     th:class="${limit.index % 2 == 0 ? '' :'img-fluid'}"
+                                                     style="aspect-ratio: 1 / 1; width: 96px; height: 96px;">
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="ms-3">
+                                            <p class="fw-bold mb-1 text-center" style="line-height: 1.4rem;">
+                                                <span th:text="${orderItem.products.name}"></span>
+                                            </p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="ms-3">
+                                            <p class="fw-bold mb-1 text-center">
                             <span
-                              th:text="'HD' + ${#dates.format(order.createdAt, 'ddMMyyHHmm')}"
+                                    th:text="'HD' + ${#dates.format(order.createdAt, 'ddMMyyHHmm')}"
                             ></span>
-                          </p>
-                        </div>
-                      </td>
-                      <td>
+                                            </p>
+                                        </div>
+                                    </td>
+                                    <td>
                         <span
-                          class="d-block fw-normal mb-1 text-success text-center"
-                          th:text="*{order.user.userDetailEmbeddable.fullName}"
+                                class="d-block fw-normal mb-1 text-success text-center" style="line-height: 1.4rem;"
+                                th:text="*{order.user.userDetailEmbeddable.fullName}"
                         ></span>
-                      </td>
-                      <td>
+                                    </td>
+                                    <td>
                         <span
-                          class="text-center d-block text-dark fw-semibold"
-                          th:text="*{order.status}"
+                                class="text-center d-block text-dark fw-semibold"
+                                th:text="*{order.status}"
                         ></span>
-                      </td>
-                      <td>
+                                    </td>
+                                    <td>
                         <span class="rounded-pill d-inline"
-                          ><span
-                            class="text-center d-block"
-                            th:text="${#dates.format(order.createdAt, 'dd-MM-yyyy')}"
-                          ></span
+                        ><span
+                                class="text-center d-block"
+                                th:text="${#dates.format(order.createdAt, 'dd-MM-yyyy')}"
+                        ></span
                         ></span>
-                      </td>
-                      <td>
+                                    </td>
+                                    <td>
                         <span
-                          class="mb-0 ms-2 text-center d-block"
-                          th:text="${#numbers.formatDecimal(order.total, 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"
+                                class="mb-0 ms-2 text-center d-block"
+                                th:text="${#numbers.formatDecimal(order.total, 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"
                         ></span>
-                      </td>
-                      <td>
-                        <span
-                          class="mb-0 ms-2 text-center d-block"
-                          th:text="*{order.payments.status} ? 'Đã thanh toán' : 'Chưa thanh toán'"
-                          th:classappend="*{order.payments.status} ? 'text-success fw-semibold' : 'text-danger fw-semibold'"
-                        ></span>
-                      </td>
-                      <td>
-                        <span
-                          class="mb-0 ms-2 text-center d-block"
-                          th:text="*{order.payments.mode}"
-                        ></span>
-                      </td>
-                      <td th:switch="*{order.status}">
-                        <th:block th:case="'Delivered'">
-                          <button class="btn btn-outline-primary" disabled>
-                            Update trạng thái
-                          </button>
-                        </th:block>
+                                    </td>
+                                    <td>
+                        <span class="mb-0 ms-2 text-center d-block"
+                              th:text="*{order.payments.status} ? 'Đã thanh toán' : 'Chưa thanh toán'"
+                              th:classappend="*{order.payments.status} ? 'text-success fw-semibold' : 'text-danger fw-semibold'"
+                              style="line-height: 1.4rem;"></span>
+                                    </td>
+                                    <td>
+                                        <span class="mb-0 ms-2 text-center d-block"
+                                              th:text="*{order.payments.mode}"></span>
+                                    </td>
+                                    <td th:switch="*{order.status}">
+                                        <th:block th:case="'Delivered'">
+                                            <button class="btn btn-outline-primary" disabled>
+                                                Update trạng thái
+                                            </button>
+                                        </th:block>
 
-                        <th:block th:case="'Cancel'">
-                          <button class="btn btn-outline-primary" disabled>
-                            Update trạng thái
-                          </button>
-                        </th:block>
+                                        <th:block th:case="'Cancel'">
+                                            <button class="btn btn-outline-primary" disabled>
+                                                Update trạng thái
+                                            </button>
+                                        </th:block>
 
-                        <th:block th:case="*">
-                          <a
-                            class="btn btn-outline-primary"
-                            th:href="@{'/admin/order/update/id=' + *{order.id}}"
-                            >Update trạng thái</a
-                          >
+                                        <th:block th:case="*">
+                                            <a
+                                                    class="btn btn-outline-primary"
+                                                    th:href="@{'/admin/order/update/id=' + *{order.id}}"
+                                            >Update trạng thái</a
+                                            >
+                                        </th:block>
+                                    </td>
+                                </tr>
+                            </th:block>
                         </th:block>
-                      </td>
-                    </tr>
-                  </th:block>
-                </tbody>
-              </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-          </div>
-          <div class="tab-pane fade" id="content2">
-            <!-- Tab 2 content -->
-            <div>
-              <table class="table table-hover align-middle mb-0 bg-white">
-                <thead class="bg-light">
-                  <tr>
-                    <th class="fw-bold text-center">Mã đơn hàng</th>
-                    <th class="fw-bold text-center">Người đặt hàng</th>
-                    <th class="fw-bold text-center">Trạng thái</th>
-                    <th class="fw-bold text-center">Ngày đặt hàng</th>
-                    <th class="fw-bold text-center">Tổng tiền</th>
-                    <th class="fw-bold text-center">Thanh toán</th>
-                    <th class="fw-bold text-center">Phương thức</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody th:each="order : ${orders}">
-                  <th:block th:switch="*{order.status}">
-                    <tr th:case="'Out Of Stock'">
-                      <td>
-                        <div class="ms-3">
-                          <p class="fw-bold mb-1 text-center">
+            <div class="tab-pane fade" id="content2">
+                <!-- Tab 2 content -->
+                <div>
+                    <table class="table table-hover align-middle mb-0 bg-white">
+                        <thead class="bg-light">
+                        <tr>
+                            <th class="fw-bold text-center">Sản phẩm</th>
+                            <th class="fw-bold text-center">Tên sản phẩm</th>
+                            <th class="fw-bold text-center">Mã đơn hàng</th>
+                            <th class="fw-bold text-center">Người đặt hàng</th>
+                            <th class="fw-bold text-center">Trạng thái</th>
+                            <th class="fw-bold text-center">Ngày đặt hàng</th>
+                            <th class="fw-bold text-center">Tổng tiền</th>
+                            <th class="fw-bold text-center">Thanh toán</th>
+                            <th class="fw-bold text-center">Phương thức</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <th:block th:each="order : ${orders}" th:switch="*{order.status}">
+                            <th:block th:each="orderItem : *{order.getOrderItems()}">
+                                <tr th:case="'Out Of Stock'">
+                                    <td>
+                                        <div class="ms-3">
+                                            <div th:each="image, limit : *{orderItem.getProducts().getImages()}"
+                                                 th:if="${limit.index} &lt; 1">
+                                                <img th:src="@{'/uploads/products/'+ *{image.getName()}}"
+                                                     th:alt="*{image.getName()}"
+                                                     th:class="${limit.index % 2 == 0 ? '' :'img-fluid'}"
+                                                     style="aspect-ratio: 1 / 1; width: 96px; height: 96px;">
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="ms-3">
+                                            <p class="fw-bold mb-1 text-center" style="line-height: 1.4rem;">
+                                                <span th:text="${orderItem.products.name}"></span>
+                                            </p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="ms-3">
+                                            <p class="fw-bold mb-1 text-center">
                             <span
-                              th:text="'HD' + ${#dates.format(order.createdAt, 'ddMMyyHHmm')}"
+                                    th:text="'HD' + ${#dates.format(order.createdAt, 'ddMMyyHHmm')}"
                             ></span>
-                          </p>
-                        </div>
-                      </td>
-                      <td>
+                                            </p>
+                                        </div>
+                                    </td>
+                                    <td>
                         <span
-                          class="d-block fw-normal mb-1 text-success text-center"
-                          th:text="*{order.user.userDetailEmbeddable.fullName}"
+                                class="d-block fw-normal mb-1 text-success text-center"
+                                th:text="*{order.user.userDetailEmbeddable.fullName}"
                         ></span>
-                      </td>
-                      <td>
+                                    </td>
+                                    <td>
                         <span
-                          class="text-center d-block text-info fw-semibold"
-                          th:text="*{order.status}"
+                                class="text-center d-block text-info fw-semibold"
+                                th:text="*{order.status}"
                         ></span>
-                      </td>
-                      <td>
+                                    </td>
+                                    <td>
                         <span class="rounded-pill d-inline"
-                          ><span
-                            class="text-center d-block"
-                            th:text="${#dates.format(order.createdAt, 'dd-MM-yyyy')}"
-                          ></span
+                        ><span
+                                class="text-center d-block"
+                                th:text="${#dates.format(order.createdAt, 'dd-MM-yyyy')}"
+                        ></span
                         ></span>
-                      </td>
-                      <td>
+                                    </td>
+                                    <td>
                         <span
-                          class="mb-0 ms-2 text-center d-block"
-                          th:text="${#numbers.formatDecimal(order.total, 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"
+                                class="mb-0 ms-2 text-center d-block"
+                                th:text="${#numbers.formatDecimal(order.total, 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"
                         ></span>
-                      </td>
-                      <td>
+                                    </td>
+                                    <td>
                         <span
-                          class="mb-0 ms-2 text-center d-block"
-                          th:text="*{order.payments.status} ? 'Đã thanh toán' : 'Chưa thanh toán'"
-                          th:classappend="*{order.payments.status} ? 'text-success fw-semibold' : 'text-danger fw-semibold'"
+                                class="mb-0 ms-2 text-center d-block"
+                                th:text="*{order.payments.status} ? 'Đã thanh toán' : 'Chưa thanh toán'"
+                                th:classappend="*{order.payments.status} ? 'text-success fw-semibold' : 'text-danger fw-semibold'"
                         ></span>
-                      </td>
-                      <td>
+                                    </td>
+                                    <td>
                         <span
-                          class="mb-0 ms-2 text-center d-block"
-                          th:text="*{order.payments.mode}"
+                                class="mb-0 ms-2 text-center d-block"
+                                th:text="*{order.payments.mode}"
                         ></span>
-                      </td>
-                      <td th:switch="*{order.status}">
-                        <th:block th:case="'Delivered'">
-                          <button class="btn btn-outline-primary" disabled>
-                            Update trạng thái
-                          </button>
-                        </th:block>
+                                    </td>
+                                    <td th:switch="*{order.status}">
+                                        <th:block th:case="'Delivered'">
+                                            <button class="btn btn-outline-primary" disabled>
+                                                Update trạng thái
+                                            </button>
+                                        </th:block>
 
-                        <th:block th:case="'Cancel'">
-                          <button class="btn btn-outline-primary" disabled>
-                            Update trạng thái
-                          </button>
-                        </th:block>
+                                        <th:block th:case="'Cancel'">
+                                            <button class="btn btn-outline-primary" disabled>
+                                                Update trạng thái
+                                            </button>
+                                        </th:block>
 
-                        <th:block th:case="*">
-                          <a
-                            class="btn btn-outline-primary"
-                            th:href="@{'/admin/order/update/id=' + *{order.id}}"
-                            >Update trạng thái</a
-                          >
+                                        <th:block th:case="*">
+                                            <a
+                                                    class="btn btn-outline-primary"
+                                                    th:href="@{'/admin/order/update/id=' + *{order.id}}"
+                                            >Update trạng thái</a
+                                            >
+                                        </th:block>
+                                    </td>
+                                </tr>
+                            </th:block>
                         </th:block>
-                      </td>
-                    </tr>
-                  </th:block>
-                </tbody>
-              </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-          </div>
-          <div class="tab-pane fade" id="content3">
-            <!-- Tab 3 content -->
-            <div>
-              <table class="table table-hover align-middle mb-0 bg-white">
-                <thead class="bg-light">
-                  <tr>
-                    <th class="fw-bold text-center">Mã đơn hàng</th>
-                    <th class="fw-bold text-center">Người đặt hàng</th>
-                    <th class="fw-bold text-center">Trạng thái</th>
-                    <th class="fw-bold text-center">Ngày đặt hàng</th>
-                    <th class="fw-bold text-center">Tổng tiền</th>
-                    <th class="fw-bold text-center">Thanh toán</th>
-                    <th class="fw-bold text-center">Phương thức</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody th:each="order : ${orders}">
-                  <th:block th:switch="*{order.status}">
-                    <tr th:case="'Delivering'">
-                      <td>
-                        <div class="ms-3">
-                          <p class="fw-bold mb-1 text-center">
+            <div class="tab-pane fade" id="content3">
+                <!-- Tab 3 content -->
+                <div>
+                    <table class="table table-hover align-middle mb-0 bg-white">
+                        <thead class="bg-light">
+                        <tr>
+                            <th class="fw-bold text-center">Sản phẩm</th>
+                            <th class="fw-bold text-center">Tên sản phẩm</th>
+                            <th class="fw-bold text-center">Mã đơn hàng</th>
+                            <th class="fw-bold text-center">Người đặt hàng</th>
+                            <th class="fw-bold text-center">Trạng thái</th>
+                            <th class="fw-bold text-center">Ngày đặt hàng</th>
+                            <th class="fw-bold text-center">Tổng tiền</th>
+                            <th class="fw-bold text-center">Thanh toán</th>
+                            <th class="fw-bold text-center">Phương thức</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <th:block th:each="order : ${orders}" th:switch="*{order.status}">
+                            <th:block th:each="orderItem : *{order.getOrderItems()}">
+                                <tr th:case="'Delivering'">
+                                    <td>
+                                        <div class="ms-3">
+                                            <div th:each="image, limit : *{orderItem.getProducts().getImages()}"
+                                                 th:if="${limit.index} &lt; 1">
+                                                <img th:src="@{'/uploads/products/'+ *{image.getName()}}"
+                                                     th:alt="*{image.getName()}"
+                                                     th:class="${limit.index % 2 == 0 ? '' :'img-fluid'}"
+                                                     style="aspect-ratio: 1 / 1; width: 96px; height: 96px;">
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="ms-3">
+                                            <p class="fw-bold mb-1 text-center" style="line-height: 1.4rem;">
+                                                <span th:text="${orderItem.products.name}"></span>
+                                            </p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="ms-3">
+                                            <p class="fw-bold mb-1 text-center">
                             <span
-                              th:text="'HD' + ${#dates.format(order.createdAt, 'ddMMyyHHmm')}"
+                                    th:text="'HD' + ${#dates.format(order.createdAt, 'ddMMyyHHmm')}"
                             ></span>
-                          </p>
-                        </div>
-                      </td>
-                      <td>
+                                            </p>
+                                        </div>
+                                    </td>
+                                    <td>
                         <span
-                          class="d-block fw-normal mb-1 text-success text-center"
-                          th:text="*{order.user.userDetailEmbeddable.fullName}"
+                                class="d-block fw-normal mb-1 text-success text-center"
+                                th:text="*{order.user.userDetailEmbeddable.fullName}"
                         ></span>
-                      </td>
-                      <td>
+                                    </td>
+                                    <td>
                         <span
-                          class="text-center d-block text-warning fw-semibold"
-                          th:text="*{order.status}"
+                                class="text-center d-block text-warning fw-semibold"
+                                th:text="*{order.status}"
                         ></span>
-                      </td>
-                      <td>
+                                    </td>
+                                    <td>
                         <span class="rounded-pill d-inline"
-                          ><span
-                            class="text-center d-block"
-                            th:text="${#dates.format(order.createdAt, 'dd-MM-yyyy')}"
-                          ></span
+                        ><span
+                                class="text-center d-block"
+                                th:text="${#dates.format(order.createdAt, 'dd-MM-yyyy')}"
+                        ></span
                         ></span>
-                      </td>
-                      <td>
+                                    </td>
+                                    <td>
                         <span
-                          class="mb-0 ms-2 text-center d-block"
-                          th:text="${#numbers.formatDecimal(order.total, 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"
+                                class="mb-0 ms-2 text-center d-block"
+                                th:text="${#numbers.formatDecimal(order.total, 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"
                         ></span>
-                      </td>
-                      <td>
+                                    </td>
+                                    <td>
                         <span
-                          class="mb-0 ms-2 text-center d-block"
-                          th:text="*{order.payments.status} ? 'Đã thanh toán' : 'Chưa thanh toán'"
-                          th:classappend="*{order.payments.status} ? 'text-success fw-semibold' : 'text-danger fw-semibold'"
+                                class="mb-0 ms-2 text-center d-block"
+                                th:text="*{order.payments.status} ? 'Đã thanh toán' : 'Chưa thanh toán'"
+                                th:classappend="*{order.payments.status} ? 'text-success fw-semibold' : 'text-danger fw-semibold'"
                         ></span>
-                      </td>
-                      <td>
+                                    </td>
+                                    <td>
                         <span
-                          class="mb-0 ms-2 text-center d-block"
-                          th:text="*{order.payments.mode}"
+                                class="mb-0 ms-2 text-center d-block"
+                                th:text="*{order.payments.mode}"
                         ></span>
-                      </td>
-                      <td th:switch="*{order.status}">
-                        <th:block th:case="'Delivered'">
-                          <button class="btn btn-outline-primary" disabled>
-                            Update trạng thái
-                          </button>
-                        </th:block>
+                                    </td>
+                                    <td th:switch="*{order.status}">
+                                        <th:block th:case="'Delivered'">
+                                            <button class="btn btn-outline-primary" disabled>
+                                                Update trạng thái
+                                            </button>
+                                        </th:block>
 
-                        <th:block th:case="'Cancel'">
-                          <button class="btn btn-outline-primary" disabled>
-                            Update trạng thái
-                          </button>
-                        </th:block>
+                                        <th:block th:case="'Cancel'">
+                                            <button class="btn btn-outline-primary" disabled>
+                                                Update trạng thái
+                                            </button>
+                                        </th:block>
 
-                        <th:block th:case="*">
-                          <a
-                            class="btn btn-outline-primary"
-                            th:href="@{'/admin/order/update/id=' + *{order.id}}"
-                            >Update trạng thái</a
-                          >
+                                        <th:block th:case="*">
+                                            <a
+                                                    class="btn btn-outline-primary"
+                                                    th:href="@{'/admin/order/update/id=' + *{order.id}}"
+                                            >Update trạng thái</a
+                                            >
+                                        </th:block>
+                                    </td>
+                                </tr>
+                            </th:block>
                         </th:block>
-                      </td>
-                    </tr>
-                  </th:block>
-                </tbody>
-              </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-          </div>
-          <div class="tab-pane fade" id="content4">
-            <!-- Tab 4 content -->
-            <div>
-              <table class="table table-hover align-middle mb-0 bg-white">
-                <thead class="bg-light">
-                  <tr>
-                    <th class="fw-bold text-center">Mã đơn hàng</th>
-                    <th class="fw-bold text-center">Người đặt hàng</th>
-                    <th class="fw-bold text-center">Trạng thái</th>
-                    <th class="fw-bold text-center">Ngày đặt hàng</th>
-                    <th class="fw-bold text-center">Tổng tiền</th>
-                    <th class="fw-bold text-center">Thanh toán</th>
-                    <th class="fw-bold text-center">Phương thức</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody th:each="order : ${orders}">
-                  <th:block th:switch="*{order.status}">
-                    <tr th:case="'Delivered'">
-                      <td>
-                        <div class="ms-3">
-                          <p class="fw-bold mb-1 text-center">
+            <div class="tab-pane fade" id="content4">
+                <!-- Tab 4 content -->
+                <div>
+                    <table class="table table-hover align-middle mb-0 bg-white">
+                        <thead class="bg-light">
+                        <tr>
+                            <th class="fw-bold text-center">Sản phẩm</th>
+                            <th class="fw-bold text-center">Tên sản phẩm</th>
+                            <th class="fw-bold text-center">Mã đơn hàng</th>
+                            <th class="fw-bold text-center">Người đặt hàng</th>
+                            <th class="fw-bold text-center">Trạng thái</th>
+                            <th class="fw-bold text-center">Ngày đặt hàng</th>
+                            <th class="fw-bold text-center">Tổng tiền</th>
+                            <th class="fw-bold text-center">Thanh toán</th>
+                            <th class="fw-bold text-center">Phương thức</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <th:block th:each="order : ${orders}" th:switch="*{order.status}">
+                            <th:block th:each="orderItem : *{order.getOrderItems()}">
+                                <tr th:case="'Delivered'">
+                                    <td>
+                                        <div class="ms-3">
+                                            <div th:each="image, limit : *{orderItem.getProducts().getImages()}"
+                                                 th:if="${limit.index} &lt; 1">
+                                                <img th:src="@{'/uploads/products/'+ *{image.getName()}}"
+                                                     th:alt="*{image.getName()}"
+                                                     th:class="${limit.index % 2 == 0 ? '' :'img-fluid'}"
+                                                     style="aspect-ratio: 1 / 1; width: 96px; height: 96px;">
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="ms-3">
+                                            <p class="fw-bold mb-1 text-center" style="line-height: 1.4rem;">
+                                                <span th:text="${orderItem.products.name}"></span>
+                                            </p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="ms-3">
+                                            <p class="fw-bold mb-1 text-center">
                             <span
-                              th:text="'HD' + ${#dates.format(order.createdAt, 'ddMMyyHHmm')}"
+                                    th:text="'HD' + ${#dates.format(order.createdAt, 'ddMMyyHHmm')}"
                             ></span>
-                          </p>
-                        </div>
-                      </td>
-                      <td>
+                                            </p>
+                                        </div>
+                                    </td>
+                                    <td>
                         <span
-                          class="d-block fw-normal mb-1 text-success text-center"
-                          th:text="*{order.user.userDetailEmbeddable.fullName}"
+                                class="d-block fw-normal mb-1 text-success text-center"
+                                th:text="*{order.user.userDetailEmbeddable.fullName}"
                         ></span>
-                      </td>
-                      <td>
+                                    </td>
+                                    <td>
                         <span
-                          class="text-center d-block text-success fw-semibold"
-                          th:text="*{order.status}"
+                                class="text-center d-block text-success fw-semibold"
+                                th:text="*{order.status}"
                         ></span>
-                      </td>
-                      <td>
+                                    </td>
+                                    <td>
                         <span class="rounded-pill d-inline"
-                          ><span
-                            class="text-center d-block"
-                            th:text="${#dates.format(order.createdAt, 'dd-MM-yyyy')}"
-                          ></span
+                        ><span
+                                class="text-center d-block"
+                                th:text="${#dates.format(order.createdAt, 'dd-MM-yyyy')}"
+                        ></span
                         ></span>
-                      </td>
-                      <td>
+                                    </td>
+                                    <td>
                         <span
-                          class="mb-0 ms-2 text-center d-block"
-                          th:text="${#numbers.formatDecimal(order.total, 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"
+                                class="mb-0 ms-2 text-center d-block"
+                                th:text="${#numbers.formatDecimal(order.total, 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"
                         ></span>
-                      </td>
-                      <td>
+                                    </td>
+                                    <td>
                         <span
-                          class="mb-0 ms-2 text-center d-block"
-                          th:text="*{order.payments.status} ? 'Đã thanh toán' : 'Chưa thanh toán'"
-                          th:classappend="*{order.payments.status} ? 'text-success fw-semibold' : 'text-danger fw-semibold'"
+                                class="mb-0 ms-2 text-center d-block"
+                                th:text="*{order.payments.status} ? 'Đã thanh toán' : 'Chưa thanh toán'"
+                                th:classappend="*{order.payments.status} ? 'text-success fw-semibold' : 'text-danger fw-semibold'"
                         ></span>
-                      </td>
-                      <td>
+                                    </td>
+                                    <td>
                         <span
-                          class="mb-0 ms-2 text-center d-block"
-                          th:text="*{order.payments.mode}"
+                                class="mb-0 ms-2 text-center d-block"
+                                th:text="*{order.payments.mode}"
                         ></span>
-                      </td>
-                      <td th:switch="*{order.status}">
-                        <th:block th:case="'Delivered'">
-                          <button class="btn btn-outline-primary" disabled>
-                            Update trạng thái
-                          </button>
-                        </th:block>
+                                    </td>
+                                    <td th:switch="*{order.status}">
+                                        <th:block th:case="'Delivered'">
+                                            <button class="btn btn-outline-primary" disabled>
+                                                Update trạng thái
+                                            </button>
+                                        </th:block>
 
-                        <th:block th:case="'Cancel'">
-                          <button class="btn btn-outline-primary" disabled>
-                            Update trạng thái
-                          </button>
-                        </th:block>
+                                        <th:block th:case="'Cancel'">
+                                            <button class="btn btn-outline-primary" disabled>
+                                                Update trạng thái
+                                            </button>
+                                        </th:block>
 
-                        <th:block th:case="*">
-                          <a
-                            class="btn btn-outline-primary"
-                            th:href="@{'/admin/order/update/id=' + *{order.id}}"
-                            >Update trạng thái</a
-                          >
+                                        <th:block th:case="*">
+                                            <a
+                                                    class="btn btn-outline-primary"
+                                                    th:href="@{'/admin/order/update/id=' + *{order.id}}"
+                                            >Update trạng thái</a
+                                            >
+                                        </th:block>
+                                    </td>
+                                </tr>
+                            </th:block>
                         </th:block>
-                      </td>
-                    </tr>
-                  </th:block>
-                </tbody>
-              </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-          </div>
-          <div class="tab-pane fade" id="content5">
-            <!-- Tab 5 content -->
-            <div>
-              <table class="table table-hover align-middle mb-0 bg-white">
-                <thead class="bg-light">
-                  <tr>
-                    <th class="fw-bold text-center">Mã đơn hàng</th>
-                    <th class="fw-bold text-center">Người đặt hàng</th>
-                    <th class="fw-bold text-center">Trạng thái</th>
-                    <th class="fw-bold text-center">Ngày đặt hàng</th>
-                    <th class="fw-bold text-center">Tổng tiền</th>
-                    <th class="fw-bold text-center">Thanh toán</th>
-                    <th class="fw-bold text-center">Phương thức</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody th:each="order : ${orders}">
-                  <th:block th:switch="*{order.status}">
-                    <tr th:case="'Cancel'">
-                      <td>
-                        <div class="ms-3">
-                          <p class="fw-bold mb-1 text-center">
+            <div class="tab-pane fade" id="content5">
+                <!-- Tab 5 content -->
+                <div>
+                    <table class="table table-hover align-middle mb-0 bg-white">
+                        <thead class="bg-light">
+                        <tr>
+                            <th class="fw-bold text-center">Sản phẩm</th>
+                            <th class="fw-bold text-center">Tên sản phẩm</th>
+                            <th class="fw-bold text-center">Mã đơn hàng</th>
+                            <th class="fw-bold text-center">Người đặt hàng</th>
+                            <th class="fw-bold text-center">Trạng thái</th>
+                            <th class="fw-bold text-center">Ngày đặt hàng</th>
+                            <th class="fw-bold text-center">Tổng tiền</th>
+                            <th class="fw-bold text-center">Thanh toán</th>
+                            <th class="fw-bold text-center">Phương thức</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <th:block th:each="order : ${orders}" th:switch="*{order.status}">
+                            <th:block th:each="orderItem : *{order.getOrderItems()}">
+                                <tr th:case="'Cancel'">
+                                    <td>
+                                        <div class="ms-3">
+                                            <div th:each="image, limit : *{orderItem.getProducts().getImages()}"
+                                                 th:if="${limit.index} &lt; 1">
+                                                <img th:src="@{'/uploads/products/'+ *{image.getName()}}"
+                                                     th:alt="*{image.getName()}"
+                                                     th:class="${limit.index % 2 == 0 ? '' :'img-fluid'}"
+                                                     style="aspect-ratio: 1 / 1; width: 96px; height: 96px;">
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="ms-3">
+                                            <p class="fw-bold mb-1 text-center" style="line-height: 1.4rem;">
+                                                <span th:text="${orderItem.products.name}"></span>
+                                            </p>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="ms-3">
+                                            <p class="fw-bold mb-1 text-center">
                             <span
-                              th:text="'HD' + ${#dates.format(order.createdAt, 'ddMMyyHHmm')}"
+                                    th:text="'HD' + ${#dates.format(order.createdAt, 'ddMMyyHHmm')}"
                             ></span>
-                          </p>
-                        </div>
-                      </td>
-                      <td>
+                                            </p>
+                                        </div>
+                                    </td>
+                                    <td>
                         <span
-                          class="d-block fw-normal mb-1 text-success text-center"
-                          th:text="*{order.user.userDetailEmbeddable.fullName}"
+                                class="d-block fw-normal mb-1 text-success text-center"
+                                th:text="*{order.user.userDetailEmbeddable.fullName}"
                         ></span>
-                      </td>
-                      <td>
+                                    </td>
+                                    <td>
                         <span
-                          class="text-center d-block text-danger fw-semibold"
-                          th:text="*{order.status}"
+                                class="text-center d-block text-danger fw-semibold"
+                                th:text="*{order.status}"
                         ></span>
-                      </td>
-                      <td>
+                                    </td>
+                                    <td>
                         <span class="rounded-pill d-inline"
-                          ><span
-                            class="text-center d-block"
-                            th:text="${#dates.format(order.createdAt, 'dd-MM-yyyy')}"
-                          ></span
+                        ><span
+                                class="text-center d-block"
+                                th:text="${#dates.format(order.createdAt, 'dd-MM-yyyy')}"
+                        ></span
                         ></span>
-                      </td>
-                      <td>
+                                    </td>
+                                    <td>
                         <span
-                          class="mb-0 ms-2 text-center d-block"
-                          th:text="${#numbers.formatDecimal(order.total, 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"
+                                class="mb-0 ms-2 text-center d-block"
+                                th:text="${#numbers.formatDecimal(order.total, 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"
                         ></span>
-                      </td>
-                      <td>
+                                    </td>
+                                    <td>
                         <span
-                          class="mb-0 ms-2 text-center d-block"
-                          th:text="*{order.payments.status} ? 'Đã thanh toán' : 'Chưa thanh toán'"
-                          th:classappend="*{order.payments.status} ? 'text-success fw-semibold' : 'text-danger fw-semibold'"
+                                class="mb-0 ms-2 text-center d-block"
+                                th:text="*{order.payments.status} ? 'Đã thanh toán' : 'Chưa thanh toán'"
+                                th:classappend="*{order.payments.status} ? 'text-success fw-semibold' : 'text-danger fw-semibold'"
                         ></span>
-                      </td>
-                      <td>
+                                    </td>
+                                    <td>
                         <span
-                          class="mb-0 ms-2 text-center d-block"
-                          th:text="*{order.payments.mode}"
+                                class="mb-0 ms-2 text-center d-block"
+                                th:text="*{order.payments.mode}"
                         ></span>
-                      </td>
-                      <td th:switch="*{order.status}">
-                        <th:block th:case="'Delivered'">
-                          <button class="btn btn-outline-primary" disabled>
-                            Update trạng thái
-                          </button>
-                        </th:block>
+                                    </td>
+                                    <td th:switch="*{order.status}">
+                                        <th:block th:case="'Delivered'">
+                                            <button class="btn btn-outline-primary" disabled>
+                                                Update trạng thái
+                                            </button>
+                                        </th:block>
 
-                        <th:block th:case="'Cancel'">
-                          <button class="btn btn-outline-primary" disabled>
-                            Update trạng thái
-                          </button>
-                        </th:block>
+                                        <th:block th:case="'Cancel'">
+                                            <button class="btn btn-outline-primary" disabled>
+                                                Update trạng thái
+                                            </button>
+                                        </th:block>
 
-                        <th:block th:case="*">
-                          <a
-                            class="btn btn-outline-primary"
-                            th:href="@{'/admin/order/update/id=' + *{order.id}}"
-                            >Update trạng thái</a
-                          >
+                                        <th:block th:case="*">
+                                            <a
+                                                    class="btn btn-outline-primary"
+                                                    th:href="@{'/admin/order/update/id=' + *{order.id}}"
+                                            >Update trạng thái</a
+                                            >
+                                        </th:block>
+                                    </td>
+                                </tr>
+                            </th:block>
                         </th:block>
-                      </td>
-                    </tr>
-                  </th:block>
-                </tbody>
-              </table>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     </div>
-  </body>
-  <script th:src="@{/admin/js/admin.js}"></script>
+</div>
+</body>
+<script th:src="@{/admin/js/admin.js}"></script>
 </html>
