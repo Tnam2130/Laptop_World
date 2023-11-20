@@ -47,7 +47,7 @@ public class CRUDOrderController {
 //        ra.addFlashAttribute("message", "Update successfully");
 //        orderService.updateOrder(id, status);
 
-        Order orders = orderRepository.getById(id);
+        Order orders = orderService.findOrderById(id);
         String currentStatus = orders.getStatus();
 
         switch (currentStatus) {
