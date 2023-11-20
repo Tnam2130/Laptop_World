@@ -192,6 +192,7 @@
                             <th class="fw-bold text-center">Người đặt hàng</th>
                             <th class="fw-bold text-center">Trạng thái</th>
                             <th class="fw-bold text-center">Ngày đặt hàng</th>
+                            <th class="fw-bold text-center">Ngày xuất kho</th>
                             <th class="fw-bold text-center">Tổng tiền</th>
                             <th class="fw-bold text-center">Thanh toán</th>
                             <th class="fw-bold text-center">Phương thức</th>
@@ -248,6 +249,12 @@
                                 th:text="${#dates.format(order.createdAt, 'dd-MM-yyyy')}"
                         ></span
                         ></span>
+                                    </td>
+                                    <td>
+                        <span class="rounded-pill d-inline">
+                            <span class="text-center d-block"
+                                  th:text="${#dates.format(order.updatedAt, 'dd-MM-yyyy')}"></span>
+                        </span>
                                     </td>
                                     <td>
                         <span
@@ -308,6 +315,7 @@
                             <th class="fw-bold text-center">Người đặt hàng</th>
                             <th class="fw-bold text-center">Trạng thái</th>
                             <th class="fw-bold text-center">Ngày đặt hàng</th>
+                            <th class="fw-bold text-center">Đang giao</th>
                             <th class="fw-bold text-center">Tổng tiền</th>
                             <th class="fw-bold text-center">Thanh toán</th>
                             <th class="fw-bold text-center">Phương thức</th>
@@ -364,6 +372,12 @@
                                 th:text="${#dates.format(order.createdAt, 'dd-MM-yyyy')}"
                         ></span
                         ></span>
+                                    </td>
+                                    <td>
+                        <span class="rounded-pill d-inline">
+                            <span class="text-center d-block"
+                                  th:text="${#dates.format(order.updatedAt, 'dd-MM-yyyy HH:mm')}"></span>
+                        </span>
                                     </td>
                                     <td>
                         <span
@@ -424,6 +438,7 @@
                             <th class="fw-bold text-center">Người đặt hàng</th>
                             <th class="fw-bold text-center">Trạng thái</th>
                             <th class="fw-bold text-center">Ngày đặt hàng</th>
+                            <th class="fw-bold text-center">Ngày nhận</th>
                             <th class="fw-bold text-center">Tổng tiền</th>
                             <th class="fw-bold text-center">Thanh toán</th>
                             <th class="fw-bold text-center">Phương thức</th>
@@ -480,6 +495,12 @@
                                 th:text="${#dates.format(order.createdAt, 'dd-MM-yyyy')}"
                         ></span
                         ></span>
+                                    </td>
+                                    <td>
+                        <span class="rounded-pill d-inline">
+                            <span class="text-center d-block"
+                                  th:text="${#dates.format(order.updatedAt, 'dd-MM-yyyy')}"></span>
+                        </span>
                                     </td>
                                     <td>
                         <span
@@ -540,6 +561,7 @@
                             <th class="fw-bold text-center">Người đặt hàng</th>
                             <th class="fw-bold text-center">Trạng thái</th>
                             <th class="fw-bold text-center">Ngày đặt hàng</th>
+                            <th class="fw-bold text-center">Hủy</th>
                             <th class="fw-bold text-center">Tổng tiền</th>
                             <th class="fw-bold text-center">Thanh toán</th>
                             <th class="fw-bold text-center">Phương thức</th>
@@ -590,12 +612,16 @@
                         ></span>
                                     </td>
                                     <td>
-                        <span class="rounded-pill d-inline"
-                        ><span
-                                class="text-center d-block"
-                                th:text="${#dates.format(order.createdAt, 'dd-MM-yyyy')}"
-                        ></span
-                        ></span>
+                        <span class="rounded-pill d-inline">
+                            <span class="text-center d-block"
+                                  th:text="${#dates.format(order.createdAt, 'dd-MM-yyyy')}"></span>
+                        </span>
+                                    </td>
+                                    <td>
+                        <span class="rounded-pill d-inline">
+                            <span class="text-center d-block"
+                                  th:text="${#dates.format(order.updatedAt, 'dd-MM-yyyy HH:mm')}"></span>
+                        </span>
                                     </td>
                                     <td>
                         <span

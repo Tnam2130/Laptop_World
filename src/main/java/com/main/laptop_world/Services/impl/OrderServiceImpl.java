@@ -64,6 +64,17 @@ public class OrderServiceImpl implements OrderService {
         Order order = orderRepository.findById(id).orElse(null);
         if (order != null) {
             order.setStatus(newStatus);
+            order.setUpdatedAt(new Date());
+            if (order.getStatus().equalsIgnoreCase("Delivered")){
+                Payments payments= paymentService.getPaymentByOrderId(id);
+                payments.setStatus(true);
+                payments.setUpdatedAt(order.getUpdatedAt());
+                paymentService.savePayment(payments);
+                if(!payments.isStatus()){
+                    order.setStatus("Cancel");
+                    order.setUpdatedAt(new Date());
+                }
+            }
             orderRepository.save(order);
         }
     }

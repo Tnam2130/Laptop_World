@@ -22,7 +22,7 @@ public class CRUDOrderController {
     @GetMapping("/admin/order")
     public String getOrderForm(Model model) {
         List<Order> orderList = orderService.findAll();
-        orderList.sort(Comparator.comparing(Order::getCreatedAt).reversed());
+        orderList.sort(Comparator.comparing(Order::getUpdatedAt).reversed());
         model.addAttribute("orders", orderList);
         return "admin/QuanLyDonHang";
     }
@@ -44,8 +44,6 @@ public class CRUDOrderController {
 
     @PostMapping("/admin/order/update")
     public String updateCategory(@RequestParam Long id, @RequestParam String status, RedirectAttributes ra, @ModelAttribute Order order) {
-//        ra.addFlashAttribute("message", "Update successfully");
-//        orderService.updateOrder(id, status);
 
         Order orders = orderService.findOrderById(id);
         String currentStatus = orders.getStatus();
