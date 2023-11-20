@@ -8,9 +8,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+@Service
 
 public class ProductColorServiceImpl implements ProductColorService {
     ProductColorRepository repository;
+
+    public ProductColorServiceImpl(ProductColorRepository repository) {
+        this.repository = repository;
+    }
 
     @Override
     public List<ProductColor> findAllColor() {

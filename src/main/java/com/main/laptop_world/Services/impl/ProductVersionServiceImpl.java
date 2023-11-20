@@ -3,12 +3,18 @@ package com.main.laptop_world.Services.impl;
 import com.main.laptop_world.Entity.ProductVersion;
 import com.main.laptop_world.Repository.ProductVersionRepository;
 import com.main.laptop_world.Services.ProductVersionService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+@Service
 
 public class ProductVersionServiceImpl implements ProductVersionService {
     ProductVersionRepository repository;
+    public ProductVersionServiceImpl(ProductVersionRepository repository) {
+        this.repository = repository;
+    }
+
     @Override
     public ProductVersion getProductByVersionId(Long id) {
         Optional<ProductVersion> optional=repository.findById(id);
@@ -24,6 +30,11 @@ public class ProductVersionServiceImpl implements ProductVersionService {
     @Override
     public Optional<ProductVersion> findVersionByName(String name) {
         return repository.findByName(name);
+    }
+
+    @Override
+    public List<ProductVersion> getVersionByProductId(Long productId) {
+        return repository.findAllByProductsId(productId);
     }
 
     @Override

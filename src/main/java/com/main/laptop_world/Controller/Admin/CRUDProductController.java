@@ -27,7 +27,6 @@ public class CRUDProductController {
     CategoryService categoryService;
     BrandService brandService;
     ProductImgService imgService;
-    ProductRepository productRepository;
     ProductVersionService versionService;
     ProductColorService colorService;
 
@@ -36,10 +35,8 @@ public class CRUDProductController {
             BrandService brandService,
             CategoryService categoryService,
             ProductImgService imgService,
-            ProductRepository productRepository,
             ProductVersionService versionService,
             ProductColorService colorService) {
-        this.productRepository = productRepository;
         this.brandService = brandService;
         this.productService = productService;
         this.categoryService = categoryService;
@@ -185,12 +182,12 @@ public class CRUDProductController {
     }
 
     @RequestMapping("/admin/productsColor")
-    public String getProductColor(Model model) {
+    public String getProductColor(Model model, @RequestParam(value = "productId", required = false) Long productId) {
         List<ProductColor> color = colorService.findAllColor();
-        List<ProductVersion> version = versionService.findAllProduct();
+        List<ProductVersion> versionList = versionService.getVersionByProductId(productId);
         List<Products> productList = productService.findAllProduct();
         model.addAttribute("color", color);
-        model.addAttribute("versions", version);
+        model.addAttribute("versions", versionList);
         model.addAttribute("productList", productList);
         model.addAttribute("colors", new ProductColor());
 
