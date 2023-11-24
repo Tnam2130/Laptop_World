@@ -148,7 +148,7 @@ public class WebSecurityConfig {
         http.logout(c -> c.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .deleteCookies("JSESSIONID")
                 .permitAll()
-                .logoutSuccessUrl("/"));
+                .logoutSuccessUrl("/login"));
         return http.build();
     }
 }
