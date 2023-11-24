@@ -62,13 +62,13 @@ public class WebSecurityConfig {
             "/register/**",
             "/collections/**",
             "/search/**",
-            "/send-code",
-            "/do-sendCode",
-            "/check-code",
-            "/do-checkCode",
-            "/resetPassword",
-            "/pay",
-            "/do-resetPassword",
+            "/send-code/**",
+            "/do-sendCode/**",
+            "/check-code/**",
+            "/do-checkCode/**",
+            "/resetPassword/**",
+            "/pay/**",
+            "/do-resetPassword/**",
             "/c/**"
     };
     private static final String[] USER_RESOURCES = {

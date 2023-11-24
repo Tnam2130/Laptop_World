@@ -17,6 +17,7 @@ spring:
           auth: true
           starttls:
             enable: true
+            required: true
         protocol: smtp
 ---
 spring:

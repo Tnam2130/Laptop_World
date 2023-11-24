@@ -20,15 +20,55 @@
                         </div>
                     </div>
                     <div class="form-floating mb-3">
-                        <input name="code" class="form-control" id="code" type="text" placeholder="Vui lòng nhập code" required>
+                        <input name="code" class="form-control" id="code" type="text" placeholder="Vui lòng nhập code">
                         <label for="code" class="form-label fs-6">Code</label>
                     </div>
-
-                    <button type="submit" class="w-100 btn bg-black my-2 fs-6"><span class="text-white">Gửi</span></button>
+                        <div id="time">Mã sẽ hết hạn sau <span class="text-danger text-opacity-75" id="countdown"></span></div>
+                        <a th:href="@{/send-code(email=${email})}" id="expiredLink" style="display: none">Gửi lại mã</a>
+                    <button type="submit" class="w-100 btn bg-black my-2 fs-6" id="sendButton" disabled><span class="text-white">Gửi</span></button>
                 </form>
             </div>
         </div>
     </div>
 </div>
 </body>
+<script th:inline="javascript">
+    function formatTime(time) {
+        return time < 10 ? "0" + time : time;
+    }
+    // Lấy thời gian hiện tại và tính thời gian hết hạn (3 phút)
+    let now = new Date().getTime();
+    let expirationTime = now + (3 * 60 * 1000); // 3 phút tính bằng mili giây
+
+    // Đếm ngược
+    let x = setInterval(function() {
+        let currentTime = new Date().getTime();
+        let distance = expirationTime - currentTime;
+
+        let minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        let seconds = Math.floor((distance % (1000 * 60)) / 1000);
+        // Hiển thị thời gian đếm ngược
+        document.getElementById("countdown").innerHTML = formatTime(minutes) + ":" + formatTime(seconds);
+
+
+        // Kiểm tra xem đã hết thời gian chưa
+        if (distance <= 0) {
+            clearInterval(x);
+            // Mở thẻ <a> khi hết thời gian
+            document.getElementById("expiredLink").style.display = "block";
+            // Ẩn thẻ countdown khi hết thời gian
+            document.getElementById("time").style.display = "none";
+        }
+    }, 1000);
+    let inputId = document.getElementById("code");
+    if (inputId) {
+        inputId.addEventListener('input', function () {
+            // Kiểm tra điều kiện (ở đây chỉ kiểm tra một trường nhập liệu)
+            var isFormValid = inputId.value.trim() !== '';
+
+            // Mở hoặc đóng nút button dựa trên điều kiện
+            document.getElementById('sendButton').disabled = !isFormValid;
+        });
+    }
+</script>
 </html>

@@ -1,5 +1,6 @@
 package com.main.laptop_world.security;
 
+import com.main.laptop_world.Constant.GlobalFlag;
 import com.main.laptop_world.Entity.Role;
 import com.main.laptop_world.Entity.User;
 import com.main.laptop_world.Repository.UserRepository;
@@ -23,29 +24,32 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        System.out.println("abc");
+        System.out.println("loadUserByUsername function");
         User user = userRepository.findByUsername(username);
 
-        if (user != null) {
-            System.out.println(123);
+        if (user != null && user.isActive()) {
+            GlobalFlag.flag = true;
             return buildUserDetails(user);
         } else {
-            throw new UsernameNotFoundException("Invalid username or password.");
+            GlobalFlag.flag = false;
+            throw new UsernameNotFoundException("Invalid username, password or status is false.");
         }
 
     }
+
     private UserDetails buildUserDetails(User user) {
         UserDetails userDetails = org.springframework.security.core.userdetails.User.builder()
                 .username(user.getUsername())
                 .password(user.getPassword())
                 .authorities(mapRolesToAuthorities(user.getRoles()))
                 .build();
-        System.out.println("tes; "+userDetails);
+        System.out.println("tes; " + userDetails);
         return userDetails;
     }
+
     private Collection<? extends GrantedAuthority> mapRolesToAuthorities(List<Role> roles) {
         Collection<? extends GrantedAuthority> mapRoles = roles.stream()
-                .map(role -> new SimpleGrantedAuthority("ROLE_"+role.getName()))
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName()))
                 .collect(Collectors.toList());
         System.out.println(mapRoles);
         return mapRoles;

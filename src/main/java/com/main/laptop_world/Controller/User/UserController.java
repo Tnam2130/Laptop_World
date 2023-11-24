@@ -1,5 +1,7 @@
 package com.main.laptop_world.Controller.User;
 
+import com.main.laptop_world.Constant.GlobalFlag;
+import com.main.laptop_world.Constant.OTPUser;
 import com.main.laptop_world.Entity.DTO.UserDTO;
 import com.main.laptop_world.Entity.User;
 import com.main.laptop_world.Services.EmailService;
@@ -15,6 +17,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class UserController {
@@ -22,6 +26,7 @@ public class UserController {
     private UserService userService;
     private EmailService emailService;
     private GeneralService generalService;
+    private final Map<String, Long> lastSentTimeMap = new HashMap<>();
 
     public UserController(UserService userService, EmailService emailService, GeneralService generalService) {
         this.userService = userService;
@@ -31,6 +36,12 @@ public class UserController {
 
     @GetMapping("/login")
     public String getLoginForm(Model model) {
+        System.out.println(GlobalFlag.flag);
+        if (GlobalFlag.flag) {
+            model.addAttribute("status", true);
+        } else {
+            model.addAttribute("status", false);
+        }
         model.addAttribute("title", "Đăng nhập");
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         System.out.println("User roles after login: " + authentication.getAuthorities());
@@ -121,16 +132,22 @@ public class UserController {
     }
 
     @GetMapping("/send-code")
-    public String sendCode() {
+    public String sendCode(Model model) {
+        model.addAttribute("isDisabled", true);
         return "/users/SendCode";
     }
 
     @PostMapping("/do-sendCode")
-    public String doSendCode(@ModelAttribute("email") String email) {
+    public String doSendCode(@ModelAttribute("email") String email, Model model) {
         User existEmail = userService.findByEmail(email);
-
         if (existEmail != null && email.equals(existEmail.getEmail())) {
-            emailService.sendCode(email);
+            if (canSendCode(email)) {
+                emailService.sendCode(email);
+                updateLastSentTime(email);
+            } else {
+                model.addAttribute("isDisabled", true);
+                return "redirect:/send-code?error";
+            }
             return "redirect:/check-code?email=" + email;
         } else {
             return "redirect:/send-code?error";
@@ -170,5 +187,18 @@ public class UserController {
             System.out.println("no ok");
             return "redirect:/resetPassword?email=" + email + "?error";
         }
+    }
+
+    private boolean canSendCode(String email) {
+        long currentTime = System.currentTimeMillis();
+        long lastSentTime = lastSentTimeMap.getOrDefault(email, 0L);
+        long elapsedTime = currentTime - lastSentTime;
+        return elapsedTime >= 3 * 60 * 1000; // 3 phút tính bằng milliseconds
+//        return elapsedTime >= 60 * 1000;
+    }
+
+    private void updateLastSentTime(String email) {
+        long currentTime = System.currentTimeMillis();
+        lastSentTimeMap.put(email, currentTime);
     }
 }

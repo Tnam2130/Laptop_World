@@ -9,24 +9,34 @@
             <div class="col-sm-12 col-md-6 d-none d-md-block"></div>
             <div class="col-sm-12 col-md-6 d-flex align-items-center justify-content-center">
                 <!--                form-->
-                                <div th:if="${param.logout}">You have been logged out.</div>
+                <div th:if="${param.logout}">You have been logged out.</div>
                 <form th:action="@{/login}" role="form" class="bg-white rounded-2 form-wrapper" method="post">
                     <a th:href="@{/}" class="px-5 d-flex align-items-center justify-content-center">
                         <img th:src="@{/images/logo.png}"
                              class="form-logo" alt="">
                     </a>
-                    <div th:if="${param.error}">
-                        <div class="alert alert-danger mb-3">
-                            Tên đăng nhập hoặc mật khẩu không hợp lệ.
-                        </div>
+                    <div th:if="${status}">
+                        <th:block th:if="${param.error}">
+                            <div class="alert alert-danger mb-3">
+                                Tên đăng nhập hoặc mật khẩu không hợp lệ!
+                            </div>
+                        </th:block>
+                    </div>
+                    <div th:unless="${status}">
+                        <th:block th:if="${param.error}">
+                            <div class="alert alert-danger mb-3">
+                                Tài khoản của bạn đã bị khóa!
+                            </div>
+                        </th:block>
                     </div>
                     <div th:if="${param.errorOAuth2}">
                         <div class="alert alert-danger mb-3">
-                            Tài khoản đã được đăng ký.
+                            Tài khoản đã được đăng ký!
                         </div>
                     </div>
                     <div class="form-floating mb-3">
-                        <input name="username" class="form-control" id="username" type="text" placeholder="Ussername" required>
+                        <input name="username" class="form-control" id="username" type="text" placeholder="Ussername"
+                               required>
                         <label for="username" class="form-label fs-6">Tên tài khoản</label>
                     </div>
                     <div class="form-floating mb-3">
@@ -43,7 +53,8 @@
                         </div>
                         <div class="col-md-4">
                             <div class="mb-3 form-check d-flex align-items-center p-0">
-                                <a th:href="@{/send-code}" class="form-check-label fs-6 ms-2" for="signInCheckBox">Quên mật khẩu</a>
+                                <a th:href="@{/send-code}" class="form-check-label fs-6 ms-2" for="signInCheckBox">Quên
+                                    mật khẩu</a>
                             </div>
                         </div>
                     </div>
@@ -54,12 +65,12 @@
                         <span class="position-absolute options-signin">Hoặc</span>
                     </div>
                     <a th:href="@{/oauth2/authorization/facebook}"
-                            class="bg-fb d-flex justify-content-center align-items-center py-1 rounded-1 mt-2 form-social-btn">
+                       class="bg-fb d-flex justify-content-center align-items-center py-1 rounded-1 mt-2 form-social-btn">
                         <img th:src="@{/images/facebook.png}" class="form-social-icon me-2" alt=""/>
                         <span class="text-white fs-6">Đăng nhập với Facebook</span>
                     </a>
                     <a th:href="@{/oauth2/authorization/google}"
-                            class="d-flex border justify-content-center align-items-center py-1 rounded-1 mt-2 form-social-btn">
+                       class="d-flex border justify-content-center align-items-center py-1 rounded-1 mt-2 form-social-btn">
                         <img th:src="@{/images/google.png}" class="form-social-icon me-2" alt=""/>
                         <span class="text-secondary fs-6">Đăng nhập với Google</span>
                     </a>

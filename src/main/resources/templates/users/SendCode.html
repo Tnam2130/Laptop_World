@@ -15,20 +15,42 @@
                         <img th:src="@{/images/logo.png}"
                              class="form-logo" alt="">
                     </a>
-                    <div th:if="${param.error != null}">
-                        <div class="alert alert-danger mb-3">
-                            <span>Email Không Tồn Tại</span>
+                    <th:block th:if="${!isDisabled}">
+                        <div th:if="${param.error != null}">
+                            <div class="alert alert-danger mb-3">
+                                <span>Email không Tồn Tại</span>
+                            </div>
                         </div>
-                    </div>
+                    </th:block>
+                    <th:block th:unless="${!isDisabled}">
+                        <div th:if="${param.error != null}">
+                            <div class="alert alert-danger mb-3">
+                                <span>Không thể gửi</span>
+                            </div>
+                        </div>
+                    </th:block>
                     <div class="form-floating mb-3">
                         <input name="email" class="form-control" id="email" type="email" placeholder="Email" required>
                         <label for="email" class="form-label fs-6">Email</label>
                     </div>
-                    <button type="submit" class="w-100 btn bg-black my-2 fs-6"><span class="text-white">Gửi</span></button>
+                    <button type="submit" class="w-100 btn bg-black my-2 fs-6" id="sendButton" th:disabled="${isDisabled}"><span class="text-white">Gửi</span>
+                    </button>
                 </form>
             </div>
         </div>
     </div>
 </div>
 </body>
+<script th:inline="javascript">
+    let inputId = document.getElementById("email");
+    if (inputId) {
+        inputId.addEventListener('input', function () {
+            // Kiểm tra điều kiện (ở đây chỉ kiểm tra một trường nhập liệu)
+            var isFormValid = inputId.value.trim() !== '';
+
+            // Mở hoặc đóng nút button dựa trên điều kiện
+            document.getElementById('sendButton').disabled = !isFormValid;
+        });
+    }
+</script>
 </html>

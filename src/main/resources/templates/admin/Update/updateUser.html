@@ -23,8 +23,8 @@
                     </div>
                     <div style="margin-bottom: 20px" class="col-12">
                         <select class="form-control my-1" name="status" th:field="*{active}">
-                            <option th:value="1" class="text-success">Hoạt động</option>
-                            <option th:value="0" class="text-danger">Hủy</option>
+                            <option th:value="1" class="text-success" th:selected="*{active == 1}">Hoạt động</option>
+                            <option th:value="0" class="text-danger" th:selected="*{active == 0}">Hủy</option>
                         </select>
                     </div>
                     <div style="margin-bottom: 20px" class="col-12">

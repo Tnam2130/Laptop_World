@@ -57,6 +57,7 @@ public class AccountController {
         if(existingUser !=null){
             List<Role> roles=roleService.getRoleByIds(roleIds);
             existingUser.setRoles(roles);
+            existingUser.setActive(user.isActive());
         }
         userService.updateUser(existingUser);
         ra.addFlashAttribute("message", "Update successfully");
