@@ -36,7 +36,6 @@
 
                     <div class="col-md-6" style="margin-bottom: 20px">
                         <select class="form-select" id="version" th:field="*{version}">
-                            <option value="">Version</option>
                             <option
                                     th:each="version : ${versions}"
                                     th:value="${version.getId()}"
@@ -49,7 +48,6 @@
                                 class="form-select"
                                 id="productList"
                                 th:field="*{products}">
-                            <option value="">Products</option>
                             <option th:each="product : ${productList}" th:value="${product.getId()}"
                                     th:text="${product.getName()}"></option>
                         </select>
@@ -75,15 +73,15 @@
             </thead>
             <tbody th:each="colors : ${color}">
             <tr class="info">
-                <td class="text-center" th:text="${colors.id}"></td>
-                <td class="text-center" th:text="${colors.color}"></td>
+                <td class="text-center" th:text="*{colors.id}"></td>
+                <td class="text-center" th:text="*{colors.color}"></td>
                 <td
                         class="text-center"
-                        th:text="${colors.getVersion().getName()}"
+                        th:text="*{colors.getVersion().getName()}"
                 ></td>
                 <td
-                        class="text-center"
-                        th:text="${colors.getProducts().getName()}"
+                        class="text-center" th:if="*{colors.products != null}"
+                        th:text="*{colors.getProducts().getName()}"
                 ></td>
 
                 <td>

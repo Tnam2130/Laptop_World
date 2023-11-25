@@ -30,7 +30,13 @@ public class DescriptionServiceImpl implements DescriptionService {
 
     @Override
     public void updateDesc(Description description) {
-
+        Description existingDesc=getById(description.getId());
+        if(existingDesc != null){
+            existingDesc.setProducts(description.getProducts());
+            existingDesc.setTitle(description.getTitle());
+            existingDesc.setContent(description.getContent());
+            repository.save(existingDesc);
+        }
     }
 
     @Override

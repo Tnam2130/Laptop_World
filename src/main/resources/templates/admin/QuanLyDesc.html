@@ -50,14 +50,11 @@
                     <div class="col-md-12" style="margin-bottom: 20px">
                         <select
                                 class="form-control"
-                                id="productlist"
-                                th:field="*{products}"
-                        >
-                            <option value="">Products</option>
+                                id="products">
                             <option
-                                    th:each="productlist : ${productList}"
-                                    th:value="${productlist.getId()}"
-                                    th:text="${productlist.getName()}"
+                                    th:each="product : ${productList}"
+                                    th:value="${product.id}"
+                                    th:text="${product.name != null ? product.name : 'N/A'}"
                             ></option>
                         </select>
                     </div>
@@ -79,21 +76,16 @@
             </tr>
             </thead>
             <tbody th:each="desc, index : ${descriptions}">
-            <tr class="info">
+            <tr class="info" style="line-height: 1.4rem;">
                 <td class="text-center" th:text="*{index.index+1}"></td>
-                <td class="text-center" th:text="${desc.title}"></td>
-                <td class="text-center" th:text="${desc.content}"></td>
-                <td class="text-center" th:text="${desc.getProducts().getName()}"></td>
-
+                <td class="text-center" th:text="*{desc.title}"></td>
+                <td class="text-center" th:text="*{desc.content}"></td>
+                <td class="text-center" th:if="*{desc.products != null}" th:text="*{desc.products.name}"></td>
                 <td>
                     <a class="btn btn-outline-success"
-                       th:href="@{'/admin/desc/update/id=' + *{desc.id}}"
-                    >Update</a
-                    >
+                       th:href="@{'/admin/desc/update/id=' + *{desc.id}}">Update</a>
                     <a class="btn btn-outline-danger"
-                       th:href="@{'/admin/desc/delete/' + ${desc.getId()}}"
-                    >Delete</a
-                    >
+                       th:href="@{'/admin/desc/delete/' + *{desc.id}}">Delete</a>
                 </td>
             </tr>
             </tbody>

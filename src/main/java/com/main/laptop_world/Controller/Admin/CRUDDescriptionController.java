@@ -40,50 +40,38 @@ public class CRUDDescriptionController {
     }
 
     @PostMapping("/admin/desc/add")
-    public String addDesc(@ModelAttribute("description") Description description,
-                             String title, Model model, BindingResult result, RedirectAttributes ra) {
-//        if (description.getTitle() == null || description.getTitle().isEmpty()) {
-//            List<Description> descriptions = descriptionRepository.findAll();
-//            model.addAttribute("descriptions", descriptions);
-//            result.rejectValue("title", "error.descriptions",
-//                    "Không được để trống title name!");
-//            return "admin/QuanLyDesc";
-//        }
-//        if (descriptionRepository.findByName(title).isPresent()) {
-//            List<Description> descriptions = descriptionRepository.findAll();
-//            model.addAttribute("descriptions", descriptions);
-//            result.rejectValue("title", "error.descriptions",
-//                    "title name không được trùng!");
-//            return "admin/QuanLyDesc";
-//        }
+    public String addDesc(@ModelAttribute("description") Description description, RedirectAttributes ra) {
         ra.addFlashAttribute("message", "Save successfully");
         descriptionRepository.save(description);
         return "redirect:/admin/desc";
     }
 
-    @GetMapping(value = "/admin/desc/delete/{id}")
-    public String deleteDesc(@PathVariable Long id, RedirectAttributes ra) {
-        ra.addFlashAttribute("message", "Delete successfully");
-        descriptionRepository.deleteById(id);
-        return "redirect:/admin/desc";
-    }
-
     @GetMapping("/admin/desc/update/id={id}")
     public String getUpdateSpec(@PathVariable("id") Long id, Model model, RedirectAttributes ra, @ModelAttribute Specifications specs) {
-        Description descriptions = descriptionRepository.getById(id);
+        Description descriptions = descriptionService.getById(id);
         model.addAttribute("descriptions", descriptions);
         List<Products> productList = productService.findAllProduct();
+        if (productList.isEmpty()){
+            System.out.println("null");
+        }
         model.addAttribute("productList", productList);
         return "admin/Update/updateDesc";
     }
 
     @PostMapping("/admin/desc/update")
-    public String updateSpec(Description description, RedirectAttributes ra,
+    public String updateSpec(Description descriptions, RedirectAttributes ra,
                              @RequestParam("product") Long productId) {
         Products products = productService.getProductById(productId);
+        System.out.println("Hi");
+        descriptions.setProducts(products);
+        descriptionService.updateDesc(descriptions);
         ra.addFlashAttribute("message", "Update successfully");
-        description.setProducts(products);
-        descriptionRepository.save(description);
+        return "redirect:/admin/desc";
+    }
+    @GetMapping(value = "/admin/desc/delete/{id}")
+    public String deleteDesc(@PathVariable Long id, RedirectAttributes ra) {
+        ra.addFlashAttribute("message", "Delete successfully");
+        descriptionRepository.deleteById(id);
         return "redirect:/admin/desc";
     }
 }

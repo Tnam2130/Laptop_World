@@ -18,29 +18,32 @@
                     <div style="margin-bottom: 20px" class="col-md-6">
                         <input class="form-control" type="text" disabled id="id" name="id" th:field="*{id}">
                     </div>
-                    <div style="margin-bottom: 20px" class="col-md-6">
+                    <div style="margin-bottom: 20px" class="col-md-12">
                         <input class="form-control" type="text" id="cpu_name" name="cpu_name"
                                th:field="*{title}">
                     </div>
-                    <div style="margin-bottom: 20px" class="col-md-6">
-                        <input class="form-control" type="text" id="ram_name" name="ram_name"
-                               th:field="*{content}">
+                    <div class="col-md-12" style="margin-bottom: 20px">
+                        <div class="mb-3">
+                            <label for="content" class="form-label fs-6">Nội dung</label>
+                            <textarea class="form-control" id="content" th:field="*{content}" required rows="3"></textarea>
+                        </div>
                     </div>
 
-                    <div style="margin-bottom: 20px" class="col-md-6">
+                    <div style="margin-bottom: 20px" class="col-md-12">
                         <select class="form-control" name="product" id="product">
-                            <option value="">Products</option>
-                            <option th:each="product : ${productList}" th:value="${product.getId()}"
-                                    th:text="${product.getName()}"></option>
+                            <option value="">Product</option>
+                            <option th:each="product : ${productList}" th:value="${product.id}"
+                                    th:selected="${product.name == descriptions.products.name}"
+                                    th:text="${product.name != null ? product.name : 'N/A'}"></option>
                         </select>
                     </div>
 
                 </div>
                 <div class=" text-center">
-                    <button type="submit">
+                    <button class="btn btn-outline-success" type="submit">
                         Update
                     </button>
-                    <button onclick="cancelForm()" type="button">
+                    <button class="btn btn-outline-danger" onclick="cancelForm()" type="button">
                         Cancel
                     </button>
                 </div>
