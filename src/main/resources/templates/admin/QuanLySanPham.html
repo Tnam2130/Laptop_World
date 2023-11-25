@@ -147,7 +147,6 @@
                 <td th:class="*{product.status} ? 'text-success fw-bold' : 'text-danger'"
                     th:text="*{product.status} ? 'Hoạt động' : 'Hủy'" style="line-height: 1.5rem;"></td>
                 <td><a class="btn btn-outline-primary my-3" th:href="@{'/admin/products/update/id=' + *{product.id}}">Update</a>
-                    <a class="btn btn-outline-danger " th:href="@{'/admin/products/delete/' + *{product.id}}">Delete</a>
                 </td>
             </tr>
             </tbody>

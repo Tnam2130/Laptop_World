@@ -60,18 +60,22 @@
 </div>
 <div class="container mt-3 mb-4">
     <div class="row row-cols-3 g-3" id="productList">
-        <div class="col position-relative" th:if="${productPage.content}" th:each="product : ${productPage.content}" style="line-height: 1.5rem;">
-             <span th:if="*{product.status == false}" class="position-absolute translate-middle badge rounded-pill bg-danger"
+        <div class="col position-relative" th:if="${productPage.content}" th:each="product : ${productPage.content}"
+             style="line-height: 1.5rem;">
+             <span th:if="*{product.status == false}"
+                   class="position-absolute translate-middle badge rounded-pill bg-danger"
                    style="top: 5%; left: 12%; z-index: 1;">Hết hàng</span>
-            <th:block th:if="*{product.status == true}" >
+            <th:block th:if="*{product.status == true}">
                 <a th:href="@{'/collections/product=' + ${product.getId()} + '&category=' + ${product.category.getId()}}"
-                   class="card border border-light product-box" style="cursor: pointer">
-                    <div class="sale-label position-relative d-flex justify-content-center align-items-center text-danger fw-semibold">
+                   class="card border border-light product-box h-100" style="cursor: pointer">
+                    <div th:if="*{product.discount > 0}"
+                         class="sale-label position-relative d-flex justify-content-center align-items-center text-danger fw-semibold">
                         <span th:text="${#numbers.formatDecimal(product.discount, 0, 'COMMA', 0, 'DEFAULT')} + '%'"></span>
                     </div>
                     <!-- Hiển thị hình ảnh sản phẩm -->
                     <div th:each="image, limit : ${product.getImages()}" th:if="${limit.index} &lt; 1">
-                        <img th:src="@{'/uploads/products/' + ${image.getName()}}" th:alt="${image.getName()}" style="width: 100%; aspect-ratio: 1 / 1;">
+                        <img th:src="@{'/uploads/products/' + ${image.getName()}}" th:alt="${image.getName()}"
+                             style="width: 100%; aspect-ratio: 1 / 1;">
                     </div>
                     <div class="card-body">
                         <h6 class="card-title fw-bolder text-center fs-4" th:text="${product.getName()}"></h6>
@@ -89,29 +93,37 @@
                                     </div>
                                     <th:block th:each="infor : *{product.specifications}">
                                         <div class="col-7 text-star">
-                                            <small class="text-secondary fw-semibold" th:text="*{infor.cpu_name}"></small><br>
-                                            <small class="text-secondary fw-semibold" th:text="*{infor.ram_name}"></small><br>
-                                            <small class="text-secondary fw-semibold" th:text="*{infor.hard_drive}"></small><br>
-                                            <small class="text-secondary fw-semibold" th:text="*{infor.card}"></small><br>
-                                            <small class="text-secondary fw-semibold" th:text="*{infor.screen}"></small>
+                                            <small class="text-secondary fw-semibold"
+                                                   th:text="*{infor.cpu_name}"></small><br>
+                                            <small class="text-secondary fw-semibold"
+                                                   th:text="*{infor.ram_name}"></small><br>
+                                            <small class="text-secondary fw-semibold"
+                                                   th:text="*{infor.hard_drive}"></small><br>
+                                            <small class="text-secondary fw-semibold"
+                                                   th:text="*{infor.card}"></small><br>
+                                            <small class="text-secondary fw-semibold me-5" style="line-height: 1.4rem;" th:text="*{infor.screen}"></small>
 
                                         </div>
                                     </th:block>
                                 </div>
-                                <div class="ps-5 text-center pt-4">
-                                    <p class="card-text d-inline ">
-                                        <small class="text-body-secondary  text-decoration-line-through"
-                                               th:text="${#numbers.formatDecimal(product.getOldPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></small>
+                                <th:block th:if="*{product.getOldPrice() != product.getPrice()}">
+                                    <div class="text-center pt-4">
+                                        <p class="card-text d-inline ">
+                                            <small class="text-secondary text-decoration-line-through"
+                                                   th:text="${#numbers.formatDecimal(product.getOldPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></small>
+                                        </p>
+                                    </div>
+                                    <p class=" text-center pt-2">
+                                        <small class=" fs-5 text-danger fw-bolder"
+                                               th:text="${#numbers.formatDecimal(product.getPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></small>
                                     </p>
-                                    <p class="d-inline">
-                                        <small class="ms-2 bg-danger text-white p-1 rounded-pill"
-                                               th:text="${#numbers.formatDecimal(product.getDiscount(), 0, 'COMMA', 0, 'DEFAULT')}+' %'"></small>
+                                </th:block>
+                                <th:block th:unless="*{product.getOldPrice() != product.getPrice()}">
+                                    <p class=" text-center pt-2" style="margin-top: 5.57rem;">
+                                        <small class=" fs-5 text-danger fw-bolder"
+                                               th:text="${#numbers.formatDecimal(product.getPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></small>
                                     </p>
-                                </div>
-                                <p class=" text-center pt-2">
-                                    <small class=" fs-5 text-danger fw-bolder"
-                                           th:text="${#numbers.formatDecimal(product.getPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></small>
-                                </p>
+                                </th:block>
                             </div>
                         </th:block>
                         <th:block th:unless="*{product.specifications != null}">
@@ -179,7 +191,8 @@
                                 </div>
 
                                 <div class="col-7 text-star">
-                                    <small class="text-secondary text-opacity-75"><span th:text="${product.getBrand().getTitle()}"></span></small><br>
+                                    <small class="text-secondary text-opacity-75"><span
+                                            th:text="${product.getBrand().getTitle()}"></span></small><br>
                                     <small class="text-secondary text-opacity-75">16GB DDR4</small><br>
                                     <small class="text-secondary text-opacity-75">SSD 512GB</small><br>
                                     <small class="text-secondary text-opacity-75">Nvidia RTX 8050Ti</small><br>
@@ -211,24 +224,24 @@
     <!-- phân trang -->
     <nav aria-label="Page navigation">
         <ul class="pagination justify-content-center my-3">
-            <li class="page-item" th:classappend="${productPage.first} ? 'disabled' : ''">
-                <a class="page-link" th:if="${filterCriteria.categoryId != null and !productPage.first}"
+            <li class="page-item" th:classappend="${productPage.first} ? 'disabled' : ''" th:style="${productPage.first} ? 'cursor: no-drop;' : ''">
+                <a class="page-link btn btn-dark mx-2"
                    th:href="@{/collections(page=${productPage.number - 1},
                                      categoryId=${filterCriteria.categoryId},
-                                     priceSort=${filterCriteria.priceSort})}">Previous</a>
+                                     priceSort=${filterCriteria.priceSort})}"><i class="fa-solid fa-backward"></i></a>
             </li>
             <li class="page-item" th:each="pageNumber : ${#numbers.sequence(0, productPage.totalPages - 1)}"
                 th:classappend="${pageNumber == productPage.number} ? 'active' : ''">
-                <a class="page-link" th:href="@{/collections(page=${pageNumber},
+                <a class=" page-link btn btn-dark mx-2" th:href="@{/collections(page=${pageNumber},
                                        categoryId=${filterCriteria.categoryId},
                                        priceSort=${filterCriteria.priceSort})}"
                    th:text="${pageNumber + 1}"></a>
             </li>
-            <li class="page-item" th:classappend="${productPage.last} ? 'disabled' : ''">
-                <a class="page-link" th:if="${filterCriteria.categoryId != null and !productPage.last}"
+            <li class="page-item" th:classappend="${productPage.last} ? 'disabled' : ''" th:style="${productPage.last} ? 'cursor: no-drop;' : ''">
+                <a class="page-link btn btn-dark mx-2"
                    th:href="@{/collections(page=${productPage.number + 1},
                                      categoryId=${filterCriteria.categoryId},
-                                     priceSort=${filterCriteria.priceSort})}">Next</a>
+                                     priceSort=${filterCriteria.priceSort})}"><i class="fa-solid fa-forward"></i></a>
             </li>
         </ul>
     </nav>

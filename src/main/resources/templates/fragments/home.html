@@ -20,7 +20,8 @@
                             <div class="col" th:if="${iterStat.index+1 <= 6}">
                                 <a th:href="@{'/collections/product='+ *{product.getId()}+'&category='+*{product.category.getId()} }"
                                    class="card border border-light product-box" style="cursor: pointer">
-                                    <div class="sale-label position-relative d-flex justify-content-center align-items-center text-danger fw-semibold">
+                                    <div th:if="*{product.discount > 0}"
+                                         class="sale-label position-relative d-flex justify-content-center align-items-center text-danger fw-semibold">
                                         <span th:text="${#numbers.formatDecimal(product.discount, 0, 'COMMA', 0, 'DEFAULT')} + '%'"></span>
                                     </div>
                                     <div th:each="image, limit : *{product.getImages()}" th:if="${limit.index} &lt; 1">
@@ -38,18 +39,24 @@
                                                     <div class="col-5 text-end">
                                                         <small class="text-secondary text-danger fw-bold">CPU </small><br>
                                                         <small class="text-secondary text-danger fw-bold">RAM</small><br>
-                                                        <small class="text-secondary text-danger fw-bold">Ổ cứng </small><br>
+                                                        <small class="text-secondary text-danger fw-bold">Ổ
+                                                            cứng </small><br>
                                                         <small class="text-secondary text-danger fw-bold">Card </small><br>
                                                         <small class="text-secondary text-danger fw-bold">M.Hình </small>
 
                                                     </div>
                                                     <th:block th:each="infor : *{product.specifications}">
                                                         <div class="col-7 text-star">
-                                                            <small class="text-secondary fw-semibold" th:text="*{infor.cpu_name}"></small><br>
-                                                            <small class="text-secondary fw-semibold" th:text="*{infor.ram_name}"></small><br>
-                                                            <small class="text-secondary fw-semibold" th:text="*{infor.hard_drive}"></small><br>
-                                                            <small class="text-secondary fw-semibold" th:text="*{infor.card}"></small><br>
-                                                            <small class="text-secondary fw-semibold" th:text="*{infor.screen}"></small>
+                                                            <small class="text-secondary fw-semibold"
+                                                                   th:text="*{infor.cpu_name}"></small><br>
+                                                            <small class="text-secondary fw-semibold"
+                                                                   th:text="*{infor.ram_name}"></small><br>
+                                                            <small class="text-secondary fw-semibold"
+                                                                   th:text="*{infor.hard_drive}"></small><br>
+                                                            <small class="text-secondary fw-semibold"
+                                                                   th:text="*{infor.card}"></small><br>
+                                                            <small class="text-secondary fw-semibold"
+                                                                   th:text="*{infor.screen}"></small>
 
                                                         </div>
                                                     </th:block>
@@ -58,10 +65,6 @@
                                                     <p class="card-text d-inline ">
                                                         <small class="text-body-secondary  text-decoration-line-through"
                                                                th:text="${#numbers.formatDecimal(product.getOldPrice(), 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></small>
-                                                    </p>
-                                                    <p class="d-inline">
-                                                        <small class="ms-2 bg-danger text-white p-1 rounded-pill"
-                                                               th:text="${#numbers.formatDecimal(product.getDiscount(), 0, 'COMMA', 0, 'DEFAULT')}+' %'"></small>
                                                     </p>
                                                 </div>
                                                 <p class=" text-center pt-2">
@@ -76,7 +79,8 @@
                                                     <div class="col-5 text-end">
                                                         <small class="text-secondary text-opacity-75 ">CPU </small><br>
                                                         <small class="text-secondary text-opacity-75 ">RAM</small><br>
-                                                        <small class="text-secondary text-opacity-75 ">Ổ cứng </small><br>
+                                                        <small class="text-secondary text-opacity-75 ">Ổ
+                                                            cứng </small><br>
                                                         <small class="text-secondary text-opacity-75 ">Card </small><br>
                                                         <small class="text-secondary text-opacity-75 ">M.Hình </small>
 

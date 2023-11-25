@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,14 +58,25 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public Products updateProduct(Products products) {
+        Products existingProduct= getProductById(products.getId());
         products.setName(products.getName());
+        if(products.getOldPrice().compareTo(BigDecimal.ZERO) <= 0){
+            products.setOldPrice(existingProduct.getOldPrice());
+        }
         products.setPrice(products.getPrice());
         products.setOldPrice(products.getOldPrice());
         products.setShortDesc(products.getShortDesc());
+        if (products.getDiscount() < 0){
+            products.setDiscount(0.0);
+        }
         products.setDiscount(products.getDiscount());
-        products.setStatus(products.getStatus());
         products.setCategory(products.getCategory());
         products.setBrand(products.getBrand());
+        if (products.getQuantity() <= 0) {
+            products.setStatus(false);
+            products.setQuantity(0);
+        }
+        products.setStatus(true);
         products.setQuantity(products.getQuantity());
         return repository.save(products);
     }

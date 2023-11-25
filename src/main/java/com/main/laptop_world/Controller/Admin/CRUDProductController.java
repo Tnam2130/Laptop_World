@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +65,13 @@ public class CRUDProductController {
                        @RequestParam("files") MultipartFile[] files) throws IOException {
         if (result.hasErrors()) {
             return "admin/QuanLySanPham";
+        }
+        if (product.getPrice().compareTo(BigDecimal.ZERO) <=0 || product.getOldPrice().compareTo(BigDecimal.ZERO) <=0){
+            product.setPrice(product.getPrice().abs());
+            product.setOldPrice(product.getOldPrice().abs());
+        }
+        if(product.getDiscount() < 0){
+            product.setDiscount(0.0);
         }
         if (files != null && files.length > 0) {
             try {
