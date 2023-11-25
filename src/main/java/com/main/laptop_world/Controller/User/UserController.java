@@ -188,7 +188,11 @@ public class UserController {
             return "redirect:/resetPassword?email=" + email + "?error";
         }
     }
-
+    @GetMapping("/contact")
+    public String getContactForm(Model model){
+        model.addAttribute("title","Liên hệ với chúng tôi");
+        return "users/contact";
+    }
     private boolean canSendCode(String email) {
         long currentTime = System.currentTimeMillis();
         long lastSentTime = lastSentTimeMap.getOrDefault(email, 0L);

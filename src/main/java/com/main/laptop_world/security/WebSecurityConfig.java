@@ -69,6 +69,7 @@ public class WebSecurityConfig {
             "/resetPassword/**",
             "/pay/**",
             "/do-resetPassword/**",
+            "/contact/**",
             "/c/**"
     };
     private static final String[] USER_RESOURCES = {

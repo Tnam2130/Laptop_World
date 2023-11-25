@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/head :: head">
+</head>
+<body>
+<div th:replace="fragments/header :: header"></div>
+<!--Section: Contact v.2-->
+<div class="container" style="margin-top: 9rem;">
+    <section class="mb-4">
+
+        <!--Section heading-->
+        <h2 class="h1-responsive font-weight-bold text-center my-4">Liên hệ với chúng tôi</h2>
+        <!--Section description-->
+        <p class="text-center w-responsive mx-auto mb-5">Bạn có câu hỏi? Vui lòng điền đầy đủ thông tin dưới đây để được chúng tôi phản hồi lại 1 cách sóm nhất</p>
+
+        <div class="row">
+
+            <!--Grid column-->
+            <div class="col-md-6 mb-md-0 mb-5">
+                <form id="contactForm">
+
+                    <!-- Name input -->
+                    <div class="form-floating mb-3">
+                        <input name="name" class="form-control" id="name" type="text" placeholder="Tên của bạn"
+                               required>
+                        <label for="name" class="form-label fs-6">Tên của bạn</label>
+                    </div>
+
+                    <!-- Email address input -->
+                    <div class="form-floating mb-3">
+                        <input name="email" class="form-control" id="email" type="email" placeholder="Email"
+                               required>
+                        <label for="email" class="form-label fs-6">Email</label>
+                    </div>
+
+                    <!-- Message input -->
+                    <div class="mb-3">
+                        <label class="form-label" for="message">Message</label>
+                        <textarea class="form-control" id="message" type="text" placeholder="Message" style="height: 10rem;"></textarea>
+                    </div>
+
+                </form>
+
+                <div class="text-center text-md-left">
+                    <button type="button" class="btn btn-primary" onclick="sendMailAlert()">Send</button>
+                </div>
+                <div class="status"></div>
+            </div>
+            <!--Grid column-->
+
+            <!--Grid column-->
+            <div class="col-md-6 text-center">
+                <ul class="list-unstyled mb-0">
+                    <li><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1903.3478649775498!2d106.62693443426578!3d10.85374794151695!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752b6c59ba4c97%3A0x535e784068f1558b!2zVHLGsOG7nW5nIENhbyDEkeG6s25nIEZQVCBQb2x5dGVjaG5pYw!5e0!3m2!1svi!2s!4v1700932892179!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </li>
+
+                    <li><i class="fas fa-phone mt-4 fa-2x"></i>
+                        <p>+ (028) 7308 8800</p>
+                    </li>
+
+                    <li><i class="fas fa-envelope mt-4 fa-2x"></i>
+                        <p>nhom26_datn@fpt.edu.vn</p>
+                    </li>
+                </ul>
+            </div>
+            <!--Grid column-->
+
+        </div>
+
+    </section>
+    <!--Section: Contact v.2-->
+</div>
+<!--    Footer-->
+<div th:replace="fragments/footer :: footer"></div>
+</body>
+<script th:inline="javascript">
+    function sendMailAlert(){
+       let name= document.getElementById('name').value;
+       let email=document.getElementById('email').value;
+        alert("Gửi câu hỏi thành công!"+ 'Tên: '+ name +' Email: '+ email);
+    }
+</script>
+</html>
