@@ -14,10 +14,10 @@
             </div>
             <div class="sanPhamTrungBay">
                 <div class="row row-cols-3 g-5">
-                    <th:block th:each="product, iterStat : ${productList}"
+                    <th:block th:each="product, iterStat : ${filteredProducts}"
                               th:if="*{product.category.mainName == category.mainName}">
                         <th:block th:if="*{product.status == true}">
-                            <div class="col" th:if="${iterStat.index <= 4}">
+                            <div class="col" th:if="${iterStat.index+1 <= 6}">
                                 <a th:href="@{'/collections/product='+ *{product.getId()}+'&category='+*{product.category.getId()} }"
                                    class="card border border-light product-box" style="cursor: pointer">
                                     <div class="sale-label position-relative d-flex justify-content-center align-items-center text-danger fw-semibold">

@@ -13,7 +13,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.security.Principal;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class HomeController {
@@ -30,8 +31,25 @@ public class HomeController {
     public String index(Model model) {
         List<Products> productList = productService.findAllProduct();
         List<Category> categories=categoryService.findAllCategory();
+        List<Products> filteredProducts = new ArrayList<>();
+
+        for (Category category : categories) {
+            // Lọc sản phẩm theo danh mục và trạng thái
+            List<Products> categoryProducts = productList.stream()
+                    .filter(product -> product.getStatus() && product.getCategory().getId() == category.getId())
+                    .collect(Collectors.toList());
+
+            // Trộn danh sách ngẫu nhiên cho từng danh mục
+            Collections.shuffle(categoryProducts);
+
+            // Lấy 3 sản phẩm đầu tiên cho từng danh mục
+            List<Products> selectedProducts = categoryProducts.stream().limit(3).toList();
+
+            // Thêm vào danh sách chính
+            filteredProducts.addAll(selectedProducts);
+        }
         model.addAttribute("title", "Laptop World - Thế giới Laptop");
-        model.addAttribute("productList", productList);
+        model.addAttribute("filteredProducts", filteredProducts);
         model.addAttribute("categories", categories);
         return "index";
     }
