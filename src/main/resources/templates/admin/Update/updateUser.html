@@ -15,16 +15,36 @@
                     <input type="hidden" name="id" th:field="*{id}">
                     <div style="margin-bottom: 20px" class="col">
                         <input class="form-control" type="text" id="username" name="username" placeholder="Username"
-                               th:field="*{username}">
+                               th:field="*{username}" readonly="readonly">
                     </div>
                     <div style="margin-bottom: 20px" class="col">
                         <input class="form-control" type="email" id="email" name="email" placeholder="Email"
-                               th:field="*{email}">
+                               th:field="*{email}" readonly="readonly">
                     </div>
-                    <div style="margin-bottom: 20px" class="col-12">
+                    <div style="margin-bottom: 20px" class="col">
+                        <input class="form-control" type="text" id="firstName" name="firstName" placeholder="firstName"
+                               th:field="*{userDetailEmbeddable.firstName}" readonly="readonly">
+                    </div>
+                    <div style="margin-bottom: 20px" class="col">
+                        <input class="form-control" type="text" id="lastName" name="lastName" placeholder="lastName"
+                               th:field="*{userDetailEmbeddable.lastName}" readonly="readonly">
+                    </div>
+                    <div style="margin-bottom: 20px" class="col">
+                        <input class="form-control" type="text" id="fullName" name="fullName" placeholder="fullName"
+                               th:field="*{userDetailEmbeddable.fullName}" readonly="readonly">
+                    </div>
+                    <div style="margin-bottom: 20px" class="col">
+                        <input class="form-control" type="text" id="address" name="address" placeholder="address"
+                               th:field="*{userDetailEmbeddable.address}" readonly="readonly">
+                    </div>
+                    <div style="margin-bottom: 20px" class="col">
+                        <input class="form-control" type="text" id="phoneNumber" name="phoneNumber" placeholder="phoneNumber"
+                               th:field="*{userDetailEmbeddable.phoneNumber}" readonly="readonly">
+                    </div>
+                    <div style="margin-bottom: 20px" class="col">
                         <select class="form-control my-1" name="status" th:field="*{active}">
                             <option th:value="1" class="text-success" th:selected="*{active == 1}">Hoạt động</option>
-                            <option th:value="0" class="text-danger" th:selected="*{active == 0}">Hủy</option>
+                            <option th:value="0" class="text-danger" th:selected="*{active == 0}">Khóa</option>
                         </select>
                     </div>
                     <div style="margin-bottom: 20px" class="col-12">

@@ -37,7 +37,7 @@
                     </td>
                     <td class="text-center"
                         th:class="*{user.active} ? 'fw-semibold text-success' : 'fw-semibold text-danger'"
-                        th:text="*{user.active} ? 'Hoạt động' : 'Hủy'"></td>
+                        th:text="*{user.active} ? 'Hoạt động' : 'Khóa'"></td>
 
                     <td><a class="btn btn-outline-primary" th:href="@{'/admin/accounts/update/id=' + ${user.id}}">Update</a></td>
                 </tr>

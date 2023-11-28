@@ -1,5 +1,6 @@
 package com.main.laptop_world.security;
 
+import com.main.laptop_world.Constant.GlobalFlag;
 import com.main.laptop_world.Entity.User;
 import com.main.laptop_world.Services.UserService;
 import com.main.laptop_world.security.oauth2.CustomOAuth2User;
@@ -69,13 +70,13 @@ public class WebSecurityConfig {
             "/resetPassword/**",
             "/pay/**",
             "/do-resetPassword/**",
-            "/contact/**",
             "/c/**"
     };
     private static final String[] USER_RESOURCES = {
             "/user/**",
             "/cart/**",
-            "/order/**"
+            "/order/**",
+            "/contact/**"
     };
     private static final String[] ADMIN_RESOURCES = {
             "/admin/**"
@@ -123,9 +124,13 @@ public class WebSecurityConfig {
                                         String email = customOAuth2User.getName();
                                         User existingUser = userService.findByEmail(email);
                                         if (existingUser != null) {
-
-                                            response.sendRedirect("/");
-                                            System.out.println("User is existing!");
+                                            if (existingUser.isActive()){
+                                                GlobalFlag.flag=true;
+                                                response.sendRedirect("/");
+                                                System.out.println("User is existing!");
+                                            }
+                                            GlobalFlag.flag=false;
+                                            response.sendRedirect("/login?error");
                                         } else {
                                             String username = customOAuth2User.getUsername();
                                             String clientName = customOAuth2User.getOauth2ClientNames();
@@ -149,7 +154,7 @@ public class WebSecurityConfig {
         http.logout(c -> c.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
                 .deleteCookies("JSESSIONID")
                 .permitAll()
-                .logoutSuccessUrl("/login"));
+                .logoutSuccessUrl("/login?logout"));
         return http.build();
     }
 }

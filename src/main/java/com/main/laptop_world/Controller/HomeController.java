@@ -1,5 +1,6 @@
 package com.main.laptop_world.Controller;
 
+import com.main.laptop_world.Constant.GlobalFlag;
 import com.main.laptop_world.Entity.Category;
 import com.main.laptop_world.Entity.Products;
 import com.main.laptop_world.Entity.User;
@@ -29,28 +30,31 @@ public class HomeController {
 
     @RequestMapping({"/", "/home", "/index"})
     public String index(Model model) {
-        List<Products> productList = productService.findAllProduct();
-        List<Category> categories=categoryService.findAllCategory();
-        List<Products> filteredProducts = new ArrayList<>();
+        if(GlobalFlag.flag){
+            List<Products> productList = productService.findAllProduct();
+            List<Category> categories=categoryService.findAllCategory();
+            List<Products> filteredProducts = new ArrayList<>();
 
-        for (Category category : categories) {
-            // Lọc sản phẩm theo danh mục và trạng thái
-            List<Products> categoryProducts = productList.stream()
-                    .filter(product -> product.getStatus() && product.getCategory().getId() == category.getId())
-                    .collect(Collectors.toList());
+            for (Category category : categories) {
+                // Lọc sản phẩm theo danh mục và trạng thái
+                List<Products> categoryProducts = productList.stream()
+                        .filter(product -> product.getStatus() && Objects.equals(product.getCategory().getId(), category.getId()))
+                        .collect(Collectors.toList());
 
-            // Trộn danh sách ngẫu nhiên cho từng danh mục
-            Collections.shuffle(categoryProducts);
+                // Trộn danh sách ngẫu nhiên cho từng danh mục
+                Collections.shuffle(categoryProducts);
 
-            // Lấy 3 sản phẩm đầu tiên cho từng danh mục
-            List<Products> selectedProducts = categoryProducts.stream().limit(3).toList();
+                // Lấy 3 sản phẩm đầu tiên cho từng danh mục
+                List<Products> selectedProducts = categoryProducts.stream().limit(3).toList();
 
-            // Thêm vào danh sách chính
-            filteredProducts.addAll(selectedProducts);
+                // Thêm vào danh sách chính
+                filteredProducts.addAll(selectedProducts);
+            }
+            model.addAttribute("title", "Laptop World - Thế giới Laptop");
+            model.addAttribute("filteredProducts", filteredProducts);
+            model.addAttribute("categories", categories);
+            return "index";
         }
-        model.addAttribute("title", "Laptop World - Thế giới Laptop");
-        model.addAttribute("filteredProducts", filteredProducts);
-        model.addAttribute("categories", categories);
-        return "index";
+       return "redirect:/login?error";
     }
 }

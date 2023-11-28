@@ -182,7 +182,7 @@ public class UserController {
         if (repeatPassword.equals(newPassword)) {
             userService.resetPassword(email, repeatPassword);
             System.out.println("ok");
-            return "redirect:/login";
+            return "redirect:/login?success";
         } else {
             System.out.println("no ok");
             return "redirect:/resetPassword?email=" + email + "?error";
