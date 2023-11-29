@@ -69,14 +69,14 @@ public class WebSecurityConfig {
             "/do-checkCode/**",
             "/resetPassword/**",
             "/pay/**",
+            "/contact/**",
             "/do-resetPassword/**",
             "/c/**"
     };
     private static final String[] USER_RESOURCES = {
             "/user/**",
             "/cart/**",
-            "/order/**",
-            "/contact/**"
+            "/order/**"
     };
     private static final String[] ADMIN_RESOURCES = {
             "/admin/**"

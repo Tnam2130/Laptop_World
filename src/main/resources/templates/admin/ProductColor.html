@@ -76,7 +76,7 @@
                 <td class="text-center" th:text="*{colors.id}"></td>
                 <td class="text-center" th:text="*{colors.color}"></td>
                 <td
-                        class="text-center"
+                        class="text-center" th:if="*{colors.version != null}"
                         th:text="*{colors.getVersion().getName()}"
                 ></td>
                 <td
