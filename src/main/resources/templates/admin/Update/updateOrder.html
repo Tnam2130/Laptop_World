@@ -13,13 +13,26 @@
         <h3 class="text-center page-header">UPDATE Trạng thái</h3>
         <div class="container">
             <form th:action="@{/admin/order/update}" th:object="${orders}" method="post">
-                <div class="row">
+                <div class="row row-cols-2">
                     <input type="hidden" name="id" th:field="*{id}">
-                    <div style="margin-bottom: 20px" class="col-md-6">
-                        <input class="form-control" type="text" disabled id="id" name="id" th:field="*{id}">
+                    <th:block th:each="orderItem : ${orderItemList}">
+                        <div class="col" style="margin-bottom: 1.4rem;">
+                            <div th:each="image, limit : ${orderItem.getProducts().getImages()}"
+                                 th:if="${limit.index} &lt; 1">
+                                <img th:src="@{'/uploads/products/'+ ${image.getName()}}"
+                                     th:alt="${image.getName()}"
+                                     th:class="${limit.index % 2 == 0 ? '' :'img-fluid'}"
+                                     style="aspect-ratio: 1 / 1; width: 96px; height: 96px;">
+                            </div>
+                        </div>
+                        <div class="col" style="margin-bottom: 1.4rem;">
+                            <h6 class="fw-bold mb-0" th:text="${orderItem.getProducts().getName()}"></h6>
+                        </div>
+                    </th:block>
+                    <div class="col" style="margin-bottom: 1.4rem;">
+                        <h6 class="fw-bold text-danger mb-0" th:text="${#numbers.formatDecimal(orders.total, 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></h6>
                     </div>
-
-                    <div class="col-md-6" style="margin-bottom: 20px;">
+                    <div class="col" style="margin-bottom: 20px;">
                         <select class="form-control" name="status">
                             <option class="text-dark">Pending</option>
                             <option class="text-secondary">Out Of Stock</option>

@@ -25,82 +25,94 @@
                 <th></th>
             </tr>
             </thead>
-            <tbody th:each="order : ${orderList}">
-            <tr>
+            <tbody>
+            <th:block th:each="order : ${orderList}" th:switch="*{order.status}">
                 <th:block th:each="orderItem : *{order.getOrderItems()}">
-                    <td>
-                        <div class="d-flex align-items-center">
-                            <div class="ms-3">
-                                <div th:each="image, limit : *{orderItem.getProducts().getImages()}"
-                                     th:if="${limit.index} &lt; 1">
-                                    <img th:src="@{'/uploads/products/'+ *{image.getName()}}"
-                                         th:alt="*{image.getName()}"
-                                         th:class="${limit.index % 2 == 0 ? '' :'img-fluid'}"
-                                         style="aspect-ratio: 1 / 1; width: 96px; height: 96px;">
+                    <tr>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div class="ms-3">
+                                    <div th:each="image, limit : *{orderItem.getProducts().getImages()}"
+                                         th:if="${limit.index} &lt; 1">
+                                        <img th:src="@{'/uploads/products/'+ *{image.getName()}}"
+                                             th:alt="*{image.getName()}"
+                                             th:class="${limit.index % 2 == 0 ? '' :'img-fluid'}"
+                                             style="aspect-ratio: 1 / 1; width: 96px; height: 96px;">
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div class="d-flex align-items-center">
-                            <div class="ms-3">
-                                <p class="fw-bold mb-1">
-                                    <span th:text="${orderItem.products.name}"></span>
-                                </p>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div class="ms-3">
+                                    <p class="fw-bold mb-1">
+                                        <span th:text="${orderItem.products.name}"></span>
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                    </td>
-                </th:block>
-                <td>
-                    <div class="d-flex align-items-center">
-                        <div class="ms-3">
-                            <p class="fw-bold mb-1"><span
-                                    th:text="'HD' + ${#dates.format(order.createdAt, 'ddMMyyHHmm')}"></span></p>
-                        </div>
-                    </div>
-                </td>
-                <td>
-                    <th:block th:switch="*{order.status}">
-                        <th:block th:case="'Cancel'">
-                            <p class="fw-normal mb-1 text-danger"><span th:text="*{order.status}"></span></p>
-                        </th:block>
-                        <th:block th:case="*">
-                            <p class="fw-normal mb-1 text-success"><span th:text="*{order.status}"></span></p>
-                        </th:block>
-                    </th:block>
-                </td>
-                <td>
+                        </td>
+                        <td>
+                            <div class="d-flex align-items-center">
+                                <div class="ms-3">
+                                    <p class="fw-bold mb-1"><span
+                                            th:text="'HD' + ${#dates.format(order.createdAt, 'ddMMyyHHmm')}"></span></p>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <th:block th:switch="*{order.status}">
+                                <th:block th:case="'Pending'">
+                                    <p class="fw-semibold mb-1 text-dark"><span th:text="*{order.status}"></span></p>
+                                </th:block>
+                                <th:block th:case="'Out Of Stock'">
+                                    <p class="fw-semibold mb-1 text-info"><span th:text="*{order.status}"></span></p>
+                                </th:block>
+                                <th:block th:case="'Delivering'">
+                                    <p class="fw-semibold mb-1 text-warning"><span th:text="*{order.status}"></span></p>
+                                </th:block>
+                                <th:block th:case="'Delivered'">
+                                    <p class="fw-semibold mb-1 text-success"><span th:text="*{order.status}"></span></p>
+                                </th:block>
+                                <th:block th:case="'Cancel'">
+                                    <p class="fw-semibold mb-1 text-danger"><span th:text="*{order.status}"></span></p>
+                                </th:block>
+                            </th:block>
+                        </td>
+                        <td>
                 <span class="rounded-pill d-inline"><span
                         th:text="${#dates.format(order.createdAt, 'dd-MM-yyyy')}"></span></span>
-                </td>
-                <td><span class="mb-0 ms-2 text-danger fw-semibold"
-                          th:text="${#numbers.formatDecimal(order.total, 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></span>
-                </td>
-                <td>
-                    <a th:href="@{'/order/order='+*{order.id}}" class="btn btn-outline-success btn-sm btn-rounded">
-                        Xem
-                    </a>
-                </td>
-                <td th:switch="*{order.status}">
-                    <th:block th:case="'Delivered'">
-                        <button type="button" class="btn btn-outline-danger btn-sm btn-rounded" disabled>
-                            Hủy đơn hàng
-                        </button>
-                    </th:block>
-                    <th:block th:case="'Cancel'">
-                        <button type="button" class="btn btn-outline-danger btn-sm btn-rounded" disabled>
-                            Hủy đơn hàng
-                        </button>
-                    </th:block>
-                    <th:block th:case="*">
-                        <form th:action="@{'/order/update='+*{order.id}}" method="post">
-                            <button type="submit" class="btn btn-outline-danger btn-sm btn-rounded">
-                                Hủy đơn hàng
-                            </button>
-                        </form>
-                    </th:block>
-                </td>
-            </tr>
+                        </td>
+                        <td><span class="mb-0 ms-2 text-danger fw-semibold"
+                                  th:text="${#numbers.formatDecimal(order.total, 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></span>
+                        </td>
+                        <td>
+                            <a th:href="@{'/order/order='+*{order.id}}"
+                               class="btn btn-outline-success btn-sm btn-rounded">
+                                Xem
+                            </a>
+                        </td>
+                        <td th:switch="*{order.status}">
+                            <th:block th:case="'Delivered'">
+                                <button type="button" class="btn btn-outline-danger btn-sm btn-rounded" disabled>
+                                    Hủy đơn hàng
+                                </button>
+                            </th:block>
+                            <th:block th:case="'Cancel'">
+                                <button type="button" class="btn btn-outline-danger btn-sm btn-rounded" disabled>
+                                    Hủy đơn hàng
+                                </button>
+                            </th:block>
+                            <th:block th:case="*">
+                                <form th:action="@{'/order/update='+*{order.id}}" method="post">
+                                    <button type="submit" class="btn btn-outline-danger btn-sm btn-rounded">
+                                        Hủy đơn hàng
+                                    </button>
+                                </form>
+                            </th:block>
+                        </td>
+                    </tr>
+                </th:block>
+            </th:block>
             </tbody>
         </table>
     </div>

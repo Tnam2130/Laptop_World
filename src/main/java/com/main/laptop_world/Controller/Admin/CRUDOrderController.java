@@ -1,6 +1,8 @@
 package com.main.laptop_world.Controller.Admin;
 
 import com.main.laptop_world.Entity.Order;
+import com.main.laptop_world.Entity.OrderItem;
+import com.main.laptop_world.Services.OrderItemService;
 import com.main.laptop_world.Services.OrderService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,10 +15,11 @@ import java.util.List;
 @Controller
 public class CRUDOrderController {
     OrderService orderService;
+    OrderItemService orderItemService;
 
-
-    public CRUDOrderController(OrderService orderService) {
+    public CRUDOrderController(OrderService orderService, OrderItemService orderItemService) {
         this.orderService = orderService;
+        this.orderItemService = orderItemService;
     }
 
     @GetMapping("/admin/order")
@@ -37,7 +40,9 @@ public class CRUDOrderController {
     @GetMapping("/admin/order/update/id={id}")
     public String getUpdateCategory(@PathVariable("id") Long id, Model model, @ModelAttribute Order order) {
         Order orders = orderService.findOrderById(id);
+        List<OrderItem> orderItemList = orderItemService.getOrderByOrderItem(order);
         model.addAttribute("orders", orders);
+        model.addAttribute("orderItemList", orderItemList);
 
         return "admin/Update/updateOrder";
     }

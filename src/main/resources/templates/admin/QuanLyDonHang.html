@@ -87,93 +87,95 @@
                         </thead>
                         <tbody>
                         <th:block th:each="order : ${orders}" th:switch="*{order.status}">
-                            <th:block th:each="orderItem : *{order.getOrderItems()}">
-                                <tr th:case="'Pending'">
-                                    <td>
-                                        <div class="ms-3">
-                                            <div th:each="image, limit : *{orderItem.getProducts().getImages()}"
-                                                 th:if="${limit.index} &lt; 1">
-                                                <img th:src="@{'/uploads/products/'+ *{image.getName()}}"
-                                                     th:alt="*{image.getName()}"
-                                                     th:class="${limit.index % 2 == 0 ? '' :'img-fluid'}"
-                                                     style="aspect-ratio: 1 / 1; width: 96px; height: 96px;">
+                            <th:block th:each="orderItem : *{order.orderItems}">
+                                <th:block th:case="'Pending'">
+                                    <tr>
+                                        <td>
+                                            <div class="ms-3">
+                                                <div th:each="image, limit : ${orderItem.products.images}"
+                                                     th:if="${limit.index} &lt; 1">
+                                                    <img th:src="@{'/uploads/products/'+ *{image.name}}"
+                                                         th:alt="*{image.name}"
+                                                         th:class="${limit.index % 2 == 0 ? '' :'img-fluid'}"
+                                                         style="aspect-ratio: 1 / 1; width: 96px; height: 96px;">
+                                                </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="ms-3">
-                                            <p class="fw-bold mb-1 text-center" style="line-height: 1.4rem;">
-                                                <span th:text="${orderItem.products.name}"></span>
-                                            </p>
-                                        </div>
-                                    </td>
-                                    <td>
-                                        <div class="ms-3">
-                                            <p class="fw-bold mb-1 text-center">
+                                        </td>
+                                        <td>
+                                            <div class="ms-3">
+                                                <p class="fw-bold mb-1 text-center" style="line-height: 1.4rem;">
+                                                    <span th:text="${orderItem.products.name}"></span>
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="ms-3">
+                                                <p class="fw-bold mb-1 text-center">
                             <span
-                                    th:text="'HD' + ${#dates.format(order.createdAt, 'ddMMyyHHmm')}"
+                                    th:text="'HD' + ${#dates.format(orderItem.createdAt, 'ddMMyyHHmm')}"
                             ></span>
-                                            </p>
-                                        </div>
-                                    </td>
-                                    <td>
+                                                </p>
+                                            </div>
+                                        </td>
+                                        <td>
                         <span
                                 class="d-block fw-normal mb-1 text-success text-center" style="line-height: 1.4rem;"
                                 th:text="*{order.user.userDetailEmbeddable.fullName}"
                         ></span>
-                                    </td>
-                                    <td>
+                                        </td>
+                                        <td>
                         <span
                                 class="text-center d-block text-dark fw-semibold"
                                 th:text="*{order.status}"
                         ></span>
-                                    </td>
-                                    <td>
+                                        </td>
+                                        <td>
                         <span class="rounded-pill d-inline"
                         ><span
                                 class="text-center d-block"
                                 th:text="${#dates.format(order.createdAt, 'dd-MM-yyyy')}"
                         ></span
                         ></span>
-                                    </td>
-                                    <td>
+                                        </td>
+                                        <td>
                         <span
                                 class="mb-0 ms-2 text-center d-block"
                                 th:text="${#numbers.formatDecimal(order.total, 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"
                         ></span>
-                                    </td>
-                                    <td>
+                                        </td>
+                                        <td>
                         <span class="mb-0 ms-2 text-center d-block"
                               th:text="*{order.payments.status} ? 'Đã thanh toán' : 'Chưa thanh toán'"
                               th:classappend="*{order.payments.status} ? 'text-success fw-semibold' : 'text-danger fw-semibold'"
                               style="line-height: 1.4rem;"></span>
-                                    </td>
-                                    <td>
+                                        </td>
+                                        <td>
                                         <span class="mb-0 ms-2 text-center d-block"
                                               th:text="*{order.payments.mode}"></span>
-                                    </td>
-                                    <td th:switch="*{order.status}">
-                                        <th:block th:case="'Delivered'">
-                                            <button class="btn btn-outline-primary" disabled>
-                                                Update trạng thái
-                                            </button>
-                                        </th:block>
+                                        </td>
+                                        <td th:switch="*{order.status}">
+                                            <th:block th:case="'Delivered'">
+                                                <button class="btn btn-outline-primary" disabled>
+                                                    Update trạng thái
+                                                </button>
+                                            </th:block>
 
-                                        <th:block th:case="'Cancel'">
-                                            <button class="btn btn-outline-primary" disabled>
-                                                Update trạng thái
-                                            </button>
-                                        </th:block>
+                                            <th:block th:case="'Cancel'">
+                                                <button class="btn btn-outline-primary" disabled>
+                                                    Update trạng thái
+                                                </button>
+                                            </th:block>
 
-                                        <th:block th:case="*">
-                                            <a
-                                                    class="btn btn-outline-primary"
-                                                    th:href="@{'/admin/order/update/id=' + *{order.id}}"
-                                            >Update trạng thái</a
-                                            >
-                                        </th:block>
-                                    </td>
-                                </tr>
+                                            <th:block th:case="*">
+                                                <a
+                                                        class="btn btn-outline-primary"
+                                                        th:href="@{'/admin/order/update/id=' + *{order.id}}"
+                                                >Update trạng thái</a
+                                                >
+                                            </th:block>
+                                        </td>
+                                    </tr>
+                                </th:block>
                             </th:block>
                         </th:block>
                         </tbody>
