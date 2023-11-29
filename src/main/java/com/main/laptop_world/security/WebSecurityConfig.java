@@ -128,9 +128,10 @@ public class WebSecurityConfig {
                                                 GlobalFlag.flag=true;
                                                 response.sendRedirect("/");
                                                 System.out.println("User is existing!");
+                                            }else{
+                                                GlobalFlag.flag=false;
+                                                response.sendRedirect("/login?error");
                                             }
-                                            GlobalFlag.flag=false;
-                                            response.sendRedirect("/login?error");
                                         } else {
                                             String username = customOAuth2User.getUsername();
                                             String clientName = customOAuth2User.getOauth2ClientNames();
