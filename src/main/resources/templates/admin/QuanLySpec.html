@@ -61,11 +61,12 @@
                         </div>
                         <div class="col-md-6" style="margin-bottom: 20px;">
                             <div class="input-container">
+                                <label class="form-label w-100"><span class="fs-6 mb-1 d-inline-block fw-semibold">Sản phẩm</span>
                                 <select class="form-select" id="productList" th:field="*{products}">
-                                    <option value="">Products</option>
                                     <option th:each="productlist : ${productList}" th:value="${productlist.getId()}"
                                             th:text="${productlist.getName()}"></option>
                                 </select>
+                                </label>
                             </div>
                         </div>
                     </div>

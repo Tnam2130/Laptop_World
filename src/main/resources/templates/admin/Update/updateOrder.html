@@ -10,7 +10,7 @@
 <div class="row">
     <th:block th:insert="~{admin/layout/sidebar :: sidebar}"></th:block>
     <div class="col-10">
-        <h3 class="text-center page-header">UPDATE Trạng thái</h3>
+        <h3 class="text-center page-header">Cập nhật đơn hàng</h3>
         <div class="container">
             <form th:action="@{/admin/order/update}" th:object="${orders}" method="post">
                 <input type="hidden" name="id" th:field="*{id}">

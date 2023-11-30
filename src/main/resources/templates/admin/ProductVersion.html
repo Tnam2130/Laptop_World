@@ -1,100 +1,97 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-  <head th:insert="~{fragments/head :: head}">
-    <link type="text/css" rel="stylesheet" th:href="@{/admin/css/admin.css}" />
-  </head>
-  <body>
-    <div th:replace="~{admin/layout/header :: headerAdmin}"></div>
-    <!--content -->
-    <div class="row">
-      <th:block th:insert="~{admin/layout/sidebar :: sidebar}"></th:block>
-      <div class="col-10 mt-3">
+<head th:insert="~{fragments/head :: head}">
+    <link type="text/css" rel="stylesheet" th:href="@{/admin/css/admin.css}"/>
+</head>
+<body>
+<div th:replace="~{admin/layout/header :: headerAdmin}"></div>
+<!--content -->
+<div class="row">
+    <th:block th:insert="~{admin/layout/sidebar :: sidebar}"></th:block>
+    <div class="col-10 mt-3">
         <th:block th:insert="~{fragments/loading::loading}"></th:block>
         <h3 class="page-header">Quản lý Version</h3>
         <div class="container">
-          <div th:if="${message}" class="alert alert-success text-center">
-            [[${message}]]
-          </div>
-          <form
-            th:action="@{/admin/productsVersion/add}"
-            th:object="${versions}"
-            method="post"
-          >
-            <div class="row">
-              <input type="hidden" name="id" />
-              <div class="col-md-12" style="margin-bottom: 20px">
-                <div class="form-floating mb-3">
-                  <input
-                    class="form-control"
-                    type="text"
-                    id="name"
-                    name="name"
-                    required=""
-                    th:field="*{name}" placeholder="Tên phiên bản"
-                  />
-                  <label for="name" class="form-label fs-6">Tên phiên bản</label>
+            <div th:if="${message}" class="alert alert-success text-center">
+                [[${message}]]
+            </div>
+            <form
+                    th:action="@{/admin/productsVersion/add}"
+                    th:object="${versions}"
+                    method="post"
+            >
+                <div class="row">
+                    <input type="hidden" name="id"/>
+                    <div class="col-md-12" style="margin-bottom: 20px">
+                        <div class="form-floating mb-3">
+                            <input
+                                    class="form-control"
+                                    type="text"
+                                    id="name"
+                                    name="name"
+                                    required=""
+                                    th:field="*{name}" placeholder="Tên phiên bản"
+                            />
+                            <label for="name" class="form-label fs-6">Tên phiên bản</label>
+                        </div>
+                        <p
+                                th:errors="*{name}"
+                                class="text-danger fs-6 mb-3"
+                                th:if="${#fields.hasErrors('name')}"
+                        ></p>
+                    </div>
+                    <div class="col-md-12" style="margin-bottom: 20px">
+                        <select
+                                class="form-select"
+                                id="productlist"
+                                th:field="*{products}">
+                            <option
+                                    th:each="productlist : ${productList}"
+                                    th:value="${productlist.getId()}"
+                                    th:text="${productlist.getName()}"></option>
+                        </select>
+                    </div>
                 </div>
-                <p
-                  th:errors="*{name}"
-                  class="text-danger fs-6 mb-3"
-                  th:if="${#fields.hasErrors('name')}"
-                ></p>
-              </div>
-              <div class="col-md-12" style="margin-bottom: 20px">
-                <select
-                  class="form-control"
-                  id="productlist"
-                  th:field="*{products}"
-                >
-                  <option value="">Products</option>
-                  <option
-                    th:each="productlist : ${productList}"
-                    th:value="${productlist.getId()}"
-                    th:text="${productlist.getName()}"
-                  ></option>
-                </select>
-              </div>
-            </div>
-            <div class="text-center">
-              <button class="btn btn-outline-success" type="submit">Save</button>
-            </div>
-          </form>
+                <div class="text-center">
+                    <button class="btn btn-outline-success" type="submit">Save</button>
+                </div>
+            </form>
         </div>
         <table class="table table-hover nhanHieuTable">
-          <thead>
+            <thead>
             <tr class="active">
-              <th class="fw-bold text-center">ID</th>
-              <th class="fw-bold text-center">Version</th>
-              <th class="fw-bold text-center">Products</th>
+                <th class="fw-bold text-center">ID</th>
+                <th class="fw-bold text-center">Version</th>
+                <th class="fw-bold text-center">Products</th>
 
-              <th class="fw-bold text-center"></th>
+                <th class="fw-bold text-center"></th>
             </tr>
-          </thead>
-          <tbody th:each="versions : ${version}">
+            </thead>
+            <tbody th:each="versions : ${version}">
             <tr class="info">
-              <td class="text-center" th:text="${versions.id}"></td>
-              <td class="text-center" th:text="${versions.name}"></td>
-              <td class="text-center" th:text="${versions.getProducts().getName()}"></td>
+                <td class="text-center" th:text="${versions.id}"></td>
+                <td class="text-center" th:text="${versions.name}"></td>
+                <td class="text-center" th:text="${versions.getProducts().getName()}"></td>
 
-              <td>
-                <a class="btn btn-outline-primary"
-                  th:href="@{'/admin/productsVersion/update/id=' + *{versions.id}}"
-                  >Update</a
-                >
-                <a class="btn btn-outline-danger"
-                  th:href="@{'/admin/productsVersion/delete/' + ${versions.getId()}}"
-                  >Delete</a
-                >
-              </td>
+                <td>
+                    <a class="btn btn-outline-primary"
+                       th:href="@{'/admin/productsVersion/update/id=' + *{versions.id}}"
+                    >Update</a
+                    >
+                    <a class="btn btn-outline-danger"
+                       th:href="@{'/admin/productsVersion/delete/' + ${versions.getId()}}"
+                    >Delete</a
+                    >
+                </td>
             </tr>
-          </tbody>
+            </tbody>
         </table>
 
         <ul class="pagination"></ul>
         <div th:replace="~{admin/layout/footer}"></div>
-      </div>
     </div>
-  </body>
-  <script th:src="@{/admin/js/admin.js}"></script>
-  <script th:src="@{/js/app.js}"></script>
+</div>
+</body>
+<script th:src="@{/admin/js/admin.js}"></script>
+<script th:src="@{/js/app.js}"></script>
 </html>

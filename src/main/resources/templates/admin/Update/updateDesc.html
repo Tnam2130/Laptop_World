@@ -30,7 +30,7 @@
                     </div>
 
                     <div style="margin-bottom: 20px" class="col-md-12">
-                        <select class="form-control" name="product" id="product">
+                        <select class="form-select" name="product" id="product">
                             <option value="">Product</option>
                             <option th:each="product : ${productList}" th:value="${product.id}"
                                     th:selected="${product.name == descriptions.products.name}"

@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/head :: head">
+<head th:replace="~{fragments/head :: head}">
 </head>
 <body>
 <main>
-    <th:block th:replace="fragments/loading::loading"></th:block>
+    <th:block th:replace="~{fragments/loading :: loading}"></th:block>
 <!--header-->
-    <div th:replace="fragments/header :: header"></div>
+    <div th:replace="~{fragments/header :: header}"></div>
 <!--    content-->
-    <div th:replace="fragments/banner :: banner"></div>
-    <div th:replace="fragments/home :: home"></div>
+    <div th:replace="~{fragments/banner :: banner}"></div>
+    <div th:replace="~{fragments/home :: home}"></div>
 <!--    Footer-->
-    <div th:replace="fragments/footer :: footer"></div>
+    <div th:replace="~{fragments/footer :: footer}"></div>
 </main>
 </body>
 <script th:src="@{/js/app.js}"></script>

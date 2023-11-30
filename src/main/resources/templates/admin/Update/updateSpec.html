@@ -37,10 +37,10 @@
                         <input class="form-control" type="text" id="screen" name="screen" th:field="*{screen}">
                     </div>
                     <div style="margin-bottom: 20px" class="col-md-6">
-                        <select class="form-control" name="product" id="product">
+                        <select class="form-select" name="product" id="product">
                             <option value="">Products</option>
                             <option th:each="product : ${productList}" th:value="${product.getId()}"
-                                    th:text="${product.getName()}"></option>
+                                    th:text="${product.getName()}" th:selected="${spec.products.name == product.name}"></option>
                         </select>
                     </div>
 
