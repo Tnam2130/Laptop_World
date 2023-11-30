@@ -1,80 +1,83 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="fragments/head :: head">
+<head th:insert="~{fragments/head :: head}">
     <link type="text/css" rel="stylesheet" th:href="@{/admin/css/admin.css}">
 </head>
 <body>
-<div th:replace="admin/layout/header :: headerAdmin"></div>
+<div th:replace="~{admin/layout/header :: headerAdmin}"></div>
 <!--content -->
 <div class="row">
-    <th:block th:insert="admin/layout/sidebar :: sidebar"></th:block>
+    <th:block th:insert="~{admin/layout/sidebar :: sidebar}"></th:block>
     <div class="col-10 mt-3">
-            <h3 class="page-header">Quản lý Danh Mục</h3>
-            <div class="container">
-                <div th:if="${message}" class="alert alert-success text-center">
-                    [[${message}]]
+        <th:block th:insert="~{fragments/loading::loading}"></th:block>
+        <h3 class="page-header">Quản lý Danh Mục</h3>
+        <div class="container">
+            <div th:if="${message}" class="alert alert-success text-center">
+                [[${message}]]
+            </div>
+            <label for="mainName"></label>
+            <form th:action="@{/admin/category/add}" th:object="${category}">
+                <input type="hidden" name="id">
+                <div class="row">
+                    <div class="col-md-6" style="margin-bottom: 20px">
+                        <div class="form-floating mb-3">
+                            <input class="form-control" type="text" id="mainName" name="mainName" required=""
+                                   th:field="*{mainName}" placeholder="Danh mục chính">
+                            <label for="mainName" class="form-label fs-6">Danh mục chính</label>
+                            <div class="underline"></div>
+                        </div>
+                        <p th:errors="*{mainName}" class="text-danger fs-6 mb-3"
+                           th:if="${#fields.hasErrors('mainName')}"></p>
+                    </div>
+                    <div style="margin-bottom: 20px" class="col-md-6">
+                        <div class="form-floating">
+                            <input class="form-control" type="text" id="subName" name="subName" required=""
+                                   th:field="*{categoryEmbeddable.subName}" placeholder="Danh mục phụ">
+                            <label for="subName" class="form-label fs-6">Danh mục phụ</label>
+                            <div class="underline"></div>
+                        </div>
+
+                    </div>
                 </div>
-                <label for="mainName"></label>
-                <form th:action="@{/admin/category/add}" th:object="${category}">
-                    <input type="hidden" name="id">
-                    <div class="row">
-                        <div class="col-md-6" style="margin-bottom: 20px">
-                            <div class="form-floating mb-3">
-                                <input class="form-control" type="text" id="mainName" name="mainName" required=""
-                                       th:field="*{mainName}" placeholder="Danh mục chính">
-                                <label for="mainName" class="form-label fs-6">Danh mục chính</label>
-                                <div class="underline"></div>
-                            </div>
-                            <p th:errors="*{mainName}" class="text-danger fs-6 mb-3"
-                               th:if="${#fields.hasErrors('mainName')}"></p>
-                        </div>
-                        <div style="margin-bottom: 20px" class="col-md-6">
-                            <div class="form-floating">
-                                <input class="form-control" type="text" id="subName" name="subName" required=""
-                                       th:field="*{categoryEmbeddable.subName}" placeholder="Danh mục phụ">
-                                <label for="subName" class="form-label fs-6">Danh mục phụ</label>
-                                <div class="underline"></div>
-                            </div>
+                <div class=" text-center">
+                    <button class="btn btn-outline-success" type="submit">
+                        Save
+                    </button>
+                </div>
 
-                        </div>
-                    </div>
-                    <div class=" text-center">
-                        <button class="btn btn-outline-success" type="submit">
-                            Save
-                        </button>
-                    </div>
+            </form>
+        </div>
+        <div>
+            <table class="table table-hover nhanHieuTable">
+                <thead>
+                <tr class="active">
+                    <th class="fw-bold text-center">Mã</th>
+                    <th class="fw-bold text-center">Kiểu máy</th>
+                    <!--          <th class="fw-bold text-center">Tên Hãng</th>-->
+                    <th class="fw-bold text-center"></th>
+                </tr>
+                </thead>
+                <tbody th:each="category: ${categories}">
+                <tr class="info">
+                    <td class="text-center" th:text="*{category.id}"/>
+                    <td class="text-center" th:text="*{category.mainName}"/>
+                    <!--        <td class="text-center" th:text="*{category.categoryEmbeddable.subName}"/>-->
+                    <td><a class="btn btn-outline-primary" th:href="@{'/admin/category/update/id=' + *{category.id}}">update</a>
+                        <a class="btn btn-outline-danger" th:href="@{'/admin/category/delete/' + *{category.getId()}}">Delete</a>
+                    </td>
+                </tr>
 
-                </form>
-            </div>
-            <div>
-                <table class="table table-hover nhanHieuTable">
-                    <thead>
-                    <tr class="active">
-                        <th class="fw-bold text-center">Mã</th>
-                        <th class="fw-bold text-center">Kiểu máy</th>
-                        <!--          <th class="fw-bold text-center">Tên Hãng</th>-->
-                        <th class="fw-bold text-center"></th>
-                    </tr>
-                    </thead>
-                    <tbody th:each="category: ${categories}">
-                    <tr class="info">
-                        <td class="text-center" th:text="*{category.id}"/>
-                        <td class="text-center" th:text="*{category.mainName}"/>
-                        <!--        <td class="text-center" th:text="*{category.categoryEmbeddable.subName}"/>-->
-                        <td><a class="btn btn-outline-primary" th:href="@{'/admin/category/update/id=' + *{category.id}}">update</a>
-                            <a class="btn btn-outline-danger" th:href="@{'/admin/category/delete/' + *{category.getId()}}">Delete</a></td>
-                    </tr>
-
-                    </tbody>
-                </table>
-            </div>
-            <ul class="pagination">
-            </ul>
+                </tbody>
+            </table>
+        </div>
+        <ul class="pagination">
+        </ul>
     </div>
 </div>
 
-<div th:replace="admin/layout/footer"></div>
+<div th:replace="~{admin/layout/footer}"></div>
 <!--<script th:src="@{/admin/js/danhMucAjax.js}"></script>-->
 </body>
 <script th:src="@{/admin/js/admin.js}"></script>
+<script th:src="@{/js/app.js}"></script>
 </html>

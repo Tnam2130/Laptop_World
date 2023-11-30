@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="fragments/head :: head">
+<head th:insert="~{fragments/head :: head}">
     <link type="text/css" rel="stylesheet" th:href="@{/admin/css/admin.css}">
 
 </head>
 <body>
-<div th:replace="admin/layout/header :: headerAdmin"></div>
+<div th:replace="~{admin/layout/header :: headerAdmin}"></div>
 <!--content -->
 <div class="row">
-    <th:block th:insert="admin/layout/sidebar :: sidebar"></th:block>
+    <th:block th:insert="~{admin/layout/sidebar :: sidebar}"></th:block>
     <div class="col-10 mt-3">
         <h3 class="text-center page-header">UPDATE COLOR</h3>
         <div class="container">
@@ -53,7 +53,7 @@
 
 </div>
 
-<div th:replace="admin/layout/footer"></div>
+<div th:replace="~{admin/layout/footer}"></div>
 <!--<script th:src="@{/admin/js/danhMucAjax.js}"></script>-->
 <script type="text/javascript">
     function cancelForm() {

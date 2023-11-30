@@ -52,41 +52,31 @@ public class CRUDOrderController {
 
         Order orders = orderService.findOrderById(id);
         String currentStatus = orders.getStatus();
-
         switch (currentStatus) {
             case "Pending":
-                switch (status) {
-                    case "Out Of Stock":
-                    case "Cancel":
-                        ra.addFlashAttribute("message", "Update successfully");
-                        orderService.updateOrder(id, status);
-                        break;
-                    default:
-                        return "redirect:/admin/order?error";
+                if (status.equalsIgnoreCase("Out Of Stock")) {
+                    ra.addFlashAttribute("message", "Update successfully");
+                    orderService.updateOrder(id, status);
+                } else {
+                    return "redirect:/admin/order?error";
                 }
                 break;
 
             case "Out Of Stock":
-                switch (status) {
-                    case "Delivering":
-                    case "Cancel":
-                        ra.addFlashAttribute("message", "Update successfully");
-                        orderService.updateOrder(id, status);
-                        break;
-                    default:
-                        return "redirect:/admin/order?error";
+                if (status.equalsIgnoreCase("Delivering")) {
+                    ra.addFlashAttribute("message", "Update successfully");
+                    orderService.updateOrder(id, status);
+                } else {
+                    return "redirect:/admin/order?error";
                 }
                 break;
 
             case "Delivering":
-                switch (status) {
-                    case "Delivered":
-                    case "Cancel":
-                        ra.addFlashAttribute("message", "Update successfully");
-                        orderService.updateOrder(id, status);
-                        break;
-                    default:
-                        return "redirect:/admin/order?error";
+                if (status.equalsIgnoreCase("Delivered")) {
+                    ra.addFlashAttribute("message", "Update successfully");
+                    orderService.updateOrder(id, status);
+                } else {
+                    return "redirect:/admin/order?error";
                 }
                 break;
         }

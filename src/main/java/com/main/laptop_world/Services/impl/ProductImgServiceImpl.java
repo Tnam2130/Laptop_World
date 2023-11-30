@@ -12,9 +12,11 @@ import java.util.Optional;
 @Service
 public class ProductImgServiceImpl implements ProductImgService {
     private final ProductImagesRepository repository;
-    public ProductImgServiceImpl (ProductImagesRepository repository){
-        this.repository=repository;
+
+    public ProductImgServiceImpl(ProductImagesRepository repository) {
+        this.repository = repository;
     }
+
     @Override
     public List<ProductImages> getAllImages() {
         return repository.findAll();
@@ -26,12 +28,25 @@ public class ProductImgServiceImpl implements ProductImgService {
     }
 
     @Override
+    public void updateImage(ProductImages productImages) {
+        ProductImages existingImage = getImageById(productImages.getId());
+        if (existingImage != null) {
+            if (productImages.getProducts() == null || productImages.getProducts().equals(existingImage.getProducts())) {
+                productImages.setProducts(existingImage.getProducts());
+            } else {
+                productImages.setProducts(productImages.getProducts());
+            }
+            repository.save(productImages);
+        }
+    }
+
+    @Override
     public ProductImages getImageById(Long id) {
-        Optional<ProductImages> optional=repository.findById(id);
+        Optional<ProductImages> optional = repository.findById(id);
         ProductImages images = null;
-        if(optional.isPresent()){
-            images=optional.get();
-        }else {
+        if (optional.isPresent()) {
+            images = optional.get();
+        } else {
             throw new RuntimeException(" Image not found for id :: " + id);
         }
         return images;

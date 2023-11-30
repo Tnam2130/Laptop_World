@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="fragments/head :: head">
+<head th:insert="~{fragments/head :: head}">
     <link type="text/css" rel="stylesheet" th:href="@{/admin/css/admin.css}">
 
 </head>
 <body>
-<div th:replace="admin/layout/header :: headerAdmin"></div>
+<div th:replace="~{admin/layout/header :: headerAdmin}"></div>
 <!--content -->
 <div class="row">
-    <th:block th:insert="admin/layout/sidebar :: sidebar"></th:block>
+    <th:block th:insert="~{admin/layout/sidebar :: sidebar}"></th:block>
     <div class="col-10 mt-3">
 
         <h3 class="text-center page-header">UPDATE SẢN PHẨM</h3>
 
         <div class="container">
             <form th:action="@{'/admin/products/update/id='+ ${product.id}}" th:object="${product}"
-                  enctype="multipart/form-data" method="post">
+                  method="post">
                 <div class="row">
                     <input type="hidden" name="id" th:field="*{id}">
                     <div style="margin-bottom: 20px" class="col-md-6">
@@ -56,13 +56,13 @@
                            class="text-danger fs-6 mb-3">Vui lòng chỉ nhập số!!!</p>
                     </div>
                     <div style="margin-bottom: 20px" class="col-md-6">
-                        <select class="form-control my-1" name="status" th:field="*{status}">
+                        <select class="form-select my-1" name="status" th:field="*{status}">
                             <option th:if="*{quantity > 0}" th:value="1">Hoạt động</option>
                             <option th:value="0">Hủy</option>
                         </select>
                     </div>
                     <div class="col-md-6" style="margin-bottom: 20px;">
-                        <select class="form-control" id="category" name="category">
+                        <select class="form-select" id="category" name="category">
                             <option value="">Danh mục</option>
                             <option th:each=" category : ${categories}"
                                     th:selected="${category.mainName == product.category.mainName}"
@@ -70,7 +70,7 @@
                         </select>
                     </div>
                     <div class="col-md-6" style="margin-bottom: 20px;">
-                        <select class="form-control" id="brand" name="brand">
+                        <select class="form-select" id="brand" name="brand">
                             <option value="">Thương hiệu</option>
                             <option th:each="brand : ${brandList}"
                                     th:selected="${brand.title == product.brand.title}" th:value="${brand.getId()}"
@@ -95,7 +95,7 @@
     </div>
 </div>
 
-<div th:replace="admin/layout/footer"></div>
+<div th:replace="~{admin/layout/footer}"></div>
 <!--<script th:src="@{/admin/js/danhMucAjax.js}"></script>-->
 <script type="text/javascript">
     function cancelForm() {

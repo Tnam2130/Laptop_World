@@ -1,49 +1,90 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="fragments/head :: head">
+<head th:insert="~{fragments/head :: head}">
     <link type="text/css" rel="stylesheet" th:href="@{/admin/css/admin.css}">
 
 </head>
 <body>
-<div th:replace="admin/layout/header :: headerAdmin"></div>
+<div th:replace="~{admin/layout/header :: headerAdmin}"></div>
 <!--content -->
 <div class="row">
-    <th:block th:insert="admin/layout/sidebar :: sidebar"></th:block>
+    <th:block th:insert="~{admin/layout/sidebar :: sidebar}"></th:block>
     <div class="col-10">
         <h3 class="text-center page-header">UPDATE Trạng thái</h3>
         <div class="container">
             <form th:action="@{/admin/order/update}" th:object="${orders}" method="post">
-                <div class="row row-cols-2">
-                    <input type="hidden" name="id" th:field="*{id}">
+                <input type="hidden" name="id" th:field="*{id}">
+                <table class="table table-hover align-middle mb-0 bg-white">
+                    <thead class="bg-light">
+                    <tr>
+                        <th class="fw-bold">Sản phẩm</th>
+                        <th class="fw-bold">Tên sản phẩm</th>
+                        <th class="fw-bold">Số lượng</th>
+                        <th class="fw-bold">Giá từng sản phẩm</th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
                     <th:block th:each="orderItem : ${orderItemList}">
-                        <div class="col" style="margin-bottom: 1.4rem;">
-                            <div th:each="image, limit : ${orderItem.getProducts().getImages()}"
-                                 th:if="${limit.index} &lt; 1">
-                                <img th:src="@{'/uploads/products/'+ ${image.getName()}}"
-                                     th:alt="${image.getName()}"
+                        <tr style="margin-bottom: 1.4rem;">
+                            <td th:each="image, limit : ${orderItem.products.images}"
+                                th:if="${limit.index} &lt; 1">
+                                <img th:src="@{'/uploads/products/'+ ${image.name}}"
+                                     th:alt="${image.name}"
                                      th:class="${limit.index % 2 == 0 ? '' :'img-fluid'}"
                                      style="aspect-ratio: 1 / 1; width: 96px; height: 96px;">
-                            </div>
-                        </div>
-                        <div class="col" style="margin-bottom: 1.4rem;">
-                            <h6 class="fw-bold mb-0" th:text="${orderItem.getProducts().getName()}"></h6>
-                        </div>
+                            </td>
+                            <td style="margin-bottom: 1.4rem;">
+                                <p class="fw-bold mb-0" th:text="${orderItem.products.name}"></p>
+                            </td>
+                            <td style="margin-bottom: 1.4rem;">
+                                <p class="fw-bold text-danger mb-0" th:text="${orderItem.quantity}"></p>
+                            </td>
+                            <td style="margin-bottom: 1.4rem;">
+                                <p class="fw-bold text-danger mb-0"
+                                    th:text="${#numbers.formatDecimal(orderItem.price, 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></p>
+                            </td>
+                        </tr>
                     </th:block>
-                    <div class="col" style="margin-bottom: 1.4rem;">
-                        <h6 class="fw-bold text-danger mb-0" th:text="${#numbers.formatDecimal(orders.total, 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></h6>
+                    </tbody>
+                </table>
+                <div class="row row-cols-2 g-2">
+                    <div class="col" style="margin: 1.4rem 0;">
+                        <span class="fw-semibold fs-4" style="line-height: 2.2rem;">Tổng tiền:</span>
+                        <p class="m-0 text-danger fw-semibold fs-5" th:text="${#numbers.formatDecimal(orders.total, 0, 'COMMA', 0, 'DEFAULT')} + ' &#x20AB;'"></p>
                     </div>
-                    <div class="col" style="margin-bottom: 20px;">
-                        <select class="form-control" name="status">
-                            <option class="text-dark">Pending</option>
-                            <option class="text-secondary">Out Of Stock</option>
-                            <option class="text-info">Delivering</option>
-                            <option class="text-success">Delivered</option>
-                            <option class="text-danger">Cancel</option>
-                        </select>
+                    <div class="col" style="margin: 1.4rem 0;">
+                        <label class="fs-5 fw-semibold w-100" style="line-height: 2.2rem;"><span>Trạng thái đơn hàng:</span>
+                          <th:block th:switch="*{status}">
+                              <select class="form-select" name="status">
+                                  <th:block th:case="'Pending'">
+                                      <option class="fw-semibold text-dark" th:selected="*{status}"
+                                              th:text="*{status} ? 'Đang chờ xác nhận' : ''"></option>
+                                      <option class="fw-semibold text-info" th:value="'Out of Stock'">Đã xuất kho</option>
+                                  </th:block>
+                                  <th:block th:case="'Out of Stock'">
+                                      <option class="fw-semibold text-info" th:selected="*{status}"
+                                              th:text="*{status} ? 'Đã xuất kho' : ''"></option>
+                                      <option class="fw-semibold text-warning" th:value="'Delivering'">Đang trên đường giao</option>
+                                  </th:block>
+                                  <th:block th:case="'Delivering'">
+                                      <option class="fw-semibold text-warning" th:selected="*{status}"
+                                              th:text="*{status} ? 'Đang trên đường giao' : ''"></option>
+                                      <option class="fw-semibold text-success" th:value="'Delivered'">Đã giao</option>
+                                  </th:block>
+                                  <th:block th:case="'*">
+                                      <option class="fw-semibold text-success" th:selected="*{status}"
+                                              th:text="*{status} ? 'Đã giao' : ''"></option>
+                                      <option class="fw-semibold text-danger" th:value="'Cancel'">Hủy</option>
+                                  </th:block>
+                              </select>
+                          </th:block>
+
+                        </label>
                     </div>
                 </div>
-                <div class=" text-center">
-                    <button class="btn btn-outline-primary" type="submit">
+                <div class="d-flex justify-content-center align-items-center">
+                    <button class="btn btn-outline-primary mx-2" type="submit">
                         Update
                     </button>
                     <button class="btn btn-outline-danger" onclick="cancelForm()" type="button">
@@ -59,7 +100,7 @@
 
 </div>
 
-<div th:replace="admin/layout/footer"></div>
+<div th:replace="~{admin/layout/footer}"></div>
 <!--<script th:src="@{/admin/js/danhMucAjax.js}"></script>-->
 <script type="text/javascript">
     function cancelForm() {

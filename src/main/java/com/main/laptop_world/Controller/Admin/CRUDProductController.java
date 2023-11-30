@@ -21,15 +21,17 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.main.laptop_world.Constant.UploadDirectory.UPLOAD_DIRECTORY;
+
 @Controller
 public class CRUDProductController {
-    public static String UPLOAD_DIRECTORY = System.getProperty("user.dir") + "/src/main/resources/static/uploads/products";
     ProductService productService;
     CategoryService categoryService;
     BrandService brandService;
     ProductImgService imgService;
     ProductVersionService versionService;
     ProductColorService colorService;
+    GeneralService generalService;
 
     public CRUDProductController(
             ProductService productService,
@@ -37,16 +39,18 @@ public class CRUDProductController {
             CategoryService categoryService,
             ProductImgService imgService,
             ProductVersionService versionService,
-            ProductColorService colorService) {
+            ProductColorService colorService,
+            GeneralService generalService) {
         this.brandService = brandService;
         this.productService = productService;
         this.categoryService = categoryService;
         this.imgService = imgService;
         this.versionService=versionService;
         this.colorService=colorService;
+        this.generalService=generalService;
     }
 
-    @RequestMapping("/admin/products")
+    @GetMapping("/admin/products")
     public String getProductForm(Model model) {
         List<Products> productList = productService.findAllProduct();
         List<Category> categories = categoryService.findAllCategory();
@@ -76,16 +80,7 @@ public class CRUDProductController {
         if (files != null && files.length > 0) {
             try {
                 List<ProductImages> imagesList = new ArrayList<>();
-                for (MultipartFile file : files) {
-                    String fileName = file.getOriginalFilename();
-                    String fileContent = new String(file.getBytes(), StandardCharsets.UTF_8);
-                    ProductImages images = new ProductImages(fileName, fileContent, product);
-                    imagesList.add(images);
-                    FileUploadUtil.saveFile(UPLOAD_DIRECTORY, fileName, file);
-                }
-                productService.saveProduct(product);
-                product.setImages(imagesList);
-                imgService.saveImageFilesList(imagesList);
+                generalService.addImages(files, imagesList, product);
                 ra.addFlashAttribute("message", "Save successfully");
             } catch (Exception e) {
                 e.printStackTrace();
@@ -108,16 +103,12 @@ public class CRUDProductController {
     }
 
     @PostMapping("/admin/products/update/id={id}")
-    public String updateProduct(@PathVariable("id") Long id, Products products, RedirectAttributes ra,
-                                @RequestParam("category") Long categoryId,
-                                @RequestParam("brand") Long brandId) {
-        Products product = productService.getProductById(id);
-        Category existingCategory = categoryService.getCategoryById(categoryId);
-        Brand existingBrand = brandService.getBrandById(brandId);
-        ra.addFlashAttribute("message", "Update successfully");
-        product.setCategory(existingCategory);
-        product.setBrand(existingBrand);
-        productService.updateProduct(products);
+    public String updateProduct(@PathVariable("id") Long id, Products products, RedirectAttributes ra) {
+        Products existingProduct = productService.getProductById(id);
+        if(existingProduct != null){
+            productService.updateProduct(products);
+            ra.addFlashAttribute("message", "Update successfully");
+        }
         return "redirect:/admin/products";
     }
 

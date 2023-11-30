@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:insert="~{fragments/head :: head}"></head>
+<body>
+<div th:replace="~{admin/layout/header :: headerAdmin}"></div>
+<div class="row">
+    <th:block th:insert="~{admin/layout/sidebar :: sidebar}"></th:block>
+    <div class="col-10 mt-3">
+        <h3 class="text-center page-header">UPDATE IMAGE</h3>
+        <div class="container">
+            <form th:action="@{'/admin/images/update/id='+ ${productImage.id}}" th:object="${productImage}" method="post" enctype="multipart/form-data">
+                <div class="row row-cols-3">
+                    <div class="col mb-3">
+                        <div class="d-flex justify-content-center align-items-center">
+                            <img th:src="@{'/uploads/products/'+ ${productImage.name}}"
+                                 th:alt="${productImage.name}"
+                                 class="img-fluid"
+                                 style="aspect-ratio: 1 / 1; width: 96px; height: 96px;">
+                        </div>
+                    </div>
+                    <div class="col mb-3">
+                        <label class="form-label"><span class="fw-semibold fs-6 mb-2 d-inline-block">Sản phẩm</span>
+                            <select class="form-select" name="product">
+                                <option th:each="product : ${productList}" th:value="${product.id}"
+                                        th:text="${product.name}" th:selected="${product.name == productImage.products.name}"></option>
+                            </select>
+                        </label>
+                    </div>
+                    <div class="col mb-3">
+                        <div class="input-container">
+                            <label for="file" class="form-label mb-2 fw-semibold fs-6">Chọn hình ảnh</label>
+                            <input class="form-control" type="file" id="file" name="file"
+                                   accept="image/png, image/jpeg">
+                        </div>
+                    </div>
+                </div>
+                <div class=" text-center">
+                    <button class="btn btn-outline-primary" type="submit">
+                        Update
+                    </button>
+                    <button class="btn btn-outline-danger" onclick="cancelForm()" type="button">
+                        Cancel
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    function cancelForm() {
+        window.location = "[[@{/admin/products}]]";
+    }
+</script>
+</html>

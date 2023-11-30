@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="fragments/head :: head">
+<head th:insert="~{fragments/head :: head}">
     <link type="text/css" rel="stylesheet" th:href="@{/admin/css/admin.css}">
 </head>
 <body>
-<div th:replace="admin/layout/header :: headerAdmin"></div>
+<div th:replace="~{admin/layout/header :: headerAdmin}"></div>
 <!--content -->
 <div class="row">
-    <th:block th:insert="admin/layout/sidebar :: sidebar"></th:block>
+    <th:block th:insert="~{admin/layout/sidebar :: sidebar}"></th:block>
     <div class="col-10 mt-3">
+        <th:block th:insert="~{fragments/loading::loading}"></th:block>
         <h3 class="page-header">Quản lý Sản Phẩm</h3>
         <div class="container">
             <div th:if="${message}" class="alert alert-success text-center">
@@ -84,7 +85,6 @@
                     <div class="col-md-6" style="margin-bottom: 20px">
                         <div class="input-container">
                             <select class="form-control" id="category" th:field="*{category}">
-                                <option value="" th:if="${selectedValue}" th:disabled="disabled">Danh mục</option>
                                 <option th:each="category : ${categories}" th:value="${category.getId()}"
                                         th:text="${category.getMainName()}"></option>
                             </select>
@@ -93,7 +93,6 @@
                     <div class="col-md-6" style="margin-bottom: 20px">
                         <div class="input-container">
                             <select class="form-control" id="brand" th:field="*{brand}">
-                                <option value="" th:if="${selectedValue}" th:disabled="disabled">Thương hiệu</option>
                                 <option th:each="brand : ${brands}" th:value="${brand.getId()}"
                                         th:text="${brand.getTitle()}"></option>
                             </select>
@@ -156,7 +155,7 @@
         </ul>
     </div>
 </div>
-<div th:replace="admin/layout/footer"></div>
+<div th:replace="~{admin/layout/footer}"></div>
 <script
         src="https://cdnjs.cloudflare.com/ajax/libs/jquery.serializeJSON/2.9.0/jquery.serializejson.js"></script>
 <script th:src="@{/admin/js/sanPhamAjax.js}"></script>
@@ -187,4 +186,6 @@
 </script>
 </body>
 <script th:src="@{/admin/js/admin.js}"></script>
+<script th:src="@{/js/app.js}"></script>
+
 </html>

@@ -1,62 +1,63 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:insert="fragments/head :: head">
+<head th:insert="~{fragments/head :: head}">
     <title>thống kê </title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <body>
-<div th:replace="admin/layout/header"></div>
+<div th:replace="~{admin/layout/header :: headerAdmin}"></div>
 
 <div class="row">
-<!--content -->
-<div th:replace="admin/layout/sidebar"></div>
+    <!--content -->
+    <div th:replace="~{admin/layout/sidebar :: sidebar}"></div>
     <div class="col-10 mt-3">
+        <th:block th:insert="~{fragments/loading::loading}"></th:block>
         <h2>Biểu đồ Doanh thu theo Tháng</h2>
 
-  <div class="container">
+        <div class="container">
 
 
-      <!-- Canvas để vẽ biểu đồ -->
-      <canvas th:id="revenueChart"></canvas>
+            <!-- Canvas để vẽ biểu đồ -->
+            <canvas th:id="revenueChart"></canvas>
 
-      <script th:inline="javascript">
-          /* Dữ liệu doanh thu từ controller */
-          var revenueDataList = /*[[${revenueDataList}]]*/ [];
+            <script th:inline="javascript">
+                /* Dữ liệu doanh thu từ controller */
+                var revenueDataList = /*[[${revenueDataList}]]*/ [];
 
-          /* Chuyển đổi dữ liệu thành các mảng riêng lẻ cho labels và data */
-          var labels = revenueDataList.map(function (data) {
-              return data.month + '/' + data.year; // Tháng/Năm
-          });
+                /* Chuyển đổi dữ liệu thành các mảng riêng lẻ cho labels và data */
+                var labels = revenueDataList.map(function (data) {
+                    return data.month + '/' + data.year; // Tháng/Năm
+                });
 
-          var data = revenueDataList.map(function (data) {
-              return data.total; // Doanh thu
-          });
+                var data = revenueDataList.map(function (data) {
+                    return data.total; // Doanh thu
+                });
 
-          /* Vẽ biểu đồ cột */
-          var ctx = document.getElementById('revenueChart').getContext('2d');
-          var myChart = new Chart(ctx, {
-              type: 'bar',
-              data: {
-                  labels: labels,
-                  datasets: [{
-                      label: 'Doanh thu (VNĐ)',
-                      data: data,
-                      backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                      borderColor: 'rgba(75, 192, 192, 1)',
-                      borderWidth: 1
-                  }]
-              },
-              options: {
-                  scales: {
-                      y: {
-                          beginAtZero: true
-                      }
-                  }
-              }
-          });
-      </script>
-  </div>
+                /* Vẽ biểu đồ cột */
+                var ctx = document.getElementById('revenueChart').getContext('2d');
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: 'Doanh thu (VNĐ)',
+                            data: data,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+            </script>
+        </div>
     </div>
 </div>
-
 </body>
+<script th:src="@{/js/app.js}"></script>
 </html>

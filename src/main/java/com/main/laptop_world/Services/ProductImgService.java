@@ -7,6 +7,7 @@ import java.util.List;
 public interface ProductImgService {
     List<ProductImages> getAllImages();
     void saveImageFilesList(List<ProductImages> imagesList);
+    void updateImage(ProductImages productImages);
     ProductImages getImageById(Long id);
     public List<ProductImages> countImageByProductId(Long id);
     public List<ProductImages> findByProductId(Long id);
