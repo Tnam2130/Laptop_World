@@ -209,13 +209,14 @@ public class CRUDProductController {
     }
 
     @GetMapping("/admin/productsColor/update/id={id}")
-    public String getUpdateColor(@PathVariable("id") Long id, Model model, RedirectAttributes ra, @ModelAttribute ProductColor colors) {
+    public String getUpdateColor(@PathVariable("id") Long id, Model model, RedirectAttributes ra, @ModelAttribute ProductColor colors,
+                                 @RequestParam(value = "productId", required = false) Long productId) {
         ProductColor productColor = colorService.getColorById(id);
         model.addAttribute("color", productColor);
         List<Products> productList = productService.findAllProduct();
         model.addAttribute("productList", productList);
-        List<ProductVersion> version = versionService.findAllProduct();
-        model.addAttribute("versions", version);
+        List<ProductVersion> versionList = versionService.getVersionByProductId(productId);
+        model.addAttribute("versions", versionList);
         return "admin/Update/updateColor";
     }
 
