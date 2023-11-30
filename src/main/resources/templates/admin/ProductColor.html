@@ -36,7 +36,7 @@
                     </div>
 
                     <div class="col-md-6" style="margin-bottom: 20px">
-                        <select class="form-select" id="version" th:field="*{version}">
+                        <select class="form-select" id="version" required th:field="*{version}">
                             <option
                                     th:each="version : ${versions}"
                                     th:value="${version.getId()}"
@@ -48,7 +48,10 @@
                         <select
                                 class="form-select"
                                 id="productList"
-                                th:field="*{products}">
+                                th:field="*{products}"
+                                required
+                                onchange="updateVersions()"
+                        >
                             <option th:each="product : ${productList}" th:value="${product.getId()}"
                                     th:text="${product.getName()}"></option>
                         </select>
@@ -102,6 +105,36 @@
 <div th:replace="~{admin/layout/footer}"></div>
 <script th:src="@{/admin/js/nhanHieuAjax.js}"></script>
 <script th:src="@{/admin/js/admin.js}"></script>
+
 <script th:src="@{/js/app.js}"></script>
+
+<script>
+    function updateVersions() {
+        // Lấy giá trị của product từ select
+        var productId = document.getElementById("productList").value;
+
+        // Gửi yêu cầu đến server để lấy danh sách versions
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState === 4 && this.status === 200) {
+                // Cập nhật danh sách versions dựa trên dữ liệu trả về từ server
+                var versions = JSON.parse(this.responseText);
+                var selectVersions = document.getElementById("version");
+                selectVersions.innerHTML = "";  // Xóa tất cả các options hiện tại
+
+                // Thêm các option mới dựa trên danh sách versions
+                versions.forEach(function(version) {
+                    var option = document.createElement("option");
+                    option.value = version.id;
+                    option.text = version.name;
+                    selectVersions.add(option);
+                });
+            }
+        };
+        xhttp.open("GET", "/admin/productsColor/getVersionsByProduct?productId=" + productId, true);
+        xhttp.send();
+    }
+</script>
+
 </body>
 </html>

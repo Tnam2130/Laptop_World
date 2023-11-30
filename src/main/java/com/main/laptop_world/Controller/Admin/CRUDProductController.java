@@ -239,4 +239,9 @@ public class CRUDProductController {
         return "redirect:/admin/productsColor";
     }
 
+    @GetMapping("/admin/productsColor/getVersionsByProduct")
+    @ResponseBody
+    public List<ProductVersion> getVersionsByProduct(@RequestParam("productId") Long productId) {
+        return versionService.getVersionByProductId(productId);
+    }
 }
