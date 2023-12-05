@@ -52,6 +52,7 @@ public class CRUDOrderController {
 
         Order orders = orderService.findOrderById(id);
         String currentStatus = orders.getStatus();
+        System.out.println("Trang thai: "+status + "\nTrang thai hien tai: "+ currentStatus);
         switch (currentStatus) {
             case "Pending":
                 if (status.equalsIgnoreCase("Out Of Stock")) {
@@ -62,7 +63,7 @@ public class CRUDOrderController {
                 }
                 break;
 
-            case "Out Of Stock":
+            case "Out of Stock":
                 if (status.equalsIgnoreCase("Delivering")) {
                     ra.addFlashAttribute("message", "Update successfully");
                     orderService.updateOrder(id, status);
@@ -79,8 +80,10 @@ public class CRUDOrderController {
                     return "redirect:/admin/order?error";
                 }
                 break;
-        }
+            default:
+                return "redirect:/admin/order?error";
 
+        }
         return "redirect:/admin/order";
         }
     }
