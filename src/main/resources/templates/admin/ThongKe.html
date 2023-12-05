@@ -14,22 +14,30 @@
         <h2>Biểu đồ Doanh thu theo Tháng</h2>
 
         <div class="container">
-
-
             <!-- Canvas để vẽ biểu đồ -->
-            <canvas th:id="revenueChart"></canvas>
+            <canvas id="revenueChart"></canvas>
 
             <script th:inline="javascript">
                 /* Dữ liệu doanh thu từ controller */
-                var revenueDataList = /*[[${revenueDataList}]]*/ [];
+                let revenueDataList = [[${revenueDataList}]];
 
-                /* Chuyển đổi dữ liệu thành các mảng riêng lẻ cho labels và data */
-                var labels = revenueDataList.map(function (data) {
-                    return data.month + '/' + data.year; // Tháng/Năm
+                let combinedData = revenueDataList.map(function (data) {
+                    return {
+                        label: data.month + '/' + data.year,
+                        data: data.total
+                    };
                 });
-
-                var data = revenueDataList.map(function (data) {
-                    return data.total; // Doanh thu
+                combinedData.sort(function (a, b) {
+                    var dateA = new Date('01 ' + a.label);
+                    var dateB = new Date('01 ' + b.label);
+                    return dateA - dateB;
+                });
+                // Kết hợp labels và data thành một cặp giá trị
+                let labels = combinedData.map(function (item) {
+                    return item.label;
+                });
+                let data = combinedData.map(function (item) {
+                    return item.data;
                 });
 
                 /* Vẽ biểu đồ cột */
@@ -41,13 +49,21 @@
                         datasets: [{
                             label: 'Doanh thu (VNĐ)',
                             data: data,
-                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                            borderColor: 'rgba(75, 192, 192, 1)',
+                            backgroundColor: 'rgb(19,31,173)',
+                            borderColor: 'rgb(17,17,17)',
                             borderWidth: 1
                         }]
                     },
                     options: {
                         scales: {
+                            x: {
+                                ticks: {
+                                    font: {
+                                        weight: 'bold',
+                                        size: '14em'
+                                    }
+                                }
+                            },
                             y: {
                                 beginAtZero: true
                             }

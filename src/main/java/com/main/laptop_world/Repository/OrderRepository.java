@@ -12,10 +12,10 @@ import java.util.Optional;
 public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findByUserId(Long userId);
 
-    @Query("SELECT MONTH(e.createdAt) as month, YEAR(e.createdAt) as year, SUM(e.total) as totalRevenue " +
+    @Query("SELECT MONTH(e.updatedAt) as month, YEAR(e.updatedAt) as year, SUM(e.total) as totalRevenue " +
             "FROM Order e " +
             "WHERE e.status = 'Delivered' " +
-            "GROUP BY MONTH(e.createdAt), YEAR(e.createdAt)")
+            "GROUP BY MONTH(e.updatedAt), YEAR(e.updatedAt)")
     List<Object[]> getRevenueByMonth();
 
     @Query("SELECT c FROM Order c WHERE c.status = :status")
