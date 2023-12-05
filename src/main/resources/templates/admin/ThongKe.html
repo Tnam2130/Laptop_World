@@ -21,6 +21,10 @@
                 /* Dữ liệu doanh thu từ controller */
                 let revenueDataList = [[${revenueDataList}]];
 
+                revenueDataList.sort(function(a, b) {
+                    return new Date(b.year, b.month - 1) - new Date(a.year, a.month - 1);
+                });
+
                 let combinedData = revenueDataList.map(function (data) {
                     return {
                         label: data.month + '/' + data.year,
