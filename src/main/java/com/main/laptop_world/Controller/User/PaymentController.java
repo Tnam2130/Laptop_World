@@ -119,6 +119,8 @@ public class PaymentController {
             model.addAttribute("vnp_TxnRef", vnp_TxnRef);
             model.addAttribute("vnp_Amount", order.getTotal());
             model.addAttribute("vnp_TransactionStatus", payments.isStatus());
+        }else {
+            return "redirect:/cart";
         }
         return "orders/PaymentResult";
     }
