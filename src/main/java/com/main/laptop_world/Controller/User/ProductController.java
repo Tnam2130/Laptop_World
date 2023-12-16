@@ -122,7 +122,7 @@ public class ProductController {
         model.addAttribute("productImages", productImageList);
         model.addAttribute("descriptionList", descriptionList);
         model.addAttribute("products", product);
-        return "/products/product-detail";
+        return "products/productDetail";
     }
 
     @RequestMapping("/search")

@@ -47,7 +47,7 @@
                     </li>
                 </ul>
                 <ul class="navbar-nav ms-auto d-flex align-items-center">
-                    <li class="nav-item d-flex justify-content-center align-items-center">
+                    <li class="nav-item d-flex justify-content-center align-items-center" sec:authorize="!isAuthenticated() or hasRole('ROLE_USER')">
                         <a class="nav-link mx-2 position-relative" th:href="@{/cart}"><i
                                 class="fa-solid fa-cart-shopping me-1 fs-5"></i>
                             <span class="position-absolute translate-middle badge rounded-pill bg-danger"

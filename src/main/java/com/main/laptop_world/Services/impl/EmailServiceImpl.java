@@ -6,8 +6,11 @@ import com.main.laptop_world.Services.EmailService;
 import com.main.laptop_world.Services.UserService;
 import com.main.laptop_world.Constant.EmailType;
 import jakarta.annotation.PostConstruct;
+import jakarta.mail.internet.MimeMessage;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMailMessage;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -34,7 +37,8 @@ public class EmailServiceImpl implements EmailService {
 
     @Override
     public void sendEmail(String to,String code, EmailType emailType) {
-        SimpleMailMessage message = new SimpleMailMessage();
+        MimeMessage message= mailSender.createMimeMessage();
+        MimeMessageHelper helper=new MimeMessageHelper(message);
         String content = null;
         String subject = null;
         content = switch (emailType) {
@@ -44,19 +48,23 @@ public class EmailServiceImpl implements EmailService {
             }
             case EMAIL_SEND_CODE -> {
                 subject = EMAIL_SEND_CODE;
-                yield "Your Code Here : " + code;
+                yield "Mã OTP của bạn: <strong>"+ code+"</strong>";
             }
             default -> {
                 subject = "LAPTOP WORLD ONLINE";
                 yield "Email Wrong";
             }
         };
-        message.setTo(to);
-        message.setSubject(subject);
-        message.setText(content);
+        try {
+            helper.setTo(to);
+            helper.setSubject(subject);
+            helper.setText(content);
+            message.setContent(content,"text/html; charset=\"utf-8\"");
+            mailSender.send(message);
 
-        mailSender.send(message);
-
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
     }
     @Override
