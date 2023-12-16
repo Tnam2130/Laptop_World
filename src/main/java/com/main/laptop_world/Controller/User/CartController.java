@@ -64,6 +64,12 @@ private GeneralService generalService;
     @PostMapping("/cart/add/{productId}")
     public String addToCart(@PathVariable Long productId, Principal principal, @ModelAttribute("quantity") int quantity) {
         Long userId= generalService.usernameHandler(principal);
+        User user=userService.findById(userId);
+        List<Cart> cartList=user.getCarts();
+        if(cartList.size() >= 3){
+            System.out.println("Cart is over: " + userId);
+            return "redirect:/cart?error";
+        }
         cartService.addToCart(userId, productId, quantity);
         return "redirect:/cart";
     }
